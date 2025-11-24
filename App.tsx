@@ -362,6 +362,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const [showroomCategory, setShowroomCategory] = useState('all');
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [odooStatus, setOdooStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
+  const [livechatDebug, setLivechatDebug] = useState<{ buttons: number; iframes: number; canLoad: string }>({ buttons: 0, iframes: 0, canLoad: 'unknown' });
 
   const t = TRANSLATIONS[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
@@ -439,20 +440,46 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       return;
     }
 
-    const selectors = ['.o_livechat_button', '#odooLiveChatButton', '.o_chat_button'];
+    const livechatData = (window as any)?.odoo?.__session_info__?.livechatData;
+    if (livechatData && livechatData.can_load_livechat === false) {
+      console.warn('Odoo livechatData.can_load_livechat === false', livechatData);
+      setOdooStatus('error');
+      return;
+    }
+
+    const selectors = [
+      '.o_livechat_button',
+      '#odooLiveChatButton',
+      '.o_chat_button',
+      '.o-livechat-launcher',
+      '.o_livechat_Launcher'
+    ];
+    const snapshot = () => {
+      const buttons = selectors
+        .map(sel => document.querySelector(sel))
+        .filter(Boolean).length;
+      const iframes = document.querySelectorAll('iframe[src*="im_livechat"], iframe[src*="odoo.com/im_livechat"]').length;
+      const canLoad = String((window as any)?.odoo?.__session_info__?.livechatData?.can_load_livechat);
+      setLivechatDebug({ buttons, iframes, canLoad });
+    };
     const tryClick = (attempt = 0) => {
       const btn = selectors
         .map(sel => document.querySelector(sel) as HTMLElement | null)
         .find(Boolean);
       if (btn) {
         btn.click();
+        // Log what Odoo reports for debugging
+        // eslint-disable-next-line no-console
+        console.log('Odoo livechatData', (window as any)?.odoo?.__session_info__?.livechatData);
         setOdooStatus('ready');
+        snapshot();
         return;
       }
       if (attempt < 40) {
         setTimeout(() => tryClick(attempt + 1), 200);
       } else {
         setOdooStatus('error');
+        snapshot();
       }
     };
 
@@ -581,8 +608,26 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
              <div className="flex-1 bg-gray-50 p-4 flex flex-col gap-3 text-sm text-gray-700">
                 {odooStatus === 'loading' && <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-brand-gold animate-ping" /><span>Connecting to Odoo live chat...</span></div>}
                 {odooStatus === 'ready' && <div className="text-brand-navy font-semibold">Odoo chat loaded. Bubble should be bottom-right; if hidden, click the gold chat button again.</div>}
-                {odooStatus === 'error' && <div className="text-red-600 font-semibold">Could not load or find the Odoo chat bubble. Check the scripts and try again.</div>}
+                {odooStatus === 'error' && (
+                  <div className="text-red-600 font-semibold space-y-2">
+                    <div>Could not load or find the Odoo chat bubble.</div>
+                    <div className="text-xs text-gray-600">
+                      Tip: verify the channel allows external embeds. Loader currently reports can_load_livechat = {String((window as any)?.odoo?.__session_info__?.livechatData?.can_load_livechat)}.
+                    </div>
+                    <a
+                      href="https://edu-cross-the-bridge.odoo.com/im_livechat/support/2"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-xs text-brand-navy bg-brand-gold/20 px-3 py-2 rounded-lg border border-brand-gold/40 hover:bg-brand-gold/30"
+                    >
+                      Open chat in new tab
+                    </a>
+                  </div>
+                )}
                 <div className="text-xs text-gray-500">Scripts: {ODOO_SCRIPTS.map(s => s.src).join(' , ')}</div>
+                <div className="text-[11px] text-gray-500">
+                  Found buttons: {livechatDebug.buttons} • Iframes: {livechatDebug.iframes} • can_load_livechat: {livechatDebug.canLoad}
+                </div>
              </div>
           </MotionDiv>
         )}
