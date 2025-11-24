@@ -25,7 +25,18 @@ export interface Content {
       title: string;
       desc: string;
       icon: string;
+      bullets?: string[];
+      details?: string[];
     }[];
+    missions?: {
+      title: string;
+      intro: string;
+      points: string[];
+      eventsTitle: string;
+      events: string[];
+      cta: string;
+      tagline?: string;
+    };
   };
   showroom: {
     title: string;

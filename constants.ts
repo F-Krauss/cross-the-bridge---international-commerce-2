@@ -34,25 +34,46 @@ export const TRANSLATIONS: Record<Language, Content> = {
       items: [
         {
           title: "Custom product development",
-          desc: "Find the right supplier match for your company. The idea is yours – we help you bring it to life. Get an end-to-end solution with the right factory, the necessary raw materials, and logistics fully taken care of. Receive expert advice on production feasibility. We manage: Sourcing, Contract manufacturing, Logistics.",
+          desc: "Find the right supplier match for your company.",
+          details: [
+            "The idea is yours – we help you bring it to life.",
+            "Get an end-to-end solution with the right factory, the necessary raw materials, and logistics fully taken care of.",
+            "Receive expert advice on production feasibility."
+          ],
+          bullets: ["Sourcing", "Contract manufacturing", "Logistics"],
           icon: "package"
         },
         {
           title: "Leather and components supplier for footwear",
-          desc: "Find the best materials for your product. We work in partnership with top tanneries and leading component suppliers in Mexico. We handle purchasing on your behalf, so you get quality, consistency, and better conditions without adding extra workload to your team.",
+          desc: "Find the best materials for your product.",
+          details: [
+            "We work in partnership with top tanneries and leading component suppliers in Mexico.",
+            "We handle purchasing on your behalf, so you get quality, consistency, and better conditions without adding extra workload to your team."
+          ],
           icon: "layers"
         },
         {
           title: "Export management",
-          desc: "Take your product into new international markets. We identify the most attractive destinations for your brand and manage all the requirements needed to enter and operate in other countries.",
+          desc: "Take your product into new international markets.",
+          details: [
+            "We identify the most attractive destinations for your brand and manage all the requirements needed to enter and operate in other countries."
+          ],
           icon: "globe"
-        },
-        {
-          title: "Trade missions & business agendas",
-          desc: "We've guided more than [XXXX] companies on trade missions to other countries to expand their markets and discover new suppliers and customers in the world's leading economies. Meet your next strategic allies. Gain high-value business contacts. Diversify by engaging with new business cultures.",
-          icon: "users"
         }
-      ]
+      ],
+      missions: {
+        title: "Trade missions & business agendas",
+        intro: "We guide companies on trade missions to expand their markets and discover new suppliers and customers in the world's leading economies.",
+        points: [
+          "Meet your next strategic allies",
+          "Gain high-value business contacts",
+          "Diversify by engaging with new business cultures"
+        ],
+        eventsTitle: "Upcoming events",
+        events: ["WanYoung Fair", "Portland Fair"],
+        cta: "Join the next mission",
+        tagline: "We do things with passion"
+      }
     },
     showroom: {
       title: "Showroom",
@@ -277,25 +298,46 @@ export const TRANSLATIONS: Record<Language, Content> = {
       items: [
         {
           title: "Desarrollo de producto a medida",
-          desc: "Encuentre el proveedor adecuado para su empresa. La idea es suya, nosotros le ayudamos a hacerla realidad. Obtenga una solución integral con la fábrica adecuada, las materias primas necesarias y la logística totalmente resuelta. Reciba asesoramiento experto sobre viabilidad de producción. Gestionamos: Búsqueda (Sourcing), Fabricación por contrato, Logística.",
+          desc: "Encuentre el proveedor adecuado para su empresa.",
+          details: [
+            "La idea es suya, nosotros le ayudamos a hacerla realidad.",
+            "Obtenga una solución integral con la fábrica adecuada, las materias primas necesarias y la logística totalmente resuelta.",
+            "Reciba asesoramiento experto sobre viabilidad de producción."
+          ],
+          bullets: ["Búsqueda (Sourcing)", "Fabricación por contrato", "Logística"],
           icon: "package"
         },
         {
           title: "Proveedor de piel y componentes para calzado",
-          desc: "Encuentre los mejores materiales para su producto. Trabajamos en asociación con las mejores curtidurías y proveedores de componentes líderes en México. Nos encargamos de las compras en su nombre, para que obtenga calidad, consistencia y mejores condiciones sin añadir carga de trabajo extra a su equipo.",
+          desc: "Encuentre los mejores materiales para su producto.",
+          details: [
+            "Trabajamos en asociación con las mejores curtidurías y proveedores de componentes líderes en México.",
+            "Nos encargamos de las compras en su nombre, para que obtenga calidad, consistencia y mejores condiciones sin añadir carga de trabajo extra a su equipo."
+          ],
           icon: "layers"
         },
         {
           title: "Gestión de exportaciones",
-          desc: "Lleve su producto a nuevos mercados internacionales. Identificamos los destinos más atractivos para su marca y gestionamos todos los requisitos necesarios para entrar y operar en otros países.",
+          desc: "Lleve su producto a nuevos mercados internacionales.",
+          details: [
+            "Identificamos los destinos más atractivos para su marca y gestionamos todos los requisitos necesarios para entrar y operar en otros países."
+          ],
           icon: "globe"
-        },
-        {
-          title: "Misiones comerciales y agendas de negocios",
-          desc: "Hemos guiado a más de [XXXX] empresas en misiones comerciales a otros países para expandir sus mercados y descubrir nuevos proveedores y clientes en las principales economías del mundo. Conozca a sus próximos aliados estratégicos. Obtenga contactos de negocios de alto valor. Diversifique interactuando con nuevas culturas empresariales.",
-          icon: "users"
         }
-      ]
+      ],
+      missions: {
+        title: "Misiones comerciales y agendas de negocios",
+        intro: "Guiamos empresas en misiones comerciales para expandir mercados y descubrir nuevos proveedores y clientes en las principales economías del mundo.",
+        points: [
+          "Conozca a sus próximos aliados estratégicos",
+          "Obtenga contactos de negocios de alto valor",
+          "Diversifique interactuando con nuevas culturas empresariales"
+        ],
+        eventsTitle: "Próximos eventos",
+        events: ["Feria WanYoung", "Feria Portland"],
+        cta: "Inscríbete a la próxima misión",
+        tagline: "Hacemos las cosas con pasión"
+      }
     },
     showroom: {
       title: "Showroom",
