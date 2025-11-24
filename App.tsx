@@ -4,6 +4,8 @@ import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, 
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { TRANSLATIONS } from './constants';
 import { Language } from './types';
+import mapImage from './img/world-map.svg';
+import logoVertical from './img/CTB_vertical.png';
 
 // --- Type Fixes for Framer Motion ---
 const MotionDiv = motion.div as any;
@@ -118,33 +120,41 @@ const Counter = ({ value, label, className, dark = false }: { value: string, lab
 const GlobalMap = ({ title, darkTheme = false }: { title: string, darkTheme?: boolean }) => {
   const mapRef = useRef(null);
   const isInView = useInView(mapRef, { once: true });
+  const [mapFailed, setMapFailed] = useState(false);
 
-  // Approximate coordinates for countries mentioned in resume
+  // Approximate coordinates for countries mentioned in resume using equirectangular lat/lon to percentage
   const markers = [
-    { top: '38%', left: '18%', label: 'Mexico' }, // Mexico (Softlanding)
-    { top: '32%', left: '20%', label: 'USA' }, // USA
-    { top: '25%', left: '20%', label: 'Canada' }, // Canada
-    { top: '45%', left: '28%', label: 'Dominican Rep.' }, // DR
-    { top: '32%', left: '47%', label: 'Spain/Portugal' }, // Europe West
-    { top: '28%', left: '50%', label: 'Germany/Italy' }, // Europe Central
-    { top: '75%', left: '52%', label: 'South Africa' }, // South Africa
-    { top: '40%', left: '68%', label: 'India' }, // India
-    { top: '35%', left: '75%', label: 'China' }, // China
-    { top: '45%', left: '75%', label: 'Vietnam' }, // Vietnam
-    { top: '50%', left: '78%', label: 'Singapore' }, // Singapore
-    { top: '35%', left: '85%', label: 'Japan' }, // Japan
-    { top: '70%', left: '85%', label: 'Australia' } // Australia
+    { top: '37%', left: '15.5%', label: 'Mexico' }, // Mexico (Softlanding)
+    { top: '25%', left: '16%', label: 'USA' }, // USA (central)
+    { top: '10%', left: '17%', label: 'Canada' }, // Canada
+    { top: '41%', left: '23%', label: 'Dominican Rep.' }, // DR
+    { top: '27%', left: '46%', label: 'Spain/Portugal' }, // Europe West
+    { top: '22%', left: '50%', label: 'Germany/Italy' }, // Europe Central
+    { top: '64%', left: '55%', label: 'South Africa' }, // South Africa
+    { top: '40%', left: '71.5%', label: 'India' }, // India
+    { top: '29%', left: '77%', label: 'China' }, // China
+    { top: '44%', left: '79%', label: 'Vietnam' }, // Vietnam
+    { top: '51.5%', left: '79.2%', label: 'Singapore' }, // Singapore
+    { top: '26.2%', left: '88%', label: 'Japan' }, // Japan
+    { top: '75%', left: '87%', label: 'Australia' } // Australia
   ];
 
   return (
     <div ref={mapRef} className="w-full relative mt-12 mb-20">
        <div className={`relative aspect-[16/9] md:aspect-[2/1] rounded-3xl overflow-hidden border shadow-2xl group ${darkTheme ? 'bg-[#111] border-white/10' : 'bg-white border-gray-100'}`}>
           {/* Map Image Base */}
-          <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/2/2f/World_map_dotted.svg" 
-            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[20s] ease-linear scale-105 group-hover:scale-110 ${darkTheme ? 'opacity-30 invert' : 'opacity-10'}`}
-            alt="World Map"
-          />
+          {!mapFailed && (
+            <img 
+              src={mapImage} 
+              loading="lazy"
+              onError={() => setMapFailed(true)}
+              className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[20s] ease-linear scale-105 group-hover:scale-110 ${darkTheme ? 'opacity-30 invert' : 'opacity-10'}`}
+              alt="World Map"
+            />
+          )}
+          {mapFailed && (
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-navy/20 via-white/20 to-brand-gold/10" />
+          )}
           <div className={`absolute inset-0 bg-gradient-to-t ${darkTheme ? 'from-brand-navy/80' : 'from-white/80'} to-transparent`} />
           
           {/* Markers */}
@@ -214,7 +224,7 @@ const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
               transition={{ duration: 1.2, ease: "circOut" }}
               className="w-20 h-20 rounded-2xl bg-white flex items-center justify-center text-brand-navy shadow-[0_0_40px_rgba(255,255,255,0.1)]"
            >
-              <Globe size={40} strokeWidth={1.5} />
+              <img src={logoVertical} alt="Cross The Bridge" className="w-14 h-14 object-contain" />
            </MotionDiv>
            {/* Orbiting element */}
            <MotionDiv 
@@ -350,10 +360,10 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
 
   const processImages = [
-    "https://images.unsplash.com/photo-1553877622-78e5d2c224e5?auto=format&fit=crop&q=80&w=1000",
+    "./img/process2.jpg",
     "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000",
     "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1000",
-    "https://images.unsplash.com/photo-1494412651409-8963ce7f8171?auto=format&fit=crop&q=80&w=1000"
+    "./img/process4.jpg",
   ];
 
   // Intersection Observer for Scroll Spy
@@ -394,7 +404,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       {/* DESKTOP SIDEBAR NAV */}
       <nav className="hidden lg:flex fixed top-0 left-0 bottom-0 w-24 z-[200] bg-brand-navy flex-col justify-between items-center py-8 border-r border-white/10">
           <button onClick={() => handleNavClick('about')} className="w-12 h-12 rounded-2xl bg-white text-brand-navy flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-white/5">
-             <Globe size={24} />
+             <img src={logoVertical} alt="Cross The Bridge logo" className="w-9 h-9 object-contain" />
           </button>
 
           <div className="flex flex-col gap-6 items-center w-full">
@@ -430,9 +440,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       <nav className="flex lg:hidden fixed top-0 left-0 right-0 z-[200] py-4 bg-brand-navy/90 backdrop-blur-md border-b border-white/5">
         <div className="container mx-auto px-6 flex justify-between items-center">
           <button onClick={() => handleNavClick('about')} className="flex items-center gap-3">
-             <div className="w-8 h-8 rounded-xl bg-white text-brand-navy flex items-center justify-center">
-               <Globe size={18} />
-             </div>
+             <img src={logoVertical} alt="Cross The Bridge logo" className="h-10 w-auto object-contain drop-shadow" />
              <span className="text-sm font-bold tracking-tight text-white">Cross The Bridge</span>
           </button>
 
@@ -494,7 +502,9 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
              <div className="bg-brand-navy p-4 flex justify-between items-center text-white">
                <div className="flex items-center gap-3">
                  <div className="relative">
-                    <div className="w-10 h-10 rounded-full bg-white text-brand-navy flex items-center justify-center font-bold">CTB</div>
+                    <div className="w-10 h-10 rounded-full bg-white overflow-hidden flex items-center justify-center">
+                      <img src={logoVertical} alt="Cross The Bridge" className="w-full h-full object-contain p-1.5" />
+                    </div>
                     <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-brand-navy"></div>
                  </div>
                  <div>
@@ -767,7 +777,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       <section id="team" className="min-h-[100svh] snap-start flex flex-col md:flex-row bg-[#F5F5F7] overflow-hidden">
          {/* Left: Image (Full Height) */}
          <div className="md:w-1/2 min-h-[50vh] md:h-auto relative">
-            <img src="" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
+            <img src="./img/1696903720042.jpeg" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
             <div className="absolute inset-0 bg-brand-navy/20 mix-blend-multiply" />
             <div className="absolute bottom-12 left-12 text-white p-6 backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl">
                <h3 className="text-3xl font-bold">{t.team.profile.name}</h3>
