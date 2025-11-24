@@ -821,10 +821,10 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       </section>
 
       {/* 4. TEAM (Light) */}
-      <section id="team" className="min-h-[100svh] snap-start flex flex-col md:flex-row bg-[#F5F5F7] overflow-hidden">
+      <section id="team" className="min-h-screen snap-start flex flex-col md:flex-row bg-[#F5F5F7] overflow-hidden">
          {/* Left: Image (Full Height) */}
-         <div className="md:w-1/2 min-h-[320px] max-h-[420px] md:max-h-[720px] md:min-h-[50vh] md:h-auto relative overflow-hidden">
-            <img src={teamPortrait} className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
+         <div className="md:w-1/2 min-h-screen relative overflow-hidden">
+            <img src={teamPortrait} className="absolute inset-0 w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
             <div className="absolute inset-0 bg-brand-navy/20 mix-blend-multiply" />
             <div className="absolute bottom-12 left-12 text-white p-6 backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl">
                <h3 className="text-3xl font-bold">{t.team.profile.name}</h3>
@@ -833,7 +833,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
          </div>
 
          {/* Right: Content (Clean) */}
-         <div className="md:w-1/2 bg-white flex flex-col justify-center p-8 md:p-24 py-24">
+         <div className="md:w-1/2 bg-white flex flex-col justify-center p-8 md:p-24 py-24 min-h-[320px] md:min-h-screen">
              <FadeIn direction='right'>
                 <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-4 block">Leadership</span>
                 <h2 className="text-4xl md:text-5xl font-bold text-brand-navy mb-8">{t.team.title}</h2>
