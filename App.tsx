@@ -367,6 +367,22 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const [currentView, setCurrentView] = useState<'home' | 'privacy' | 'terms'>('home');
   const [showroomCategory, setShowroomCategory] = useState('all');
 
+  // Ensure Odoo bubble stays above our UI if present
+  useEffect(() => {
+    const selectors = ['.o_livechat_button', '.o_chat_button', '.o-livechat-launcher', '.o_livechat_Launcher'];
+    const interval = setInterval(() => {
+      const btn = selectors.map(sel => document.querySelector(sel) as HTMLElement | null).find(Boolean);
+      if (btn) {
+        btn.style.zIndex = '9999';
+        btn.style.position = 'fixed';
+        btn.style.bottom = btn.style.bottom || '24px';
+        btn.style.right = btn.style.right || '24px';
+        clearInterval(interval);
+      }
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
   const t = TRANSLATIONS[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
 
