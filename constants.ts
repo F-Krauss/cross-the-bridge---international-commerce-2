@@ -129,14 +129,24 @@ export const TRANSLATIONS: Record<Language, Content> = {
       title: "Trust the over 100 businesses that we've helped",
       items: [
         {
-          name: "José Lopez",
-          role: "CEO, International Goods",
-          text: "Cross the Bridge was the missing component to make my local business competitive in more than 20 countries."
+          name: "Rogério de Souza Cunha",
+          role: "Trade Intelligence, CICB",
+          text: "Cross the Bridge is an excellent company that has consistently served CICB and Brazilian tanneries with professionalism and outstanding deliveries, both in Mexico and abroad. We've had very positive experiences in business relationships, contacts, market knowledge, and experiences through Cross the Bridge's work."
         },
         {
-          name: "José Lopez", // Using name from PDF
-          role: "Director, Fashion Forward",
-          text: "Cross The Bridge was the missing component to make my local business competitive in more than 20 countries." 
+          name: "Wilson King",
+          role: "Outback Trading Company",
+          text: "When you want to grow in a new country, you don’t just need a contact — you need someone who truly cares about your success. That’s what I found in Mariana and Cross the Bridge."
+        },
+        {
+          name: "Chaz Pilarcik",
+          role: "Business Owner",
+          text: "I truly cannot put into words how much Mariana means to me and my business. She is one of the most loyal, dedicated, and trustworthy people I’ve ever had the pleasure of working with. Her insight and expertise in the industry are unmatched, and her work ethic inspires everyone around her. Mariana, thank you for always showing up with such heart, excellence, and integrity — you really are the best at what you do."
+        },
+        {
+          name: "Mehrdad Baghai",
+          role: "JRD Saddlery, USA",
+          text: "I have worked with Mariana for the last 20 plus years. She manages and oversees all my sourcing, production and even shipping. A value we cannot do without."
         }
       ]
     },
@@ -362,14 +372,24 @@ export const TRANSLATIONS: Record<Language, Content> = {
       title: "Confíe en las más de 100 empresas que hemos ayudado",
       items: [
         {
-          name: "José Lopez",
-          role: "CEO, International Goods",
-          text: "Cross the Bridge fue el componente que faltaba para hacer mi negocio local competitivo en más de 20 países."
+          name: "Rogério de Souza Cunha",
+          role: "Inteligencia Comercial, CICB",
+          text: "Cross the Bridge es una excelente empresa que ha servido constantemente a CICB y a las tenerías brasileñas con profesionalismo y entregas sobresalientes, tanto en México como en el extranjero. Hemos tenido experiencias muy positivas en relaciones de negocios, contactos, conocimiento de mercado y experiencias gracias al trabajo de Cross the Bridge."
         },
         {
-          name: "José Lopez",
-          role: "Director, Fashion Forward",
-          text: "Cross The Bridge fue el componente que faltaba para hacer mi negocio local competitivo en más de 20 países."
+          name: "Wilson King",
+          role: "Outback Trading Company",
+          text: "Cuando quieres crecer en un nuevo país, no solo necesitas un contacto: necesitas a alguien que realmente se preocupe por tu éxito. Eso es lo que encontré en Mariana y Cross the Bridge."
+        },
+        {
+          name: "Chaz Pilarcik",
+          role: "Propietario de negocio",
+          text: "Realmente no puedo expresar con palabras cuánto significa Mariana para mí y mi negocio. Es una de las personas más leales, dedicadas y confiables con las que he tenido el placer de trabajar. Su visión y experiencia en la industria no tienen igual, y su ética de trabajo inspira a todos a su alrededor. Mariana, gracias por aparecer siempre con tanto corazón, excelencia e integridad: realmente eres la mejor en lo que haces."
+        },
+        {
+          name: "Mehrdad Baghai",
+          role: "JRD Saddlery, EUA",
+          text: "He trabajado con Mariana durante más de 20 años. Ella gestiona y supervisa todo mi abastecimiento, producción e incluso envíos. Un valor del que no podemos prescindir."
         }
       ]
     },
