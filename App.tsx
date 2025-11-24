@@ -360,9 +360,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const [currentProcessStep, setCurrentProcessStep] = useState(0);
   const [currentView, setCurrentView] = useState<'home' | 'privacy' | 'terms'>('home');
   const [showroomCategory, setShowroomCategory] = useState('all');
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [odooStatus, setOdooStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
-  const [livechatDebug, setLivechatDebug] = useState<{ buttons: number; iframes: number; canLoad: string }>({ buttons: 0, iframes: 0, canLoad: 'unknown' });
 
   const t = TRANSLATIONS[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
@@ -404,87 +401,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const filteredShowroomItems = showroomCategory === 'all' 
     ? t.showroom.items 
     : t.showroom.items.filter(item => item.category === showroomCategory);
-
-  const scriptsLoaded = useRef(false);
-
-  const loadOdooLivechat = async () => {
-    if (scriptsLoaded.current) return true;
-    const loadSingle = (id: string, src: string) => {
-      return new Promise<boolean>((resolve) => {
-        if (document.getElementById(id)) return resolve(true);
-        const script = document.createElement('script');
-        script.id = id;
-        script.src = src;
-        script.defer = true;
-        script.async = true;
-        script.onload = () => resolve(true);
-        script.onerror = () => resolve(false);
-        document.body.appendChild(script);
-      });
-    };
-
-    const loaderOk = await loadSingle(ODOO_SCRIPTS[0].id, ODOO_SCRIPTS[0].src);
-    if (!loaderOk) return false;
-    const assetsOk = await loadSingle(ODOO_SCRIPTS[1].id, ODOO_SCRIPTS[1].src);
-    scriptsLoaded.current = loaderOk && assetsOk;
-    return scriptsLoaded.current;
-  };
-
-  const openOdooChat = async () => {
-    setIsChatOpen(true);
-    setOdooStatus('loading');
-
-    const loaded = await loadOdooLivechat();
-    if (!loaded) {
-      setOdooStatus('error');
-      return;
-    }
-
-    const livechatData = (window as any)?.odoo?.__session_info__?.livechatData;
-    if (livechatData && livechatData.can_load_livechat === false) {
-      console.warn('Odoo livechatData.can_load_livechat === false', livechatData);
-      setOdooStatus('error');
-      return;
-    }
-
-    const selectors = [
-      '.o_livechat_button',
-      '#odooLiveChatButton',
-      '.o_chat_button',
-      '.o-livechat-launcher',
-      '.o_livechat_Launcher'
-    ];
-    const snapshot = () => {
-      const buttons = selectors
-        .map(sel => document.querySelector(sel))
-        .filter(Boolean).length;
-      const iframes = document.querySelectorAll('iframe[src*="im_livechat"], iframe[src*="odoo.com/im_livechat"]').length;
-      const canLoad = String((window as any)?.odoo?.__session_info__?.livechatData?.can_load_livechat);
-      setLivechatDebug({ buttons, iframes, canLoad });
-    };
-    const tryClick = (attempt = 0) => {
-      const btn = selectors
-        .map(sel => document.querySelector(sel) as HTMLElement | null)
-        .find(Boolean);
-      if (btn) {
-        btn.click();
-        // Log what Odoo reports for debugging
-        // eslint-disable-next-line no-console
-        console.log('Odoo livechatData', (window as any)?.odoo?.__session_info__?.livechatData);
-        setOdooStatus('ready');
-        snapshot();
-        return;
-      }
-      if (attempt < 40) {
-        setTimeout(() => tryClick(attempt + 1), 200);
-      } else {
-        setOdooStatus('error');
-        snapshot();
-      }
-    };
-
-    tryClick();
-  };
 
 
   return (
@@ -579,67 +495,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
           </MotionDiv>
         )}
       </AnimatePresence>
-
-      {/* --- Chat Widget (Odoo Livechat trigger) --- */}
-      <AnimatePresence>
-        {isChatOpen && (
-          <MotionDiv 
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 lg:bottom-28 lg:right-10 w-[320px] bg-white rounded-2xl shadow-2xl z-[150] overflow-hidden flex flex-col border border-gray-100"
-          >
-             <div className="bg-brand-navy p-4 flex justify-between items-center text-white">
-               <div className="flex items-center gap-3">
-                 <div className="relative">
-                    <div className="w-10 h-10 rounded-full bg-white overflow-hidden flex items-center justify-center">
-                      <img src={logoVertical} alt="Cross The Bridge" className="w-full h-full object-contain p-1.5" />
-                    </div>
-                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-brand-navy"></div>
-                 </div>
-                 <div>
-                    <h3 className="font-bold text-sm">Cross The Bridge</h3>
-                    <p className="text-xs text-brand-gold opacity-90">Live Chat</p>
-                 </div>
-               </div>
-               <button onClick={() => setIsChatOpen(false)} className="hover:bg-white/10 p-1 rounded"><X size={18}/></button>
-             </div>
-             
-             <div className="flex-1 bg-gray-50 p-4 flex flex-col gap-3 text-sm text-gray-700">
-                {odooStatus === 'loading' && <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-brand-gold animate-ping" /><span>Connecting to Odoo live chat...</span></div>}
-                {odooStatus === 'ready' && <div className="text-brand-navy font-semibold">Odoo chat loaded. Bubble should be bottom-right; if hidden, click the gold chat button again.</div>}
-                {odooStatus === 'error' && (
-                  <div className="text-red-600 font-semibold space-y-2">
-                    <div>Could not load or find the Odoo chat bubble.</div>
-                    <div className="text-xs text-gray-600">
-                      Tip: verify the channel allows external embeds. Loader currently reports can_load_livechat = {String((window as any)?.odoo?.__session_info__?.livechatData?.can_load_livechat)}.
-                    </div>
-                    <a
-                      href="https://edu-cross-the-bridge.odoo.com/im_livechat/support/2"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-xs text-brand-navy bg-brand-gold/20 px-3 py-2 rounded-lg border border-brand-gold/40 hover:bg-brand-gold/30"
-                    >
-                      Open chat in new tab
-                    </a>
-                  </div>
-                )}
-                <div className="text-xs text-gray-500">Scripts: {ODOO_SCRIPTS.map(s => s.src).join(' , ')}</div>
-                <div className="text-[11px] text-gray-500">
-                  Found buttons: {livechatDebug.buttons} • Iframes: {livechatDebug.iframes} • can_load_livechat: {livechatDebug.canLoad}
-                </div>
-             </div>
-          </MotionDiv>
-        )}
-      </AnimatePresence>
-
-      <button 
-        onClick={openOdooChat}
-        className={`fixed bottom-6 right-6 lg:bottom-10 lg:right-10 w-14 h-14 rounded-full shadow-2xl z-[150] flex items-center justify-center hover:scale-110 transition-all cursor-pointer ${isChatOpen ? 'bg-gray-200 text-gray-600' : 'bg-brand-gold text-brand-navy'}`}
-        title="Live Chat"
-      >
-        {isChatOpen ? <X size={28} /> : <MessageCircle size={28} />}
-      </button>
 
       {/* --- Legal Views --- */}
       <AnimatePresence>
