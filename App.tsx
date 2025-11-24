@@ -4,8 +4,13 @@ import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, 
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { TRANSLATIONS } from './constants';
 import { Language } from './types';
-import mapImage from './img/world-map.svg';
-import logoVertical from './img/CTB_vertical.png';
+
+// Assets served from public/img
+const mapImage = '/img/world-map.svg';
+const logoVertical = '/img/CTB_vertical.png';
+const processImg1 = '/img/process2.jpg';
+const processImg3 = '/img/process4.jpg';
+const teamPortrait = '/img/1696903720042.jpeg';
 
 // Odoo Live Chat scripts (loader + assets) provided by the user.
 const ODOO_SCRIPTS = [
@@ -86,7 +91,8 @@ const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0, className = "", di
 };
 
 // Counter Component for Stats
-const Counter = ({ value, label, className, dark = false }: { value: string, label: string, className?: string, dark?: boolean }) => {
+type CounterProps = { value: string; label: string; className?: string; dark?: boolean };
+const Counter: React.FC<CounterProps> = ({ value, label, className, dark = false }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
   
@@ -365,10 +371,10 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
 
   const processImages = [
-    "./img/process2.jpg",
+    processImg1,
     "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000",
     "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1000",
-    "./img/process4.jpg",
+    processImg3,
   ];
 
   // Intersection Observer for Scroll Spy
@@ -732,7 +738,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       <section id="team" className="min-h-[100svh] snap-start flex flex-col md:flex-row bg-[#F5F5F7] overflow-hidden">
          {/* Left: Image (Full Height) */}
          <div className="md:w-1/2 min-h-[50vh] md:h-auto relative">
-            <img src="./img/1696903720042.jpeg" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
+            <img src={teamPortrait} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
             <div className="absolute inset-0 bg-brand-navy/20 mix-blend-multiply" />
             <div className="absolute bottom-12 left-12 text-white p-6 backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl">
                <h3 className="text-3xl font-bold">{t.team.profile.name}</h3>
