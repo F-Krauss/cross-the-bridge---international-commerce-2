@@ -11,6 +11,7 @@ const logoVertical = '/img/CTB_vertical.png';
 const processImg1 = '/img/process2.jpg';
 const processImg3 = '/img/process4.jpg';
 const teamPortrait = '/img/1696903720042.jpeg';
+const ODOO_SUPPORT_URL = 'https://edu-cross-the-bridge.odoo.com/im_livechat/support/2';
 
 // Odoo Live Chat scripts (loader + assets) provided by the user.
 const ODOO_SCRIPTS = [
@@ -366,6 +367,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const [currentProcessStep, setCurrentProcessStep] = useState(0);
   const [currentView, setCurrentView] = useState<'home' | 'privacy' | 'terms'>('home');
   const [showroomCategory, setShowroomCategory] = useState('all');
+  const [showChatFallback, setShowChatFallback] = useState(false);
 
   // Ensure Odoo bubble stays above our UI if present
   useEffect(() => {
@@ -382,6 +384,16 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
     }, 500);
     return () => clearInterval(interval);
   }, []);
+
+  // Fallback link if bubble fails to appear
+  useEffect(() => {
+    const selectors = ['.o_livechat_button', '.o_chat_button', '.o-livechat-launcher', '.o_livechat_Launcher'];
+    const timer = setTimeout(() => {
+      const btn = selectors.map(sel => document.querySelector(sel)).find(Boolean);
+      setShowChatFallback(!btn);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [currentView]);
 
   const t = TRANSLATIONS[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
@@ -914,6 +926,19 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             </div>
          </div>
       </section>
+
+      {/* Fallback chat link if Odoo bubble is missing */}
+      {showChatFallback && currentView === 'home' && (
+        <a
+          href={ODOO_SUPPORT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 w-14 h-14 rounded-full shadow-2xl z-[150] flex items-center justify-center bg-brand-gold text-brand-navy hover:scale-105 transition-transform"
+          title="Open live chat"
+        >
+          <MessageCircle size={24} />
+        </a>
+      )}
 
       {/* 8. CONTACT (Light) */}
       <section id="contact" className="min-h-[100svh] snap-start bg-white flex flex-col justify-center relative text-brand-navy pt-24 pb-0">
