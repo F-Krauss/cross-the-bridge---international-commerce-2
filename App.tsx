@@ -11,11 +11,6 @@ const logoVertical = '/img/CTB_vertical.png';
 const processImg1 = '/img/process2.jpg';
 const processImg3 = '/img/process4.jpg';
 const teamPortrait = '/img/1696903720042.jpeg';
-// Odoo Live Chat scripts (loader + assets) provided by the user.
-const ODOO_SCRIPTS = [
-  { id: 'odoo-livechat-loader', src: 'https://edu-cross-the-bridge.odoo.com/im_livechat/loader/2' },
-  { id: 'odoo-livechat-assets', src: 'https://edu-cross-the-bridge.odoo.com/im_livechat/assets_embed.js' },
-];
 
 // --- Type Fixes for Framer Motion ---
 const MotionDiv = motion.div as any;
@@ -368,25 +363,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const [contactForm, setContactForm] = useState({ name: '', company: '', email: '', message: '' });
   const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [contactError, setContactError] = useState<string | null>(null);
-
-  // Ensure Odoo bubble stays above our UI if present
-  useEffect(() => {
-    const selectors = ['.o_livechat_button', '.o_chat_button', '.o-livechat-launcher', '.o_livechat_Launcher'];
-    const interval = setInterval(() => {
-      const btn = selectors.map(sel => document.querySelector(sel) as HTMLElement | null).find(Boolean);
-      if (btn) {
-        btn.style.zIndex = '9999';
-        btn.style.position = 'fixed';
-        btn.style.bottom = btn.style.bottom || '24px';
-        btn.style.right = btn.style.right || '24px';
-        btn.style.display = 'block';
-        btn.style.opacity = '1';
-        btn.style.visibility = 'visible';
-        clearInterval(interval);
-      }
-    }, 500);
-    return () => clearInterval(interval);
-  }, []);
 
   const t = TRANSLATIONS[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
@@ -1120,59 +1096,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState<Language>('en');
-
-  // Ensure Odoo live chat scripts are injected (helps when index.html tags are stripped by hosting/CDN)
-  useEffect(() => {
-    let cancelled = false;
-    let retry: ReturnType<typeof setTimeout> | null = null;
-
-    const selectors = ['.o_livechat_button', '.o_chat_button', '.o-livechat-launcher', '.o_livechat_Launcher'];
-
-    const loadScript = (id: string, src: string) =>
-      new Promise<void>((resolve, reject) => {
-        const existing = document.getElementById(id) as HTMLScriptElement | null;
-        if (existing) {
-          resolve();
-          return;
-        }
-
-        const script = document.createElement('script');
-        script.id = id;
-        script.src = src;
-        script.async = true;
-        script.defer = true;
-        script.onload = () => resolve();
-        script.onerror = () => reject(new Error(`Failed to load ${src}`));
-        document.head.appendChild(script);
-      });
-
-    const ensureChat = async () => {
-      try {
-        for (const { id, src } of ODOO_SCRIPTS) {
-          if (cancelled) return;
-          await loadScript(id, src);
-        }
-
-        // If bubble not present after scripts load, retry once after a short delay.
-        const bubble = selectors.map(sel => document.querySelector(sel)).find(Boolean);
-        if (!bubble && !cancelled) {
-          retry = setTimeout(() => {
-            ensureChat();
-          }, 2000);
-        }
-      } catch (err) {
-        console.error('Odoo live chat failed to load', err);
-      }
-    };
-
-    // Delay slightly to avoid StrictMode double-invocation issues
-    retry = setTimeout(ensureChat, 300);
-
-    return () => {
-      cancelled = true;
-      if (retry) clearTimeout(retry);
-    };
-  }, []);
 
   return (
     <>
