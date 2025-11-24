@@ -7,6 +7,12 @@ import { Language } from './types';
 import mapImage from './img/world-map.svg';
 import logoVertical from './img/CTB_vertical.png';
 
+// Odoo Live Chat scripts (loader + assets) provided by the user.
+const ODOO_SCRIPTS = [
+  { id: 'odoo-livechat-loader', src: 'https://edu-cross-the-bridge.odoo.com/im_livechat/loader/2' },
+  { id: 'odoo-livechat-assets', src: 'https://edu-cross-the-bridge.odoo.com/im_livechat/assets_embed.js' },
+];
+
 // --- Type Fixes for Framer Motion ---
 const MotionDiv = motion.div as any;
 const MotionImg = motion.img as any;
@@ -355,6 +361,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const [currentView, setCurrentView] = useState<'home' | 'privacy' | 'terms'>('home');
   const [showroomCategory, setShowroomCategory] = useState('all');
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [odooStatus, setOdooStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
 
   const t = TRANSLATIONS[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
@@ -396,6 +403,62 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const filteredShowroomItems = showroomCategory === 'all' 
     ? t.showroom.items 
     : t.showroom.items.filter(item => item.category === showroomCategory);
+
+  const scriptsLoaded = useRef(false);
+
+  const loadOdooLivechat = async () => {
+    if (scriptsLoaded.current) return true;
+    const loadSingle = (id: string, src: string) => {
+      return new Promise<boolean>((resolve) => {
+        if (document.getElementById(id)) return resolve(true);
+        const script = document.createElement('script');
+        script.id = id;
+        script.src = src;
+        script.defer = true;
+        script.async = true;
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+      });
+    };
+
+    const loaderOk = await loadSingle(ODOO_SCRIPTS[0].id, ODOO_SCRIPTS[0].src);
+    if (!loaderOk) return false;
+    const assetsOk = await loadSingle(ODOO_SCRIPTS[1].id, ODOO_SCRIPTS[1].src);
+    scriptsLoaded.current = loaderOk && assetsOk;
+    return scriptsLoaded.current;
+  };
+
+  const openOdooChat = async () => {
+    setIsChatOpen(true);
+    setOdooStatus('loading');
+
+    const loaded = await loadOdooLivechat();
+    if (!loaded) {
+      setOdooStatus('error');
+      return;
+    }
+
+    const selectors = ['.o_livechat_button', '#odooLiveChatButton', '.o_chat_button'];
+    const tryClick = (attempt = 0) => {
+      const btn = selectors
+        .map(sel => document.querySelector(sel) as HTMLElement | null)
+        .find(Boolean);
+      if (btn) {
+        btn.click();
+        setOdooStatus('ready');
+        return;
+      }
+      if (attempt < 40) {
+        setTimeout(() => tryClick(attempt + 1), 200);
+      } else {
+        setOdooStatus('error');
+      }
+    };
+
+    tryClick();
+  };
+
 
   return (
     <div className="bg-[#1B2440] text-brand-dark font-sans h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar">
@@ -490,14 +553,14 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         )}
       </AnimatePresence>
 
-      {/* --- Chat Widget (Odoo Sim) --- */}
+      {/* --- Chat Widget (Odoo Livechat trigger) --- */}
       <AnimatePresence>
         {isChatOpen && (
           <MotionDiv 
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 lg:bottom-28 lg:right-10 w-[350px] bg-white rounded-2xl shadow-2xl z-[150] overflow-hidden flex flex-col border border-gray-100"
+            className="fixed bottom-24 right-6 lg:bottom-28 lg:right-10 w-[320px] bg-white rounded-2xl shadow-2xl z-[150] overflow-hidden flex flex-col border border-gray-100"
           >
              <div className="bg-brand-navy p-4 flex justify-between items-center text-white">
                <div className="flex items-center gap-3">
@@ -509,32 +572,24 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                  </div>
                  <div>
                     <h3 className="font-bold text-sm">Cross The Bridge</h3>
-                    <p className="text-xs text-brand-gold opacity-90">Online</p>
+                    <p className="text-xs text-brand-gold opacity-90">Live Chat</p>
                  </div>
                </div>
                <button onClick={() => setIsChatOpen(false)} className="hover:bg-white/10 p-1 rounded"><X size={18}/></button>
              </div>
              
-             <div className="flex-1 bg-gray-50 h-[300px] p-4 flex flex-col gap-4 overflow-y-auto">
-                <div className="self-start bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] text-sm text-gray-700">
-                   Hello! How can we help you expand your business today?
-                </div>
-                {/* Odoo script hook would go here */}
-                {/* Example: <div id="odoo_livechat_container"></div> */}
-             </div>
-
-             <div className="p-4 bg-white border-t border-gray-100 flex gap-2">
-               <input type="text" placeholder="Type a message..." className="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-brand-navy" />
-               <button className="w-9 h-9 bg-brand-navy text-white rounded-full flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-colors">
-                 <Send size={16} />
-               </button>
+             <div className="flex-1 bg-gray-50 p-4 flex flex-col gap-3 text-sm text-gray-700">
+                {odooStatus === 'loading' && <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-brand-gold animate-ping" /><span>Connecting to Odoo live chat...</span></div>}
+                {odooStatus === 'ready' && <div className="text-brand-navy font-semibold">Odoo chat loaded. Bubble should be bottom-right; if hidden, click the gold chat button again.</div>}
+                {odooStatus === 'error' && <div className="text-red-600 font-semibold">Could not load or find the Odoo chat bubble. Check the scripts and try again.</div>}
+                <div className="text-xs text-gray-500">Scripts: {ODOO_SCRIPTS.map(s => s.src).join(' , ')}</div>
              </div>
           </MotionDiv>
         )}
       </AnimatePresence>
 
       <button 
-        onClick={() => setIsChatOpen(!isChatOpen)}
+        onClick={openOdooChat}
         className={`fixed bottom-6 right-6 lg:bottom-10 lg:right-10 w-14 h-14 rounded-full shadow-2xl z-[150] flex items-center justify-center hover:scale-110 transition-all cursor-pointer ${isChatOpen ? 'bg-gray-200 text-gray-600' : 'bg-brand-gold text-brand-navy'}`}
         title="Live Chat"
       >
