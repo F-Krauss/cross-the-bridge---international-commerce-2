@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Plus, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send } from 'lucide-react';
+import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { TRANSLATIONS } from './constants';
 import { Language } from './types';
@@ -361,10 +361,13 @@ const SECTION_ICONS: Record<string, React.ElementType> = {
 const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language) => void }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
-  const [expandedService, setExpandedService] = useState<number | null>(null);
   const [currentProcessStep, setCurrentProcessStep] = useState(0);
   const [currentView, setCurrentView] = useState<'home' | 'privacy' | 'terms'>('home');
   const [showroomCategory, setShowroomCategory] = useState('all');
+  const [expandedService, setExpandedService] = useState<number | null>(null);
+  const [contactForm, setContactForm] = useState({ name: '', company: '', email: '', message: '' });
+  const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [contactError, setContactError] = useState<string | null>(null);
 
   // Ensure Odoo bubble stays above our UI if present
   useEffect(() => {
@@ -376,6 +379,9 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         btn.style.position = 'fixed';
         btn.style.bottom = btn.style.bottom || '24px';
         btn.style.right = btn.style.right || '24px';
+        btn.style.display = 'block';
+        btn.style.opacity = '1';
+        btn.style.visibility = 'visible';
         clearInterval(interval);
       }
     }, 500);
@@ -384,6 +390,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
 
   const t = TRANSLATIONS[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
+  const eventsLabel = lang === 'en' ? 'Events calendar' : 'Calendario de eventos';
+  const missionNote = lang === 'en' ? 'Limited seats per mission—secure yours early.' : 'Cupos limitados por misión—asegura tu lugar con anticipación.';
 
   const processImages = [
     processImg1,
@@ -419,13 +427,40 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
     }
   };
 
+  const handleContactChange = (field: string, value: string) => {
+    setContactForm(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (contactStatus === 'loading') return;
+    setContactStatus('loading');
+    setContactError(null);
+    try {
+      const resp = await fetch('/api/create-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contactForm),
+      });
+      const json = await resp.json();
+      if (!resp.ok || json?.error) {
+        throw new Error(json?.error || 'Failed to send');
+      }
+      setContactStatus('success');
+      setContactForm({ name: '', company: '', email: '', message: '' });
+    } catch (err: any) {
+      setContactStatus('error');
+      setContactError(err?.message || 'Unexpected error');
+    }
+  };
+
   const filteredShowroomItems = showroomCategory === 'all' 
     ? t.showroom.items 
     : t.showroom.items.filter(item => item.category === showroomCategory);
 
 
   return (
-    <div className="bg-[#1B2440] text-brand-dark font-sans h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar">
+    <div className="bg-[#1B2440] text-brand-dark font-sans h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col">
       
       {/* --- Fixed Navigation Bar --- */}
       {/* DESKTOP SIDEBAR NAV */}
@@ -606,66 +641,126 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                </FadeIn>
             </div>
 
-            <div className="grid md:grid-cols-4 gap-4 md:gap-6">
+            <div className="flex flex-col md:flex-row md:flex-nowrap gap-4 md:gap-6 mb-12 items-stretch">
                {t.services.items.map((item, idx) => {
-                 const Icon = idx === 0 ? Package : idx === 1 ? Layers : idx === 2 ? Globe : Users;
+                 const Icon = idx === 0 ? Package : idx === 1 ? Layers : Globe;
+                 const pastel = ['bg-[#e8f4c9]', 'bg-[#def2c5]', 'bg-[#dff2d2]'][idx % 3];
+                 const isOpen = expandedService === idx;
+                 const gridClass = isOpen ? 'md:grid md:grid-cols-[1.05fr_1.35fr] md:gap-10' : 'md:grid md:grid-cols-1';
                  return (
                    <FadeIn key={idx} delay={idx * 0.1} className="h-full">
-                     <div 
-                       className="group relative h-full bg-white rounded-3xl p-5 md:p-8 shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col justify-between overflow-hidden cursor-pointer min-h-[250px] md:min-h-[400px]"
-                       onClick={() => setExpandedService(idx)}
+                     <MotionDiv
+                       layout
+                       animate={{ flex: isOpen ? 2.8 : 0.75 }}
+                       transition={{ type: 'spring', stiffness: 200, damping: 22 }}
+                       className="flex-1 min-w-0"
                      >
-                        <div className="absolute top-0 right-0 p-4 md:p-6 opacity-5 md:opacity-10 group-hover:opacity-20 transition-opacity scale-125 md:scale-150 origin-top-right">
-                           <Icon size={80} className="md:w-[120px] md:h-[120px]" />
-                        </div>
-                        
-                        <div>
-                           <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-brand-navy/5 text-brand-navy flex items-center justify-center mb-4 md:mb-6 group-hover:bg-brand-navy group-hover:text-brand-gold transition-colors">
-                              <Icon size={20} className="md:w-6 md:h-6" />
-                           </div>
-                           <h3 className="text-lg md:text-xl font-bold leading-tight mb-2 group-hover:translate-x-1 transition-transform">{item.title}</h3>
-                        </div>
-
-                        <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                           <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-400 group-hover:text-brand-navy">Learn More</span>
-                           <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-brand-gold group-hover:text-brand-navy transition-colors">
-                              <Plus size={16} />
-                           </div>
-                        </div>
-                     </div>
+                       <button
+                         type="button"
+                         onClick={() => setExpandedService(isOpen ? null : idx)}
+                         className={`relative h-full w-full text-left rounded-3xl border border-lime-200 shadow-[0_20px_60px_rgba(0,0,0,0.06)] px-7 py-8 ${gridClass} ${pastel} transition-transform duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-brand-gold/60 md:min-h-[460px] md:max-h-none items-start`}
+                       >
+                         <div className="flex flex-col gap-4 md:pr-2">
+                            <div className="flex items-center justify-between">
+                               <div className="w-12 h-12 rounded-2xl bg-white/70 border border-lime-200 flex items-center justify-center text-brand-navy shadow-sm">
+                                  <Icon size={22} />
+                               </div>
+                               <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-brand-navy/60">Service {idx + 1}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-3">
+                              <h3 className="text-2xl md:text-3xl font-black leading-snug">{item.title}</h3>
+                              <motion.span
+                                animate={{ rotate: isOpen ? 180 : 0 }}
+                                className="text-brand-navy/70"
+                              >
+                                <ChevronDown size={22} />
+                              </motion.span>
+                            </div>
+                            <p className="text-base leading-relaxed text-brand-navy/80">{item.desc}</p>
+                         </div>
+                         <AnimatePresence initial={false}>
+                           {isOpen && (
+                             <MotionDiv
+                               key="details"
+                               initial={{ opacity: 0, x: 16 }}
+                               animate={{ opacity: 1, x: 0 }}
+                               exit={{ opacity: 0, x: 16 }}
+                               transition={{ duration: 0.3 }}
+                               className="space-y-5 mt-6 md:mt-0 md:pl-10 md:border-l border-brand-navy/12"
+                             >
+                               {item.details && (
+                                 <div className="space-y-4 text-lg leading-relaxed text-brand-navy/85">
+                                   {item.details.map((line, i) => (
+                                     <p key={i}>{line}</p>
+                                   ))}
+                                 </div>
+                               )}
+                               {item.bullets && (
+                                 <div className="space-y-3">
+                                   <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-navy/70">{lang === 'en' ? 'We manage' : 'Gestionamos'}</p>
+                                   <ul className="list-disc pl-5 space-y-2 text-base text-brand-navy/85">
+                                     {item.bullets.map((b, i) => <li key={i}>{b}</li>)}
+                                   </ul>
+                                 </div>
+                               )}
+                             </MotionDiv>
+                           )}
+                         </AnimatePresence>
+                       </button>
+                     </MotionDiv>
                    </FadeIn>
                  )
                })}
             </div>
-         </div>
 
-         {/* Expanded Service Modal */}
-         <AnimatePresence>
-            {expandedService !== null && (
-              <div className="fixed inset-0 z-[250] flex items-center justify-center px-4">
-                 <MotionDiv 
-                   initial={{ opacity: 0 }} 
-                   animate={{ opacity: 1 }} 
-                   exit={{ opacity: 0 }}
-                   onClick={() => setExpandedService(null)} 
-                   className="absolute inset-0 bg-brand-navy/90 backdrop-blur-sm" 
-                 />
-                 <MotionDiv
-                   layoutId={`service-expand-${expandedService}`}
-                   className="bg-white w-full max-w-4xl max-h-[80vh] overflow-y-auto rounded-3xl p-8 md:p-12 relative z-10 shadow-2xl"
-                 >
-                    <button onClick={() => setExpandedService(null)} className="absolute top-6 right-6 p-2 bg-gray-100 rounded-full hover:bg-gray-200">
-                       <X size={20} />
-                    </button>
-                    <h3 className="text-3xl md:text-5xl font-bold text-brand-navy mb-6">{t.services.items[expandedService].title}</h3>
-                    <p className="text-lg text-gray-600 leading-relaxed mb-8">{t.services.items[expandedService].desc}</p>
-                    <button onClick={() => handleNavClick('contact')} className="bg-brand-navy text-white px-8 py-3 rounded-xl font-bold uppercase tracking-wider hover:bg-brand-gold hover:text-brand-navy transition-colors">
-                       Get Started
-                    </button>
-                 </MotionDiv>
+            {t.services.missions && (
+              <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6 items-stretch">
+                 <FadeIn>
+                   <div className="relative bg-white rounded-3xl border border-gray-200 shadow-xl p-8 md:p-10 overflow-hidden h-full">
+                      <div className="absolute -left-16 -top-16 w-40 h-40 bg-brand-gold/20 rounded-full blur-3xl" />
+                      <div className="absolute -bottom-12 -right-10 w-36 h-36 bg-brand-navy/10 rounded-full blur-3xl" />
+                      <h3 className="text-3xl md:text-4xl font-black mb-4">{t.services.missions.title}</h3>
+                      <p className="text-base md:text-lg text-brand-navy/80 leading-relaxed mb-6">{t.services.missions.intro}</p>
+                      <ul className="space-y-3 text-brand-navy/90">
+                        {t.services.missions.points.map((point, idx) => (
+                          <li key={idx} className="flex items-start gap-3">
+                            <span className="mt-1 w-2 h-2 rounded-full bg-brand-gold flex-shrink-0" />
+                            <span className="leading-relaxed">{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="mt-8 flex flex-wrap items-center gap-4">
+                         <button onClick={() => handleNavClick('contact')} className="bg-brand-gold text-brand-navy px-5 py-3 rounded-xl font-bold uppercase tracking-wider hover:bg-brand-navy hover:text-white transition-colors">
+                           {t.services.missions.cta}
+                         </button>
+                         {t.services.missions.tagline && (
+                           <span className="px-4 py-2 rounded-lg bg-brand-navy/5 text-xs font-bold uppercase tracking-[0.2em] text-brand-navy/70">
+                             {t.services.missions.tagline}
+                           </span>
+                         )}
+                      </div>
+                   </div>
+                 </FadeIn>
+                 <FadeIn delay={0.1} direction='up'>
+                   <div className="bg-[#f0e9ff] rounded-3xl border border-purple-200 shadow-lg p-8 flex flex-col justify-between h-full">
+                      <div>
+                        <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-navy/60">{t.services.missions.eventsTitle}</p>
+                        <h4 className="text-2xl font-black text-brand-navy mt-2 mb-4">{eventsLabel}</h4>
+                        <ul className="space-y-3 text-brand-navy">
+                          {t.services.missions.events.map((event, idx) => (
+                            <li key={idx} className="flex items-center gap-3">
+                              <div className="w-2 h-2 rounded-full bg-brand-gold" />
+                              <span className="font-semibold">{event}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="mt-6 text-xs text-brand-navy/60 italic">{missionNote}</div>
+                   </div>
+                 </FadeIn>
               </div>
             )}
-         </AnimatePresence>
+         </div>
       </section>
 
       {/* 3. PROCESS (Dark) */}
@@ -752,8 +847,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       {/* 4. TEAM (Light) */}
       <section id="team" className="min-h-[100svh] snap-start flex flex-col md:flex-row bg-[#F5F5F7] overflow-hidden">
          {/* Left: Image (Full Height) */}
-         <div className="md:w-1/2 min-h-[50vh] md:h-auto relative">
-            <img src={teamPortrait} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
+         <div className="md:w-1/2 min-h-[50vh] md:h-auto md:max-h-[720px] relative overflow-hidden">
+            <img src={teamPortrait} className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
             <div className="absolute inset-0 bg-brand-navy/20 mix-blend-multiply" />
             <div className="absolute bottom-12 left-12 text-white p-6 backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl">
                <h3 className="text-3xl font-bold">{t.team.profile.name}</h3>
@@ -946,28 +1041,60 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             </div>
 
             <div className="bg-[#F5F5F7] text-brand-navy p-8 md:p-12 rounded-3xl shadow-xl border border-gray-100">
-               <form className="space-y-4">
+               <form className="space-y-4" onSubmit={handleContactSubmit}>
                   <div className="grid grid-cols-2 gap-4">
                      <div>
                         <label className="text-xs font-bold uppercase tracking-widest mb-2 block">{t.contact.form.name}</label>
-                        <input type="text" className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none" />
+                        <input
+                          type="text"
+                          value={contactForm.name}
+                          onChange={(e) => handleContactChange('name', e.target.value)}
+                          className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none"
+                          required
+                        />
                      </div>
                      <div>
                         <label className="text-xs font-bold uppercase tracking-widest mb-2 block">{t.contact.form.company}</label>
-                        <input type="text" className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none" />
+                        <input
+                          type="text"
+                          value={contactForm.company}
+                          onChange={(e) => handleContactChange('company', e.target.value)}
+                          className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none"
+                        />
                      </div>
                   </div>
                   <div>
                      <label className="text-xs font-bold uppercase tracking-widest mb-2 block">{t.contact.form.email}</label>
-                     <input type="email" className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none" />
+                     <input
+                       type="email"
+                       value={contactForm.email}
+                       onChange={(e) => handleContactChange('email', e.target.value)}
+                       className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none"
+                       required
+                     />
                   </div>
                   <div>
                      <label className="text-xs font-bold uppercase tracking-widest mb-2 block">{t.contact.form.message}</label>
-                     <textarea rows={4} className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none" />
+                     <textarea
+                       rows={4}
+                       value={contactForm.message}
+                       onChange={(e) => handleContactChange('message', e.target.value)}
+                       className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none"
+                     />
                   </div>
-                  <button className="w-full bg-brand-navy text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-brand-gold hover:text-brand-navy transition-colors shadow-lg">
-                     {t.contact.form.submit}
+                  <button
+                    type="submit"
+                    className="w-full bg-brand-navy text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-brand-gold hover:text-brand-navy transition-colors shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                    disabled={contactStatus === 'loading'}
+                  >
+                     {contactStatus === 'loading' ? 'Sending…' : contactStatus === 'success' ? 'Sent!' : t.contact.form.submit}
                   </button>
+                  {contactStatus === 'error' && (
+                    <p className="text-sm text-red-600">{contactError || 'Something went wrong'}</p>
+                  )}
+                  {contactStatus === 'success' && (
+                    <p className="text-sm text-green-600">Thanks! We received your details.</p>
+                  )}
                </form>
             </div>
          </div>
@@ -997,6 +1124,9 @@ export default function App() {
   // Ensure Odoo live chat scripts are injected (helps when index.html tags are stripped by hosting/CDN)
   useEffect(() => {
     let cancelled = false;
+    let retry: ReturnType<typeof setTimeout> | null = null;
+
+    const selectors = ['.o_livechat_button', '.o_chat_button', '.o-livechat-launcher', '.o_livechat_Launcher'];
 
     const loadScript = (id: string, src: string) =>
       new Promise<void>((resolve, reject) => {
@@ -1016,19 +1146,31 @@ export default function App() {
         document.head.appendChild(script);
       });
 
-    (async () => {
+    const ensureChat = async () => {
       try {
         for (const { id, src } of ODOO_SCRIPTS) {
           if (cancelled) return;
           await loadScript(id, src);
         }
+
+        // If bubble not present after scripts load, retry once after a short delay.
+        const bubble = selectors.map(sel => document.querySelector(sel)).find(Boolean);
+        if (!bubble && !cancelled) {
+          retry = setTimeout(() => {
+            ensureChat();
+          }, 2000);
+        }
       } catch (err) {
         console.error('Odoo live chat failed to load', err);
       }
-    })();
+    };
+
+    // Delay slightly to avoid StrictMode double-invocation issues
+    retry = setTimeout(ensureChat, 300);
 
     return () => {
       cancelled = true;
+      if (retry) clearTimeout(retry);
     };
   }, []);
 
