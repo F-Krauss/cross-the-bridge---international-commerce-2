@@ -847,7 +847,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       {/* 4. TEAM (Light) */}
       <section id="team" className="min-h-[100svh] snap-start flex flex-col md:flex-row bg-[#F5F5F7] overflow-hidden">
          {/* Left: Image (Full Height) */}
-         <div className="md:w-1/2 min-h-[50vh] md:h-auto md:max-h-[720px] relative overflow-hidden">
+         <div className="md:w-1/2 min-h-[320px] max-h-[420px] md:max-h-[720px] md:min-h-[50vh] md:h-auto relative overflow-hidden">
             <img src={teamPortrait} className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
             <div className="absolute inset-0 bg-brand-navy/20 mix-blend-multiply" />
             <div className="absolute bottom-12 left-12 text-white p-6 backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl">
