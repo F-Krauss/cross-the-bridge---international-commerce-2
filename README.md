@@ -10,11 +10,18 @@ View your app in AI Studio: https://ai.studio/apps/drive/1AaaDKcaSi1BLN8m3D85V9D
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
+**Prerequisites:** Node.js
 
+1. Install dependencies: `npm install`
+2. Copy `.env.example` to `.env` and fill in your values (Odoo + SMTP).
+3. Start the contact API (creates Odoo leads and sends the email notification): `npm run api`
+4. In another terminal, run the web app: `npm run dev`
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Contact form email notifications
+
+The contact form posts to `/api/create-lead`, which will create the lead in Odoo and then email the team. Configure these environment variables in `.env`:
+
+- `ODOO_URL`, `ODOO_DB`, `ODOO_LOGIN`, `ODOO_API_KEY`: Odoo credentials.
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`: SMTP server settings.
+- `MAIL_FROM`: From address for the notification email (e.g., `"Cross The Bridge <no-reply@yourdomain.com>"`).
+- `MAIL_TO`: Destination inbox for new contact alerts.
