@@ -436,7 +436,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
 
 
   return (
-    <div className="bg-[#1B2440] text-brand-dark font-sans min-h-[100dvh] overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col">
+    <div className="bg-[#1B2440] text-brand-dark font-sans h-[100dvh] overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col">
       
       {/* --- Fixed Navigation Bar --- */}
       {/* DESKTOP SIDEBAR NAV */}
