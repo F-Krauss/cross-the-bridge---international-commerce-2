@@ -20,6 +20,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       process: "Process",
       team: "Our Team",
       testimonials: "Testimonials",
+      why_us: "Why Us",
       contact: "Contact",
       book: "Book Appointment"
     },
@@ -283,6 +284,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       showroom: "Showroom",
       process: "Proceso",
       team: "Nuestro Equipo",
+      why_us: "Por qué nosotros",
       testimonials: "Testimonios",
       contact: "Contacto",
       book: "Agendar Cita"

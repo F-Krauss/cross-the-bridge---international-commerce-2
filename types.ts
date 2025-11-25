@@ -9,6 +9,7 @@ export interface Content {
     showroom: string;
     process: string;
     team: string;
+    why_us: string;
     testimonials: string;
     contact: string;
     book: string;
