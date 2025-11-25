@@ -1009,9 +1009,9 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   </div>
                   
                   <div className="flex gap-4 mt-12">
-                     <a href="https://linkedin.com/in/marianamucino" target="_blank" rel="noopener noreferrer" className="p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all"><Linkedin size={20} /></a>
-                     <a href="#" className="p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all"><Instagram size={20} /></a>
-                     <a href="#" className="p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all"><Facebook size={20} /></a>
+                     <a href="https://www.linkedin.com/company/cross-the-bridge-mx/" target="_blank" rel="noopener noreferrer" className="p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all"><Linkedin size={20} /></a>
+                     <a href="https://www.instagram.com/crossthebridge.mx?igsh=bnF6dGdtdXB4MHIw" className="p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all"><Instagram size={20} /></a>
+                     <a href="https://www.facebook.com/profile.php?id=61583895457222" className="p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all"><Facebook size={20} /></a>
                   </div>
                </FadeIn>
             </div>
