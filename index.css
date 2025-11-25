@@ -14,6 +14,25 @@ body {
   background: #1B2440;
 }
 
+.snap-container {
+  scroll-padding-top: 96px;
+  scroll-padding-bottom: 48px;
+}
+
+.section-anchor {
+  scroll-margin-top: 96px;
+}
+
+@media (min-width: 1024px) {
+  .snap-container {
+    scroll-padding-top: 0;
+  }
+
+  .section-anchor {
+    scroll-margin-top: 0;
+  }
+}
+
 /* Keep native Odoo launcher above UI without overriding its layout */
 .o_livechat_button,
 .o_chat_button,

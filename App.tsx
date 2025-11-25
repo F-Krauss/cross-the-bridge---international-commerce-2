@@ -436,7 +436,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
 
 
   return (
-    <div className="bg-[#1B2440] text-brand-dark font-sans h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col">
+    <div className="bg-[#1B2440] text-brand-dark font-sans min-h-[100dvh] overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col snap-container">
       
       {/* --- Fixed Navigation Bar --- */}
       {/* DESKTOP SIDEBAR NAV */}
@@ -556,7 +556,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       <div className="lg:pl-24 w-full">
 
       {/* 1. HERO (Dark) */}
-      <section id="about" className="min-h-[100svh] snap-start relative flex flex-col justify-center overflow-hidden bg-brand-navy">
+      <section id="about" className="min-h-[100dvh] snap-start relative flex flex-col justify-center overflow-hidden bg-brand-navy section-anchor">
          <div className="absolute inset-0 z-0">
            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" className="w-full h-full object-cover opacity-40" alt="World" />
            <div className="absolute inset-0 bg-gradient-to-r from-brand-navy via-brand-navy/80 to-transparent" />
@@ -582,7 +582,10 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                  <p className="text-gray-300 text-sm md:text-lg max-w-lg mb-8 leading-relaxed border-l-2 border-brand-gold pl-4">{t.hero.subtitle}</p>
                </FadeIn>
                <FadeIn delay={0.4}>
-                 <button onClick={() => handleNavClick('services')} className="group flex items-center gap-3 bg-white text-brand-navy px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-brand-gold transition-colors">
+                 <button
+                   onClick={() => handleNavClick('services')}
+                   className="group flex items-center gap-3 bg-white text-brand-navy px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold uppercase tracking-widest hover:bg-brand-gold transition-colors w-fit max-w-xs mb-8"
+                 >
                    {t.hero.cta} <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                  </button>
                </FadeIn>
@@ -606,7 +609,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       </section>
 
       {/* 2. SERVICES (Light) */}
-      <section id="services" className="min-h-[100svh] snap-start relative bg-[#F5F5F7] text-brand-navy flex flex-col justify-center py-24 overflow-hidden">
+      <section id="services" className="min-h-[100dvh] snap-start relative bg-[#F5F5F7] text-brand-navy flex flex-col justify-center py-24 overflow-hidden section-anchor">
          <div className="absolute top-0 right-0 w-1/2 h-full bg-white skew-x-12 translate-x-1/4 pointer-events-none" />
          
          <div className="container mx-auto px-6 relative z-10 h-full flex flex-col justify-center">
@@ -740,7 +743,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       </section>
 
       {/* 3. PROCESS (Dark) */}
-      <section id="process" className="min-h-[100svh] snap-start bg-brand-navy text-white relative flex flex-col py-24">
+      <section id="process" className="min-h-[100dvh] snap-start bg-brand-navy text-white relative flex flex-col py-24 section-anchor">
          <GridPattern color="#FFF" opacity={0.05} />
          <div className="flex-1 container mx-auto px-6 flex flex-col justify-center relative z-10">
             <div className="flex flex-col md:flex-row min-h-[70vh] gap-8 md:gap-16 items-center">
@@ -821,7 +824,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       </section>
 
       {/* 4. TEAM (Light) */}
-      <section id="team" className="min-h-screen snap-start flex flex-col md:flex-row bg-[#F5F5F7] overflow-hidden">
+      <section id="team" className="min-h-[100dvh] snap-start flex flex-col md:flex-row bg-[#F5F5F7] overflow-hidden section-anchor">
          {/* Left: Image (Full Height) */}
          <div className="md:w-1/2 min-h-screen relative overflow-hidden">
             <img src={teamPortrait} className="absolute inset-0 w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
@@ -860,7 +863,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       </section>
 
       {/* 5. DIFFERENTIATORS (Dark) */}
-      <section id="differentiators" className="min-h-[100svh] snap-start bg-[#141B2D] text-white flex flex-col justify-center relative py-24">
+      <section id="differentiators" className="min-h-[100dvh] snap-start bg-[#141B2D] text-white flex flex-col justify-center relative py-24 section-anchor">
         <GridPattern color="#C4A661" opacity={0.05} />
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
@@ -893,7 +896,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       </section>
 
       {/* 6. TESTIMONIALS (Light) */}
-      <section id="testimonials" className="min-h-[100svh] snap-start bg-white text-brand-navy flex flex-col justify-center relative py-24">
+      <section id="testimonials" className="min-h-[100dvh] snap-start bg-white text-brand-navy flex flex-col justify-center relative py-24 section-anchor">
          <GridPattern color="#1B2440" opacity={0.05} />
          <GlowingOrb className="top-1/4 left-1/4 bg-brand-gold/10" />
 
@@ -942,7 +945,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       </section>
 
       {/* 7. SHOWROOM (Dark) */}
-      <section id="showroom" className="min-h-[100svh] snap-start bg-[#111] text-white flex flex-col justify-center relative py-24">
+      <section id="showroom" className="min-h-[100dvh] snap-start bg-[#111] text-white flex flex-col justify-center relative py-24 section-anchor">
          <div className="container mx-auto px-6 h-full flex flex-col justify-center">
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                <div>
@@ -986,7 +989,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       </section>
 
       {/* 8. CONTACT (Light) */}
-      <section id="contact" className="min-h-[100svh] snap-start bg-white flex flex-col justify-center relative text-brand-navy pt-24 pb-0">
+      <section id="contact" className="min-h-[100dvh] snap-start bg-white flex flex-col justify-center relative text-brand-navy pt-24 pb-0 section-anchor">
          <GridPattern color="#1B2440" opacity={0.03} />
          <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center flex-1 pb-24">
             <div>
