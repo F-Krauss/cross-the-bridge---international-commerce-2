@@ -27,7 +27,8 @@ export const TRANSLATIONS: Record<Language, Content> = {
     hero: {
       title: "Your strategic bridge to World-Class manufacturing in mexico",
       subtitle: "We connect U.S. brands with certified factories, top-tier leather suppliers, and reliable production partners - so you scale without production headers.",
-      cta: "Book a discovery call"
+      cta: "Book a Discovery Call",
+      cta2: "Download CTB Capabilities Deck"
     },
     services: {
       title: "Services",
@@ -153,22 +154,30 @@ export const TRANSLATIONS: Record<Language, Content> = {
         {
           name: "Rogério de Souza Cunha",
           role: "Trade Intelligence, CICB",
-          text: "Cross the Bridge is an excellent company that has consistently served CICB and Brazilian tanneries with professionalism and outstanding deliveries, both in Mexico and abroad. We've had very positive experiences in business relationships, contacts, market knowledge, and experiences through Cross the Bridge's work."
+          text: "Cross the Bridge is an excellent company that has consistently served CICB and Brazilian tanneries with professionalism and outstanding deliveries, both in Mexico and abroad. We've had very positive experiences in business relationships, contacts, market knowledge, and experiences through Cross the Bridge's work.",
+          country: "Brazil",
+          countryCode: "BR"
         },
         {
           name: "Wilson King",
           role: "Outback Trading Company",
-          text: "When you want to grow in a new country, you don’t just need a contact — you need someone who truly cares about your success. That’s what I found in Mariana and Cross the Bridge."
+          text: "When you want to grow in a new country, you don’t just need a contact — you need someone who truly cares about your success. That’s what I found in Mariana and Cross the Bridge.",
+          country: "United States",
+          countryCode: "US"
         },
         {
           name: "Chaz Pilarcik",
           role: "Business Owner",
-          text: "I truly cannot put into words how much Mariana means to me and my business. She is one of the most loyal, dedicated, and trustworthy people I’ve ever had the pleasure of working with. Her insight and expertise in the industry are unmatched, and her work ethic inspires everyone around her. Mariana, thank you for always showing up with such heart, excellence, and integrity — you really are the best at what you do."
+          text: "I truly cannot put into words how much Mariana means to me and my business. She is one of the most loyal, dedicated, and trustworthy people I’ve ever had the pleasure of working with. Her insight and expertise in the industry are unmatched, and her work ethic inspires everyone around her. Mariana, thank you for always showing up with such heart, excellence, and integrity — you really are the best at what you do.",
+          country: "United States",
+          countryCode: "US"
         },
         {
           name: "Mehrdad Baghai",
           role: "JRD Saddlery, USA",
-          text: "I have worked with Mariana for the last 20 plus years. She manages and oversees all my sourcing, production and even shipping. A value we cannot do without."
+          text: "I have worked with Mariana for the last 20 plus years. She manages and oversees all my sourcing, production and even shipping. A value we cannot do without.",
+          country: "United States",
+          countryCode: "US"
         }
       ]
     },
@@ -292,7 +301,8 @@ export const TRANSLATIONS: Record<Language, Content> = {
     hero: {
       title: "Tu puente estratégico hacia la manufactura de clase mundial en México",
       subtitle: "Conectamos marcas estadounidenses con fábricas certificadas, proveedores de cuero de primer nivel y socios de producción confiables, para que puedas escalar sin necesidad de recurrir a la producción principal.",
-      cta: "Agenda una llamada de descubrimiento"
+      cta: "Agenda una Llamada de Descubrimiento",
+      cta2: "Descargar la Presentación de Capacidades de CTB"
     },
     services: {
       title: "Servicios",
@@ -418,22 +428,30 @@ export const TRANSLATIONS: Record<Language, Content> = {
         {
           name: "Rogério de Souza Cunha",
           role: "Inteligencia Comercial, CICB",
-          text: "Cross the Bridge es una excelente empresa que ha servido constantemente a CICB y a las tenerías brasileñas con profesionalismo y entregas sobresalientes, tanto en México como en el extranjero. Hemos tenido experiencias muy positivas en relaciones de negocios, contactos, conocimiento de mercado y experiencias gracias al trabajo de Cross the Bridge."
+          text: "Cross the Bridge es una excelente empresa que ha servido constantemente a CICB y a las tenerías brasileñas con profesionalismo y entregas sobresalientes, tanto en México como en el extranjero. Hemos tenido experiencias muy positivas en relaciones de negocios, contactos, conocimiento de mercado y experiencias gracias al trabajo de Cross the Bridge.",
+          country: "Brasil",
+          countryCode: "BR"
         },
         {
           name: "Wilson King",
           role: "Outback Trading Company",
-          text: "Cuando quieres crecer en un nuevo país, no solo necesitas un contacto: necesitas a alguien que realmente se preocupe por tu éxito. Eso es lo que encontré en Mariana y Cross the Bridge."
+          text: "Cuando quieres crecer en un nuevo país, no solo necesitas un contacto: necesitas a alguien que realmente se preocupe por tu éxito. Eso es lo que encontré en Mariana y Cross the Bridge.",
+          country: "Estados Unidos",
+          countryCode: "US"
         },
         {
           name: "Chaz Pilarcik",
           role: "Propietario de negocio",
-          text: "Realmente no puedo expresar con palabras cuánto significa Mariana para mí y mi negocio. Es una de las personas más leales, dedicadas y confiables con las que he tenido el placer de trabajar. Su visión y experiencia en la industria no tienen igual, y su ética de trabajo inspira a todos a su alrededor. Mariana, gracias por aparecer siempre con tanto corazón, excelencia e integridad: realmente eres la mejor en lo que haces."
+          text: "Realmente no puedo expresar con palabras cuánto significa Mariana para mí y mi negocio. Es una de las personas más leales, dedicadas y confiables con las que he tenido el placer de trabajar. Su visión y experiencia en la industria no tienen igual, y su ética de trabajo inspira a todos a su alrededor. Mariana, gracias por aparecer siempre con tanto corazón, excelencia e integridad: realmente eres la mejor en lo que haces.",
+          country: "Estados Unidos",
+          countryCode: "US"
         },
         {
           name: "Mehrdad Baghai",
           role: "JRD Saddlery, EUA",
-          text: "He trabajado con Mariana durante más de 20 años. Ella gestiona y supervisa todo mi abastecimiento, producción e incluso envíos. Un valor del que no podemos prescindir."
+          text: "He trabajado con Mariana durante más de 20 años. Ella gestiona y supervisa todo mi abastecimiento, producción e incluso envíos. Un valor del que no podemos prescindir.",
+          country: "Estados Unidos",
+          countryCode: "US"
         }
       ]
     },

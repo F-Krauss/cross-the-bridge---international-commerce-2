@@ -18,6 +18,7 @@ export interface Content {
     title: string;
     subtitle: string;
     cta: string;
+    cta2: string;
   };
   services: {
     title: string;
@@ -93,6 +94,8 @@ export interface Content {
       name: string;
       role: string;
       text: string;
+      country: string;
+      countryCode: string;
     }[];
   };
   differentiators: {

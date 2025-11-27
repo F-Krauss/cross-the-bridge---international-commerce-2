@@ -17,6 +17,10 @@ View your app in AI Studio: https://ai.studio/apps/drive/1AaaDKcaSi1BLN8m3D85V9D
 3. Start the contact API (creates Odoo leads and sends the email notification): `npm run api`
 4. In another terminal, run the web app: `npm run dev`
 
+## Deploy (Firebase Hosting)
+
+1. Build the static site: `npm run build` (outputs to `dist/`).
+2. Deploy the built assets: `firebase deploy --only hosting`.
 ## Contact form email notifications
 
 The contact form posts to `/api/create-lead`, which will create the lead in Odoo and then email the team. Configure these environment variables in `.env`:
