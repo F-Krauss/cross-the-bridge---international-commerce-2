@@ -25,9 +25,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
       book: "Book Appointment"
     },
     hero: {
-      title: "Your strategic bridge for global markets",
-      subtitle: "Maximize your margins by manufacturing abroad and doing business reliably. We select and develop specialized suppliers to meet your manufacturing standards.",
-      cta: "Start Your Journey"
+      title: "Your strategic bridge to World-Class manufacturing in mexico",
+      subtitle: "We connect U.S. brands with certified factories, top-tier leather suppliers, and reliable production partners - so you scale without production headers.",
+      cta: "Book a discovery call"
     },
     services: {
       title: "Services",
@@ -45,7 +45,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           icon: "package"
         },
         {
-          title: "Leather and components supplier for footwear",
+          title: "Leather and components supplier for footwear and fashion industries",
           desc: "Find the best materials for your product.",
           details: [
             "We work in partnership with top tanneries and leading component suppliers in Mexico.",
@@ -55,9 +55,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
         },
         {
           title: "Export management",
-          desc: "Take your product into new international markets.",
+          desc: "We turn global expansion into a strategic advantage, not a costly experiment.",
           details: [
-            "We identify the most attractive destinations for your brand and manage all the requirements needed to enter and operate in other countries."
+            "Backed by two decades working with world-class suppliers, brands, and international partnerships, we help you enter new markets faster, reduce operational costs, and build a long-term scalable presence-without the trial-and-error that most companies pay for."
           ],
           icon: "globe"
         }
@@ -290,9 +290,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
       book: "Agendar Cita"
     },
     hero: {
-      title: "Su puente estratégico para mercados globales",
-      subtitle: "Maximice sus márgenes fabricando en el extranjero y haciendo negocios de forma fiable. Seleccionamos y desarrollamos proveedores especializados para cumplir con sus estándares de fabricación.",
-      cta: "Comience su Viaje"
+      title: "Tu puente estratégico hacia la manufactura de clase mundial en México",
+      subtitle: "Conectamos marcas estadounidenses con fábricas certificadas, proveedores de cuero de primer nivel y socios de producción confiables, para que puedas escalar sin necesidad de recurrir a la producción principal.",
+      cta: "Agenda una llamada de descubrimiento"
     },
     services: {
       title: "Servicios",
@@ -310,7 +310,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           icon: "package"
         },
         {
-          title: "Proveedor de piel y componentes para calzado",
+          title: "Proveedor de piel y componentes para industrias de calzado y moda",
           desc: "Encuentre los mejores materiales para su producto.",
           details: [
             "Trabajamos en asociación con las mejores curtidurías y proveedores de componentes líderes en México.",
@@ -320,9 +320,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
         },
         {
           title: "Gestión de exportaciones",
-          desc: "Lleve su producto a nuevos mercados internacionales.",
+          desc: "Convertimos la expansión global en una ventaja estratégica, no en un experimento costoso.",
           details: [
-            "Identificamos los destinos más atractivos para su marca y gestionamos todos los requisitos necesarios para entrar y operar en otros países."
+            "Con el respaldo de dos décadas de trabajo con proveedores, marcas y alianzas internacionales de primer nivel, le ayudamos a acceder a nuevos mercados con mayor rapidez, reducir costos operativos y construir una presencia escalable a largo plazo, sin el proceso de prueba y error que suelen pagar la mayoría de las empresas."
           ],
           icon: "globe"
         }
