@@ -672,7 +672,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                  </div>
                </FadeIn> */}
               <FadeIn delay={0.2}>
-                <h1 className="text-3xl md:text-6xl font-bold text-white leading-tight mb-10 text-center">
+                <h1 className="text-3xl md:text-6xl font-bold text-white leading-tight mt-20 lg:mt-0 mb-10 text-center">
                   {t.hero.title}
                 </h1>
               </FadeIn>
