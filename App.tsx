@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Play, Pause } from 'lucide-react';
+import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Play, Pause, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { TRANSLATIONS } from './constants';
 import { Language } from './types';
@@ -514,13 +514,13 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       </nav>
 
       {/* MOBILE TOP NAV */}
-      <nav className="flex lg:hidden fixed top-0 left-0 right-0 z-[200] py-4 bg-brand-navy/90 backdrop-blur-md border-b border-white/5">
-        <div className="container mx-auto px-6 flex justify-between items-center">
-          <button onClick={() => handleNavClick('about')} className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-lg shadow-white/10">
-              <img src={logoVertical} alt="Cross The Bridge logo" className="h-8 w-auto object-contain" />
+      <nav className="flex lg:hidden fixed top-0 left-0 right-0 z-[200] py-2 bg-brand-navy/95 backdrop-blur-md border-b border-white/5">
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          <button onClick={() => handleNavClick('about')} className="flex items-center gap-2">
+            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-md">
+              <img src={logoVertical} alt="Cross The Bridge logo" className="h-6 w-auto object-contain" />
             </div>
-            <span className="text-sm font-bold tracking-tight text-white">Cross The Bridge</span>
+            <span className="text-xs font-bold tracking-tight text-white">Cross The Bridge</span>
           </button>
 
           <div className="flex items-center gap-4">
@@ -675,110 +675,207 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               </FadeIn>
             </div>
 
-            {/* FLIP CARDS - Tap to reveal details */}
-            <div className="relative mb-8 md:mb-12">
-              <p className="text-center text-xs text-brand-navy/50 mb-4 md:hidden">
-                {lang === 'es' ? '← Desliza • Toca para voltear →' : '← Swipe • Tap to flip →'}
-              </p>
+            {/* SERVICE CARDS - Tap to open modal */}
+            {(() => {
+              const [selectedService, setSelectedService] = useState<number | null>(null);
+              const images = [
+                "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
+                "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=800",
+                "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800"
+              ];
+              const gradients = [
+                'from-emerald-500 to-teal-600',
+                'from-amber-500 to-orange-600', 
+                'from-blue-500 to-indigo-600'
+              ];
+              const icons = [Package, Layers, Globe];
               
-              <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible scrollbar-hide">
-                {t.services.items.map((item, idx) => {
-                  const Icon = idx === 0 ? Package : idx === 1 ? Layers : Globe;
-                  const images = [
-                    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
-                    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=800",
-                    "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800"
-                  ];
-                  const gradients = [
-                    'from-emerald-500 to-teal-600',
-                    'from-amber-500 to-orange-600', 
-                    'from-blue-500 to-indigo-600'
-                  ];
-                  const [isFlipped, setIsFlipped] = useState(false);
-                  
-                  return (
-                    <FadeIn key={idx} delay={idx * 0.1}>
-                      <div className="flex-shrink-0 w-[280px] md:w-auto snap-center perspective-1000">
-                        <div 
-                          className={`relative h-[380px] md:h-[420px] transition-transform duration-700 transform-style-3d cursor-pointer ${isFlipped ? 'rotate-y-180' : ''}`}
-                          onClick={() => setIsFlipped(!isFlipped)}
-                          style={{transformStyle: 'preserve-3d'}}
+              // Extended descriptions from the screenshots
+              const extendedContent = lang === 'es' ? [
+                {
+                  title: "1. Sourcing Estratégico & Matchmaking de Proveedores",
+                  paragraphs: [
+                    "Conectamos tu marca con la fábrica correcta — no cualquier fábrica. Nuestro proceso de sourcing combina criterios técnicos, optimización de costos, y décadas de relaciones industriales con los principales fabricantes, tenerías y proveedores de materiales de México. Evaluamos capacidades, estándares de calidad, estructuras de precios, certificaciones, capacidad de producción y fit cultural para asegurar que trabajes con socios confiables desde el día uno.",
+                    "Este servicio incluye scouting de proveedores, análisis de capacidades, sourcing de materiales, validación de fábricas, coordinación de muestras, y alineación de expectativas en tiempos y costos. Nuestro objetivo es simple: eliminar las conjeturas y darte una base de producción sólida y confiable en México."
+                  ],
+                  includes: ["Scouting de proveedores", "Análisis de capacidades", "Sourcing de materiales", "Validación de fábricas", "Coordinación de muestras"]
+                },
+                {
+                  title: "2. Manufactura & Operaciones de Cadena de Suministro",
+                  paragraphs: [
+                    "Nos convertimos en tu equipo en tierra, gestionando cada paso del proceso de producción para que puedas enfocarte en diseño, ventas y crecimiento de marca. Desde desarrollo de producto y prototipado hasta producción a escala completa, coordinamos diariamente con fábricas, damos seguimiento a tiempos, optimizamos comunicación, resolvemos problemas, y aseguramos que cada entregable esté en calendario.",
+                    "Nuestro enfoque incluye planificación de producción, seguimiento de materiales, finalización de costos, programación de carga de trabajo, actualizaciones continuas, gestión de riesgos, inspecciones de calidad, y preparación completa para exportación. Obtienes transparencia, control y paz mental, sabiendo que tu producto está siendo gestionado con estándares de clase mundial."
+                  ],
+                  includes: ["Planificación de producción", "Seguimiento de materiales", "Control de calidad", "Gestión de riesgos", "Preparación de exportación"]
+                },
+                {
+                  title: "3. Crecimiento Internacional & Alianzas Estratégicas",
+                  paragraphs: [
+                    "Ayudamos a marcas a expandirse a nuevos mercados, construir alianzas internacionales, y crear estrategias de largo plazo para crecimiento global. Ya sea que quieras entrar a México, EE.UU., o Latinoamérica, o seas un proveedor internacional buscando representación en el hub manufacturero de México, te guiamos con un roadmap claro y ejecución estratégica.",
+                    "Este servicio incluye insights de mercado, estrategias de entrada, conexiones con distribuidores y socios, soporte en ferias comerciales, consultoría de export-readiness, y representación local con redes industriales de confianza. A través de alianzas estratégicas, te ayudamos a abrir puertas, acelerar oportunidades, y escalar tu presencia internacional con confianza."
+                  ],
+                  includes: ["Insights de mercado", "Estrategias de entrada", "Conexiones de distribuidores", "Soporte en ferias", "Consultoría de exportación"]
+                }
+              ] : [
+                {
+                  title: "1. Strategic Sourcing & Supplier Matchmaking",
+                  paragraphs: [
+                    "We connect your brand with the right factory — not just any factory. Our sourcing process combines technical criteria, cost optimization, and decades of industry relationships across Mexico's top manufacturers, tanneries, and material suppliers. We evaluate capabilities, quality standards, pricing structures, certifications, production capacity, and cultural fit to make sure you work with reliable partners from day one.",
+                    "This service includes supplier scouting, capability analysis, material sourcing, factory validation, sample coordination, and aligned expectations on timelines and costs. Our goal is simple: to eliminate guesswork and give you a strong, trustworthy production foundation in Mexico."
+                  ],
+                  includes: ["Supplier scouting", "Capability analysis", "Material sourcing", "Factory validation", "Sample coordination"]
+                },
+                {
+                  title: "2. Manufacturing & Supply Chain Operations",
+                  paragraphs: [
+                    "We become your team on the ground, managing every step of the production process so you can focus on design, sales, and brand growth. From product development and prototyping to full-scale production, we coordinate daily with factories, track timelines, streamline communication, solve issues, and ensure every deliverable is on schedule.",
+                    "Our approach includes production planning, materials follow-up, cost finalization, workload scheduling, continuous updates, risk management, quality inspections, and complete export preparation. You get transparency, control, and peace of mind, knowing your product is being managed with world-class standards."
+                  ],
+                  includes: ["Production planning", "Materials follow-up", "Quality inspections", "Risk management", "Export preparation"]
+                },
+                {
+                  title: "3. International Growth & Strategic Partnerships",
+                  paragraphs: [
+                    "We help brands expand into new markets, build international alliances, and create long-term strategies for global growth. Whether you want to enter Mexico, the U.S., or Latin America, or you're an international supplier seeking representation in Mexico's manufacturing hub, we guide you with a clear roadmap and strategic execution.",
+                    "This service includes market insights, entry strategies, distributor and partner connections, trade show support, export-readiness consulting, and local representation with trusted industry networks. Through strategic partnerships, we help you open doors, accelerate opportunities, and scale your international presence with confidence."
+                  ],
+                  includes: ["Market insights", "Entry strategies", "Partner connections", "Trade show support", "Export consulting"]
+                }
+              ];
+
+              return (
+                <>
+                  {/* Service Modal */}
+                  <AnimatePresence>
+                    {selectedService !== null && (
+                      <MotionDiv
+                        className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setSelectedService(null)}
+                      >
+                        <MotionDiv
+                          className="bg-[#111] text-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto relative"
+                          initial={{ scale: 0.9, y: 30 }}
+                          animate={{ scale: 1, y: 0 }}
+                          exit={{ scale: 0.9, y: 30 }}
+                          onClick={(e: React.MouseEvent) => e.stopPropagation()}
                         >
-                          {/* FRONT */}
-                          <div 
-                            className="absolute inset-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg backface-hidden"
-                            style={{backfaceVisibility: 'hidden'}}
+                          {/* Close button */}
+                          <button
+                            onClick={() => setSelectedService(null)}
+                            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center hover:bg-black/70 transition-colors z-20"
                           >
-                            <img src={images[idx]} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
-                            <div className={`absolute inset-0 bg-gradient-to-t ${gradients[idx]} opacity-85`} />
+                            <X size={20} />
+                          </button>
+                          
+                          {/* Hero Image */}
+                          <div className="relative h-48 md:h-64 w-full overflow-hidden rounded-t-2xl">
+                            <img 
+                              src={images[selectedService]} 
+                              alt={extendedContent[selectedService].title}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className={`absolute inset-0 bg-gradient-to-t ${gradients[selectedService]} opacity-60`} />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent" />
                             
-                            <div className="relative h-full flex flex-col justify-between p-5 md:p-6 text-white">
-                              <div className="flex items-center justify-between">
-                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                  <Icon size={20} className="md:w-6 md:h-6" />
-                                </div>
-                                <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
-                                  0{idx + 1}
-                                </span>
-                              </div>
-                              
-                              <div>
-                                <h3 className="text-lg md:text-xl font-bold mb-2 leading-tight">{item.title}</h3>
-                                <p className="text-white/80 text-xs md:text-sm mb-4 line-clamp-2">{item.desc}</p>
-                                <div className="flex items-center gap-2 text-white/60 text-xs">
-                                  <RotateCcw size={14} />
-                                  <span>{lang === 'es' ? 'Toca para ver más' : 'Tap for details'}</span>
-                                </div>
-                              </div>
+                            {/* Service number badge */}
+                            <div className="absolute top-4 left-4 flex items-center gap-2">
+                              <span className={`text-xs font-bold uppercase tracking-wider bg-gradient-to-r ${gradients[selectedService]} text-white px-3 py-1 rounded-full`}>
+                                0{selectedService + 1}
+                              </span>
                             </div>
                           </div>
                           
-                          {/* BACK */}
-                          <div 
-                            className={`absolute inset-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg bg-gradient-to-br ${gradients[idx]} p-1 rotate-y-180 backface-hidden`}
-                            style={{backfaceVisibility: 'hidden', transform: 'rotateY(180deg)'}}
-                          >
-                            <div className="w-full h-full bg-white rounded-[14px] md:rounded-[20px] p-5 md:p-6 flex flex-col">
-                              <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-lg font-bold text-brand-navy">{item.title}</h3>
-                                <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${gradients[idx]} flex items-center justify-center`}>
-                                  <Icon size={16} className="text-white" />
-                                </div>
-                              </div>
-                              
-                              {item.details && (
-                                <div className="flex-1 space-y-3">
-                                  {item.details.slice(0, 3).map((detail, i) => (
-                                    <div key={i} className="flex items-start gap-2">
-                                      <CheckCircle size={14} className="text-brand-gold mt-0.5 flex-shrink-0" />
-                                      <p className="text-xs text-brand-navy/70 leading-relaxed line-clamp-2">{detail}</p>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                              
-                              {item.bullets && (
-                                <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-gray-100">
-                                  {item.bullets.map((b, i) => (
-                                    <span key={i} className={`text-[10px] bg-gradient-to-r ${gradients[idx]} text-white px-2 py-1 rounded-full`}>
-                                      {b}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-                              
-                              <div className="mt-4 text-center">
-                                <span className="text-[10px] text-brand-navy/40">{lang === 'es' ? 'Toca para volver' : 'Tap to flip back'}</span>
-                              </div>
+                          {/* Content */}
+                          <div className="p-6 md:p-8 -mt-8 relative z-10">
+                            <h2 className="text-2xl md:text-3xl font-bold mb-6 pr-10 leading-tight">
+                              {extendedContent[selectedService].title}
+                            </h2>
+                            
+                            {extendedContent[selectedService].paragraphs.map((para, i) => (
+                              <p key={i} className="text-gray-300 text-base md:text-lg leading-relaxed mb-6">
+                                {para}
+                              </p>
+                            ))}
+                            
+                            {/* Includes tags */}
+                            <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
+                              <span className="text-xs text-gray-500 uppercase tracking-wider mr-2">{lang === 'es' ? 'Incluye:' : 'Includes:'}</span>
+                              {extendedContent[selectedService].includes.map((item, i) => (
+                                <span key={i} className={`text-xs bg-gradient-to-r ${gradients[selectedService]} text-white px-3 py-1 rounded-full`}>
+                                  {item}
+                                </span>
+                              ))}
+                            </div>
+                            
+                            {/* Scroll indicator */}
+                            <div className="flex justify-center mt-8">
+                              <ChevronDown size={24} className="text-gray-500 animate-bounce" />
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </FadeIn>
-                  );
-                })}
-              </div>
-            </div>
+                        </MotionDiv>
+                      </MotionDiv>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Cards Grid */}
+                  <div className="relative mb-8 md:mb-12">
+                    <p className="text-center text-xs text-brand-navy/50 mb-4 md:hidden">
+                      {lang === 'es' ? '← Desliza • Toca para más info →' : '← Swipe • Tap for more →'}
+                    </p>
+                    
+                    <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible md:pb-0 scrollbar-hide">
+                      {t.services.items.map((item, idx) => {
+                        const Icon = icons[idx];
+                        
+                        return (
+                          <FadeIn key={idx} delay={idx * 0.1}>
+                            <div 
+                              className="flex-shrink-0 w-[280px] md:w-auto snap-center cursor-pointer group"
+                              onClick={() => setSelectedService(idx)}
+                            >
+                              <div className="relative h-[320px] md:h-[380px] rounded-2xl md:rounded-3xl overflow-hidden shadow-lg">
+                                {/* Background Image */}
+                                <img src={images[idx]} alt={item.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                <div className={`absolute inset-0 bg-gradient-to-t ${gradients[idx]} opacity-80 group-hover:opacity-90 transition-opacity`} />
+                                
+                                <div className="relative h-full flex flex-col justify-between p-5 md:p-6 text-white">
+                                  {/* Top */}
+                                  <div className="flex items-center justify-between">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                      <Icon size={20} className="md:w-6 md:h-6" />
+                                    </div>
+                                    <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
+                                      0{idx + 1}
+                                    </span>
+                                  </div>
+                                  
+                                  {/* Bottom */}
+                                  <div>
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-tight">{item.title}</h3>
+                                    <p className="text-white/80 text-xs md:text-sm mb-4 line-clamp-2">{item.desc}</p>
+                                    
+                                    {/* Tap indicator */}
+                                    <div className="flex items-center gap-2 text-white/60 text-xs group-hover:text-white transition-colors">
+                                      <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                                        <ArrowRight size={14} />
+                                      </div>
+                                      <span>{lang === 'es' ? 'Toca para ver más' : 'Tap for details'}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </FadeIn>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
 
             {/* Missions Section - Compact */}
             {t.services.missions && (
@@ -1131,7 +1228,9 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               const [currentIndex, setCurrentIndex] = useState(0);
               const [exitDirection, setExitDirection] = useState<'left' | 'right' | null>(null);
               const cardRef = useRef<HTMLDivElement>(null);
-              const dragState = useRef({ startX: 0, currentX: 0, isDragging: false });
+              const [dragX, setDragX] = useState(0);
+              const [isDragging, setIsDragging] = useState(false);
+              const dragStartX = useRef(0);
               
               const handleSwipe = (direction: 'left' | 'right') => {
                 if (direction === 'right' && currentIndex > 0) {
@@ -1149,6 +1248,60 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 }
               };
               
+              // Touch handlers for swipe
+              const handleTouchStart = (e: React.TouchEvent) => {
+                dragStartX.current = e.touches[0].clientX;
+                setIsDragging(true);
+              };
+              
+              const handleTouchMove = (e: React.TouchEvent) => {
+                if (!isDragging) return;
+                const currentX = e.touches[0].clientX;
+                const diff = currentX - dragStartX.current;
+                setDragX(diff);
+              };
+              
+              const handleTouchEnd = () => {
+                setIsDragging(false);
+                const threshold = 80;
+                if (dragX < -threshold && currentIndex < ctbStrengths.length - 1) {
+                  handleSwipe('left');
+                } else if (dragX > threshold && currentIndex > 0) {
+                  handleSwipe('right');
+                }
+                setDragX(0);
+              };
+              
+              // Mouse handlers for desktop drag
+              const handleMouseDown = (e: React.MouseEvent) => {
+                dragStartX.current = e.clientX;
+                setIsDragging(true);
+              };
+              
+              const handleMouseMove = (e: React.MouseEvent) => {
+                if (!isDragging) return;
+                const diff = e.clientX - dragStartX.current;
+                setDragX(diff);
+              };
+              
+              const handleMouseUp = () => {
+                if (!isDragging) return;
+                setIsDragging(false);
+                const threshold = 80;
+                if (dragX < -threshold && currentIndex < ctbStrengths.length - 1) {
+                  handleSwipe('left');
+                } else if (dragX > threshold && currentIndex > 0) {
+                  handleSwipe('right');
+                }
+                setDragX(0);
+              };
+              
+              const handleMouseLeave = () => {
+                if (isDragging) {
+                  handleMouseUp();
+                }
+              };
+              
               const goToCard = (index: number) => {
                 if (index === currentIndex) return;
                 setExitDirection(index > currentIndex ? 'left' : 'right');
@@ -1161,125 +1314,186 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               return (
                 <div className="h-full min-h-[100dvh] flex flex-col relative z-10">
                   {/* Section Header - Fixed at top */}
-                  <div className="text-center pt-16 md:pt-20 pb-4 px-4">
+                  <div className="text-center pt-12 md:pt-16 pb-6 px-4">
                     <FadeIn>
-                      <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">
+                      <div className="inline-flex items-center gap-2 text-brand-gold font-bold uppercase tracking-widest text-xs bg-white/5 border border-brand-gold/30 px-5 py-2.5 rounded-full mb-4 backdrop-blur-sm">
+                        <Sparkles size={14} className="animate-pulse" />
                         {lang === 'es' ? 'Nuestras Fortalezas' : 'Our Strengths'}
-                      </span>
-                      <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+                      </div>
+                      <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-3">
                         {lang === 'es' ? 'Fortalezas CTB' : 'CTB Strengths'}
                       </h2>
-                      <p className="text-white/50 text-sm md:text-base max-w-xl mx-auto">
+                      <p className="text-white/40 text-sm md:text-base max-w-xl mx-auto">
                         {lang === 'es' ? '← Desliza para explorar →' : '← Swipe to explore →'}
                       </p>
                     </FadeIn>
                   </div>
                   
-                  {/* MOBILE: Full-viewport Tinder-style stacked cards */}
-                  <div className="md:hidden flex-1 relative px-4 pb-6">
-                    {/* Card Stack Container - Takes remaining space */}
-                    <div className="absolute inset-4 flex items-center justify-center">
-                      {/* Render cards in reverse order so first card is on top */}
-                      {[...ctbStrengths].reverse().map((strength, reverseIdx) => {
-                        const idx = ctbStrengths.length - 1 - reverseIdx;
-                        const isTop = idx === currentIndex;
-                        const isVisible = idx >= currentIndex && idx <= currentIndex + 2;
-                        const stackOffset = idx - currentIndex;
+                  {/* MOBILE: Tinder-style immersive swipe cards */}
+                  <div className="md:hidden flex-1 relative flex items-center justify-center px-4">
+                    {/* Navigation arrows */}
+                    <button 
+                      onClick={() => handleSwipe('right')}
+                      className={`absolute left-2 z-30 w-12 h-12 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center border border-white/20 transition-all ${currentIndex === 0 ? 'opacity-30' : 'active:scale-90'}`}
+                      disabled={currentIndex === 0}
+                    >
+                      <ChevronLeft size={24} className="text-white" />
+                    </button>
+                    <button 
+                      onClick={() => handleSwipe('left')}
+                      className={`absolute right-2 z-30 w-12 h-12 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center border border-white/20 transition-all ${currentIndex === ctbStrengths.length - 1 ? 'opacity-30' : 'active:scale-90'}`}
+                      disabled={currentIndex === ctbStrengths.length - 1}
+                    >
+                      <ChevronRight size={24} className="text-white" />
+                    </button>
+                    
+                    {/* Card stack container - with swipe gestures */}
+                    <div 
+                      className="relative w-full max-w-[340px] h-[75vh] max-h-[580px] cursor-grab active:cursor-grabbing select-none" 
+                      style={{ perspective: '1200px' }}
+                      onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={handleTouchEnd}
+                      onMouseDown={handleMouseDown}
+                      onMouseMove={handleMouseMove}
+                      onMouseUp={handleMouseUp}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      {/* Background cards (stack effect) */}
+                      {ctbStrengths.map((strength, idx) => {
+                        const offset = idx - currentIndex;
+                        if (offset < 0 || offset > 2) return null;
                         const Icon = strength.icon;
-                        
-                        if (!isVisible) return null;
-                        
-                        // Calculate card position in stack
-                        const baseTransform = `translateY(${stackOffset * 12}px) scale(${1 - stackOffset * 0.04})`;
-                        const exitTransform = isTop && exitDirection ? 
-                          exitDirection === 'left' ? 'translateX(-150%) rotate(-15deg)' : 'translateX(150%) rotate(15deg)' 
-                          : '';
                         
                         return (
                           <div
                             key={idx}
-                            ref={isTop ? cardRef : null}
-                            className={`absolute inset-0 rounded-3xl overflow-hidden shadow-2xl will-change-transform ${
-                              isTop && exitDirection ? 'transition-transform duration-250' : isTop ? '' : 'transition-all duration-300'
-                            }`}
+                            className="absolute inset-0 rounded-[2.5rem] overflow-hidden transition-all duration-500 pointer-events-none"
                             style={{
-                              transform: exitTransform || baseTransform,
-                              opacity: isTop && exitDirection ? 0 : 1 - stackOffset * 0.2,
-                              zIndex: ctbStrengths.length - stackOffset,
-                              touchAction: isTop ? 'pan-y' : 'auto',
+                              transform: `translateX(${offset * 15}px) scale(${1 - offset * 0.05}) translateZ(${-offset * 50}px)`,
+                              opacity: offset === 0 ? 1 : 0.5 - offset * 0.15,
+                              zIndex: 10 - offset,
+                              filter: offset > 0 ? 'blur(2px)' : 'none'
                             }}
-                            onTouchStart={(e) => {
-                              if (!isTop || !cardRef.current) return;
-                              dragState.current.startX = e.touches[0].clientX;
-                              dragState.current.isDragging = true;
-                              cardRef.current.style.transition = 'none';
-                            }}
-                            onTouchMove={(e) => {
-                              if (!isTop || !dragState.current.isDragging || !cardRef.current) return;
-                              const diff = e.touches[0].clientX - dragState.current.startX;
-                              dragState.current.currentX = diff;
-                              cardRef.current.style.transform = `translateX(${diff}px) rotate(${diff * 0.04}deg)`;
-                            }}
-                            onTouchEnd={() => {
-                              if (!isTop || !cardRef.current) return;
-                              const threshold = 60;
-                              const finalX = dragState.current.currentX;
-                              
-                              cardRef.current.style.transition = 'transform 0.2s ease-out';
-                              
-                              if (finalX > threshold && currentIndex > 0) {
-                                handleSwipe('right');
-                              } else if (finalX < -threshold && currentIndex < ctbStrengths.length - 1) {
-                                handleSwipe('left');
-                              } else {
-                                cardRef.current.style.transform = baseTransform;
-                              }
-                              
-                              dragState.current.currentX = 0;
-                              dragState.current.isDragging = false;
-                            }}
-                          >
-                            {/* Background Image */}
-                            <img 
-                              src={strength.image} 
-                              alt="" 
-                              className="absolute inset-0 w-full h-full object-cover"
-                              draggable={false}
-                            />
-                            {/* Gradient Overlay */}
-                            <div className={`absolute inset-0 bg-gradient-to-t ${strength.color} opacity-60`} />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                            
-                            {/* Card Number Badge */}
-                            <div className="absolute top-6 left-6 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
-                              <span className="text-white text-sm font-bold">{idx + 1} / {ctbStrengths.length}</span>
-                            </div>
-                            
-                            {/* Content */}
-                            <div className="absolute bottom-0 left-0 right-0 p-8">
-                              <div className={`bg-gradient-to-br ${strength.color} p-4 rounded-2xl w-fit mb-5 shadow-xl`}>
-                                <Icon size={32} className="text-white" />
-                              </div>
-                              <h4 className="text-2xl md:text-3xl font-bold text-white mb-4 drop-shadow-lg leading-tight">{strength.title}</h4>
-                              <p className="text-white/80 text-base leading-relaxed">{strength.desc}</p>
-                            </div>
-                          </div>
+                          />
                         );
                       })}
+                      
+                      {/* Main swipeable card */}
+                      <AnimatePresence mode="wait">
+                        <MotionDiv
+                          key={currentIndex}
+                          initial={{ 
+                            opacity: 0, 
+                            x: exitDirection === 'left' ? 300 : exitDirection === 'right' ? -300 : 0,
+                            rotateY: exitDirection === 'left' ? -25 : exitDirection === 'right' ? 25 : 0,
+                            scale: 0.85
+                          }}
+                          animate={{ 
+                            opacity: 1, 
+                            x: isDragging ? dragX : 0, 
+                            rotateY: isDragging ? dragX * -0.05 : 0,
+                            scale: 1
+                          }}
+                          exit={{ 
+                            opacity: 0, 
+                            x: exitDirection === 'left' ? -300 : 300,
+                            rotateY: exitDirection === 'left' ? 25 : -25,
+                            scale: 0.85
+                          }}
+                          transition={{ duration: isDragging ? 0 : 0.4, ease: [0.4, 0, 0.2, 1] }}
+                          className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl pointer-events-none"
+                          style={{ transformStyle: 'preserve-3d' }}
+                        >
+                          {/* Full-bleed background image */}
+                          <div className="absolute inset-0">
+                            <img 
+                              src={ctbStrengths[currentIndex].image} 
+                              alt={ctbStrengths[currentIndex].title}
+                              className="w-full h-full object-cover"
+                              draggable={false}
+                            />
+                          </div>
+                          
+                          {/* Cinematic gradient overlays */}
+                          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/90" />
+                          <div className={`absolute inset-0 bg-gradient-to-br ${ctbStrengths[currentIndex].color} opacity-30 mix-blend-overlay`} />
+                          
+                          {/* Animated ambient glow */}
+                          <MotionDiv 
+                            className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-48 bg-gradient-to-t ${ctbStrengths[currentIndex].color} opacity-30 blur-3xl`}
+                            animate={{ opacity: [0.2, 0.4, 0.2] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                          />
+                          
+                          {/* Top UI - Premium glassmorphism */}
+                          <div className="absolute top-0 left-0 right-0 p-5 flex justify-between items-start z-10">
+                            {/* Counter badge */}
+                            <div className="bg-black/40 backdrop-blur-xl px-4 py-2.5 rounded-2xl border border-white/10">
+                              <div className="flex items-center gap-2">
+                                <span className="text-brand-gold font-bold text-lg">{currentIndex + 1}</span>
+                                <span className="text-white/50 text-sm">/ {ctbStrengths.length}</span>
+                              </div>
+                            </div>
+                            
+                            {/* Icon badge with glow */}
+                            <div className="relative">
+                              <div className={`absolute inset-0 bg-gradient-to-br ${ctbStrengths[currentIndex].color} blur-lg opacity-60`} />
+                              <div className={`relative bg-gradient-to-br ${ctbStrengths[currentIndex].color} p-4 rounded-2xl shadow-xl`}>
+                                {(() => {
+                                  const Icon = ctbStrengths[currentIndex].icon;
+                                  return <Icon size={26} className="text-white" />;
+                                })()}
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Bottom content - Immersive glass card */}
+                          <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+                            <MotionDiv
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.2, duration: 0.4 }}
+                              className="bg-white/10 backdrop-blur-2xl rounded-3xl p-6 border border-white/20 shadow-2xl"
+                            >
+                              {/* Title with gradient text effect */}
+                              <h4 className="text-2xl font-bold text-white mb-3 leading-tight">
+                                {ctbStrengths[currentIndex].title}
+                              </h4>
+                              
+                              {/* Description */}
+                              <p className="text-white/80 text-base leading-relaxed">
+                                {ctbStrengths[currentIndex].desc}
+                              </p>
+                              
+                              {/* Swipe hint */}
+                              <div className="flex items-center justify-center gap-3 mt-5 pt-4 border-t border-white/10">
+                                <ChevronLeft size={16} className="text-white/40" />
+                                <span className="text-white/40 text-xs font-medium uppercase tracking-wider">
+                                  {lang === 'es' ? 'Desliza para explorar' : 'Swipe to explore'}
+                                </span>
+                                <ChevronRight size={16} className="text-white/40" />
+                              </div>
+                            </MotionDiv>
+                          </div>
+                          
+                          {/* Decorative corner accents */}
+                          <div className="absolute top-0 left-0 w-24 h-24 bg-white/5 blur-2xl" />
+                          <div className="absolute bottom-0 right-0 w-32 h-32 bg-brand-gold/10 blur-3xl" />
+                        </MotionDiv>
+                      </AnimatePresence>
                     </div>
                     
-                    {/* Progress dots - Fixed at bottom */}
-                    <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3">
+                    {/* Progress dots */}
+                    <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2.5 z-20">
                       {ctbStrengths.map((_, idx) => (
                         <button
                           key={idx}
                           onClick={() => goToCard(idx)}
-                          className={`h-2 rounded-full transition-all duration-300 ${
+                          className={`rounded-full transition-all duration-300 ${
                             idx === currentIndex 
-                              ? 'bg-brand-gold w-8' 
-                              : idx < currentIndex 
-                                ? 'bg-brand-gold/50 w-2' 
-                                : 'bg-white/30 w-2'
+                              ? 'bg-brand-gold w-8 h-2.5' 
+                              : 'bg-white/30 w-2.5 h-2.5 hover:bg-white/50'
                           }`}
                         />
                       ))}
@@ -1952,16 +2166,17 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               </p>
             </div>
 
-            {/* Benefits Grid */}
-            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto mb-10 lg:mb-16">
-              {[
+            {/* Benefits - Tinder Style Swipe Cards */}
+            {(() => {
+              const partnerBenefits = [
                 {
                   icon: Globe,
                   title: lang === 'es' ? 'Alcance Mundial' : 'Worldwide Reach',
                   desc: lang === 'es' 
                     ? 'Expande tu negocio a mercados internacionales a través de nuestra red establecida'
                     : 'Expand your business to international markets through our established network',
-                  color: 'from-blue-500 to-cyan-500'
+                  color: 'from-blue-500 to-cyan-500',
+                  image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop'
                 },
                 {
                   icon: Users,
@@ -1969,7 +2184,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es'
                     ? 'Conecta con marcas premium de USA y otros mercados buscando calidad mexicana'
                     : 'Connect with premium brands from USA and other markets seeking Mexican quality',
-                  color: 'from-emerald-500 to-teal-500'
+                  color: 'from-emerald-500 to-teal-500',
+                  image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop'
                 },
                 {
                   icon: Award,
@@ -1977,7 +2193,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es'
                     ? 'Sé parte de un directorio selecto de proveedores certificados y verificados'
                     : 'Be part of a select directory of certified and verified suppliers',
-                  color: 'from-amber-500 to-orange-500'
+                  color: 'from-amber-500 to-orange-500',
+                  image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop'
                 },
                 {
                   icon: Ship,
@@ -1985,7 +2202,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es'
                     ? 'Facilitamos exportaciones y coordinamos envíos internacionales'
                     : 'We facilitate exports and coordinate international shipments',
-                  color: 'from-purple-500 to-violet-500'
+                  color: 'from-purple-500 to-violet-500',
+                  image: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=1740&auto=format&fit=crop'
                 },
                 {
                   icon: Target,
@@ -1993,7 +2211,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es'
                     ? 'Accede a compradores serios y proyectos con volumen garantizado'
                     : 'Access serious buyers and projects with guaranteed volume',
-                  color: 'from-rose-500 to-pink-500'
+                  color: 'from-rose-500 to-pink-500',
+                  image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1740&auto=format&fit=crop'
                 },
                 {
                   icon: Shield,
@@ -2001,20 +2220,224 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es'
                     ? 'Transacciones protegidas y términos comerciales claros'
                     : 'Protected transactions and clear commercial terms',
-                  color: 'from-indigo-500 to-blue-500'
+                  color: 'from-indigo-500 to-blue-500',
+                  image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop'
                 }
-              ].map((benefit, idx) => (
-                <FadeIn key={idx} delay={idx * 0.1}>
-                  <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 md:p-6 hover:border-brand-gold/50 transition-all duration-500 hover:-translate-y-1 h-full">
-                    <div className={`bg-gradient-to-br ${benefit.color} p-3 rounded-xl w-fit mb-3 md:mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
-                      <benefit.icon size={20} className="text-white md:w-6 md:h-6" />
+              ];
+              
+              const [partnerCardIndex, setPartnerCardIndex] = useState(0);
+              const [partnerExitDir, setPartnerExitDir] = useState<'left' | 'right' | null>(null);
+              const [partnerDragX, setPartnerDragX] = useState(0);
+              const [partnerIsDragging, setPartnerIsDragging] = useState(false);
+              const partnerDragStartX = useRef(0);
+              
+              const handlePartnerSwipe = (direction: 'left' | 'right') => {
+                if (direction === 'right' && partnerCardIndex > 0) {
+                  setPartnerExitDir('right');
+                  setTimeout(() => {
+                    setPartnerCardIndex(prev => prev - 1);
+                    setPartnerExitDir(null);
+                  }, 250);
+                } else if (direction === 'left' && partnerCardIndex < partnerBenefits.length - 1) {
+                  setPartnerExitDir('left');
+                  setTimeout(() => {
+                    setPartnerCardIndex(prev => prev + 1);
+                    setPartnerExitDir(null);
+                  }, 250);
+                }
+              };
+              
+              // Touch handlers for partner swipe
+              const handlePartnerTouchStart = (e: React.TouchEvent) => {
+                partnerDragStartX.current = e.touches[0].clientX;
+                setPartnerIsDragging(true);
+              };
+              
+              const handlePartnerTouchMove = (e: React.TouchEvent) => {
+                if (!partnerIsDragging) return;
+                const currentX = e.touches[0].clientX;
+                const diff = currentX - partnerDragStartX.current;
+                setPartnerDragX(diff);
+              };
+              
+              const handlePartnerTouchEnd = () => {
+                setPartnerIsDragging(false);
+                const threshold = 60;
+                if (partnerDragX < -threshold && partnerCardIndex < partnerBenefits.length - 1) {
+                  handlePartnerSwipe('left');
+                } else if (partnerDragX > threshold && partnerCardIndex > 0) {
+                  handlePartnerSwipe('right');
+                }
+                setPartnerDragX(0);
+              };
+              
+              // Mouse handlers for partner drag
+              const handlePartnerMouseDown = (e: React.MouseEvent) => {
+                partnerDragStartX.current = e.clientX;
+                setPartnerIsDragging(true);
+              };
+              
+              const handlePartnerMouseMove = (e: React.MouseEvent) => {
+                if (!partnerIsDragging) return;
+                const diff = e.clientX - partnerDragStartX.current;
+                setPartnerDragX(diff);
+              };
+              
+              const handlePartnerMouseUp = () => {
+                if (!partnerIsDragging) return;
+                setPartnerIsDragging(false);
+                const threshold = 60;
+                if (partnerDragX < -threshold && partnerCardIndex < partnerBenefits.length - 1) {
+                  handlePartnerSwipe('left');
+                } else if (partnerDragX > threshold && partnerCardIndex > 0) {
+                  handlePartnerSwipe('right');
+                }
+                setPartnerDragX(0);
+              };
+              
+              const handlePartnerMouseLeave = () => {
+                if (partnerIsDragging) {
+                  handlePartnerMouseUp();
+                }
+              };
+              
+              const currentBenefit = partnerBenefits[partnerCardIndex];
+              const BenefitIcon = currentBenefit.icon;
+              
+              return (
+                <div className="max-w-6xl mx-auto mb-12 lg:mb-16">
+                  {/* Mobile: Tinder-style swipe cards */}
+                  <div className="lg:hidden">
+                    <div 
+                      className="relative h-[320px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none"
+                      onTouchStart={handlePartnerTouchStart}
+                      onTouchMove={handlePartnerTouchMove}
+                      onTouchEnd={handlePartnerTouchEnd}
+                      onMouseDown={handlePartnerMouseDown}
+                      onMouseMove={handlePartnerMouseMove}
+                      onMouseUp={handlePartnerMouseUp}
+                      onMouseLeave={handlePartnerMouseLeave}
+                    >
+                      {/* Navigation arrows */}
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); handlePartnerSwipe('right'); }}
+                        className={`absolute left-2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all ${partnerCardIndex === 0 ? 'opacity-30' : 'hover:bg-white/20'}`}
+                        disabled={partnerCardIndex === 0}
+                      >
+                        <ChevronLeft size={20} className="text-white" />
+                      </button>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); handlePartnerSwipe('left'); }}
+                        className={`absolute right-2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all ${partnerCardIndex === partnerBenefits.length - 1 ? 'opacity-30' : 'hover:bg-white/20'}`}
+                        disabled={partnerCardIndex === partnerBenefits.length - 1}
+                      >
+                        <ChevronRight size={20} className="text-white" />
+                      </button>
+                      
+                      {/* Swipeable card */}
+                      <AnimatePresence mode="wait">
+                        <MotionDiv
+                          key={partnerCardIndex}
+                          initial={{ 
+                            opacity: 0, 
+                            x: partnerExitDir === 'left' ? 200 : partnerExitDir === 'right' ? -200 : 0,
+                            rotateY: partnerExitDir === 'left' ? -15 : partnerExitDir === 'right' ? 15 : 0,
+                            scale: 0.9
+                          }}
+                          animate={{ 
+                            opacity: 1, 
+                            x: partnerIsDragging ? partnerDragX : 0, 
+                            rotateY: partnerIsDragging ? partnerDragX * -0.05 : 0,
+                            scale: 1
+                          }}
+                          exit={{ 
+                            opacity: 0, 
+                            x: partnerExitDir === 'left' ? -200 : 200,
+                            rotateY: partnerExitDir === 'left' ? 15 : -15,
+                            scale: 0.9
+                          }}
+                          transition={{ duration: partnerIsDragging ? 0 : 0.3, ease: 'easeOut' }}
+                          className="w-[280px] h-[300px] relative pointer-events-none"
+                          style={{ perspective: '1000px' }}
+                        >
+                          <div className="w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-white/20 relative group">
+                            {/* Background image */}
+                            <img 
+                              src={currentBenefit.image} 
+                              alt={currentBenefit.title}
+                              className="absolute inset-0 w-full h-full object-cover"
+                              draggable={false}
+                            />
+                            {/* Gradient overlay */}
+                            <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent`} />
+                            
+                            {/* Content */}
+                            <div className="absolute inset-0 flex flex-col justify-end p-6">
+                              <div className={`bg-gradient-to-br ${currentBenefit.color} p-3 rounded-xl w-fit mb-3 shadow-lg`}>
+                                <BenefitIcon size={24} className="text-white" />
+                              </div>
+                              <h3 className="text-xl font-bold text-white mb-2">{currentBenefit.title}</h3>
+                              <p className="text-gray-300 text-sm leading-relaxed">{currentBenefit.desc}</p>
+                            </div>
+                            
+                            {/* Card number indicator */}
+                            <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+                              <span className="text-white text-xs font-bold">{partnerCardIndex + 1} / {partnerBenefits.length}</span>
+                            </div>
+                          </div>
+                        </MotionDiv>
+                      </AnimatePresence>
                     </div>
-                    <h3 className="text-base md:text-lg font-bold text-white mb-1.5 md:mb-2 group-hover:text-brand-gold transition-colors">{benefit.title}</h3>
-                    <p className="text-gray-400 text-xs md:text-sm leading-relaxed line-clamp-3 md:line-clamp-none">{benefit.desc}</p>
+                    
+                    {/* Dot indicators */}
+                    <div className="flex justify-center gap-2 mt-4">
+                      {partnerBenefits.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            setPartnerExitDir(idx > partnerCardIndex ? 'left' : 'right');
+                            setTimeout(() => {
+                              setPartnerCardIndex(idx);
+                              setPartnerExitDir(null);
+                            }, 150);
+                          }}
+                          className={`w-2 h-2 rounded-full transition-all ${idx === partnerCardIndex ? 'bg-brand-gold w-6' : 'bg-white/30 hover:bg-white/50'}`}
+                        />
+                      ))}
+                    </div>
+                    
+                    {/* Swipe hint */}
+                    <p className="text-center text-white/40 text-xs mt-3">
+                      {lang === 'es' ? '← Desliza para explorar →' : '← Swipe to explore →'}
+                    </p>
                   </div>
-                </FadeIn>
-              ))}
-            </div> */}
+                  
+                  {/* Desktop: Grid layout */}
+                  <div className="hidden lg:grid lg:grid-cols-3 gap-4">
+                    {partnerBenefits.map((benefit, idx) => {
+                      const Icon = benefit.icon;
+                      return (
+                        <FadeIn key={idx} delay={idx * 0.1}>
+                          <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:border-brand-gold/50 transition-all duration-500 hover:-translate-y-1 h-full relative overflow-hidden">
+                            {/* Subtle background image on hover */}
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
+                              <img src={benefit.image} alt="" className="w-full h-full object-cover" />
+                            </div>
+                            <div className="relative z-10">
+                              <div className={`bg-gradient-to-br ${benefit.color} p-3 rounded-xl w-fit mb-3 shadow-lg group-hover:scale-110 transition-transform`}>
+                                <Icon size={20} className="text-white" />
+                              </div>
+                              <h3 className="text-base font-bold text-white mb-1.5 group-hover:text-brand-gold transition-colors">{benefit.title}</h3>
+                              <p className="text-gray-400 text-xs leading-relaxed">{benefit.desc}</p>
+                            </div>
+                          </div>
+                        </FadeIn>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Image Collage + CTA */}
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
