@@ -654,7 +654,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         </section>
 
         {/* 2. SERVICES (Light) */}
-        <section id="services" className="min-h-[100dvh] snap-start snap-always relative bg-[#F5F5F7] text-brand-navy flex flex-col justify-center py-12 md:py-24 overflow-hidden">
+        <section id="services" className="min-h-[100dvh] snap-start snap-always relative bg-[#F5F5F7] text-brand-navy flex flex-col justify-center py-20 md:py-28 overflow-hidden">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-white skew-x-12 translate-x-1/4 pointer-events-none" />
 
           <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -806,7 +806,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         </section>
 
         {/* 3. PROCESS - Zigzag Timeline Journey */}
-        <section id="process" className="min-h-[100dvh] snap-start snap-always relative flex flex-col justify-center py-12 md:py-20 bg-[#F5F5F7] overflow-hidden">
+        <section id="process" className="min-h-[100dvh] snap-start snap-always relative flex flex-col justify-center py-20 md:py-28 bg-[#F5F5F7] overflow-hidden">
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             {/* Header */}
             <div className="text-center mb-10 md:mb-16">
@@ -959,7 +959,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         </section>
 
         {/* 5. DIFFERENTIATORS - Mobile-First Cards */}
-        <section id="differentiators" className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-[#141B2D] via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative py-16 lg:py-24 overflow-hidden">
+        <section id="differentiators" className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-[#141B2D] via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative py-20 md:py-28 overflow-hidden">
           <GridPattern color="#C4A661" opacity={0.03} />
           
           {/* Animated background shapes */}
@@ -1398,7 +1398,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
           )}
         </AnimatePresence>
 
-        <section className="min-h-[120dvh] md:min-h-[140dvh] snap-start snap-always bg-gradient-to-b from-[#141B2D] via-brand-navy to-brand-navy relative py-12 md:py-16 overflow-hidden">
+        <section className="min-h-[120dvh] md:min-h-[140dvh] snap-start snap-always bg-gradient-to-b from-[#141B2D] via-brand-navy to-brand-navy relative py-20 md:py-24 overflow-hidden">
           {/* Background elements */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-0 w-full h-full" style={{
@@ -1785,7 +1785,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         })()}
 
         {/* 6. SHOWROOM (Dark) */}
-        <section id="showroom" className="min-h-[100dvh] snap-start snap-always bg-[#111] text-white flex flex-col justify-center relative py-12 md:py-24">
+        <section id="showroom" className="min-h-[100dvh] snap-start snap-always bg-[#111] text-white flex flex-col justify-center relative py-20 md:py-28">
           <div className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center">
             {/* Header - Mobile first */}
             <div className="mb-6 md:mb-12">
@@ -1831,7 +1831,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         </section>
 
         {/* BECOME A PARTNER - For Providers */}
-        <section className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-brand-navy via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative overflow-hidden">
+        <section className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-brand-navy via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative py-20 md:py-28 overflow-hidden">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {/* World map background */}
@@ -1985,9 +1985,9 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         </section>
 
         {/* 7. CONTACT (Light) */}
-        <section id="contact" className="min-h-[100dvh] snap-start snap-always bg-white flex flex-col justify-center relative text-brand-navy py-12 md:pt-24 pb-0">
+        <section id="contact" className="min-h-[100dvh] snap-start snap-always bg-white flex flex-col justify-center relative text-brand-navy py-20 md:py-28">
           <GridPattern color="#1B2440" opacity={0.03} />
-          <div className="container mx-auto px-4 md:px-6 flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 items-center flex-1 pb-12 lg:pb-24">
+          <div className="container mx-auto px-4 md:px-6 flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 items-center flex-1">
             <div>
               <FadeIn>
                 <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Get in Touch</span>
