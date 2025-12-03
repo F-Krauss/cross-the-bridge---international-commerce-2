@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Play, Pause } from 'lucide-react';
+import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Play, Pause } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { TRANSLATIONS } from './constants';
 import { Language } from './types';
@@ -444,22 +444,30 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
     if (contactStatus === 'loading') return;
     setContactStatus('loading');
     setContactError(null);
-    try {
-      const resp = await fetch('/api/create-lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactForm),
-      });
-      const json = await resp.json();
-      if (!resp.ok || json?.error) {
-        throw new Error(json?.error || 'Failed to send');
-      }
+    
+    // TEMPORARILY COMMENTED OUT - Backend callout disabled
+    // try {
+    //   const resp = await fetch('/api/create-lead', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(contactForm),
+    //   });
+    //   const json = await resp.json();
+    //   if (!resp.ok || json?.error) {
+    //     throw new Error(json?.error || 'Failed to send');
+    //   }
+    //   setContactStatus('success');
+    //   setContactForm({ name: '', company: '', email: '', message: '' });
+    // } catch (err: any) {
+    //   setContactStatus('error');
+    //   setContactError(err?.message || 'Unexpected error');
+    // }
+    
+    // Mock success for now
+    setTimeout(() => {
       setContactStatus('success');
       setContactForm({ name: '', company: '', email: '', message: '' });
-    } catch (err: any) {
-      setContactStatus('error');
-      setContactError(err?.message || 'Unexpected error');
-    }
+    }, 1000);
   };
 
   const filteredShowroomItems = showroomCategory === 'all'
@@ -1278,37 +1286,122 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                     </div>
                   </div>
                   
-                  {/* DESKTOP: Grid layout */}
+                  {/* DESKTOP: Full-width slider with text left, image right */}
                   <div className="hidden md:flex flex-1 items-center">
-                    <div className="container mx-auto px-6">
-                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                        {ctbStrengths.map((strength, idx) => {
-                          const Icon = strength.icon;
-                          return (
-                            <FadeIn key={idx} delay={idx * 0.1}>
-                              <div className="group relative h-72 rounded-2xl overflow-hidden cursor-pointer">
-                                {/* Background */}
-                                <img src={strength.image} alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                                <div className={`absolute inset-0 bg-gradient-to-t ${strength.color} opacity-60 group-hover:opacity-80 transition-opacity`} />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                    <div className="w-full max-w-7xl mx-auto px-6 lg:px-12">
+                      {/* Main content area */}
+                      <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                        {/* Left side - Text content */}
+                        <div className="relative">
+                          <AnimatePresence mode="wait">
+                            <MotionDiv
+                              key={currentIndex}
+                              initial={{ opacity: 0, x: -30 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: 30 }}
+                              transition={{ duration: 0.4, ease: "easeOut" }}
+                              className="space-y-6"
+                            >
+                              {/* Step indicator */}
+                              <div className="flex items-center gap-4">
+                                <span className="text-7xl lg:text-8xl font-black text-white/10">
+                                  {String(currentIndex + 1).padStart(2, '0')}
+                                </span>
+                                <div className="h-px flex-1 bg-gradient-to-r from-brand-gold to-transparent" />
+                              </div>
+                              
+                              {/* Icon */}
+                              <div className={`bg-gradient-to-br ${ctbStrengths[currentIndex].color} p-5 rounded-2xl w-fit shadow-2xl`}>
+                                {(() => {
+                                  const Icon = ctbStrengths[currentIndex].icon;
+                                  return <Icon size={40} className="text-white" />;
+                                })()}
+                              </div>
+                              
+                              {/* Title */}
+                              <h3 className="text-3xl lg:text-5xl font-bold text-white leading-tight">
+                                {ctbStrengths[currentIndex].title}
+                              </h3>
+                              
+                              {/* Description */}
+                              <p className="text-white/70 text-lg lg:text-xl leading-relaxed max-w-lg">
+                                {ctbStrengths[currentIndex].desc}
+                              </p>
+                              
+                              {/* Navigation */}
+                              <div className="flex items-center gap-6 pt-6">
+                                <button
+                                  onClick={() => currentIndex > 0 && goToCard(currentIndex - 1)}
+                                  disabled={currentIndex === 0}
+                                  className={`w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all ${
+                                    currentIndex === 0 
+                                      ? 'border-white/20 text-white/20 cursor-not-allowed' 
+                                      : 'border-white/40 text-white hover:bg-white hover:text-brand-navy'
+                                  }`}
+                                >
+                                  <ChevronLeft size={24} />
+                                </button>
+                                <button
+                                  onClick={() => currentIndex < ctbStrengths.length - 1 && goToCard(currentIndex + 1)}
+                                  disabled={currentIndex === ctbStrengths.length - 1}
+                                  className={`w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all ${
+                                    currentIndex === ctbStrengths.length - 1 
+                                      ? 'border-white/20 text-white/20 cursor-not-allowed' 
+                                      : 'border-white/40 text-white hover:bg-white hover:text-brand-navy'
+                                  }`}
+                                >
+                                  <ChevronRight size={24} />
+                                </button>
                                 
-                                {/* Content */}
-                                <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                                  <div className={`bg-gradient-to-br ${strength.color} p-3 rounded-xl w-fit mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
-                                    <Icon size={24} className="text-white" />
-                                  </div>
-                                  <h4 className="text-xl font-bold text-white mb-2 group-hover:text-brand-gold transition-colors">{strength.title}</h4>
-                                  <p className="text-white/70 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300">{strength.desc}</p>
-                                </div>
-                                
-                                {/* Number badge */}
-                                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                  <span className="text-white text-sm font-bold">{idx + 1}</span>
+                                {/* Progress indicator */}
+                                <div className="flex gap-2 ml-4">
+                                  {ctbStrengths.map((_, idx) => (
+                                    <button
+                                      key={idx}
+                                      onClick={() => goToCard(idx)}
+                                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                                        idx === currentIndex 
+                                          ? 'bg-brand-gold w-10' 
+                                          : 'bg-white/30 w-4 hover:bg-white/50'
+                                      }`}
+                                    />
+                                  ))}
                                 </div>
                               </div>
-                            </FadeIn>
-                          );
-                        })}
+                            </MotionDiv>
+                          </AnimatePresence>
+                        </div>
+                        
+                        {/* Right side - Image */}
+                        <div className="relative h-[500px] lg:h-[600px]">
+                          <AnimatePresence mode="wait">
+                            <MotionDiv
+                              key={currentIndex}
+                              initial={{ opacity: 0, scale: 0.95, x: 50 }}
+                              animate={{ opacity: 1, scale: 1, x: 0 }}
+                              exit={{ opacity: 0, scale: 1.05, x: -50 }}
+                              transition={{ duration: 0.5, ease: "easeOut" }}
+                              className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl"
+                            >
+                              <img 
+                                src={ctbStrengths[currentIndex].image} 
+                                alt={ctbStrengths[currentIndex].title}
+                                className="w-full h-full object-cover"
+                              />
+                              {/* Gradient overlay */}
+                              <div className={`absolute inset-0 bg-gradient-to-br ${ctbStrengths[currentIndex].color} opacity-40`} />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+                              
+                              {/* Floating badge */}
+                              <div className="absolute top-6 right-6 bg-white/20 backdrop-blur-md px-5 py-3 rounded-full border border-white/30">
+                                <span className="text-white font-bold">{currentIndex + 1} / {ctbStrengths.length}</span>
+                              </div>
+                              
+                              {/* Decorative corner accent */}
+                              <div className="absolute bottom-0 left-0 w-32 h-32 bg-brand-gold/20 blur-2xl" />
+                            </MotionDiv>
+                          </AnimatePresence>
+                        </div>
                       </div>
                     </div>
                   </div>
