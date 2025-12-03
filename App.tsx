@@ -785,186 +785,113 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
           </div>
         </section>
 
-        {/* 3. PROCESS - Treasure Map Journey (Dark) */}
-        <section id="process" className="min-h-[100dvh] snap-start snap-always bg-brand-navy text-white relative flex flex-col py-12 md:py-16 overflow-hidden">
-          {/* Map-style background pattern */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C4A661' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-          }} />
-          <GlowingOrb className="top-0 left-1/4 w-[400px] md:w-[800px] h-[400px] md:h-[800px] bg-brand-gold/5" />
-          <GlowingOrb className="bottom-0 right-1/4 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-emerald-500/5" />
+        {/* 3. PROCESS - Clean Modern Steps */}
+        <section id="process" className="min-h-[100dvh] snap-start snap-always relative flex flex-col justify-center py-12 md:py-20 bg-brand-navy overflow-hidden">
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-navy via-brand-navy to-brand-navy/90" />
           
           <div className="container mx-auto px-4 md:px-6 relative z-10">
-            {/* Header */}
-            <div className="text-center mb-8 md:mb-12 pt-16 md:pt-0">
+            {/* Header - Mobile first */}
+            <div className="mb-8 md:mb-12">
               <FadeIn>
-                <div className="inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-full bg-gradient-to-r from-brand-gold/20 via-brand-gold/10 to-brand-gold/20 border border-brand-gold/30 mb-4 md:mb-6">
-                  <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-brand-gold animate-pulse" />
-                  <span className="text-brand-gold text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase">
-                    {lang === 'en' ? 'Your Expedition Map' : 'Tu Mapa de Expedición'}
-                  </span>
-                  <Navigation size={14} className="text-brand-gold md:w-4 md:h-4" />
-                </div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4">
+                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">
+                  {lang === 'en' ? 'How We Work' : 'Cómo Trabajamos'}
+                </span>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3">
                   {t.process.title}
                 </h2>
-                <p className="text-gray-400 text-sm md:text-lg max-w-xl md:max-w-2xl mx-auto">{t.process.subtitle}</p>
+                <p className="text-white/60 text-sm md:text-base max-w-xl">{t.process.subtitle}</p>
               </FadeIn>
             </div>
 
-            {/* Map Journey - Winding Path */}
-            <div className="relative max-w-6xl mx-auto">
-              {/* SVG Winding Path - Desktop */}
-              <svg className="hidden md:block absolute inset-0 w-full h-full" viewBox="0 0 1000 800" preserveAspectRatio="none" fill="none">
-                <defs>
-                  <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#C4A661" stopOpacity="0.6" />
-                    <stop offset="50%" stopColor="#C4A661" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#10B981" stopOpacity="0.6" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M 100 50 Q 300 50, 400 120 T 600 120 Q 750 120, 850 200 T 900 300 Q 900 400, 750 450 T 500 480 Q 300 500, 200 580 T 150 680 Q 150 750, 300 780 T 600 780"
-                  stroke="url(#pathGradient)"
-                  strokeWidth="4"
-                  strokeDasharray="12 8"
-                  fill="none"
-                  className="opacity-40"
-                />
-              </svg>
-
-              {/* Journey Steps Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 relative">
-                {t.process.steps.map((step, idx) => {
-                  const icons = [
-                    <Target key="target" className="w-5 h-5 md:w-6 md:h-6" />,
-                    <FileText key="file" className="w-5 h-5 md:w-6 md:h-6" />,
-                    <Users key="users" className="w-5 h-5 md:w-6 md:h-6" />,
-                    <Package key="package" className="w-5 h-5 md:w-6 md:h-6" />,
-                    <Briefcase key="briefcase" className="w-5 h-5 md:w-6 md:h-6" />,
-                    <Shield key="shield" className="w-5 h-5 md:w-6 md:h-6" />,
-                    <Ship key="ship" className="w-5 h-5 md:w-6 md:h-6" />
-                  ];
-                  const gradients = [
-                    'from-brand-gold/20 to-amber-600/20',
-                    'from-blue-500/20 to-cyan-500/20',
-                    'from-emerald-500/20 to-teal-500/20',
-                    'from-purple-500/20 to-pink-500/20',
-                    'from-orange-500/20 to-red-500/20',
-                    'from-indigo-500/20 to-blue-500/20',
-                    'from-emerald-500/20 to-brand-gold/20'
-                  ];
-                  const borderColors = [
-                    'hover:border-brand-gold/50',
-                    'hover:border-blue-400/50',
-                    'hover:border-emerald-400/50',
-                    'hover:border-purple-400/50',
-                    'hover:border-orange-400/50',
-                    'hover:border-indigo-400/50',
-                    'hover:border-emerald-400/50'
-                  ];
-                  const iconBgColors = [
-                    'bg-brand-gold/20 text-brand-gold',
-                    'bg-blue-500/20 text-blue-400',
-                    'bg-emerald-500/20 text-emerald-400',
-                    'bg-purple-500/20 text-purple-400',
-                    'bg-orange-500/20 text-orange-400',
-                    'bg-indigo-500/20 text-indigo-400',
-                    'bg-emerald-500/20 text-emerald-400'
-                  ];
-                  
-                  // Desktop positions for map-like scattered layout
-                  const desktopPositions = [
-                    'md:col-start-1 md:row-start-1',
-                    'md:col-start-2 md:row-start-1 md:translate-y-8',
-                    'md:col-start-3 md:row-start-1',
-                    'md:col-start-3 md:row-start-2 md:-translate-y-4',
-                    'md:col-start-2 md:row-start-2 md:translate-y-4',
-                    'md:col-start-1 md:row-start-2 md:-translate-y-2',
-                    'md:col-start-2 md:row-start-3'
-                  ];
-
-                  return (
-                    <FadeIn key={idx} delay={idx * 0.08} direction="up">
-                      <div className={`group relative ${desktopPositions[idx]}`}>
-                        {/* Connector dots on mobile */}
+            {/* Mobile: Vertical Stack with Numbers */}
+            <div className="md:hidden space-y-4">
+              {t.process.steps.map((step, idx) => {
+                const icons = [Target, FileText, Users, Package, Briefcase, Shield, Ship];
+                const Icon = icons[idx] || Target;
+                return (
+                  <FadeIn key={idx} delay={idx * 0.05}>
+                    <div className="flex gap-4 items-start group active:scale-[0.98] transition-transform">
+                      {/* Number + Line */}
+                      <div className="flex flex-col items-center">
+                        <div className="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center flex-shrink-0">
+                          <span className="text-brand-navy font-bold text-sm">{idx + 1}</span>
+                        </div>
                         {idx < t.process.steps.length - 1 && (
-                          <div className="md:hidden absolute left-1/2 -bottom-2 transform -translate-x-1/2 flex flex-col items-center gap-1 z-0">
-                            <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/40" />
-                            <div className="w-1 h-1 rounded-full bg-brand-gold/30" />
-                            <div className="w-0.5 h-0.5 rounded-full bg-brand-gold/20" />
-                          </div>
+                          <div className="w-0.5 h-full min-h-[40px] bg-white/10 mt-2" />
                         )}
+                      </div>
+                      
+                      {/* Content */}
+                      <div className="flex-1 pb-4">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Icon className="w-4 h-4 text-brand-gold" />
+                          <h3 className="text-white font-bold text-sm">{step.title}</h3>
+                        </div>
+                        <p className="text-white/50 text-xs leading-relaxed line-clamp-2">{step.desc}</p>
+                      </div>
+                    </div>
+                  </FadeIn>
+                );
+              })}
+            </div>
+
+            {/* Desktop: Horizontal Steps */}
+            <div className="hidden md:block">
+              {/* Progress line */}
+              <div className="relative mb-8">
+                <div className="absolute top-5 left-0 right-0 h-0.5 bg-white/10" />
+                <div className="absolute top-5 left-0 h-0.5 bg-brand-gold" style={{width: '100%'}} />
+              </div>
+              
+              <div className="grid grid-cols-7 gap-4">
+                {t.process.steps.map((step, idx) => {
+                  const icons = [Target, FileText, Users, Package, Briefcase, Shield, Ship];
+                  const Icon = icons[idx] || Target;
+                  
+                  return (
+                    <FadeIn key={idx} delay={idx * 0.08}>
+                      <div className="group cursor-pointer">
+                        {/* Number circle */}
+                        <div className="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center mb-4 group-hover:scale-110 transition-transform mx-auto md:mx-0">
+                          <span className="text-brand-navy font-bold">{idx + 1}</span>
+                        </div>
                         
-                        {/* Card */}
-                        <div className={`relative bg-gradient-to-br ${gradients[idx]} backdrop-blur-xl border border-white/10 ${borderColors[idx]} rounded-2xl p-4 md:p-5 transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(196,166,97,0.15)] overflow-hidden`}>
-                          {/* Step number badge */}
-                          <div className="absolute -top-1 -right-1 md:top-2 md:right-2">
-                            <div className="relative">
-                              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-navy border-2 border-brand-gold flex items-center justify-center shadow-[0_0_20px_rgba(196,166,97,0.3)]">
-                                <span className="text-brand-gold font-bold text-sm md:text-base">{idx + 1}</span>
-                              </div>
-                              {idx === 0 && (
-                                <div className="absolute -top-1 -left-1 w-3 h-3 md:w-4 md:h-4">
-                                  <MapPin className="w-full h-full text-brand-gold animate-bounce" />
-                                </div>
-                              )}
-                            </div>
+                        {/* Content */}
+                        <div className="text-center md:text-left">
+                          <div className="flex items-center gap-2 justify-center md:justify-start mb-2">
+                            <Icon className="w-4 h-4 text-brand-gold" />
                           </div>
-                          
-                          {/* Icon */}
-                          <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl ${iconBgColors[idx]} flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                            {icons[idx]}
-                          </div>
-                          
-                          {/* Content */}
-                          <h3 className="text-sm md:text-base font-bold text-white mb-2 pr-8 leading-tight group-hover:text-brand-gold transition-colors">
+                          <h3 className="text-white font-bold text-sm mb-1 group-hover:text-brand-gold transition-colors line-clamp-2">
                             {step.title}
                           </h3>
-                          <p className="text-gray-400 text-xs md:text-sm leading-relaxed line-clamp-3 md:line-clamp-none">
+                          <p className="text-white/40 text-xs leading-relaxed line-clamp-2 hidden lg:block">
                             {step.desc}
                           </p>
-                          
-                          {/* Decorative compass on hover */}
-                          <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <Compass className="w-4 h-4 text-brand-gold/30" />
-                          </div>
                         </div>
                       </div>
                     </FadeIn>
                   );
                 })}
               </div>
-              
-              {/* Final Destination - Treasure */}
-              <FadeIn delay={0.6}>
-                <div className="flex justify-center mt-8 md:mt-12">
-                  <div className="relative group">
-                    {/* Glow effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-brand-gold via-emerald-500 to-brand-gold rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity animate-pulse" />
-                    
-                    <div className="relative flex items-center gap-3 md:gap-4 px-6 md:px-8 py-4 md:py-5 rounded-2xl bg-gradient-to-r from-brand-gold/20 via-emerald-500/20 to-brand-gold/20 border border-brand-gold/40 backdrop-blur-xl">
-                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-gold/20 flex items-center justify-center">
-                        <CheckCircle className="text-brand-gold w-5 h-5 md:w-6 md:h-6" />
-                      </div>
-                      <div>
-                        <span className="text-brand-gold font-bold text-sm md:text-base block">
-                          {lang === 'en' ? '🎯 Ready for Market' : '🎯 Listo para el Mercado'}
-                        </span>
-                        <span className="text-gray-400 text-xs">
-                          {lang === 'en' ? 'Your global journey complete' : 'Tu viaje global completado'}
-                        </span>
-                      </div>
-                      <ArrowRight className="text-brand-gold w-5 h-5 md:w-6 md:h-6 animate-pulse" />
-                    </div>
-                  </div>
-                </div>
-              </FadeIn>
             </div>
+            
+            {/* CTA */}
+            <FadeIn delay={0.5}>
+              <div className="mt-10 md:mt-14 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                <a href="#contact" className="w-full sm:w-auto bg-brand-gold text-brand-navy px-6 py-3 rounded-full font-bold text-sm hover:bg-white transition-colors flex items-center justify-center gap-2 group">
+                  {lang === 'en' ? 'Start Your Project' : 'Inicia Tu Proyecto'}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+                <span className="text-white/40 text-xs">
+                  {lang === 'en' ? '7 steps to market success' : '7 pasos al éxito'}
+                </span>
+              </div>
+            </FadeIn>
           </div>
         </section>
 
-                {/* 4. OUR FOUNDER (Light) */}
+        {/* 4. OUR FOUNDER (Light) */}
         <section id="team" className="min-h-[100dvh] snap-start snap-always flex flex-col bg-[#F5F5F7] overflow-hidden">
           {/* Mobile-first stacked layout */}
           <div className="flex flex-col lg:flex-row min-h-screen">
