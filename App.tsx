@@ -1088,12 +1088,42 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             {/* CTB Strengths - Tinder-style Swipeable Cards */}
             {(() => {
               const ctbStrengths = [
-                { icon: Scissors, title: lang === 'es' ? 'Expertise en Cuero y Calzado' : 'Deep Leather & Footwear Expertise', color: 'from-amber-500 to-orange-600' },
-                { icon: Award, title: lang === 'es' ? 'Acceso a Fábricas Élite en México' : 'Access to Elite Factories in Mexico', color: 'from-emerald-500 to-teal-600' },
-                { icon: Globe, title: lang === 'es' ? 'Red Internacional (Brasil, Asia, USA)' : 'International Network (Brazil, Asia, USA)', color: 'from-blue-500 to-indigo-600' },
-                { icon: FileText, title: lang === 'es' ? 'Experiencia y Certificaciones de Exportación' : 'Export Experience & Certifications', color: 'from-purple-500 to-violet-600' },
-                { icon: Settings, title: lang === 'es' ? 'Presencia Directa en Fábricas' : 'Hands-on Factory Presence', color: 'from-rose-500 to-pink-600' },
-                { icon: Users, title: lang === 'es' ? 'Liderazgo Bilingüe y Bicultural' : 'Bilingual, Bicultural Leadership', color: 'from-cyan-500 to-sky-600' },
+                { 
+                  icon: Scissors, 
+                  title: lang === 'es' ? 'Expertise en Cuero y Calzado' : 'Deep Leather & Footwear Expertise', 
+                  color: 'from-amber-500 to-orange-600',
+                  image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop'
+                },
+                { 
+                  icon: Award, 
+                  title: lang === 'es' ? 'Acceso a Fábricas Élite en México' : 'Access to Elite Factories in Mexico', 
+                  color: 'from-emerald-500 to-teal-600',
+                  image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1740&auto=format&fit=crop'
+                },
+                { 
+                  icon: Globe, 
+                  title: lang === 'es' ? 'Red Internacional (Brasil, Asia, USA)' : 'International Network (Brazil, Asia, USA)', 
+                  color: 'from-blue-500 to-indigo-600',
+                  image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop'
+                },
+                { 
+                  icon: FileText, 
+                  title: lang === 'es' ? 'Experiencia y Certificaciones de Exportación' : 'Export Experience & Certifications', 
+                  color: 'from-purple-500 to-violet-600',
+                  image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop'
+                },
+                { 
+                  icon: Settings, 
+                  title: lang === 'es' ? 'Presencia Directa en Fábricas' : 'Hands-on Factory Presence', 
+                  color: 'from-rose-500 to-pink-600',
+                  image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=1740&auto=format&fit=crop'
+                },
+                { 
+                  icon: Users, 
+                  title: lang === 'es' ? 'Liderazgo Bilingüe y Bicultural' : 'Bilingual, Bicultural Leadership', 
+                  color: 'from-cyan-500 to-sky-600',
+                  image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop'
+                },
               ];
               
               const [currentStrength, setCurrentStrength] = useState(0);
@@ -1164,7 +1194,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   </div>
                   
                   {/* Tinder-style Card Stack */}
-                  <div className="relative h-[280px] md:h-[320px] max-w-md mx-auto perspective-1000">
+                  <div className="relative h-[380px] md:h-[420px] max-w-md mx-auto perspective-1000">
                     {/* Background cards (stack effect) */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-[85%] h-[85%] bg-white/5 rounded-3xl transform scale-90 translate-y-4 opacity-30" />
@@ -1186,34 +1216,43 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                       onTouchMove={handleTouchMove}
                       onTouchEnd={handleTouchEnd}
                     >
-                      <div className={`w-full h-full bg-gradient-to-br ${ctbStrengths[currentStrength].color} p-1 rounded-3xl shadow-2xl`}>
-                        <div className="w-full h-full bg-brand-navy/90 backdrop-blur-xl rounded-[22px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden">
-                          {/* Decorative elements */}
-                          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
-                          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full blur-xl" />
+                      <div className={`w-full h-full bg-gradient-to-br ${ctbStrengths[currentStrength].color} p-1 rounded-3xl shadow-2xl overflow-hidden`}>
+                        <div className="w-full h-full bg-brand-navy rounded-[22px] flex flex-col relative overflow-hidden">
+                          {/* Background Image */}
+                          <div className="absolute inset-0">
+                            <img 
+                              src={ctbStrengths[currentStrength].image} 
+                              alt="" 
+                              className="w-full h-full object-cover opacity-40"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/80 to-brand-navy/40" />
+                          </div>
                           
                           {/* Card number */}
-                          <span className="absolute top-4 left-4 text-white/20 font-bold text-lg">
+                          <span className="absolute top-4 left-4 text-white/40 font-bold text-lg z-10">
                             {String(currentStrength + 1).padStart(2, '0')}/{String(ctbStrengths.length).padStart(2, '0')}
                           </span>
                           
                           {/* Swipe indicators */}
-                          <div className={`absolute left-4 top-1/2 -translate-y-1/2 transition-opacity ${touchDelta > 40 ? 'opacity-100' : 'opacity-0'}`}>
+                          <div className={`absolute left-4 top-1/2 -translate-y-1/2 transition-opacity z-20 ${touchDelta > 40 ? 'opacity-100' : 'opacity-0'}`}>
                             <div className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold">✓</div>
                           </div>
-                          <div className={`absolute right-4 top-1/2 -translate-y-1/2 transition-opacity ${touchDelta < -40 ? 'opacity-100' : 'opacity-0'}`}>
+                          <div className={`absolute right-4 top-1/2 -translate-y-1/2 transition-opacity z-20 ${touchDelta < -40 ? 'opacity-100' : 'opacity-0'}`}>
                             <div className="bg-brand-gold text-brand-navy px-3 py-1 rounded-full text-xs font-bold">→</div>
                           </div>
                           
-                          {/* Icon */}
-                          <div className={`bg-gradient-to-br ${ctbStrengths[currentStrength].color} p-5 rounded-2xl mb-6 shadow-lg`}>
-                            <CurrentIcon size={40} className="text-white" />
+                          {/* Content */}
+                          <div className="flex-1 flex flex-col items-center justify-end p-8 pb-10 text-center relative z-10">
+                            {/* Icon */}
+                            <div className={`bg-gradient-to-br ${ctbStrengths[currentStrength].color} p-4 rounded-2xl mb-4 shadow-lg shadow-black/30`}>
+                              <CurrentIcon size={32} className="text-white" />
+                            </div>
+                            
+                            {/* Title */}
+                            <h4 className="text-xl md:text-2xl font-bold text-white leading-tight drop-shadow-lg">
+                              {ctbStrengths[currentStrength].title}
+                            </h4>
                           </div>
-                          
-                          {/* Title */}
-                          <h4 className="text-xl md:text-2xl font-bold text-white leading-tight relative z-10">
-                            {ctbStrengths[currentStrength].title}
-                          </h4>
                         </div>
                       </div>
                     </div>
