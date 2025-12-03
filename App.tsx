@@ -739,11 +739,11 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                               </div>
                               
                               {item.details && (
-                                <div className="flex-1 space-y-3 overflow-y-auto">
-                                  {item.details.map((detail, i) => (
+                                <div className="flex-1 space-y-3">
+                                  {item.details.slice(0, 3).map((detail, i) => (
                                     <div key={i} className="flex items-start gap-2">
                                       <CheckCircle size={14} className="text-brand-gold mt-0.5 flex-shrink-0" />
-                                      <p className="text-xs text-brand-navy/70 leading-relaxed">{detail}</p>
+                                      <p className="text-xs text-brand-navy/70 leading-relaxed line-clamp-2">{detail}</p>
                                     </div>
                                   ))}
                                 </div>
@@ -790,7 +790,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                     </div>
                     
                     {/* Right: Events */}
-                    <div className="flex items-center gap-3 md:gap-4 overflow-x-auto pb-2 md:pb-0">
+                    <div className="flex items-center gap-3 md:gap-4 flex-wrap">
                       {t.services.missions.events.map((event, idx) => (
                         <div key={idx} className="flex-shrink-0 bg-brand-navy/5 rounded-xl px-4 py-3 md:px-5 md:py-4">
                           <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-navy/50 mb-1">{t.services.missions.eventsTitle}</p>
@@ -805,107 +805,102 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
           </div>
         </section>
 
-        {/* 3. PROCESS - Clean Modern Steps */}
-        <section id="process" className="min-h-[100dvh] snap-start snap-always relative flex flex-col justify-center py-12 md:py-20 bg-brand-navy overflow-hidden">
-          {/* Subtle gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-navy via-brand-navy to-brand-navy/90" />
-          
+        {/* 3. PROCESS - Zigzag Timeline Journey */}
+        <section id="process" className="min-h-[100dvh] snap-start snap-always relative flex flex-col justify-center py-12 md:py-20 bg-[#F5F5F7] overflow-hidden">
           <div className="container mx-auto px-4 md:px-6 relative z-10">
-            {/* Header - Mobile first */}
-            <div className="mb-8 md:mb-12">
+            {/* Header */}
+            <div className="text-center mb-10 md:mb-16">
               <FadeIn>
-                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">
-                  {lang === 'en' ? 'How We Work' : 'Cómo Trabajamos'}
-                </span>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3">
-                  {t.process.title}
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-brand-navy mb-3 uppercase tracking-tight">
+                  {lang === 'en' ? 'Your Journey With Us' : 'Tu Viaje Con Nosotros'}
                 </h2>
-                <p className="text-white/60 text-sm md:text-base max-w-xl">{t.process.subtitle}</p>
+                <p className="text-brand-navy/60 text-sm md:text-base max-w-xl mx-auto">{t.process.subtitle}</p>
               </FadeIn>
             </div>
 
-            {/* Mobile: Vertical Stack with Numbers */}
-            <div className="md:hidden space-y-4">
+            {/* Zigzag Timeline */}
+            <div className="relative max-w-4xl mx-auto">
+              {/* Central vertical line */}
+              <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-amber-500 via-rose-500 to-emerald-500 -translate-x-1/2 hidden md:block" />
+              
               {t.process.steps.map((step, idx) => {
                 const icons = [Target, FileText, Users, Package, Briefcase, Shield, Ship];
                 const Icon = icons[idx] || Target;
+                const colors = [
+                  'bg-blue-500',
+                  'bg-amber-500', 
+                  'bg-rose-500',
+                  'bg-emerald-500',
+                  'bg-purple-500',
+                  'bg-cyan-500',
+                  'bg-orange-500'
+                ];
+                const borderColors = [
+                  'border-l-blue-500',
+                  'border-l-amber-500',
+                  'border-l-rose-500', 
+                  'border-l-emerald-500',
+                  'border-l-purple-500',
+                  'border-l-cyan-500',
+                  'border-l-orange-500'
+                ];
+                const isLeft = idx % 2 === 0;
+                
                 return (
-                  <FadeIn key={idx} delay={idx * 0.05}>
-                    <div className="flex gap-4 items-start group active:scale-[0.98] transition-transform">
-                      {/* Number + Line */}
-                      <div className="flex flex-col items-center">
-                        <div className="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center flex-shrink-0">
-                          <span className="text-brand-navy font-bold text-sm">{idx + 1}</span>
+                  <FadeIn key={idx} delay={idx * 0.1}>
+                    <div className={`relative flex items-center mb-8 md:mb-12 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                      {/* Mobile: Simple vertical timeline */}
+                      <div className="md:hidden flex gap-4 w-full">
+                        {/* Timeline line + icon */}
+                        <div className="flex flex-col items-center">
+                          <div className={`w-12 h-12 rounded-xl ${colors[idx]} flex items-center justify-center shadow-lg flex-shrink-0`}>
+                            <Icon className="w-6 h-6 text-white" />
+                          </div>
+                          {idx < t.process.steps.length - 1 && (
+                            <div className={`w-1 flex-1 min-h-[60px] ${colors[idx]} opacity-30 mt-2`} />
+                          )}
                         </div>
-                        {idx < t.process.steps.length - 1 && (
-                          <div className="w-0.5 h-full min-h-[40px] bg-white/10 mt-2" />
-                        )}
+                        
+                        {/* Content card */}
+                        <div className={`flex-1 bg-white rounded-xl p-4 shadow-lg border-l-4 ${borderColors[idx]}`}>
+                          <h3 className="text-brand-navy font-bold text-base mb-2">{step.title}</h3>
+                          <p className="text-brand-navy/60 text-sm leading-relaxed">{step.desc}</p>
+                        </div>
                       </div>
                       
-                      {/* Content */}
-                      <div className="flex-1 pb-4">
-                        <div className="flex items-center gap-2 mb-1">
-                          <Icon className="w-4 h-4 text-brand-gold" />
-                          <h3 className="text-white font-bold text-sm">{step.title}</h3>
+                      {/* Desktop: Zigzag layout */}
+                      <div className={`hidden md:flex items-center w-full ${isLeft ? '' : 'flex-row-reverse'}`}>
+                        {/* Content card */}
+                        <div className={`w-[45%] ${isLeft ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
+                          <div className={`bg-white rounded-2xl p-6 shadow-xl border-l-4 ${borderColors[idx]} hover:shadow-2xl transition-shadow`}>
+                            <h3 className="text-brand-navy font-bold text-lg mb-2">{step.title}</h3>
+                            <p className="text-brand-navy/60 text-sm leading-relaxed">{step.desc}</p>
+                          </div>
                         </div>
-                        <p className="text-white/50 text-xs leading-relaxed line-clamp-2">{step.desc}</p>
+                        
+                        {/* Center icon */}
+                        <div className="w-[10%] flex justify-center relative z-10">
+                          <div className={`w-14 h-14 rounded-2xl ${colors[idx]} flex items-center justify-center shadow-xl`}>
+                            <Icon className="w-7 h-7 text-white" />
+                          </div>
+                        </div>
+                        
+                        {/* Empty space */}
+                        <div className="w-[45%]" />
                       </div>
                     </div>
                   </FadeIn>
                 );
               })}
             </div>
-
-            {/* Desktop: Horizontal Steps */}
-            <div className="hidden md:block">
-              {/* Progress line */}
-              <div className="relative mb-8">
-                <div className="absolute top-5 left-0 right-0 h-0.5 bg-white/10" />
-                <div className="absolute top-5 left-0 h-0.5 bg-brand-gold" style={{width: '100%'}} />
-              </div>
-              
-              <div className="grid grid-cols-7 gap-4">
-                {t.process.steps.map((step, idx) => {
-                  const icons = [Target, FileText, Users, Package, Briefcase, Shield, Ship];
-                  const Icon = icons[idx] || Target;
-                  
-                  return (
-                    <FadeIn key={idx} delay={idx * 0.08}>
-                      <div className="group cursor-pointer">
-                        {/* Number circle */}
-                        <div className="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center mb-4 group-hover:scale-110 transition-transform mx-auto md:mx-0">
-                          <span className="text-brand-navy font-bold">{idx + 1}</span>
-                        </div>
-                        
-                        {/* Content */}
-                        <div className="text-center md:text-left">
-                          <div className="flex items-center gap-2 justify-center md:justify-start mb-2">
-                            <Icon className="w-4 h-4 text-brand-gold" />
-                          </div>
-                          <h3 className="text-white font-bold text-sm mb-1 group-hover:text-brand-gold transition-colors line-clamp-2">
-                            {step.title}
-                          </h3>
-                          <p className="text-white/40 text-xs leading-relaxed line-clamp-2 hidden lg:block">
-                            {step.desc}
-                          </p>
-                        </div>
-                      </div>
-                    </FadeIn>
-                  );
-                })}
-              </div>
-            </div>
             
             {/* CTA */}
             <FadeIn delay={0.5}>
-              <div className="mt-10 md:mt-14 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-                <a href="#contact" className="w-full sm:w-auto bg-brand-gold text-brand-navy px-6 py-3 rounded-full font-bold text-sm hover:bg-white transition-colors flex items-center justify-center gap-2 group">
-                  {lang === 'en' ? 'Start Your Project' : 'Inicia Tu Proyecto'}
+              <div className="mt-10 md:mt-14 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                <a href="#contact" className="w-full sm:w-auto bg-brand-navy text-white px-8 py-4 rounded-full font-bold text-sm hover:bg-brand-gold hover:text-brand-navy transition-colors flex items-center justify-center gap-2 group">
+                  {lang === 'en' ? 'Start Your Journey' : 'Inicia Tu Viaje'}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
-                <span className="text-white/40 text-xs">
-                  {lang === 'en' ? '7 steps to market success' : '7 pasos al éxito'}
-                </span>
               </div>
             </FadeIn>
           </div>
@@ -944,14 +939,14 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   </p>
                 </div>
 
-                {/* Education - Horizontal scroll on mobile */}
+                {/* Education */}
                 <div className="border-t border-gray-100 pt-6 lg:pt-8">
                   <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-navy mb-4 lg:mb-6">
                     <GraduationCap size={16} /> Education
                   </h4>
-                  <div className="flex overflow-x-auto lg:grid lg:gap-4 gap-3 pb-2 lg:pb-0 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x">
+                  <div className="grid gap-3 lg:gap-4">
                     {t.team.profile.education.map((edu, i) => (
-                      <div key={i} className="flex-shrink-0 w-[280px] lg:w-auto bg-gray-50 lg:bg-transparent p-4 lg:p-0 rounded-xl lg:rounded-none snap-start">
+                      <div key={i} className="bg-gray-50 lg:bg-transparent p-4 lg:p-0 rounded-xl lg:rounded-none">
                         <span className="font-bold text-brand-navy text-sm lg:text-base block lg:inline">{edu.degree}</span>
                         <span className="text-xs lg:text-sm text-gray-400 block lg:inline lg:ml-2">{edu.school}</span>
                       </div>
@@ -1067,9 +1062,19 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 );
               })}
             </div>
+          </div>
+        </section>
 
-            {/* CTB Strengths - Rotating Showcase with Auto-play */}
-            {(() => {
+        {/* CTB STRENGTHS - Full Section with Tinder-Style Cards */}
+        <section className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-[#0f1521] via-[#141B2D] to-[#1B2440] text-white relative overflow-hidden">
+          {/* Background Elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-1/4 -right-20 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-brand-gold/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1.5s'}} />
+          </div>
+          <GridPattern color="#C4A661" opacity={0.03} />
+          
+          {(() => {
               const ctbStrengths = [
                 { 
                   icon: Scissors, 
@@ -1077,7 +1082,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es' ? 'Décadas de experiencia en la industria del cuero y calzado de León, México.' : 'Decades of experience in León, Mexico leather and footwear industry.',
                   color: 'from-amber-500 to-orange-600',
                   image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop',
-                  layout: 'split' // split, centered, minimal
                 },
                 { 
                   icon: Award, 
@@ -1085,7 +1089,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es' ? 'Red exclusiva de fabricantes certificados y verificados.' : 'Exclusive network of certified and verified manufacturers.',
                   color: 'from-emerald-500 to-teal-600',
                   image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1740&auto=format&fit=crop',
-                  layout: 'centered'
                 },
                 { 
                   icon: Globe, 
@@ -1093,7 +1096,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es' ? 'Conexiones globales para oportunidades sin fronteras.' : 'Global connections for borderless opportunities.',
                   color: 'from-blue-500 to-indigo-600',
                   image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop',
-                  layout: 'minimal'
                 },
                 { 
                   icon: FileText, 
@@ -1101,7 +1103,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es' ? 'Documentación y compliance para comercio internacional.' : 'Documentation and compliance for international trade.',
                   color: 'from-purple-500 to-violet-600',
                   image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop',
-                  layout: 'split'
                 },
                 { 
                   icon: Settings, 
@@ -1109,7 +1110,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es' ? 'Control de calidad en sitio y supervisión directa.' : 'On-site quality control and direct supervision.',
                   color: 'from-rose-500 to-pink-600',
                   image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=1740&auto=format&fit=crop',
-                  layout: 'centered'
                 },
                 { 
                   icon: Users, 
@@ -1117,161 +1117,204 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es' ? 'Comunicación fluida entre culturas y mercados.' : 'Seamless communication across cultures and markets.',
                   color: 'from-cyan-500 to-sky-600',
                   image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop',
-                  layout: 'minimal'
                 },
               ];
               
-              const [currentStrength, setCurrentStrength] = useState(0);
-              const [isPlaying, setIsPlaying] = useState(true);
-              const [direction, setDirection] = useState(1);
+              const [currentIndex, setCurrentIndex] = useState(0);
+              const [exitDirection, setExitDirection] = useState<'left' | 'right' | null>(null);
+              const cardRef = useRef<HTMLDivElement>(null);
+              const dragState = useRef({ startX: 0, currentX: 0, isDragging: false });
               
-              const nextSlide = () => {
-                setDirection(1);
-                setCurrentStrength((prev) => (prev + 1) % ctbStrengths.length);
+              const handleSwipe = (direction: 'left' | 'right') => {
+                if (direction === 'right' && currentIndex > 0) {
+                  setExitDirection('right');
+                  setTimeout(() => {
+                    setCurrentIndex(prev => prev - 1);
+                    setExitDirection(null);
+                  }, 250);
+                } else if (direction === 'left' && currentIndex < ctbStrengths.length - 1) {
+                  setExitDirection('left');
+                  setTimeout(() => {
+                    setCurrentIndex(prev => prev + 1);
+                    setExitDirection(null);
+                  }, 250);
+                }
               };
               
-              const prevSlide = () => {
-                setDirection(-1);
-                setCurrentStrength((prev) => (prev - 1 + ctbStrengths.length) % ctbStrengths.length);
+              const goToCard = (index: number) => {
+                if (index === currentIndex) return;
+                setExitDirection(index > currentIndex ? 'left' : 'right');
+                setTimeout(() => {
+                  setCurrentIndex(index);
+                  setExitDirection(null);
+                }, 250);
               };
-              
-              useEffect(() => {
-                if (!isPlaying) return;
-                const timer = setInterval(nextSlide, 4000);
-                return () => clearInterval(timer);
-              }, [isPlaying]);
-              
-              const current = ctbStrengths[currentStrength];
-              const CurrentIcon = current.icon;
               
               return (
-                <div className="mt-16 lg:mt-24">
-                  {/* Section Header */}
-                  <div className="text-center mb-6 md:mb-8">
-                    <h3 className="text-xl md:text-2xl font-bold text-brand-gold mb-2">
-                      {lang === 'es' ? 'Fortalezas CTB' : 'CTB Strengths'}
-                    </h3>
+                <div className="h-full min-h-[100dvh] flex flex-col relative z-10">
+                  {/* Section Header - Fixed at top */}
+                  <div className="text-center pt-16 md:pt-20 pb-4 px-4">
+                    <FadeIn>
+                      <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">
+                        {lang === 'es' ? 'Nuestras Fortalezas' : 'Our Strengths'}
+                      </span>
+                      <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+                        {lang === 'es' ? 'Fortalezas CTB' : 'CTB Strengths'}
+                      </h2>
+                      <p className="text-white/50 text-sm md:text-base max-w-xl mx-auto">
+                        {lang === 'es' ? '← Desliza para explorar →' : '← Swipe to explore →'}
+                      </p>
+                    </FadeIn>
                   </div>
                   
-                  {/* Main Showcase Area */}
-                  <div className="relative max-w-4xl mx-auto">
-                    {/* Different Layout Styles based on card type */}
-                    <AnimatePresence mode="wait">
-                      <MotionDiv
-                        key={currentStrength}
-                        initial={{ opacity: 0, x: direction * 100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: direction * -100 }}
-                        transition={{ duration: 0.4, ease: 'easeOut' }}
-                        className="relative"
-                      >
-                        {/* LAYOUT: Split */}
-                        {current.layout === 'split' && (
-                          <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-stretch">
-                            {/* Image Side */}
-                            <div className="md:w-1/2 h-48 md:h-72 relative rounded-2xl overflow-hidden">
-                              <img src={current.image} alt="" className="w-full h-full object-cover" />
-                              <div className={`absolute inset-0 bg-gradient-to-r ${current.color} opacity-60`} />
-                              <div className="absolute top-4 left-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                                <span className="text-white text-xs font-bold">{String(currentStrength + 1).padStart(2, '0')}/{String(ctbStrengths.length).padStart(2, '0')}</span>
-                              </div>
-                            </div>
-                            {/* Content Side */}
-                            <div className="md:w-1/2 flex flex-col justify-center p-4 md:p-6">
-                              <div className={`bg-gradient-to-br ${current.color} p-3 rounded-xl w-fit mb-4 shadow-lg`}>
-                                <CurrentIcon size={24} className="text-white" />
-                              </div>
-                              <h4 className="text-xl md:text-2xl font-bold text-white mb-3">{current.title}</h4>
-                              <p className="text-gray-400 text-sm leading-relaxed">{current.desc}</p>
-                            </div>
-                          </div>
-                        )}
+                  {/* MOBILE: Full-viewport Tinder-style stacked cards */}
+                  <div className="md:hidden flex-1 relative px-4 pb-6">
+                    {/* Card Stack Container - Takes remaining space */}
+                    <div className="absolute inset-4 flex items-center justify-center">
+                      {/* Render cards in reverse order so first card is on top */}
+                      {[...ctbStrengths].reverse().map((strength, reverseIdx) => {
+                        const idx = ctbStrengths.length - 1 - reverseIdx;
+                        const isTop = idx === currentIndex;
+                        const isVisible = idx >= currentIndex && idx <= currentIndex + 2;
+                        const stackOffset = idx - currentIndex;
+                        const Icon = strength.icon;
                         
-                        {/* LAYOUT: Centered */}
-                        {current.layout === 'centered' && (
-                          <div className="relative h-64 md:h-80 rounded-3xl overflow-hidden">
-                            <img src={current.image} alt="" className="w-full h-full object-cover" />
-                            <div className={`absolute inset-0 bg-gradient-to-t ${current.color} opacity-80`} />
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
-                              <span className="text-white/60 text-xs font-bold mb-2">{String(currentStrength + 1).padStart(2, '0')}/{String(ctbStrengths.length).padStart(2, '0')}</span>
-                              <div className={`bg-white/20 backdrop-blur-sm p-4 rounded-2xl mb-4`}>
-                                <CurrentIcon size={32} className="text-white" />
-                              </div>
-                              <h4 className="text-xl md:text-3xl font-bold text-white mb-2 drop-shadow-lg">{current.title}</h4>
-                              <p className="text-white/80 text-sm max-w-md">{current.desc}</p>
-                            </div>
-                          </div>
-                        )}
+                        if (!isVisible) return null;
                         
-                        {/* LAYOUT: Minimal */}
-                        {current.layout === 'minimal' && (
-                          <div className={`bg-gradient-to-br ${current.color} p-1 rounded-3xl`}>
-                            <div className="bg-brand-navy rounded-[22px] p-6 md:p-8">
-                              <div className="flex items-start gap-4 md:gap-6">
-                                <div className="bg-white/10 p-4 rounded-2xl flex-shrink-0">
-                                  <CurrentIcon size={28} className="text-white" />
-                                </div>
-                                <div className="flex-1">
-                                  <span className="text-white/40 text-xs font-bold">{String(currentStrength + 1).padStart(2, '0')}/{String(ctbStrengths.length).padStart(2, '0')}</span>
-                                  <h4 className="text-lg md:text-2xl font-bold text-white mt-1 mb-2">{current.title}</h4>
-                                  <p className="text-gray-400 text-sm leading-relaxed">{current.desc}</p>
-                                </div>
+                        // Calculate card position in stack
+                        const baseTransform = `translateY(${stackOffset * 12}px) scale(${1 - stackOffset * 0.04})`;
+                        const exitTransform = isTop && exitDirection ? 
+                          exitDirection === 'left' ? 'translateX(-150%) rotate(-15deg)' : 'translateX(150%) rotate(15deg)' 
+                          : '';
+                        
+                        return (
+                          <div
+                            key={idx}
+                            ref={isTop ? cardRef : null}
+                            className={`absolute inset-0 rounded-3xl overflow-hidden shadow-2xl will-change-transform ${
+                              isTop && exitDirection ? 'transition-transform duration-250' : isTop ? '' : 'transition-all duration-300'
+                            }`}
+                            style={{
+                              transform: exitTransform || baseTransform,
+                              opacity: isTop && exitDirection ? 0 : 1 - stackOffset * 0.2,
+                              zIndex: ctbStrengths.length - stackOffset,
+                              touchAction: isTop ? 'pan-y' : 'auto',
+                            }}
+                            onTouchStart={(e) => {
+                              if (!isTop || !cardRef.current) return;
+                              dragState.current.startX = e.touches[0].clientX;
+                              dragState.current.isDragging = true;
+                              cardRef.current.style.transition = 'none';
+                            }}
+                            onTouchMove={(e) => {
+                              if (!isTop || !dragState.current.isDragging || !cardRef.current) return;
+                              const diff = e.touches[0].clientX - dragState.current.startX;
+                              dragState.current.currentX = diff;
+                              cardRef.current.style.transform = `translateX(${diff}px) rotate(${diff * 0.04}deg)`;
+                            }}
+                            onTouchEnd={() => {
+                              if (!isTop || !cardRef.current) return;
+                              const threshold = 60;
+                              const finalX = dragState.current.currentX;
+                              
+                              cardRef.current.style.transition = 'transform 0.2s ease-out';
+                              
+                              if (finalX > threshold && currentIndex > 0) {
+                                handleSwipe('right');
+                              } else if (finalX < -threshold && currentIndex < ctbStrengths.length - 1) {
+                                handleSwipe('left');
+                              } else {
+                                cardRef.current.style.transform = baseTransform;
+                              }
+                              
+                              dragState.current.currentX = 0;
+                              dragState.current.isDragging = false;
+                            }}
+                          >
+                            {/* Background Image */}
+                            <img 
+                              src={strength.image} 
+                              alt="" 
+                              className="absolute inset-0 w-full h-full object-cover"
+                              draggable={false}
+                            />
+                            {/* Gradient Overlay */}
+                            <div className={`absolute inset-0 bg-gradient-to-t ${strength.color} opacity-60`} />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                            
+                            {/* Card Number Badge */}
+                            <div className="absolute top-6 left-6 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                              <span className="text-white text-sm font-bold">{idx + 1} / {ctbStrengths.length}</span>
+                            </div>
+                            
+                            {/* Content */}
+                            <div className="absolute bottom-0 left-0 right-0 p-8">
+                              <div className={`bg-gradient-to-br ${strength.color} p-4 rounded-2xl w-fit mb-5 shadow-xl`}>
+                                <Icon size={32} className="text-white" />
                               </div>
-                              {/* Small thumbnail row */}
-                              <div className="flex gap-2 mt-6 overflow-x-auto pb-2">
-                                {ctbStrengths.map((s, i) => (
-                                  <button
-                                    key={i}
-                                    onClick={() => { setDirection(i > currentStrength ? 1 : -1); setCurrentStrength(i); }}
-                                    className={`w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${i === currentStrength ? 'border-brand-gold scale-110' : 'border-transparent opacity-50 hover:opacity-100'}`}
-                                  >
-                                    <img src={s.image} alt="" className="w-full h-full object-cover" />
-                                  </button>
-                                ))}
-                              </div>
+                              <h4 className="text-2xl md:text-3xl font-bold text-white mb-4 drop-shadow-lg leading-tight">{strength.title}</h4>
+                              <p className="text-white/80 text-base leading-relaxed">{strength.desc}</p>
                             </div>
                           </div>
-                        )}
-                      </MotionDiv>
-                    </AnimatePresence>
+                        );
+                      })}
+                    </div>
                     
-                    {/* Navigation Controls */}
-                    <div className="flex items-center justify-center gap-4 mt-6">
-                      <button
-                        onClick={prevSlide}
-                        className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all active:scale-90"
-                      >
-                        <ArrowLeft size={18} />
-                      </button>
-                      
-                      {/* Progress bar */}
-                      <div className="flex-1 max-w-xs h-1 bg-white/10 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-brand-gold transition-all duration-300"
-                          style={{ width: `${((currentStrength + 1) / ctbStrengths.length) * 100}%` }}
+                    {/* Progress dots - Fixed at bottom */}
+                    <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3">
+                      {ctbStrengths.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => goToCard(idx)}
+                          className={`h-2 rounded-full transition-all duration-300 ${
+                            idx === currentIndex 
+                              ? 'bg-brand-gold w-8' 
+                              : idx < currentIndex 
+                                ? 'bg-brand-gold/50 w-2' 
+                                : 'bg-white/30 w-2'
+                          }`}
                         />
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* DESKTOP: Grid layout */}
+                  <div className="hidden md:flex flex-1 items-center">
+                    <div className="container mx-auto px-6">
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                        {ctbStrengths.map((strength, idx) => {
+                          const Icon = strength.icon;
+                          return (
+                            <FadeIn key={idx} delay={idx * 0.1}>
+                              <div className="group relative h-72 rounded-2xl overflow-hidden cursor-pointer">
+                                {/* Background */}
+                                <img src={strength.image} alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                <div className={`absolute inset-0 bg-gradient-to-t ${strength.color} opacity-60 group-hover:opacity-80 transition-opacity`} />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                                
+                                {/* Content */}
+                                <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                                  <div className={`bg-gradient-to-br ${strength.color} p-3 rounded-xl w-fit mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+                                    <Icon size={24} className="text-white" />
+                                  </div>
+                                  <h4 className="text-xl font-bold text-white mb-2 group-hover:text-brand-gold transition-colors">{strength.title}</h4>
+                                  <p className="text-white/70 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300">{strength.desc}</p>
+                                </div>
+                                
+                                {/* Number badge */}
+                                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                  <span className="text-white text-sm font-bold">{idx + 1}</span>
+                                </div>
+                              </div>
+                            </FadeIn>
+                          );
+                        })}
                       </div>
-                      
-                      <button
-                        onClick={nextSlide}
-                        className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all active:scale-90"
-                      >
-                        <ArrowRight size={18} />
-                      </button>
-                      
-                      {/* Play/Pause */}
-                      <button
-                        onClick={() => setIsPlaying(!isPlaying)}
-                        className="w-10 h-10 rounded-full bg-brand-gold/20 hover:bg-brand-gold/30 flex items-center justify-center text-brand-gold transition-all active:scale-90"
-                      >
-                        {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-                      </button>
                     </div>
                   </div>
                 </div>
               );
             })()}
-          </div>
         </section>
 
         {/* BRIDGE EFFECT - Know the Bridge */}
@@ -1749,13 +1792,13 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Catalog</span>
               <h2 className="text-3xl md:text-5xl font-bold mb-4">{t.showroom.title}</h2>
               
-              {/* Filter pills - horizontal scroll on mobile */}
-              <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
+              {/* Filter pills */}
+              <div className="flex gap-2 flex-wrap">
                 {Object.keys(t.showroom.categories).map(cat => (
                   <button
                     key={cat}
                     onClick={() => setShowroomCategory(cat)}
-                    className={`flex-shrink-0 px-4 py-2 rounded-full border text-xs font-bold uppercase transition-all ${showroomCategory === cat ? 'bg-white text-black border-white' : 'border-white/20 text-white/50 hover:text-white active:scale-95'}`}
+                    className={`px-4 py-2 rounded-full border text-xs font-bold uppercase transition-all ${showroomCategory === cat ? 'bg-white text-black border-white' : 'border-white/20 text-white/50 hover:text-white active:scale-95'}`}
                   >
                     {t.showroom.categories[cat as keyof typeof t.showroom.categories]}
                   </button>
@@ -1816,8 +1859,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               </p>
             </div>
 
-            {/* Benefits - Horizontal scroll on mobile, grid on desktop */}
-            <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto mb-10 lg:mb-16 overflow-x-auto pb-4 md:pb-0 -mx-4 px-4 md:mx-auto md:px-0 snap-x snap-mandatory md:overflow-visible">
+            {/* Benefits Grid */}
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto mb-10 lg:mb-16">
               {[
                 {
                   icon: Globe,
@@ -1869,7 +1912,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 }
               ].map((benefit, idx) => (
                 <FadeIn key={idx} delay={idx * 0.1}>
-                  <div className="flex-shrink-0 w-[260px] md:w-auto snap-center group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 md:p-6 hover:border-brand-gold/50 transition-all duration-500 hover:-translate-y-1 h-full active:scale-95 md:active:scale-100">
+                  <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 md:p-6 hover:border-brand-gold/50 transition-all duration-500 hover:-translate-y-1 h-full">
                     <div className={`bg-gradient-to-br ${benefit.color} p-3 rounded-xl w-fit mb-3 md:mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
                       <benefit.icon size={20} className="text-white md:w-6 md:h-6" />
                     </div>
@@ -1878,7 +1921,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   </div>
                 </FadeIn>
               ))}
-            </div>
+            </div> */}
 
             {/* Image Collage + CTA */}
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
