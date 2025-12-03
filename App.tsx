@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass } from 'lucide-react';
+import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Play, Pause } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { TRANSLATIONS } from './constants';
 import { Language } from './types';
@@ -661,14 +661,18 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             {/* Header */}
             <div className="mb-6 md:mb-10 pt-16 md:pt-0">
               <FadeIn direction='right'>
+                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">What We Offer</span>
                 <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-brand-navy">{t.services.title}</h2>
                 <p className="text-gray-500 mt-2 text-sm md:text-base max-w-md">{t.services.subtitle}</p>
               </FadeIn>
             </div>
 
-            {/* Swipeable Cards Container */}
+            {/* FLIP CARDS - Tap to reveal details */}
             <div className="relative mb-8 md:mb-12">
-              {/* Mobile: Horizontal Scroll */}
+              <p className="text-center text-xs text-brand-navy/50 mb-4 md:hidden">
+                {lang === 'es' ? '← Desliza • Toca para voltear →' : '← Swipe • Tap to flip →'}
+              </p>
+              
               <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible scrollbar-hide">
                 {t.services.items.map((item, idx) => {
                   const Icon = idx === 0 ? Package : idx === 1 ? Layers : Globe;
@@ -678,77 +682,93 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                     "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800"
                   ];
                   const gradients = [
-                    'from-emerald-500/90 to-teal-600/90',
-                    'from-amber-500/90 to-orange-600/90', 
-                    'from-blue-500/90 to-indigo-600/90'
+                    'from-emerald-500 to-teal-600',
+                    'from-amber-500 to-orange-600', 
+                    'from-blue-500 to-indigo-600'
                   ];
+                  const [isFlipped, setIsFlipped] = useState(false);
                   
                   return (
                     <FadeIn key={idx} delay={idx * 0.1}>
-                      <div className="flex-shrink-0 w-[280px] md:w-auto snap-center">
-                        <div className="group relative h-[380px] md:h-[420px] rounded-2xl md:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
-                          {/* Background Image */}
-                          <img 
-                            src={images[idx]} 
-                            alt={item.title}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          />
-                          {/* Gradient Overlay */}
-                          <div className={`absolute inset-0 bg-gradient-to-t ${gradients[idx]} opacity-85 group-hover:opacity-90 transition-opacity`} />
-                          
-                          {/* Content */}
-                          <div className="relative h-full flex flex-col justify-between p-5 md:p-6 text-white">
-                            {/* Top */}
-                            <div className="flex items-center justify-between">
-                              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                <Icon size={20} className="md:w-6 md:h-6" />
-                              </div>
-                              <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
-                                0{idx + 1}
-                              </span>
-                            </div>
+                      <div className="flex-shrink-0 w-[280px] md:w-auto snap-center perspective-1000">
+                        <div 
+                          className={`relative h-[380px] md:h-[420px] transition-transform duration-700 transform-style-3d cursor-pointer ${isFlipped ? 'rotate-y-180' : ''}`}
+                          onClick={() => setIsFlipped(!isFlipped)}
+                          style={{transformStyle: 'preserve-3d'}}
+                        >
+                          {/* FRONT */}
+                          <div 
+                            className="absolute inset-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg backface-hidden"
+                            style={{backfaceVisibility: 'hidden'}}
+                          >
+                            <img src={images[idx]} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
+                            <div className={`absolute inset-0 bg-gradient-to-t ${gradients[idx]} opacity-85`} />
                             
-                            {/* Bottom Content */}
-                            <div>
-                              <h3 className="text-lg md:text-xl font-bold mb-2 leading-tight">{item.title}</h3>
-                              <p className="text-white/80 text-xs md:text-sm mb-3 line-clamp-2">{item.desc}</p>
+                            <div className="relative h-full flex flex-col justify-between p-5 md:p-6 text-white">
+                              <div className="flex items-center justify-between">
+                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                  <Icon size={20} className="md:w-6 md:h-6" />
+                                </div>
+                                <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
+                                  0{idx + 1}
+                                </span>
+                              </div>
                               
-                              {/* Details Preview */}
-                              {item.details && item.details[0] && (
-                                <p className="text-white/70 text-xs leading-relaxed line-clamp-3 mb-3">
-                                  {item.details[0]}
-                                </p>
+                              <div>
+                                <h3 className="text-lg md:text-xl font-bold mb-2 leading-tight">{item.title}</h3>
+                                <p className="text-white/80 text-xs md:text-sm mb-4 line-clamp-2">{item.desc}</p>
+                                <div className="flex items-center gap-2 text-white/60 text-xs">
+                                  <RotateCcw size={14} />
+                                  <span>{lang === 'es' ? 'Toca para ver más' : 'Tap for details'}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* BACK */}
+                          <div 
+                            className={`absolute inset-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg bg-gradient-to-br ${gradients[idx]} p-1 rotate-y-180 backface-hidden`}
+                            style={{backfaceVisibility: 'hidden', transform: 'rotateY(180deg)'}}
+                          >
+                            <div className="w-full h-full bg-white rounded-[14px] md:rounded-[20px] p-5 md:p-6 flex flex-col">
+                              <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-lg font-bold text-brand-navy">{item.title}</h3>
+                                <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${gradients[idx]} flex items-center justify-center`}>
+                                  <Icon size={16} className="text-white" />
+                                </div>
+                              </div>
+                              
+                              {item.details && (
+                                <div className="flex-1 space-y-3 overflow-y-auto">
+                                  {item.details.map((detail, i) => (
+                                    <div key={i} className="flex items-start gap-2">
+                                      <CheckCircle size={14} className="text-brand-gold mt-0.5 flex-shrink-0" />
+                                      <p className="text-xs text-brand-navy/70 leading-relaxed">{detail}</p>
+                                    </div>
+                                  ))}
+                                </div>
                               )}
                               
-                              {/* Bullets */}
                               {item.bullets && (
-                                <div className="flex flex-wrap gap-1.5">
+                                <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-gray-100">
                                   {item.bullets.map((b, i) => (
-                                    <span key={i} className="text-[10px] md:text-xs bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                                    <span key={i} className={`text-[10px] bg-gradient-to-r ${gradients[idx]} text-white px-2 py-1 rounded-full`}>
                                       {b}
                                     </span>
                                   ))}
                                 </div>
                               )}
+                              
+                              <div className="mt-4 text-center">
+                                <span className="text-[10px] text-brand-navy/40">{lang === 'es' ? 'Toca para volver' : 'Tap to flip back'}</span>
+                              </div>
                             </div>
-                          </div>
-                          
-                          {/* Hover Arrow */}
-                          <div className="absolute bottom-5 right-5 md:bottom-6 md:right-6 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
-                            <ArrowRight size={16} className="text-brand-navy md:w-5 md:h-5" />
                           </div>
                         </div>
                       </div>
                     </FadeIn>
                   );
                 })}
-              </div>
-              
-              {/* Mobile Swipe Indicator */}
-              <div className="flex md:hidden justify-center gap-1.5 mt-3">
-                {t.services.items.map((_, idx) => (
-                  <div key={idx} className="w-1.5 h-1.5 rounded-full bg-brand-navy/20" />
-                ))}
               </div>
             </div>
 
@@ -960,265 +980,293 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold">{t.differentiators.title}</h2>
             </div>
 
-            {/* Mobile: Horizontal Scroll Cards | Desktop: Grid */}
-            <div className="lg:hidden overflow-x-auto pb-6 -mx-4 px-4 snap-x snap-mandatory">
-              <div className="flex gap-4" style={{width: 'max-content'}}>
-                {t.differentiators.items.map((item, idx) => (
-                  <div key={idx} className="w-[85vw] max-w-[320px] flex-shrink-0 snap-center">
-                    <div className="h-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm p-6 rounded-3xl border border-white/10 relative overflow-hidden">
-                      {/* Decorative number */}
-                      <span className="absolute -top-4 -right-2 text-8xl font-bold text-brand-gold/10">0{idx + 1}</span>
-                      
-                      {/* Icon */}
-                      <div className="bg-gradient-to-br from-brand-gold to-brand-gold/70 p-3 rounded-2xl w-fit mb-4 shadow-lg shadow-brand-gold/20">
-                        <Star size={24} className="text-brand-navy fill-brand-navy" />
+            {/* Mobile: EXPANDABLE ACCORDION Cards */}
+            <div className="lg:hidden space-y-3">
+              {t.differentiators.items.map((item, idx) => {
+                const [isExpanded, setIsExpanded] = useState(false);
+                const icons = [Award, Globe, Shield];
+                const Icon = icons[idx] || Star;
+                const colors = ['from-amber-500 to-orange-500', 'from-blue-500 to-indigo-500', 'from-emerald-500 to-teal-500'];
+                
+                return (
+                  <div 
+                    key={idx} 
+                    className={`bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-500 ${isExpanded ? 'border-brand-gold/50' : ''}`}
+                  >
+                    <button
+                      onClick={() => setIsExpanded(!isExpanded)}
+                      className="w-full p-5 flex items-center gap-4 text-left"
+                    >
+                      <div className={`bg-gradient-to-br ${colors[idx]} p-3 rounded-xl shadow-lg flex-shrink-0`}>
+                        <Icon size={20} className="text-white" />
                       </div>
-                      
-                      <h3 className="text-xl font-bold text-white mb-3 relative z-10">{item.title}</h3>
-                      <p className="text-gray-300 leading-relaxed text-sm relative z-10">{item.desc}</p>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-brand-gold/60 text-[10px] font-bold uppercase tracking-wider">0{idx + 1}</span>
+                        <h3 className="text-white font-bold text-sm truncate">{item.title}</h3>
+                      </div>
+                      <ChevronDown 
+                        size={20} 
+                        className={`text-brand-gold transition-transform duration-300 flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`} 
+                      />
+                    </button>
+                    
+                    <div className={`overflow-hidden transition-all duration-500 ${isExpanded ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div className="px-5 pb-5 pt-0">
+                        <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
 
-            {/* Desktop Grid */}
-            <div className="hidden lg:grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {t.differentiators.items.map((item, idx) => (
-                <FadeIn key={idx} delay={idx * 0.1}>
-                  <div className="relative group h-full">
-                    {/* Card */}
-                    <div className="h-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm p-8 rounded-3xl border border-white/10 hover:border-brand-gold/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-brand-gold/10 relative overflow-hidden">
-                      {/* Decorative number */}
-                      <span className="absolute -top-6 -right-4 text-9xl font-bold text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">0{idx + 1}</span>
+            {/* Desktop Grid - Hover reveal cards */}
+            <div className="hidden lg:grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {t.differentiators.items.map((item, idx) => {
+                const icons = [Award, Globe, Shield];
+                const Icon = icons[idx] || Star;
+                const colors = ['from-amber-500 to-orange-500', 'from-blue-500 to-indigo-500', 'from-emerald-500 to-teal-500'];
+                const images = [
+                  'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=800&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=800&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=800&auto=format&fit=crop',
+                ];
+                
+                return (
+                  <FadeIn key={idx} delay={idx * 0.1}>
+                    <div className="relative group h-[320px] rounded-3xl overflow-hidden cursor-pointer">
+                      {/* Background Image */}
+                      <img src={images[idx]} alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                      <div className={`absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/90 to-brand-navy/60 group-hover:opacity-95 transition-opacity`} />
                       
-                      {/* Icon */}
-                      <div className="bg-gradient-to-br from-brand-gold to-brand-gold/70 p-4 rounded-2xl w-fit mb-6 shadow-lg shadow-brand-gold/20 group-hover:scale-110 transition-transform">
-                        <Star size={24} className="text-brand-navy fill-brand-navy" />
+                      {/* Content - Slides up on hover */}
+                      <div className="absolute inset-0 flex flex-col justify-end p-6 transition-all duration-500">
+                        {/* Top badge */}
+                        <span className="absolute top-4 right-4 text-7xl font-bold text-brand-gold/10 group-hover:text-brand-gold/30 transition-colors">0{idx + 1}</span>
+                        
+                        {/* Icon */}
+                        <div className={`bg-gradient-to-br ${colors[idx]} p-3 rounded-xl w-fit mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+                          <Icon size={24} className="text-white" />
+                        </div>
+                        
+                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-brand-gold transition-colors">{item.title}</h3>
+                        
+                        {/* Description - Hidden by default, shows on hover */}
+                        <div className="max-h-0 overflow-hidden group-hover:max-h-24 transition-all duration-500">
+                          <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                        </div>
+                        
+                        {/* Read more indicator */}
+                        <div className="flex items-center gap-2 text-brand-gold/60 text-xs mt-3 group-hover:text-brand-gold transition-colors">
+                          <span>{lang === 'es' ? 'Ver más' : 'Learn more'}</span>
+                          <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                        </div>
                       </div>
-                      
-                      <h3 className="text-xl font-bold text-white mb-4 group-hover:text-brand-gold transition-colors relative z-10">{item.title}</h3>
-                      <p className="text-gray-400 leading-relaxed text-sm relative z-10">{item.desc}</p>
                     </div>
-                  </div>
-                </FadeIn>
-              ))}
+                  </FadeIn>
+                );
+              })}
             </div>
 
-            {/* Scroll hint for mobile */}
-            <div className="lg:hidden flex justify-center mt-4 gap-1">
-              {t.differentiators.items.map((_, idx) => (
-                <div key={idx} className="w-2 h-2 rounded-full bg-white/20" />
-              ))}
-            </div>
-
-            {/* CTB Strengths - Tinder-style Swipeable Cards */}
+            {/* CTB Strengths - Rotating Showcase with Auto-play */}
             {(() => {
               const ctbStrengths = [
                 { 
                   icon: Scissors, 
-                  title: lang === 'es' ? 'Expertise en Cuero y Calzado' : 'Deep Leather & Footwear Expertise', 
+                  title: lang === 'es' ? 'Expertise en Cuero y Calzado' : 'Deep Leather & Footwear Expertise',
+                  desc: lang === 'es' ? 'Décadas de experiencia en la industria del cuero y calzado de León, México.' : 'Decades of experience in León, Mexico leather and footwear industry.',
                   color: 'from-amber-500 to-orange-600',
-                  image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop'
+                  image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop',
+                  layout: 'split' // split, centered, minimal
                 },
                 { 
                   icon: Award, 
-                  title: lang === 'es' ? 'Acceso a Fábricas Élite en México' : 'Access to Elite Factories in Mexico', 
+                  title: lang === 'es' ? 'Acceso a Fábricas Élite en México' : 'Access to Elite Factories in Mexico',
+                  desc: lang === 'es' ? 'Red exclusiva de fabricantes certificados y verificados.' : 'Exclusive network of certified and verified manufacturers.',
                   color: 'from-emerald-500 to-teal-600',
-                  image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1740&auto=format&fit=crop'
+                  image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1740&auto=format&fit=crop',
+                  layout: 'centered'
                 },
                 { 
                   icon: Globe, 
-                  title: lang === 'es' ? 'Red Internacional (Brasil, Asia, USA)' : 'International Network (Brazil, Asia, USA)', 
+                  title: lang === 'es' ? 'Red Internacional (Brasil, Asia, USA)' : 'International Network (Brazil, Asia, USA)',
+                  desc: lang === 'es' ? 'Conexiones globales para oportunidades sin fronteras.' : 'Global connections for borderless opportunities.',
                   color: 'from-blue-500 to-indigo-600',
-                  image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop'
+                  image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop',
+                  layout: 'minimal'
                 },
                 { 
                   icon: FileText, 
-                  title: lang === 'es' ? 'Experiencia y Certificaciones de Exportación' : 'Export Experience & Certifications', 
+                  title: lang === 'es' ? 'Experiencia y Certificaciones de Exportación' : 'Export Experience & Certifications',
+                  desc: lang === 'es' ? 'Documentación y compliance para comercio internacional.' : 'Documentation and compliance for international trade.',
                   color: 'from-purple-500 to-violet-600',
-                  image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop'
+                  image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop',
+                  layout: 'split'
                 },
                 { 
                   icon: Settings, 
-                  title: lang === 'es' ? 'Presencia Directa en Fábricas' : 'Hands-on Factory Presence', 
+                  title: lang === 'es' ? 'Presencia Directa en Fábricas' : 'Hands-on Factory Presence',
+                  desc: lang === 'es' ? 'Control de calidad en sitio y supervisión directa.' : 'On-site quality control and direct supervision.',
                   color: 'from-rose-500 to-pink-600',
-                  image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=1740&auto=format&fit=crop'
+                  image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=1740&auto=format&fit=crop',
+                  layout: 'centered'
                 },
                 { 
                   icon: Users, 
-                  title: lang === 'es' ? 'Liderazgo Bilingüe y Bicultural' : 'Bilingual, Bicultural Leadership', 
+                  title: lang === 'es' ? 'Liderazgo Bilingüe y Bicultural' : 'Bilingual, Bicultural Leadership',
+                  desc: lang === 'es' ? 'Comunicación fluida entre culturas y mercados.' : 'Seamless communication across cultures and markets.',
                   color: 'from-cyan-500 to-sky-600',
-                  image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop'
+                  image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop',
+                  layout: 'minimal'
                 },
               ];
               
               const [currentStrength, setCurrentStrength] = useState(0);
-              const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
-              const [touchStart, setTouchStart] = useState<number | null>(null);
-              const [touchDelta, setTouchDelta] = useState(0);
-              const [isDragging, setIsDragging] = useState(false);
-              const [userInteracted, setUserInteracted] = useState(false);
+              const [isPlaying, setIsPlaying] = useState(true);
+              const [direction, setDirection] = useState(1);
               
-              const handleSwipe = (direction: 'left' | 'right', isAuto = false) => {
-                if (!isAuto) setUserInteracted(true);
-                setSwipeDirection(direction);
-                setTimeout(() => {
-                  setCurrentStrength((prev) => 
-                    direction === 'left' 
-                      ? (prev + 1) % ctbStrengths.length 
-                      : (prev - 1 + ctbStrengths.length) % ctbStrengths.length
-                  );
-                  setSwipeDirection(null);
-                  setTouchDelta(0);
-                }, 300);
+              const nextSlide = () => {
+                setDirection(1);
+                setCurrentStrength((prev) => (prev + 1) % ctbStrengths.length);
               };
               
-              const handleTouchStart = (e: React.TouchEvent) => {
-                setTouchStart(e.touches[0].clientX);
-                setIsDragging(true);
+              const prevSlide = () => {
+                setDirection(-1);
+                setCurrentStrength((prev) => (prev - 1 + ctbStrengths.length) % ctbStrengths.length);
               };
               
-              const handleTouchMove = (e: React.TouchEvent) => {
-                if (touchStart === null) return;
-                const delta = e.touches[0].clientX - touchStart;
-                setTouchDelta(delta);
-              };
-              
-              const handleTouchEnd = () => {
-                setIsDragging(false);
-                if (Math.abs(touchDelta) > 80) {
-                  handleSwipe(touchDelta > 0 ? 'right' : 'left');
-                } else {
-                  setTouchDelta(0);
-                }
-                setTouchStart(null);
-              };
-              
-              // Auto-advance only if user hasn't interacted
               useEffect(() => {
-                if (userInteracted) return;
-                const timer = setInterval(() => {
-                  if (!isDragging) handleSwipe('left', true);
-                }, 4000);
+                if (!isPlaying) return;
+                const timer = setInterval(nextSlide, 4000);
                 return () => clearInterval(timer);
-              }, [isDragging, userInteracted]);
+              }, [isPlaying]);
               
-              const CurrentIcon = ctbStrengths[currentStrength].icon;
-              const nextIndex = (currentStrength + 1) % ctbStrengths.length;
-              const prevIndex = (currentStrength - 1 + ctbStrengths.length) % ctbStrengths.length;
+              const current = ctbStrengths[currentStrength];
+              const CurrentIcon = current.icon;
               
               return (
                 <div className="mt-16 lg:mt-24">
                   {/* Section Header */}
-                  <div className="text-center mb-8">
+                  <div className="text-center mb-6 md:mb-8">
                     <h3 className="text-xl md:text-2xl font-bold text-brand-gold mb-2">
                       {lang === 'es' ? 'Fortalezas CTB' : 'CTB Strengths'}
                     </h3>
-                    <p className="text-gray-400 text-sm">
-                      {lang === 'es' ? '← Desliza para explorar →' : '← Swipe to explore →'}
-                    </p>
                   </div>
                   
-                  {/* Tinder-style Card Stack */}
-                  <div className="relative h-[380px] md:h-[420px] max-w-md mx-auto perspective-1000">
-                    {/* Background cards (stack effect) */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-[85%] h-[85%] bg-white/5 rounded-3xl transform scale-90 translate-y-4 opacity-30" />
-                    </div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-[90%] h-[90%] bg-white/5 rounded-3xl transform scale-95 translate-y-2 opacity-50" />
-                    </div>
-                    
-                    {/* Main Card */}
-                    <div 
-                      className={`absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing transition-all duration-300 ${
-                        swipeDirection === 'left' ? '-translate-x-full rotate-[-20deg] opacity-0' :
-                        swipeDirection === 'right' ? 'translate-x-full rotate-[20deg] opacity-0' : ''
-                      }`}
-                      style={{
-                        transform: isDragging ? `translateX(${touchDelta}px) rotate(${touchDelta * 0.05}deg)` : undefined,
-                      }}
-                      onTouchStart={handleTouchStart}
-                      onTouchMove={handleTouchMove}
-                      onTouchEnd={handleTouchEnd}
-                    >
-                      <div className={`w-full h-full bg-gradient-to-br ${ctbStrengths[currentStrength].color} p-1 rounded-3xl shadow-2xl overflow-hidden`}>
-                        <div className="w-full h-full bg-brand-navy rounded-[22px] flex flex-col relative overflow-hidden">
-                          {/* Background Image */}
-                          <div className="absolute inset-0">
-                            <img 
-                              src={ctbStrengths[currentStrength].image} 
-                              alt="" 
-                              className="w-full h-full object-cover opacity-40"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/80 to-brand-navy/40" />
-                          </div>
-                          
-                          {/* Card number */}
-                          <span className="absolute top-4 left-4 text-white/40 font-bold text-lg z-10">
-                            {String(currentStrength + 1).padStart(2, '0')}/{String(ctbStrengths.length).padStart(2, '0')}
-                          </span>
-                          
-                          {/* Swipe indicators */}
-                          <div className={`absolute left-4 top-1/2 -translate-y-1/2 transition-opacity z-20 ${touchDelta > 40 ? 'opacity-100' : 'opacity-0'}`}>
-                            <div className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold">✓</div>
-                          </div>
-                          <div className={`absolute right-4 top-1/2 -translate-y-1/2 transition-opacity z-20 ${touchDelta < -40 ? 'opacity-100' : 'opacity-0'}`}>
-                            <div className="bg-brand-gold text-brand-navy px-3 py-1 rounded-full text-xs font-bold">→</div>
-                          </div>
-                          
-                          {/* Content */}
-                          <div className="flex-1 flex flex-col items-center justify-end p-8 pb-10 text-center relative z-10">
-                            {/* Icon */}
-                            <div className={`bg-gradient-to-br ${ctbStrengths[currentStrength].color} p-4 rounded-2xl mb-4 shadow-lg shadow-black/30`}>
-                              <CurrentIcon size={32} className="text-white" />
+                  {/* Main Showcase Area */}
+                  <div className="relative max-w-4xl mx-auto">
+                    {/* Different Layout Styles based on card type */}
+                    <AnimatePresence mode="wait">
+                      <MotionDiv
+                        key={currentStrength}
+                        initial={{ opacity: 0, x: direction * 100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: direction * -100 }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
+                        className="relative"
+                      >
+                        {/* LAYOUT: Split */}
+                        {current.layout === 'split' && (
+                          <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-stretch">
+                            {/* Image Side */}
+                            <div className="md:w-1/2 h-48 md:h-72 relative rounded-2xl overflow-hidden">
+                              <img src={current.image} alt="" className="w-full h-full object-cover" />
+                              <div className={`absolute inset-0 bg-gradient-to-r ${current.color} opacity-60`} />
+                              <div className="absolute top-4 left-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+                                <span className="text-white text-xs font-bold">{String(currentStrength + 1).padStart(2, '0')}/{String(ctbStrengths.length).padStart(2, '0')}</span>
+                              </div>
                             </div>
-                            
-                            {/* Title */}
-                            <h4 className="text-xl md:text-2xl font-bold text-white leading-tight drop-shadow-lg">
-                              {ctbStrengths[currentStrength].title}
-                            </h4>
+                            {/* Content Side */}
+                            <div className="md:w-1/2 flex flex-col justify-center p-4 md:p-6">
+                              <div className={`bg-gradient-to-br ${current.color} p-3 rounded-xl w-fit mb-4 shadow-lg`}>
+                                <CurrentIcon size={24} className="text-white" />
+                              </div>
+                              <h4 className="text-xl md:text-2xl font-bold text-white mb-3">{current.title}</h4>
+                              <p className="text-gray-400 text-sm leading-relaxed">{current.desc}</p>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
+                        )}
+                        
+                        {/* LAYOUT: Centered */}
+                        {current.layout === 'centered' && (
+                          <div className="relative h-64 md:h-80 rounded-3xl overflow-hidden">
+                            <img src={current.image} alt="" className="w-full h-full object-cover" />
+                            <div className={`absolute inset-0 bg-gradient-to-t ${current.color} opacity-80`} />
+                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                              <span className="text-white/60 text-xs font-bold mb-2">{String(currentStrength + 1).padStart(2, '0')}/{String(ctbStrengths.length).padStart(2, '0')}</span>
+                              <div className={`bg-white/20 backdrop-blur-sm p-4 rounded-2xl mb-4`}>
+                                <CurrentIcon size={32} className="text-white" />
+                              </div>
+                              <h4 className="text-xl md:text-3xl font-bold text-white mb-2 drop-shadow-lg">{current.title}</h4>
+                              <p className="text-white/80 text-sm max-w-md">{current.desc}</p>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {/* LAYOUT: Minimal */}
+                        {current.layout === 'minimal' && (
+                          <div className={`bg-gradient-to-br ${current.color} p-1 rounded-3xl`}>
+                            <div className="bg-brand-navy rounded-[22px] p-6 md:p-8">
+                              <div className="flex items-start gap-4 md:gap-6">
+                                <div className="bg-white/10 p-4 rounded-2xl flex-shrink-0">
+                                  <CurrentIcon size={28} className="text-white" />
+                                </div>
+                                <div className="flex-1">
+                                  <span className="text-white/40 text-xs font-bold">{String(currentStrength + 1).padStart(2, '0')}/{String(ctbStrengths.length).padStart(2, '0')}</span>
+                                  <h4 className="text-lg md:text-2xl font-bold text-white mt-1 mb-2">{current.title}</h4>
+                                  <p className="text-gray-400 text-sm leading-relaxed">{current.desc}</p>
+                                </div>
+                              </div>
+                              {/* Small thumbnail row */}
+                              <div className="flex gap-2 mt-6 overflow-x-auto pb-2">
+                                {ctbStrengths.map((s, i) => (
+                                  <button
+                                    key={i}
+                                    onClick={() => { setDirection(i > currentStrength ? 1 : -1); setCurrentStrength(i); }}
+                                    className={`w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${i === currentStrength ? 'border-brand-gold scale-110' : 'border-transparent opacity-50 hover:opacity-100'}`}
+                                  >
+                                    <img src={s.image} alt="" className="w-full h-full object-cover" />
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </MotionDiv>
+                    </AnimatePresence>
                     
-                    {/* Swipe buttons (desktop) */}
-                    <button 
-                      onClick={() => handleSwipe('left')}
-                      className="hidden md:flex absolute -left-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full items-center justify-center text-white transition-all hover:scale-110"
-                    >
-                      <ArrowLeft size={20} />
-                    </button>
-                    <button 
-                      onClick={() => handleSwipe('right')}
-                      className="hidden md:flex absolute -right-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full items-center justify-center text-white transition-all hover:scale-110"
-                    >
-                      <ArrowRight size={20} />
-                    </button>
-                  </div>
-                  
-                  {/* Progress dots */}
-                  <div className="flex justify-center gap-2 mt-6">
-                    {ctbStrengths.map((_, idx) => (
+                    {/* Navigation Controls */}
+                    <div className="flex items-center justify-center gap-4 mt-6">
                       <button
-                        key={idx}
-                        onClick={() => {
-                          setUserInteracted(true);
-                          setSwipeDirection(idx > currentStrength ? 'left' : 'right');
-                          setTimeout(() => {
-                            setCurrentStrength(idx);
-                            setSwipeDirection(null);
-                          }, 150);
-                        }}
-                        className={`h-2 rounded-full transition-all duration-300 ${
-                          idx === currentStrength 
-                            ? 'w-8 bg-brand-gold' 
-                            : 'w-2 bg-white/20 hover:bg-white/40'
-                        }`}
-                      />
-                    ))}
+                        onClick={prevSlide}
+                        className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all active:scale-90"
+                      >
+                        <ArrowLeft size={18} />
+                      </button>
+                      
+                      {/* Progress bar */}
+                      <div className="flex-1 max-w-xs h-1 bg-white/10 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-brand-gold transition-all duration-300"
+                          style={{ width: `${((currentStrength + 1) / ctbStrengths.length) * 100}%` }}
+                        />
+                      </div>
+                      
+                      <button
+                        onClick={nextSlide}
+                        className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all active:scale-90"
+                      >
+                        <ArrowRight size={18} />
+                      </button>
+                      
+                      {/* Play/Pause */}
+                      <button
+                        onClick={() => setIsPlaying(!isPlaying)}
+                        className="w-10 h-10 rounded-full bg-brand-gold/20 hover:bg-brand-gold/30 flex items-center justify-center text-brand-gold transition-all active:scale-90"
+                      >
+                        {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
@@ -1694,19 +1742,20 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         })()}
 
         {/* 6. SHOWROOM (Dark) */}
-        <section id="showroom" className="min-h-[100dvh] snap-start snap-always bg-[#111] text-white flex flex-col justify-center relative py-24">
-          <div className="container mx-auto px-6 h-full flex flex-col justify-center">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-              <div>
-                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Catalog</span>
-                <h2 className="text-4xl md:text-5xl font-bold">{t.showroom.title}</h2>
-              </div>
-              <div className="flex flex-wrap gap-2">
+        <section id="showroom" className="min-h-[100dvh] snap-start snap-always bg-[#111] text-white flex flex-col justify-center relative py-12 md:py-24">
+          <div className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center">
+            {/* Header - Mobile first */}
+            <div className="mb-6 md:mb-12">
+              <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Catalog</span>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4">{t.showroom.title}</h2>
+              
+              {/* Filter pills - horizontal scroll on mobile */}
+              <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
                 {Object.keys(t.showroom.categories).map(cat => (
                   <button
                     key={cat}
                     onClick={() => setShowroomCategory(cat)}
-                    className={`px-4 py-2 rounded-full border text-xs font-bold uppercase ${showroomCategory === cat ? 'bg-white text-black border-white' : 'border-white/20 text-white/50 hover:text-white'}`}
+                    className={`flex-shrink-0 px-4 py-2 rounded-full border text-xs font-bold uppercase transition-all ${showroomCategory === cat ? 'bg-white text-black border-white' : 'border-white/20 text-white/50 hover:text-white active:scale-95'}`}
                   >
                     {t.showroom.categories[cat as keyof typeof t.showroom.categories]}
                   </button>
@@ -1714,7 +1763,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
               <AnimatePresence mode='popLayout'>
                 {filteredShowroomItems.slice(0, 6).map((item) => (
                   <MotionDiv
@@ -1723,12 +1772,13 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
-                    className="relative group overflow-hidden rounded-xl bg-gray-900 aspect-square"
+                    className="relative group overflow-hidden rounded-xl md:rounded-2xl bg-gray-900 aspect-square active:scale-95 transition-transform"
                   >
-                    <img src={item.image} className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" alt={item.title} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-brand-gold text-xs font-bold uppercase tracking-widest mb-1">{t.showroom.categories[item.category as keyof typeof t.showroom.categories]}</p>
-                      <p className="font-bold text-xl">{item.title}</p>
+                    <img src={item.image} className="w-full h-full object-cover opacity-80 md:opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" alt={item.title} />
+                    {/* Always visible on mobile, hover on desktop */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-3 md:p-6 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                      <p className="text-brand-gold text-[10px] md:text-xs font-bold uppercase tracking-widest mb-0.5 md:mb-1">{t.showroom.categories[item.category as keyof typeof t.showroom.categories]}</p>
+                      <p className="font-bold text-sm md:text-xl line-clamp-2">{item.title}</p>
                     </div>
                   </MotionDiv>
                 ))}
@@ -1766,8 +1816,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               </p>
             </div>
 
-            {/* Benefits Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12 lg:mb-16">
+            {/* Benefits - Horizontal scroll on mobile, grid on desktop */}
+            <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto mb-10 lg:mb-16 overflow-x-auto pb-4 md:pb-0 -mx-4 px-4 md:mx-auto md:px-0 snap-x snap-mandatory md:overflow-visible">
               {[
                 {
                   icon: Globe,
@@ -1819,12 +1869,12 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 }
               ].map((benefit, idx) => (
                 <FadeIn key={idx} delay={idx * 0.1}>
-                  <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-brand-gold/50 transition-all duration-500 hover:-translate-y-1 h-full">
-                    <div className={`bg-gradient-to-br ${benefit.color} p-3 rounded-xl w-fit mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
-                      <benefit.icon size={24} className="text-white" />
+                  <div className="flex-shrink-0 w-[260px] md:w-auto snap-center group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 md:p-6 hover:border-brand-gold/50 transition-all duration-500 hover:-translate-y-1 h-full active:scale-95 md:active:scale-100">
+                    <div className={`bg-gradient-to-br ${benefit.color} p-3 rounded-xl w-fit mb-3 md:mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+                      <benefit.icon size={20} className="text-white md:w-6 md:h-6" />
                     </div>
-                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-brand-gold transition-colors">{benefit.title}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">{benefit.desc}</p>
+                    <h3 className="text-base md:text-lg font-bold text-white mb-1.5 md:mb-2 group-hover:text-brand-gold transition-colors">{benefit.title}</h3>
+                    <p className="text-gray-400 text-xs md:text-sm leading-relaxed line-clamp-3 md:line-clamp-none">{benefit.desc}</p>
                   </div>
                 </FadeIn>
               ))}
@@ -1892,81 +1942,81 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         </section>
 
         {/* 7. CONTACT (Light) */}
-        <section id="contact" className="min-h-[100dvh] snap-start snap-always bg-white flex flex-col justify-center relative text-brand-navy pt-24 pb-0">
+        <section id="contact" className="min-h-[100dvh] snap-start snap-always bg-white flex flex-col justify-center relative text-brand-navy py-12 md:pt-24 pb-0">
           <GridPattern color="#1B2440" opacity={0.03} />
-          <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center flex-1 pb-24">
+          <div className="container mx-auto px-4 md:px-6 flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 items-center flex-1 pb-12 lg:pb-24">
             <div>
               <FadeIn>
                 <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Get in Touch</span>
-                <h2 className="text-5xl md:text-7xl font-bold mb-8 text-brand-navy">{t.contact.title}</h2>
-                <div className="space-y-8 text-lg">
-                  <a href="mailto:info@crossthebridge.co" className="flex items-center gap-4 hover:text-brand-gold transition-colors">
-                    <div className="w-12 h-12 rounded-full bg-brand-navy/5 flex items-center justify-center"><Mail size={20} /></div>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-6 md:mb-8 text-brand-navy">{t.contact.title}</h2>
+                <div className="space-y-4 md:space-y-8 text-sm md:text-lg">
+                  <a href="mailto:info@crossthebridge.co" className="flex items-center gap-3 md:gap-4 hover:text-brand-gold transition-colors active:scale-95">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-navy/5 flex items-center justify-center flex-shrink-0"><Mail size={18} className="md:w-5 md:h-5" /></div>
                     info@crossthebridge.co
                   </a>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-brand-navy/5 flex items-center justify-center"><Phone size={20} /></div>
+                  <a href="tel:+524777653792" className="flex items-center gap-3 md:gap-4 hover:text-brand-gold transition-colors active:scale-95">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-navy/5 flex items-center justify-center flex-shrink-0"><Phone size={18} className="md:w-5 md:h-5" /></div>
                     +52 477 765 3792
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-brand-navy/5 flex items-center justify-center"><MapPin size={20} /></div>
+                  </a>
+                  <div className="flex items-center gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-navy/5 flex items-center justify-center flex-shrink-0"><MapPin size={18} className="md:w-5 md:h-5" /></div>
                     León Gto, México
                   </div>
                 </div>
 
-                <div className="flex gap-4 mt-12">
-                  <a href="https://www.linkedin.com/company/cross-the-bridge-mx/" target="_blank" rel="noopener noreferrer" className="p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all"><Linkedin size={20} /></a>
-                  <a href="https://www.instagram.com/crossthebridge.mx?igsh=bnF6dGdtdXB4MHIw" className="p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all"><Instagram size={20} /></a>
-                  <a href="https://www.facebook.com/profile.php?id=61583895457222" className="p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all"><Facebook size={20} /></a>
+                <div className="flex gap-3 md:gap-4 mt-8 md:mt-12">
+                  <a href="https://www.linkedin.com/company/cross-the-bridge-mx/" target="_blank" rel="noopener noreferrer" className="p-2.5 md:p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90"><Linkedin size={18} className="md:w-5 md:h-5" /></a>
+                  <a href="https://www.instagram.com/crossthebridge.mx?igsh=bnF6dGdtdXB4MHIw" className="p-2.5 md:p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90"><Instagram size={18} className="md:w-5 md:h-5" /></a>
+                  <a href="https://www.facebook.com/profile.php?id=61583895457222" className="p-2.5 md:p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90"><Facebook size={18} className="md:w-5 md:h-5" /></a>
                 </div>
               </FadeIn>
             </div>
 
-            <div className="bg-[#F5F5F7] text-brand-navy p-8 md:p-12 rounded-3xl shadow-xl border border-gray-100">
-              <form className="space-y-4" onSubmit={handleContactSubmit}>
-                <div className="grid grid-cols-2 gap-4">
+            <div className="w-full bg-[#F5F5F7] text-brand-navy p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-3xl shadow-xl border border-gray-100">
+              <form className="space-y-3 md:space-y-4" onSubmit={handleContactSubmit}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <div>
-                    <label className="text-xs font-bold uppercase tracking-widest mb-2 block">{t.contact.form.name}</label>
+                    <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 md:mb-2 block">{t.contact.form.name}</label>
                     <input
                       type="text"
                       value={contactForm.name}
                       onChange={(e) => handleContactChange('name', e.target.value)}
-                      className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none"
+                      className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                       required
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold uppercase tracking-widest mb-2 block">{t.contact.form.company}</label>
+                    <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 md:mb-2 block">{t.contact.form.company}</label>
                     <input
                       type="text"
                       value={contactForm.company}
                       onChange={(e) => handleContactChange('company', e.target.value)}
-                      className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none"
+                      className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-widest mb-2 block">{t.contact.form.email}</label>
+                  <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 md:mb-2 block">{t.contact.form.email}</label>
                   <input
                     type="email"
                     value={contactForm.email}
                     onChange={(e) => handleContactChange('email', e.target.value)}
-                    className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none"
+                    className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                     required
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-widest mb-2 block">{t.contact.form.message}</label>
+                  <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 md:mb-2 block">{t.contact.form.message}</label>
                   <textarea
-                    rows={4}
+                    rows={3}
                     value={contactForm.message}
                     onChange={(e) => handleContactChange('message', e.target.value)}
-                    className="w-full bg-white p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none"
+                    className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-brand-navy text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-brand-gold hover:text-brand-navy transition-colors shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full bg-brand-navy text-white py-3 md:py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-brand-gold hover:text-brand-navy transition-colors shadow-lg disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98]"
                   disabled={contactStatus === 'loading'}
                 >
                   {contactStatus === 'loading' ? 'Sending…' : contactStatus === 'success' ? 'Sent!' : t.contact.form.submit}
