@@ -63,7 +63,7 @@ export interface Content {
     intro: string;
     steps: {
       title: string;
-      points: string[];
+      desc: string;
     }[];
   };
   team: {
@@ -96,6 +96,7 @@ export interface Content {
       text: string;
       country: string;
       countryCode: string;
+      image?: string;
     }[];
   };
   differentiators: {

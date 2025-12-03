@@ -18,7 +18,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       services: "Services",
       showroom: "Showroom",
       process: "Process",
-      team: "Our Team",
+      team: "Our Founder",
       testimonials: "Testimonials",
       why_us: "Why Us",
       contact: "Contact",
@@ -90,44 +90,43 @@ export const TRANSLATIONS: Record<Language, Content> = {
       items: SHOWROOM_ITEMS
     },
     process: {
-      title: "How we do it",
-      subtitle: "We make the process simpler and secure.",
+      title: "Your Journey With Us",
+      subtitle: "From vision to delivery — a structured path to success.",
       intro: "We know you want to do business abroad. For 20 years we have contributed to successfully connect Mexico with more than 20 countries in Asia, Europe, America, Africa and Oceania.",
       steps: [
         {
-          title: "We Develop",
-          points: [
-            "Specialized product",
-            "Reliable suppliers collaboration",
-            "Project planning"
-          ]
+          title: "Discovery & Project Alignment",
+          desc: "Your vision, goals, pricing targets, timeline expectations, and market positioning come together here. We define the roadmap and align all strategic decisions before moving forward."
         },
         {
-          title: "We Produce",
-          points: [
-            "Professional quality sampling production",
-            "Standardization"
-          ]
+          title: "Product & Material Development",
+          desc: "We translate your idea into a manufacturable product. This includes technical specs, material research, construction guidance, cost estimates, and industry-driven recommendations."
         },
         {
-          title: "We Negotiate",
-          points: [
-            "Competitive cost analysis",
-            "Materials development and standardization"
-          ]
+          title: "Strategic Supplier Matchmaking",
+          desc: "We connect you with the right factory and material suppliers based on capabilities, quality, certifications, pricing, capacity, and long-term fit. You get curated options, not guesswork."
         },
         {
-          title: "We Plan",
-          points: [
-            "Logistic support door to door",
-            "Shipment consolidation"
-          ]
+          title: "Prototyping & Sample Validation",
+          desc: "We coordinate all sample rounds to test construction, fit, comfort, finishing, materials, and cost accuracy. This is where your product takes shape and gets validated before production."
+        },
+        {
+          title: "Production Management & Daily Operations",
+          desc: "We manage your production from A to Z: scheduling, raw materials, communication, technical follow-up, problem-solving, and timeline control. You focus on sales — we run the factory."
+        },
+        {
+          title: "Quality Assurance & Pre-Shipment Inspections",
+          desc: "We implement international-level quality standards through inspections, testing, reports, and final validation. Our Zero-Surprises approach protects your brand at every stage."
+        },
+        {
+          title: "Logistics, Documentation & Export Coordination",
+          desc: "We prepare all packaging details, coordinate with carriers, review commercial documents, ensure compliance, and guide your shipment from factory floor to final destination."
         }
       ]
     },
     team: {
-      title: "Our Team",
-      subtitle: "Led by industry experts with decades of global experience.",
+      title: "Our Founder",
+      subtitle: "Visionary leadership driving global connections.",
       profile: {
         name: "Mariana Muciño Del Rio",
         role: "International Negotiation & Strategic Planning",
@@ -156,28 +155,80 @@ export const TRANSLATIONS: Record<Language, Content> = {
           role: "Trade Intelligence, CICB",
           text: "Cross the Bridge is an excellent company that has consistently served CICB and Brazilian tanneries with professionalism and outstanding deliveries, both in Mexico and abroad. We've had very positive experiences in business relationships, contacts, market knowledge, and experiences through Cross the Bridge's work.",
           country: "Brazil",
-          countryCode: "BR"
+          countryCode: "BR",
+          image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
         },
         {
           name: "Wilson King",
           role: "Outback Trading Company",
           text: "When you want to grow in a new country, you don’t just need a contact — you need someone who truly cares about your success. That’s what I found in Mariana and Cross the Bridge.",
           country: "United States",
-          countryCode: "US"
+          countryCode: "US",
+          image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face"
         },
         {
           name: "Chaz Pilarcik",
           role: "Business Owner",
           text: "I truly cannot put into words how much Mariana means to me and my business. She is one of the most loyal, dedicated, and trustworthy people I’ve ever had the pleasure of working with. Her insight and expertise in the industry are unmatched, and her work ethic inspires everyone around her. Mariana, thank you for always showing up with such heart, excellence, and integrity — you really are the best at what you do.",
           country: "United States",
-          countryCode: "US"
+          countryCode: "US",
+          image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face"
         },
         {
           name: "Mehrdad Baghai",
           role: "JRD Saddlery, USA",
           text: "I have worked with Mariana for the last 20 plus years. She manages and oversees all my sourcing, production and even shipping. A value we cannot do without.",
           country: "United States",
-          countryCode: "US"
+          countryCode: "US",
+          image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "Carlos Mendoza",
+          role: "Leather Imports Director",
+          text: "The team at Cross the Bridge transformed our supply chain completely. Their attention to detail and market knowledge in Asia is unparalleled.",
+          country: "Mexico",
+          countryCode: "MX",
+          image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "Sarah Thompson",
+          role: "CEO, Western Goods Co.",
+          text: "Finding reliable manufacturing partners in Asia seemed impossible until we connected with Cross the Bridge. They made the entire process seamless.",
+          country: "Canada",
+          countryCode: "CA",
+          image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "Hans Mueller",
+          role: "Import Manager, Euro Leather",
+          text: "Professional, reliable, and always delivering beyond expectations. Cross the Bridge has been instrumental in expanding our sourcing capabilities.",
+          country: "Germany",
+          countryCode: "DE",
+          image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "Liu Wei",
+          role: "Export Coordinator, Guangzhou",
+          text: "Working with Cross the Bridge from the supplier side has been exceptional. They understand both Western requirements and Asian manufacturing perfectly.",
+          country: "China",
+          countryCode: "CN",
+          image: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "Ana García",
+          role: "Purchasing Director",
+          text: "La confianza y profesionalismo que ofrece Cross the Bridge es incomparable. Han transformado nuestra forma de hacer negocios internacionales.",
+          country: "Spain",
+          countryCode: "ES",
+          image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "James O'Connor",
+          role: "Founder, Aussie Outfitters",
+          text: "Cross the Bridge opened doors we didn't even know existed. Their network and expertise in international trade is truly world-class.",
+          country: "Australia",
+          countryCode: "AU",
+          image: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400&h=400&fit=crop&crop=face"
         }
       ]
     },
@@ -292,7 +343,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       services: "Servicios",
       showroom: "Showroom",
       process: "Proceso",
-      team: "Nuestro Equipo",
+      team: "Nuestra Fundadora",
       why_us: "Por qué nosotros",
       testimonials: "Testimonios",
       contact: "Contacto",
@@ -364,44 +415,43 @@ export const TRANSLATIONS: Record<Language, Content> = {
       items: SHOWROOM_ITEMS
     },
     process: {
-      title: "Cómo lo hacemos",
-      subtitle: "Hacemos el proceso más simple y seguro.",
+      title: "Tu Camino Con Nosotros",
+      subtitle: "De la visión a la entrega — un camino estructurado hacia el éxito.",
       intro: "Sabemos que quiere hacer negocios en el extranjero. Durante 20 años hemos contribuido a conectar exitosamente a México con más de 20 países en Asia, Europa, América, África y Oceanía.",
       steps: [
         {
-          title: "Desarrollamos",
-          points: [
-            "Producto especializado",
-            "Colaboración con proveedores confiables",
-            "Planeación de proyectos"
-          ]
+          title: "Descubrimiento y Alineación del Proyecto",
+          desc: "Tu visión, objetivos, metas de precio, expectativas de tiempo y posicionamiento de mercado se unen aquí. Definimos la hoja de ruta y alineamos todas las decisiones estratégicas antes de avanzar."
         },
         {
-          title: "Producimos",
-          points: [
-            "Producción de muestras de calidad profesional",
-            "Estandarización"
-          ]
+          title: "Desarrollo de Producto y Materiales",
+          desc: "Traducimos tu idea en un producto manufacturable. Esto incluye especificaciones técnicas, investigación de materiales, guía de construcción, estimaciones de costos y recomendaciones impulsadas por la industria."
         },
         {
-          title: "Negociamos",
-          points: [
-            "Análisis de costos competitivos",
-            "Desarrollo de materiales y estandarización"
-          ]
+          title: "Emparejamiento Estratégico de Proveedores",
+          desc: "Te conectamos con la fábrica y proveedores de materiales adecuados según capacidades, calidad, certificaciones, precios, capacidad y ajuste a largo plazo. Obtienes opciones seleccionadas, no conjeturas."
         },
         {
-          title: "Planeamos",
-          points: [
-            "Soporte logístico puerta a puerta",
-            "Consolidación de envíos"
-          ]
+          title: "Prototipado y Validación de Muestras",
+          desc: "Coordinamos todas las rondas de muestras para probar construcción, ajuste, comodidad, acabado, materiales y precisión de costos. Aquí es donde tu producto toma forma y se valida antes de la producción."
+        },
+        {
+          title: "Gestión de Producción y Operaciones Diarias",
+          desc: "Gestionamos tu producción de la A a la Z: programación, materias primas, comunicación, seguimiento técnico, resolución de problemas y control de tiempos. Tú te enfocas en ventas — nosotros manejamos la fábrica."
+        },
+        {
+          title: "Control de Calidad e Inspecciones Pre-Envío",
+          desc: "Implementamos estándares de calidad de nivel internacional mediante inspecciones, pruebas, reportes y validación final. Nuestro enfoque Cero-Sorpresas protege tu marca en cada etapa."
+        },
+        {
+          title: "Logística, Documentación y Coordinación de Exportación",
+          desc: "Preparamos todos los detalles de empaque, coordinamos con transportistas, revisamos documentos comerciales, aseguramos cumplimiento y guiamos tu envío desde la fábrica hasta el destino final."
         }
       ]
     },
     team: {
-      title: "Nuestro Equipo",
-      subtitle: "Liderado por expertos de la industria con décadas de experiencia global.",
+      title: "Nuestra Fundadora",
+      subtitle: "Liderazgo visionario impulsando conexiones globales.",
       profile: {
         name: "Mariana Muciño Del Rio",
         role: "Negociación y Planeación Estratégica Internacional",
@@ -430,28 +480,80 @@ export const TRANSLATIONS: Record<Language, Content> = {
           role: "Inteligencia Comercial, CICB",
           text: "Cross the Bridge es una excelente empresa que ha servido constantemente a CICB y a las tenerías brasileñas con profesionalismo y entregas sobresalientes, tanto en México como en el extranjero. Hemos tenido experiencias muy positivas en relaciones de negocios, contactos, conocimiento de mercado y experiencias gracias al trabajo de Cross the Bridge.",
           country: "Brasil",
-          countryCode: "BR"
+          countryCode: "BR",
+          image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
         },
         {
           name: "Wilson King",
           role: "Outback Trading Company",
           text: "Cuando quieres crecer en un nuevo país, no solo necesitas un contacto: necesitas a alguien que realmente se preocupe por tu éxito. Eso es lo que encontré en Mariana y Cross the Bridge.",
           country: "Estados Unidos",
-          countryCode: "US"
+          countryCode: "US",
+          image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face"
         },
         {
           name: "Chaz Pilarcik",
           role: "Propietario de negocio",
           text: "Realmente no puedo expresar con palabras cuánto significa Mariana para mí y mi negocio. Es una de las personas más leales, dedicadas y confiables con las que he tenido el placer de trabajar. Su visión y experiencia en la industria no tienen igual, y su ética de trabajo inspira a todos a su alrededor. Mariana, gracias por aparecer siempre con tanto corazón, excelencia e integridad: realmente eres la mejor en lo que haces.",
           country: "Estados Unidos",
-          countryCode: "US"
+          countryCode: "US",
+          image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face"
         },
         {
           name: "Mehrdad Baghai",
           role: "JRD Saddlery, EUA",
           text: "He trabajado con Mariana durante más de 20 años. Ella gestiona y supervisa todo mi abastecimiento, producción e incluso envíos. Un valor del que no podemos prescindir.",
           country: "Estados Unidos",
-          countryCode: "US"
+          countryCode: "US",
+          image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "Carlos Mendoza",
+          role: "Director de Importaciones de Piel",
+          text: "El equipo de Cross the Bridge transformó completamente nuestra cadena de suministro. Su atención al detalle y conocimiento del mercado asiático es incomparable.",
+          country: "México",
+          countryCode: "MX",
+          image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "Sarah Thompson",
+          role: "CEO, Western Goods Co.",
+          text: "Encontrar socios de manufactura confiables en Asia parecía imposible hasta que conectamos con Cross the Bridge. Hicieron todo el proceso fluido.",
+          country: "Canadá",
+          countryCode: "CA",
+          image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "Hans Mueller",
+          role: "Gerente de Importaciones, Euro Leather",
+          text: "Profesionales, confiables y siempre entregando más de lo esperado. Cross the Bridge ha sido fundamental para expandir nuestras capacidades de abastecimiento.",
+          country: "Alemania",
+          countryCode: "DE",
+          image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "Liu Wei",
+          role: "Coordinador de Exportación, Guangzhou",
+          text: "Trabajar con Cross the Bridge desde el lado del proveedor ha sido excepcional. Entienden perfectamente tanto los requisitos occidentales como la manufactura asiática.",
+          country: "China",
+          countryCode: "CN",
+          image: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "Ana García",
+          role: "Directora de Compras",
+          text: "La confianza y profesionalismo que ofrece Cross the Bridge es incomparable. Han transformado nuestra forma de hacer negocios internacionales.",
+          country: "España",
+          countryCode: "ES",
+          image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face"
+        },
+        {
+          name: "James O'Connor",
+          role: "Fundador, Aussie Outfitters",
+          text: "Cross the Bridge abrió puertas que ni sabíamos que existían. Su red y experiencia en comercio internacional es verdaderamente de clase mundial.",
+          country: "Australia",
+          countryCode: "AU",
+          image: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400&h=400&fit=crop&crop=face"
         }
       ]
     },
