@@ -26,7 +26,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
     },
     hero: {
       title: "Your strategic bridge to World-Class manufacturing in mexico",
-      subtitle: "We connect U.S. brands with certified factories, top-tier leather suppliers, and reliable production partners - so you scale without production headers.",
+      subtitle: "We connect U.S. brands with certified factories, top-tier leather suppliers, and reliable production partners - so you scale without production headaches.",
       cta: "Book a Discovery Call",
       cta2: "Download CTB Capabilities Deck"
     },
