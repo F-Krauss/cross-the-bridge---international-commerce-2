@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Play, Pause, Sparkles } from 'lucide-react';
+import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, User, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Play, Pause, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { TRANSLATIONS } from './constants';
 import { Language } from './types';
@@ -1045,7 +1045,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 </div>
 
                 {/* Education */}
-                <div className="border-t border-gray-100 pt-6 lg:pt-8">
+                {/* <div className="border-t border-gray-100 pt-6 lg:pt-8">
                   <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-navy mb-4 lg:mb-6">
                     <GraduationCap size={16} /> Education
                   </h4>
@@ -1057,7 +1057,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                       </div>
                     ))}
                   </div>
-                </div>
+                </div> */}
               </FadeIn>
             </div>
           </div>
@@ -1691,8 +1691,12 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   "{selectedTestimonial.text}"
                 </p>
                 <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
-                  {selectedTestimonial.image && (
+                  {selectedTestimonial.image ? (
                     <img src={selectedTestimonial.image} alt="" className="w-14 h-14 rounded-full object-cover border-2 border-brand-gold/30" />
+                  ) : (
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-navy to-brand-navy/80 flex items-center justify-center border-2 border-brand-gold/30">
+                      <User className="w-7 h-7 text-brand-gold/70" />
+                    </div>
                   )}
                   <div>
                     <p className="font-bold text-brand-navy">{selectedTestimonial.name}</p>
@@ -1825,8 +1829,12 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                             "{testimonial.text.slice(0, 80)}..."
                           </p>
                           <div className="flex items-center gap-2 mt-2">
-                            {testimonial.image && (
+                            {testimonial.image ? (
                               <img src={testimonial.image} alt="" className="w-5 h-5 md:w-7 md:h-7 rounded-full object-cover border border-brand-gold/30" />
+                            ) : (
+                              <div className={`w-5 h-5 md:w-7 md:h-7 rounded-full flex items-center justify-center border border-brand-gold/30 ${idx === 1 ? 'bg-gradient-to-br from-brand-navy to-brand-navy/80' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`}>
+                                <User className={`w-3 h-3 md:w-4 md:h-4 ${idx === 1 ? 'text-brand-gold/70' : 'text-white/70'}`} />
+                              </div>
                             )}
                             <div className="flex-1 min-w-0">
                               <span className={`text-[8px] md:text-[10px] font-semibold ${idx === 1 ? 'text-white' : 'text-brand-navy'} block truncate`}>{testimonial.name}</span>
@@ -1890,13 +1898,13 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   <div className="absolute left-[5%] md:left-[8%] top-[5%] w-[140px] md:w-[220px] transform -rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-500 z-10 group">
                     <div className="bg-white p-2 md:p-3 shadow-2xl rounded-sm border-4 border-dashed border-gray-200">
                       <img 
-                        src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&h=300&fit=crop" 
-                        alt="Business handshake"
+                        src="/img/Collage/Collage_embajada_alemania.jpg" 
+                        alt="German Embassy"
                         className="w-full h-[80px] md:h-[120px] object-cover grayscale group-hover:grayscale-0 transition-all"
                       />
                       <div className="mt-2 text-center">
                         <p className="text-[8px] md:text-[10px] font-bold text-brand-navy uppercase tracking-wider">{lang === 'en' ? 'Partnerships' : 'Alianzas'}</p>
-                        <p className="text-[7px] md:text-[8px] text-gray-400">🌎 Americas</p>
+                        <p className="text-[7px] md:text-[8px] text-gray-400">🇩🇪 Germany</p>
                       </div>
                     </div>
                     <div className="absolute -top-2 -right-2 w-8 h-8 md:w-10 md:h-10 bg-brand-gold/90 rounded-full flex items-center justify-center transform rotate-12">
@@ -1908,13 +1916,13 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   <div className="absolute left-[35%] md:left-[30%] top-[25%] md:top-[15%] w-[120px] md:w-[180px] transform rotate-3 hover:rotate-0 hover:scale-110 transition-all duration-500 z-20 group">
                     <div className="bg-white p-2 md:p-3 shadow-2xl rounded-sm border-4 border-dashed border-gray-200">
                       <img 
-                        src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop" 
-                        alt="Shipping containers"
+                        src="/img/Collage/Collage_mision_Thailandia.jpg" 
+                        alt="Thailand Mission"
                         className="w-full h-[70px] md:h-[100px] object-cover grayscale group-hover:grayscale-0 transition-all"
                       />
                       <div className="mt-2 text-center">
-                        <p className="text-[8px] md:text-[10px] font-bold text-brand-navy uppercase tracking-wider">{lang === 'en' ? 'Logistics' : 'Logística'}</p>
-                        <p className="text-[7px] md:text-[8px] text-gray-400">🚢 Global</p>
+                        <p className="text-[8px] md:text-[10px] font-bold text-brand-navy uppercase tracking-wider">{lang === 'en' ? 'Trade Mission' : 'Misión Comercial'}</p>
+                        <p className="text-[7px] md:text-[8px] text-gray-400">🇹🇭 Thailand</p>
                       </div>
                     </div>
                   </div>
@@ -1923,7 +1931,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   <div className="absolute right-[25%] md:right-[30%] top-[0%] md:top-[5%] w-[110px] md:w-[160px] transform -rotate-2 hover:rotate-0 hover:scale-110 transition-all duration-500 z-30 group">
                     <div className="bg-white p-2 pb-8 md:p-3 md:pb-10 shadow-2xl rounded-sm">
                       <img 
-                        src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=400&fit=crop" 
+                        src="/img/Collage/Collage_junta.jpg" 
                         alt="Business meeting"
                         className="w-full h-[80px] md:h-[110px] object-cover grayscale group-hover:grayscale-0 transition-all"
                       />
@@ -1935,8 +1943,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   <div className="absolute right-[5%] md:right-[10%] top-[20%] w-[100px] md:w-[150px] transform rotate-8 hover:rotate-0 hover:scale-110 transition-all duration-500 z-10 group">
                     <div className="bg-white p-2 md:p-3 shadow-2xl rounded-sm border-4 border-dashed border-brand-gold/30">
                       <img 
-                        src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400&h=300&fit=crop" 
-                        alt="Team collaboration"
+                        src="/img/Collage/Collage_control_de_calidad.jpg" 
+                        alt="Quality Control"
                         className="w-full h-[60px] md:h-[80px] object-cover grayscale group-hover:grayscale-0 transition-all"
                       />
                       <div className="mt-1 text-center">
@@ -1949,8 +1957,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   <div className="absolute left-[10%] md:left-[15%] bottom-[5%] md:bottom-[10%] w-[115px] md:w-[170px] transform rotate-5 hover:rotate-0 hover:scale-110 transition-all duration-500 z-20 group">
                     <div className="bg-white p-2 md:p-3 shadow-2xl rounded-sm">
                       <img 
-                        src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop" 
-                        alt="Success celebration"
+                        src="/img/Collage/Collage_junta2.jpg" 
+                        alt="Team meeting"
                         className="w-full h-[65px] md:h-[90px] object-cover grayscale group-hover:grayscale-0 transition-all"
                       />
                       <div className="mt-2 text-center">
@@ -1964,8 +1972,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   <div className="absolute left-[40%] md:left-[38%] bottom-[0%] md:bottom-[5%] w-[130px] md:w-[190px] transform -rotate-4 hover:rotate-0 hover:scale-110 transition-all duration-500 z-30 group">
                     <div className="bg-white p-2 pb-6 md:p-3 md:pb-8 shadow-2xl rounded-sm border-2 border-brand-gold/20">
                       <img 
-                        src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=250&fit=crop" 
-                        alt="Factory floor"
+                        src="/img/Collage/Collage_control_de_calidad.jpg" 
+                        alt="Quality Control"
                         className="w-full h-[70px] md:h-[100px] object-cover grayscale group-hover:grayscale-0 transition-all"
                       />
                       <p className="absolute bottom-1 md:bottom-2 left-0 right-0 text-center text-[7px] md:text-[9px] text-brand-navy font-medium">{lang === 'en' ? 'Production Excellence' : 'Excelencia en Producción'}</p>
@@ -1981,8 +1989,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   <div className="absolute right-[8%] md:right-[12%] bottom-[15%] md:bottom-[15%] w-[95px] md:w-[140px] transform -rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-500 z-10 group">
                     <div className="bg-white p-2 md:p-3 shadow-2xl rounded-sm border-4 border-dotted border-gray-300">
                       <img 
-                        src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=400&fit=crop" 
-                        alt="International trade"
+                        src="/img/Collage/Collage_mision_Thailandia.jpg" 
+                        alt="Thailand Mission"
                         className="w-full h-[55px] md:h-[75px] object-cover grayscale group-hover:grayscale-0 transition-all"
                       />
                       <div className="mt-1 text-center">
