@@ -7,7 +7,7 @@ import { Language } from './types';
 
 // Assets served from public/img
 const mapImage = '/img/world-map.svg';
-const logoVertical = '/img/CTB_vertical.png';
+const logoVertical = '/img/ganzo.png';
 const processImg1 = '/img/process2.jpg';
 const processImg3 = '/img/process4.jpg';
 const teamPortrait = '/img/1696903720042.jpeg';
@@ -284,7 +284,7 @@ const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ duration: 1.2, ease: "circOut" }}
-            className="w-20 h-20 rounded-2xl bg-white flex items-center justify-center text-brand-navy shadow-[0_0_40px_rgba(255,255,255,0.1)]"
+            className="w-20 h-20 rounded-2xl flex items-center justify-center"
           >
             <img src={logoVertical} alt="Cross The Bridge" className="w-14 h-14 object-contain" />
           </MotionDiv>
@@ -495,12 +495,12 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
 
 
   return (
-    <div className="bg-[#1B2440] text-brand-dark font-sans h-[100dvh] overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col">
+    <div className="text-brand-dark font-sans h-[100dvh] overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col">
 
       {/* --- Fixed Navigation Bar --- */}
       {/* DESKTOP SIDEBAR NAV */}
       <nav className="hidden lg:flex fixed top-0 left-0 bottom-0 w-24 z-[200] bg-brand-navy flex-col justify-between items-center py-8 border-r border-white/10">
-        <button onClick={() => handleNavClick('about')} className="w-12 h-12 rounded-2xl bg-white text-brand-navy flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-white/5">
+        <button onClick={() => handleNavClick('about')} className="w-12 h-12 rounded-2xl flex items-center justify-center hover:scale-105 transition-transform">
           <img src={logoVertical} alt="Cross The Bridge logo" className="w-9 h-9 object-contain" />
         </button>
 
@@ -536,7 +536,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       <nav className="flex lg:hidden fixed top-0 left-0 right-0 z-[200] py-2 bg-brand-navy/95 backdrop-blur-md border-b border-white/5">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <button onClick={() => handleNavClick('about')} className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-md">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center">
               <img src={logoVertical} alt="Cross The Bridge logo" className="h-6 w-auto object-contain" />
             </div>
             <span className="text-xs font-bold tracking-tight text-white">Cross The Bridge</span>
@@ -647,7 +647,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 <FadeIn delay={0.4}>
                   <button
                     onClick={() => handleNavClick('services')}
-                    className="group flex items-center justify-center gap-3 bg-white text-brand-navy px-5 sm:px-7 md:px-8 py-3 md:py-4 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-base hover:bg-brand-gold transition-colors w-full sm:w-auto"
+                    className="group flex items-center justify-center gap-3 bg-brand-gold text-brand-navy px-5 sm:px-7 md:px-8 py-3 md:py-4 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-base hover:bg-white transition-colors w-full sm:w-auto"
                   >
                     {t.hero.cta} <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                   </button>
@@ -655,7 +655,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 <FadeIn delay={0.5}>
                   <button
                     onClick={() => handleNavClick('services')}
-                    className="group flex items-center justify-center gap-3 bg-white text-brand-navy px-5 sm:px-7 md:px-8 py-3 md:py-4 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-base hover:bg-brand-gold transition-colors w-full sm:w-auto bg-[#C4A661]"
+                    className="group flex items-center justify-center gap-3 bg-brand-navy/80 text-white border-2 border-brand-gold px-5 sm:px-7 md:px-8 py-3 md:py-4 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-base hover:bg-brand-gold hover:text-brand-navy transition-colors w-full sm:w-auto"
                   >
                     {t.hero.cta2} <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                   </button>
