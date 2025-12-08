@@ -48,6 +48,16 @@ const MailStamp = ({ className, text = "AIR MAIL", color = "border-brand-navy/20
   </div>
 );
 
+// Helper function to convert country code to flag emoji
+const getCountryFlag = (countryCode: string): string => {
+  if (!countryCode || countryCode.length !== 2) return '';
+  const codePoints = countryCode
+    .toUpperCase()
+    .split('')
+    .map(char => 127397 + char.charCodeAt(0));
+  return String.fromCodePoint(...codePoints);
+};
+
 // --- Components ---
 
 interface FadeInProps {
@@ -59,25 +69,34 @@ interface FadeInProps {
 
 const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0, className = "", direction = 'up' }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.3 }); // Retrigger animation when scrolling back
+  const isInView = useInView(ref, { once: true, amount: 0.15, margin: "50px" });
 
-  const initial = direction === 'up' ? { opacity: 0, y: 40 } :
-    direction === 'down' ? { opacity: 0, y: -40 } :
-      direction === 'left' ? { opacity: 0, x: -40 } :
-        { opacity: 0, x: 40 };
-
-  const animate = direction === 'up' ? { opacity: 1, y: 0 } :
-    direction === 'down' ? { opacity: 1, y: 0 } :
-      direction === 'left' ? { opacity: 1, x: 0 } :
-        { opacity: 1, x: 0 };
+  const variants = {
+    hidden: {
+      opacity: 0,
+      y: direction === 'up' ? 15 : direction === 'down' ? -15 : 0,
+      x: direction === 'left' ? -15 : direction === 'right' ? 15 : 0,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      x: 0,
+    }
+  };
 
   return (
     <MotionDiv
       ref={ref}
-      initial={initial}
-      animate={isInView ? animate : initial}
-      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }} // Smooth cubic-bezier
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={variants}
+      transition={{ 
+        duration: 0.4, 
+        delay: Math.min(delay, 0.3), // Cap delay to prevent stacking
+        ease: [0.25, 0.1, 0.25, 1] // CSS ease equivalent - very smooth
+      }}
       className={className}
+      style={{ willChange: isInView ? 'auto' : 'transform, opacity' }}
     >
       {children}
     </MotionDiv>
@@ -753,13 +772,15 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
+                        transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
                         onClick={() => setSelectedService(null)}
                       >
                         <MotionDiv
                           className="bg-[#111] text-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto relative"
-                          initial={{ scale: 0.9, y: 30 }}
-                          animate={{ scale: 1, y: 0 }}
-                          exit={{ scale: 0.9, y: 30 }}
+                          initial={{ scale: 0.95, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.95, opacity: 0 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
                           onClick={(e: React.MouseEvent) => e.stopPropagation()}
                         >
                           {/* Close button */}
@@ -1069,8 +1090,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
           
           {/* Animated background shapes */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute -top-40 -right-40 w-80 h-80 bg-brand-gold/5 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-gold/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}} />
+            <div className="absolute -top-40 -right-40 w-80 h-80 bg-brand-gold/5 rounded-full blur-2xl opacity-50" />
+            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-gold/5 rounded-full blur-2xl opacity-50" />
           </div>
           
           <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -1123,13 +1144,16 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             {/* Desktop Grid - Hover reveal cards */}
             <div className="hidden lg:grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {t.differentiators.items.map((item, idx) => {
-                const icons = [Award, Globe, Shield];
+                const icons = [Award, Globe, Shield, Compass, Users, Target];
                 const Icon = icons[idx] || Star;
-                const colors = ['from-amber-500 to-orange-500', 'from-blue-500 to-indigo-500', 'from-emerald-500 to-teal-500'];
+                const colors = ['from-amber-500 to-orange-500', 'from-blue-500 to-indigo-500', 'from-emerald-500 to-teal-500', 'from-purple-500 to-pink-500', 'from-rose-500 to-red-500', 'from-cyan-500 to-blue-500'];
                 const images = [
                   'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=800&auto=format&fit=crop',
                   'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=800&auto=format&fit=crop',
                   'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=800&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=800&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1533750349088-cd871a92f312?q=80&w=800&auto=format&fit=crop',
                 ];
                 
                 return (
@@ -1174,8 +1198,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         <section className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-[#0f1521] via-[#141B2D] to-[#1B2440] text-white relative overflow-hidden">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/4 -right-20 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-brand-gold/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1.5s'}} />
+            <div className="absolute top-1/4 -right-20 w-96 h-96 bg-brand-gold/10 rounded-full blur-2xl opacity-40" />
+            <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-brand-gold/5 rounded-full blur-2xl opacity-40" />
           </div>
           <GridPattern color="#C4A661" opacity={0.03} />
           
@@ -1186,42 +1210,42 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   title: lang === 'es' ? 'Expertise en Cuero y Calzado' : 'Deep Leather & Footwear Expertise',
                   desc: lang === 'es' ? 'Décadas de experiencia en la industria del cuero y calzado de León, México.' : 'Decades of experience in León, Mexico leather and footwear industry.',
                   color: 'from-amber-500 to-orange-600',
-                  image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop',
+                  image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=1740&auto=format&fit=crop',
                 },
                 { 
                   icon: Award, 
                   title: lang === 'es' ? 'Acceso a Fábricas Élite en México' : 'Access to Elite Factories in Mexico',
                   desc: lang === 'es' ? 'Red exclusiva de fabricantes certificados y verificados.' : 'Exclusive network of certified and verified manufacturers.',
                   color: 'from-emerald-500 to-teal-600',
-                  image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1740&auto=format&fit=crop',
+                  image: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?q=80&w=1740&auto=format&fit=crop',
                 },
                 { 
                   icon: Globe, 
                   title: lang === 'es' ? 'Red Internacional (Brasil, Asia, USA)' : 'International Network (Brazil, Asia, USA)',
                   desc: lang === 'es' ? 'Conexiones globales para oportunidades sin fronteras.' : 'Global connections for borderless opportunities.',
                   color: 'from-blue-500 to-indigo-600',
-                  image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop',
+                  image: 'https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=1740&auto=format&fit=crop',
                 },
                 { 
                   icon: FileText, 
                   title: lang === 'es' ? 'Experiencia y Certificaciones de Exportación' : 'Export Experience & Certifications',
                   desc: lang === 'es' ? 'Documentación y compliance para comercio internacional.' : 'Documentation and compliance for international trade.',
                   color: 'from-purple-500 to-violet-600',
-                  image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop',
+                  image: 'https://images.unsplash.com/photo-1568219656418-15c329312bf1?q=80&w=1740&auto=format&fit=crop',
                 },
                 { 
                   icon: Settings, 
                   title: lang === 'es' ? 'Presencia Directa en Fábricas' : 'Hands-on Factory Presence',
                   desc: lang === 'es' ? 'Control de calidad en sitio y supervisión directa.' : 'On-site quality control and direct supervision.',
                   color: 'from-rose-500 to-pink-600',
-                  image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=1740&auto=format&fit=crop',
+                  image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1740&auto=format&fit=crop',
                 },
                 { 
                   icon: Users, 
                   title: lang === 'es' ? 'Liderazgo Bilingüe y Bicultural' : 'Bilingual, Bicultural Leadership',
                   desc: lang === 'es' ? 'Comunicación fluida entre culturas y mercados.' : 'Seamless communication across cultures and markets.',
                   color: 'from-cyan-500 to-sky-600',
-                  image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop',
+                  image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1740&auto=format&fit=crop',
                 },
               ];
               
@@ -1231,6 +1255,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               const [dragX, setDragX] = useState(0);
               const [isDragging, setIsDragging] = useState(false);
               const dragStartX = useRef(0);
+              const dragStartY = useRef(0);
+              const isHorizontalSwipe = useRef(false);
               
               const handleSwipe = (direction: 'left' | 'right') => {
                 if (direction === 'right' && currentIndex > 0) {
@@ -1238,38 +1264,61 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   setTimeout(() => {
                     setCurrentIndex(prev => prev - 1);
                     setExitDirection(null);
-                  }, 250);
+                  }, 200);
                 } else if (direction === 'left' && currentIndex < ctbStrengths.length - 1) {
                   setExitDirection('left');
                   setTimeout(() => {
                     setCurrentIndex(prev => prev + 1);
                     setExitDirection(null);
-                  }, 250);
+                  }, 200);
                 }
               };
               
-              // Touch handlers for swipe
+              // Touch handlers for swipe - improved for mobile
               const handleTouchStart = (e: React.TouchEvent) => {
                 dragStartX.current = e.touches[0].clientX;
+                dragStartY.current = e.touches[0].clientY;
+                isHorizontalSwipe.current = false;
                 setIsDragging(true);
+                setDragX(0);
               };
               
               const handleTouchMove = (e: React.TouchEvent) => {
                 if (!isDragging) return;
+                
                 const currentX = e.touches[0].clientX;
-                const diff = currentX - dragStartX.current;
-                setDragX(diff);
+                const currentY = e.touches[0].clientY;
+                const diffX = currentX - dragStartX.current;
+                const diffY = currentY - dragStartY.current;
+                
+                // Determine if this is a horizontal or vertical swipe (only once)
+                if (!isHorizontalSwipe.current && (Math.abs(diffX) > 10 || Math.abs(diffY) > 10)) {
+                  isHorizontalSwipe.current = Math.abs(diffX) > Math.abs(diffY);
+                }
+                
+                // Only handle horizontal swipes
+                if (isHorizontalSwipe.current) {
+                  e.preventDefault(); // Prevent vertical scroll
+                  setDragX(diffX);
+                }
               };
               
               const handleTouchEnd = () => {
+                if (!isDragging) return;
                 setIsDragging(false);
-                const threshold = 80;
-                if (dragX < -threshold && currentIndex < ctbStrengths.length - 1) {
-                  handleSwipe('left');
-                } else if (dragX > threshold && currentIndex > 0) {
-                  handleSwipe('right');
+                
+                // Only process if it was a horizontal swipe
+                if (isHorizontalSwipe.current) {
+                  const threshold = 50; // Reduced threshold for easier swiping
+                  if (dragX < -threshold && currentIndex < ctbStrengths.length - 1) {
+                    handleSwipe('left');
+                  } else if (dragX > threshold && currentIndex > 0) {
+                    handleSwipe('right');
+                  }
                 }
+                
                 setDragX(0);
+                isHorizontalSwipe.current = false;
               };
               
               // Mouse handlers for desktop drag
@@ -1314,16 +1363,16 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               return (
                 <div className="h-full min-h-[100dvh] flex flex-col relative z-10">
                   {/* Section Header - Fixed at top */}
-                  <div className="text-center pt-12 md:pt-16 pb-6 px-4">
+                  <div className="text-center pt-8 md:pt-10 pb-4 px-4">
                     <FadeIn>
-                      <div className="inline-flex items-center gap-2 text-brand-gold font-bold uppercase tracking-widest text-xs bg-white/5 border border-brand-gold/30 px-5 py-2.5 rounded-full mb-4 backdrop-blur-sm">
-                        <Sparkles size={14} className="animate-pulse" />
+                      <div className="inline-flex items-center gap-2 text-brand-gold font-bold uppercase tracking-widest text-[10px] bg-white/5 border border-brand-gold/30 px-4 py-2 rounded-full mb-3 backdrop-blur-sm">
+                        <Sparkles size={12} />
                         {lang === 'es' ? 'Nuestras Fortalezas' : 'Our Strengths'}
                       </div>
-                      <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-3">
+                      <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-2">
                         {lang === 'es' ? 'Fortalezas CTB' : 'CTB Strengths'}
                       </h2>
-                      <p className="text-white/40 text-sm md:text-base max-w-xl mx-auto">
+                      <p className="text-white/40 text-xs md:text-sm max-w-xl mx-auto">
                         {lang === 'es' ? '← Desliza para explorar →' : '← Swipe to explore →'}
                       </p>
                     </FadeIn>
@@ -1349,8 +1398,11 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                     
                     {/* Card stack container - with swipe gestures */}
                     <div 
-                      className="relative w-full max-w-[340px] h-[75vh] max-h-[580px] cursor-grab active:cursor-grabbing select-none" 
-                      style={{ perspective: '1200px' }}
+                      className="relative w-full max-w-[320px] h-[65vh] max-h-[480px] cursor-grab active:cursor-grabbing select-none touch-pan-y" 
+                      style={{ 
+                        perspective: '1200px',
+                        touchAction: isDragging && isHorizontalSwipe.current ? 'none' : 'pan-y'
+                      }}
                       onTouchStart={handleTouchStart}
                       onTouchMove={handleTouchMove}
                       onTouchEnd={handleTouchEnd}
@@ -1380,30 +1432,26 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                       })}
                       
                       {/* Main swipeable card */}
-                      <AnimatePresence mode="wait">
+                      <AnimatePresence mode="wait" initial={false}>
                         <MotionDiv
                           key={currentIndex}
                           initial={{ 
                             opacity: 0, 
-                            x: exitDirection === 'left' ? 300 : exitDirection === 'right' ? -300 : 0,
-                            rotateY: exitDirection === 'left' ? -25 : exitDirection === 'right' ? 25 : 0,
-                            scale: 0.85
+                            x: exitDirection === 'left' ? 200 : exitDirection === 'right' ? -200 : 0
                           }}
                           animate={{ 
                             opacity: 1, 
-                            x: isDragging ? dragX : 0, 
-                            rotateY: isDragging ? dragX * -0.05 : 0,
-                            scale: 1
+                            x: isDragging ? dragX : 0
                           }}
                           exit={{ 
                             opacity: 0, 
-                            x: exitDirection === 'left' ? -300 : 300,
-                            rotateY: exitDirection === 'left' ? 25 : -25,
-                            scale: 0.85
+                            x: exitDirection === 'left' ? -200 : 200
                           }}
-                          transition={{ duration: isDragging ? 0 : 0.4, ease: [0.4, 0, 0.2, 1] }}
-                          className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl pointer-events-none"
-                          style={{ transformStyle: 'preserve-3d' }}
+                          transition={{ 
+                            duration: isDragging ? 0 : 0.25,
+                            ease: [0.25, 0.1, 0.25, 1]
+                          }}
+                          className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl pointer-events-none will-change-transform"
                         >
                           {/* Full-bleed background image */}
                           <div className="absolute inset-0">
@@ -1421,7 +1469,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                           
                           {/* Animated ambient glow */}
                           <MotionDiv 
-                            className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-48 bg-gradient-to-t ${ctbStrengths[currentIndex].color} opacity-30 blur-3xl`}
+                            className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-48 bg-gradient-to-t ${ctbStrengths[currentIndex].color} opacity-20 blur-2xl`}
                             animate={{ opacity: [0.2, 0.4, 0.2] }}
                             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                           />
@@ -1479,7 +1527,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                           
                           {/* Decorative corner accents */}
                           <div className="absolute top-0 left-0 w-24 h-24 bg-white/5 blur-2xl" />
-                          <div className="absolute bottom-0 right-0 w-32 h-32 bg-brand-gold/10 blur-3xl" />
+                          <div className="absolute bottom-0 right-0 w-32 h-32 bg-brand-gold/10 blur-2xl" />
                         </MotionDiv>
                       </AnimatePresence>
                     </div>
@@ -1502,9 +1550,9 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   
                   {/* DESKTOP: Full-width slider with text left, image right */}
                   <div className="hidden md:flex flex-1 items-center">
-                    <div className="w-full max-w-7xl mx-auto px-6 lg:px-12">
+                    <div className="w-full max-w-7xl mx-auto px-6 lg:px-10">
                       {/* Main content area */}
-                      <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                      <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
                         {/* Left side - Text content */}
                         <div className="relative">
                           <AnimatePresence mode="wait">
@@ -1514,40 +1562,40 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                               animate={{ opacity: 1, x: 0 }}
                               exit={{ opacity: 0, x: 30 }}
                               transition={{ duration: 0.4, ease: "easeOut" }}
-                              className="space-y-6"
+                              className="space-y-4"
                             >
                               {/* Step indicator */}
                               <div className="flex items-center gap-4">
-                                <span className="text-7xl lg:text-8xl font-black text-white/10">
+                                <span className="text-6xl lg:text-7xl font-black text-white/10">
                                   {String(currentIndex + 1).padStart(2, '0')}
                                 </span>
                                 <div className="h-px flex-1 bg-gradient-to-r from-brand-gold to-transparent" />
                               </div>
                               
                               {/* Icon */}
-                              <div className={`bg-gradient-to-br ${ctbStrengths[currentIndex].color} p-5 rounded-2xl w-fit shadow-2xl`}>
+                              <div className={`bg-gradient-to-br ${ctbStrengths[currentIndex].color} p-4 rounded-xl w-fit shadow-2xl`}>
                                 {(() => {
                                   const Icon = ctbStrengths[currentIndex].icon;
-                                  return <Icon size={40} className="text-white" />;
+                                  return <Icon size={32} className="text-white" />;
                                 })()}
                               </div>
                               
                               {/* Title */}
-                              <h3 className="text-3xl lg:text-5xl font-bold text-white leading-tight">
+                              <h3 className="text-2xl lg:text-4xl font-bold text-white leading-tight">
                                 {ctbStrengths[currentIndex].title}
                               </h3>
                               
                               {/* Description */}
-                              <p className="text-white/70 text-lg lg:text-xl leading-relaxed max-w-lg">
+                              <p className="text-white/70 text-base lg:text-lg leading-relaxed max-w-lg">
                                 {ctbStrengths[currentIndex].desc}
                               </p>
                               
                               {/* Navigation */}
-                              <div className="flex items-center gap-6 pt-6">
+                              <div className="flex items-center gap-4 pt-4">
                                 <button
                                   onClick={() => currentIndex > 0 && goToCard(currentIndex - 1)}
                                   disabled={currentIndex === 0}
-                                  className={`w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all ${
+                                  className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all ${
                                     currentIndex === 0 
                                       ? 'border-white/20 text-white/20 cursor-not-allowed' 
                                       : 'border-white/40 text-white hover:bg-white hover:text-brand-navy'
@@ -1558,7 +1606,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                                 <button
                                   onClick={() => currentIndex < ctbStrengths.length - 1 && goToCard(currentIndex + 1)}
                                   disabled={currentIndex === ctbStrengths.length - 1}
-                                  className={`w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all ${
+                                  className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all ${
                                     currentIndex === ctbStrengths.length - 1 
                                       ? 'border-white/20 text-white/20 cursor-not-allowed' 
                                       : 'border-white/40 text-white hover:bg-white hover:text-brand-navy'
@@ -1575,8 +1623,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                                       onClick={() => goToCard(idx)}
                                       className={`h-1.5 rounded-full transition-all duration-300 ${
                                         idx === currentIndex 
-                                          ? 'bg-brand-gold w-10' 
-                                          : 'bg-white/30 w-4 hover:bg-white/50'
+                                          ? 'bg-brand-gold w-8' 
+                                          : 'bg-white/30 w-3 hover:bg-white/50'
                                       }`}
                                     />
                                   ))}
@@ -1587,7 +1635,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                         </div>
                         
                         {/* Right side - Image */}
-                        <div className="relative h-[500px] lg:h-[600px]">
+                        <div className="relative h-[380px] lg:h-[450px]">
                           <AnimatePresence mode="wait">
                             <MotionDiv
                               key={currentIndex}
@@ -1595,7 +1643,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                               animate={{ opacity: 1, scale: 1, x: 0 }}
                               exit={{ opacity: 0, scale: 1.05, x: -50 }}
                               transition={{ duration: 0.5, ease: "easeOut" }}
-                              className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl"
+                              className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl"
                             >
                               <img 
                                 src={ctbStrengths[currentIndex].image} 
@@ -1669,13 +1717,15 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
               onClick={() => setSelectedTestimonial(null)}
             >
               <MotionDiv
                 className="bg-white rounded-2xl p-6 md:p-8 max-w-lg w-full shadow-2xl relative"
-                initial={{ scale: 0.9, y: 20 }}
-                animate={{ scale: 1, y: 0 }}
-                exit={{ scale: 0.9, y: 20 }}
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
                 onClick={(e: React.MouseEvent) => e.stopPropagation()}
               >
                 <button
@@ -1701,7 +1751,10 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   <div>
                     <p className="font-bold text-brand-navy">{selectedTestimonial.name}</p>
                     <p className="text-sm text-gray-500">{selectedTestimonial.role}</p>
-                    <p className="text-xs text-brand-gold">{selectedTestimonial.country}</p>
+                    <p className="text-xs text-brand-gold flex items-center gap-1">
+                      <span>{getCountryFlag(selectedTestimonial.countryCode)}</span>
+                      {selectedTestimonial.country}
+                    </p>
                   </div>
                 </div>
               </MotionDiv>
@@ -1838,7 +1891,10 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                             )}
                             <div className="flex-1 min-w-0">
                               <span className={`text-[8px] md:text-[10px] font-semibold ${idx === 1 ? 'text-white' : 'text-brand-navy'} block truncate`}>{testimonial.name}</span>
-                              <span className={`text-[7px] md:text-[9px] ${idx === 1 ? 'text-brand-gold' : 'text-gray-500'}`}>{testimonial.country}</span>
+                              <span className={`text-[7px] md:text-[9px] ${idx === 1 ? 'text-brand-gold' : 'text-gray-500'} flex items-center gap-1`}>
+                                <span>{getCountryFlag(testimonial.countryCode)}</span>
+                                {testimonial.country}
+                              </span>
                             </div>
                           </div>
                         {/* Bubble tail */}
@@ -2152,8 +2208,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             {/* World map background */}
             <img src="/img/world-map.svg" alt="" className="absolute inset-0 w-full h-full object-cover opacity-5" />
             {/* Animated gradient orbs */}
-            <div className="absolute top-20 -right-20 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute -bottom-40 -left-20 w-80 h-80 bg-brand-gold/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}} />
+            <div className="absolute top-20 -right-20 w-96 h-96 bg-brand-gold/10 rounded-full blur-2xl opacity-40" />
+            <div className="absolute -bottom-40 -left-20 w-80 h-80 bg-brand-gold/10 rounded-full blur-2xl opacity-40" />
           </div>
           
           <GridPattern color="#C4A661" opacity={0.03} />
@@ -2343,30 +2399,26 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                       </button>
                       
                       {/* Swipeable card */}
-                      <AnimatePresence mode="wait">
+                      <AnimatePresence mode="wait" initial={false}>
                         <MotionDiv
                           key={partnerCardIndex}
                           initial={{ 
                             opacity: 0, 
-                            x: partnerExitDir === 'left' ? 200 : partnerExitDir === 'right' ? -200 : 0,
-                            rotateY: partnerExitDir === 'left' ? -15 : partnerExitDir === 'right' ? 15 : 0,
-                            scale: 0.9
+                            x: partnerExitDir === 'left' ? 200 : partnerExitDir === 'right' ? -200 : 0
                           }}
                           animate={{ 
                             opacity: 1, 
-                            x: partnerIsDragging ? partnerDragX : 0, 
-                            rotateY: partnerIsDragging ? partnerDragX * -0.05 : 0,
-                            scale: 1
+                            x: partnerIsDragging ? partnerDragX : 0
                           }}
                           exit={{ 
                             opacity: 0, 
-                            x: partnerExitDir === 'left' ? -200 : 200,
-                            rotateY: partnerExitDir === 'left' ? 15 : -15,
-                            scale: 0.9
+                            x: partnerExitDir === 'left' ? -200 : 200
                           }}
-                          transition={{ duration: partnerIsDragging ? 0 : 0.3, ease: 'easeOut' }}
-                          className="w-[280px] h-[300px] relative pointer-events-none"
-                          style={{ perspective: '1000px' }}
+                          transition={{ 
+                            duration: partnerIsDragging ? 0 : 0.25,
+                            ease: [0.25, 0.1, 0.25, 1]
+                          }}
+                          className="w-[280px] h-[300px] relative pointer-events-none will-change-transform"
                         >
                           <div className="w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-white/20 relative group">
                             {/* Background image */}

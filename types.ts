@@ -47,7 +47,7 @@ export interface Content {
       all: string;
       footwear: string;
       leather: string;
-      fashion: string;
+      hats: string;
       industrial: string;
     };
     items: {

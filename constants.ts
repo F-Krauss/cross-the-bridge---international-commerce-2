@@ -5,9 +5,9 @@ import { Content, Language } from './types';
 const SHOWROOM_ITEMS = [
   { id: 1, category: 'footwear', title: 'Luxury Leather Boots', image: 'https://plus.unsplash.com/premium_photo-1729285270693-3131f27a56c0?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
   { id: 2, category: 'leather', title: 'Premium Automotive Leather', image: 'https://images.unsplash.com/photo-1573227896778-8f378c4029d4?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-  { id: 3, category: 'fashion', title: 'Handcrafted Bags', image: 'https://images.unsplash.com/photo-1473188588951-666fce8e7c68?q=80&w=1874&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+  { id: 3, category: 'hats', title: 'Handcrafted Hats', image: 'https://images.unsplash.com/photo-1568090369444-b0e27698de2c?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
   { id: 4, category: 'industrial', title: 'Safety Footwear Components', image: 'https://images.unsplash.com/photo-1657196343034-481a224e963e?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-  { id: 5, category: 'footwear', title: 'Western Style Collection', image: 'https://images.unsplash.com/photo-1568090369444-b0e27698de2c?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+  { id: 5, category: 'footwear', title: 'Western Style Collection', image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1760&auto=format&fit=crop' },
   { id: 6, category: 'leather', title: 'Vegetable Tanned Hides', image: 'https://www.leatherbox.com/cdn/shop/files/la-bretagna-arizona-raw-supple-vegetable-tanned-harness-leather-natural-L103RARC1416NATP-1_1080x.jpg?v=1753276451' },
 ];
 
@@ -35,30 +35,30 @@ export const TRANSLATIONS: Record<Language, Content> = {
       subtitle: "Connecting Mexico and other parts of the world.",
       items: [
         {
-          title: "Custom product development",
+          title: "1. Strategic Sourcing & Supplier Matchmakingt",
           desc: "Find the right supplier match for your company.",
           details: [
-            "The idea is yours – we help you bring it to life.",
-            "Get an end-to-end solution with the right factory, the necessary raw materials, and logistics fully taken care of.",
-            "Receive expert advice on production feasibility."
+            "We connect your brand with the right factory — not just any factory. Our sourcing process combines technical criteria, cost optimization, and decades of industry relationships across Mexico's top manufacturers, tanneries, and material suppliers. We evaluate capabilities, quality standards, pricing structures, certifications, production capacity, and cultural fit to make sure you work with reliable partners from day one.",
+                    "This service includes supplier scouting, capability analysis, material sourcing, factory validation, sample coordination, and aligned expectations on timelines and costs. Our goal is simple: to eliminate guesswork and give you a strong, trustworthy production foundation in Mexico."
           ],
           bullets: ["Sourcing", "Contract manufacturing", "Logistics"],
           icon: "package"
         },
         {
-          title: "Leather and components supplier for footwear and fashion industries",
+          title: "2. Manufacturing & Supply Chain Operations",
           desc: "Find the best materials for your product.",
           details: [
-            "We work in partnership with top tanneries and leading component suppliers in Mexico.",
-            "We handle purchasing on your behalf, so you get quality, consistency, and better conditions without adding extra workload to your team."
+            "We become your team on the ground, managing every step of the production process so you can focus on design, sales, and brand growth. From product development and prototyping to full-scale production, we coordinate daily with factories, track timelines, streamline communication, solve issues, and ensure every deliverable is on schedule.",
+            "Our approach includes production planning, materials follow-up, cost finalization, workload scheduling, continuous updates, risk management, quality inspections, and complete export preparation. You get transparency, control, and peace of mind, knowing your product is being managed with world-class standards."
+                  
           ],
           icon: "layers"
         },
         {
-          title: "Export management",
+          title: "3. International Growth & Strategic Partnerships",
           desc: "We turn global expansion into a strategic advantage, not a costly experiment.",
           details: [
-            "Backed by two decades working with world-class suppliers, brands, and international partnerships, we help you enter new markets faster, reduce operational costs, and build a long-term scalable presence-without the trial-and-error that most companies pay for."
+           
           ],
           icon: "globe"
         }
@@ -84,7 +84,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
         all: "All",
         footwear: "Footwear",
         leather: "Leather",
-        fashion: "Fashion",
+        hats: "Hats",
         industrial: "Industrial"
       },
       items: SHOWROOM_ITEMS
@@ -130,7 +130,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       profile: {
         name: "Mariana Muciño Del Rio",
         role: "International Negotiation & Strategic Planning",
-        bio: "“International business consultant with 18 years of experience helping Latin American companies expand into the U.S. market. My work centers on strategic growth, market entry, and regulatory alignment for manufacturers and service providers entering complex, multicultural environments. I’ve supported organizations across Latin America, Asia, and North America, guiding them through U.S. compliance, supply-chain optimization, and operational integration. With a deep understanding of the Latino business ecosystem, I translate global strategies into locally relevant, sustainable solutions that generate long-term value. My approach is rooted in trust, respect, and purposeful collaboration—key elements for building cross-border partnerships that thrive in the U.S. market.",
+        bio: "International business consultant with 18 years of experience helping Latin American companies expand into the U.S. market.\n\nMy work centers on strategic growth, market entry, and regulatory alignment for manufacturers entering complex, multicultural environments.\n\nI've supported organizations across Latin America, Asia, and North America — guiding them through compliance, supply-chain optimization, and operational integration.\n\nMy approach is rooted in trust, respect, and purposeful collaboration — key elements for building cross-border partnerships that thrive.",
         educationTitle: "Education",
         education: [
           { degree: "Intl. Cooperation Diploma", school: "Complutense Univ. of Madrid" },
@@ -369,7 +369,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
         all: "Todo",
         footwear: "Calzado",
         leather: "Piel",
-        fashion: "Moda",
+        hats: "Sombreros",
         industrial: "Industrial"
       },
       items: SHOWROOM_ITEMS
@@ -415,7 +415,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       profile: {
         name: "Mariana Muciño Del Rio",
         role: "Negociación y Planeación Estratégica Internacional",
-        bio: "Soy una profesional apasionada de la internacionalización con una trayectoria de 18 años en el ámbito de los negocios internacionales. Mi experiencia se ha centrado en la creación y gestión de alianzas estratégicas comerciales en los 5 continentes, contribuyendo con una visión global que impulse la competitividad y diversificación de mercados en las empresas.",
+        bio: "Profesional apasionada de la internacionalización con 18 años de trayectoria en negocios internacionales.\n\nMi experiencia se centra en la creación y gestión de alianzas estratégicas comerciales en los 5 continentes.\n\nHe apoyado organizaciones en América Latina, Asia y Norteamérica — guiándolas en cumplimiento, optimización de cadena de suministro e integración operativa.\n\nMi enfoque se basa en confianza, respeto y colaboración con propósito — elementos clave para construir alianzas transfronterizas exitosas.",
         educationTitle: "Formación",
         education: [
           { degree: "Diplomado Cooperación Intl", school: "Univ. Complutense de Madrid" },
