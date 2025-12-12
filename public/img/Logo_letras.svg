@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1321" height="167" viewBox="0 0 1321 167" aria-hidden="true">
+  <defs>
+    <mask id="logo-letras-mask" maskUnits="userSpaceOnUse">
+      <image href="/img/Logo_letras.png" width="1321" height="167" preserveAspectRatio="xMidYMid meet" />
+    </mask>
+  </defs>
+  <rect width="1321" height="167" fill="currentColor" mask="url(#logo-letras-mask)" />
+</svg>

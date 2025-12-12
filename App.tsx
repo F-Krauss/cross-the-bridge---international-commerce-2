@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useId } from 'react';
 import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, User, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Play, Pause, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { TRANSLATIONS } from './constants';
@@ -8,6 +8,7 @@ import { Language } from './types';
 // Assets served from public/img
 const mapImage = '/img/world-map.svg';
 const logoVertical = '/img/ganzo.png';
+const logoWordmarkPng = '/img/Logo_letras.png';
 const processImg1 = '/img/process2.jpg';
 const processImg3 = '/img/process4.jpg';
 const teamPortrait = '/img/1696903720042.jpeg';
@@ -18,6 +19,28 @@ const MotionImg = motion.img as any;
 const MotionSpan = motion.span as any;
 
 // --- Visual Assets ---
+
+const LogoWordmark = ({ className = "", color }: { className?: string, color?: string }) => {
+  const maskId = useId();
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1321 167"
+      role="img"
+      aria-label="Cross The Bridge"
+      className={className}
+      style={color ? { color } : undefined}
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <defs>
+        <mask id={`logo-letras-mask-${maskId}`} maskUnits="userSpaceOnUse">
+          <image href={logoWordmarkPng} width="1321" height="167" preserveAspectRatio="xMidYMid meet" />
+        </mask>
+      </defs>
+      <rect width="1321" height="167" fill="currentColor" mask={`url(#logo-letras-mask-${maskId})`} />
+    </svg>
+  );
+};
 
 const GridPattern = ({ color = "#1B2440", opacity = 0.08 }) => (
   <div className="absolute inset-0 pointer-events-none z-0"
@@ -35,14 +58,13 @@ const NoiseOverlay = () => (
   />
 );
 
-const GlowingOrb = ({ className, color = "bg-blue-200" }: { className?: string, color?: string }) => (
+const GlowingOrb = ({ className, color = "bg-[#d5ba8c]" }: { className?: string, color?: string }) => (
   <div className={`absolute rounded-full blur-[120px] opacity-30 pointer-events-none ${color} ${className}`} />
 );
 
 const MailStamp = ({ className, text = "AIR MAIL", color = "border-brand-navy/20 text-brand-navy/20" }: { className?: string, text?: string, color?: string }) => (
   <div className={`absolute pointer-events-none border-4 rounded-lg px-4 py-2 font-bold uppercase tracking-widest text-xs md:text-sm rotate-12 mix-blend-overlay z-10 ${color} ${className}`} style={{ borderStyle: 'double' }}>
     <div className="flex items-center gap-2">
-      <Globe size={16} />
       <span>{text}</span>
     </div>
   </div>
@@ -380,7 +402,7 @@ const LegalPage: React.FC<{
   >
     <div className="container mx-auto px-6 max-w-4xl">
       <button onClick={onBack} className="flex items-center gap-2 text-brand-navy font-bold uppercase tracking-widest text-xs mb-8 hover:text-brand-gold">
-        <ArrowLeft size={16} /> {backLabel}
+        {backLabel}
       </button>
       <div className="bg-white rounded-3xl p-8 md:p-16 shadow-xl">
         <h1 className="text-3xl md:text-5xl font-bold text-brand-navy mb-4">{title}</h1>
@@ -419,8 +441,9 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [currentView, setCurrentView] = useState<'home' | 'privacy' | 'terms'>('home');
+  const [heroVideoFailed, setHeroVideoFailed] = useState(false);
   const [showroomCategory, setShowroomCategory] = useState('all');
-  const [contactForm, setContactForm] = useState({ name: '', company: '', email: '', message: '' });
+  const [contactForm, setContactForm] = useState({ name: '', company: '', email: '', website: '', serviceInterest: '', message: '' });
   const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [contactError, setContactError] = useState<string | null>(null);
 
@@ -485,13 +508,15 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
     // Mock success for now
     setTimeout(() => {
       setContactStatus('success');
-      setContactForm({ name: '', company: '', email: '', message: '' });
+      setContactForm({ name: '', company: '', email: '', website: '', serviceInterest: '', message: '' });
     }, 1000);
   };
 
   const filteredShowroomItems = showroomCategory === 'all'
     ? t.showroom.items
     : t.showroom.items.filter(item => item.category === showroomCategory);
+
+  const serviceOptions = t.services?.items?.map(item => item.title) || [];
 
 
   return (
@@ -501,7 +526,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
       {/* DESKTOP SIDEBAR NAV */}
       <nav className="hidden lg:flex fixed top-0 left-0 bottom-0 w-24 z-[200] bg-brand-navy flex-col justify-between items-center py-8 border-r border-white/10">
         <button onClick={() => handleNavClick('about')} className="w-12 h-12 rounded-2xl flex items-center justify-center hover:scale-105 transition-transform">
-          <img src={logoVertical} alt="Cross The Bridge logo" className="w-9 h-9 object-contain" />
+          <img src={logoVertical} alt="Cross The Bridge goose logo" className="w-9 h-9 object-contain" />
         </button>
 
         <div className="flex flex-col gap-6 items-center w-full">
@@ -532,14 +557,19 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         </div>
       </nav>
 
+      {/* Desktop wordmark next to sidebar */}
+      <div className="hidden lg:block fixed top-6 left-28 z-[180]">
+        <LogoWordmark className="h-5 w-auto logo-wordmark-shadow" color={currentView === 'home' ? '#ffffff' : '#002169'} />
+      </div>
+
       {/* MOBILE TOP NAV */}
       <nav className="flex lg:hidden fixed top-0 left-0 right-0 z-[200] py-2 bg-brand-navy/95 backdrop-blur-md border-b border-white/5">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <button onClick={() => handleNavClick('about')} className="flex items-center gap-2">
+          <button onClick={() => handleNavClick('about')} className="flex items-center gap-2 text-white">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center">
               <img src={logoVertical} alt="Cross The Bridge logo" className="h-6 w-auto object-contain" />
             </div>
-            <span className="text-xs font-bold tracking-tight text-white">Cross The Bridge</span>
+            <LogoWordmark className="h-4 w-auto logo-wordmark-shadow" color="#ffffff" />
           </button>
 
           <div className="flex items-center gap-4">
@@ -622,8 +652,25 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         >
 
           <div className="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" className="w-full h-full object-cover opacity-40" alt="World" />
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-navy via-brand-navy/80 to-transparent" />
+            <img
+              src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
+              className="absolute inset-0 w-full h-full object-cover opacity-50"
+              alt="World"
+            />
+            {!heroVideoFailed && (
+              <video
+                className="absolute inset-0 w-full h-full object-cover opacity-60"
+                src="https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                poster="https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg"
+                onError={() => setHeroVideoFailed(true)}
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/40 to-brand-navy/35" />
           </div>
           <GridPattern color="#FFFFFF" opacity={0.05} />
           <MailStamp className="bottom-10 right-6 md:bottom-20 md:right-20 text-white/20 border-white/20 -rotate-12" />
@@ -635,13 +682,20 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" /> Est. 2004
                  </div>
                </FadeIn> */}
+              <FadeIn delay={0.15} className="pb-4">
+                <img
+                  src="/img/Logo_home2.png"
+                  alt="Cross the Bridge logo"
+                  className="mx-auto block w-[24rem] mb-26 md:w-[36rem] lg:w-[42rem] max-w-[480px] md:max-w-[630px] lg:max-w-[760px] mb-20 drop-shadow-[0_12px_45px_rgba(0,0,0,0.35)]"
+                />
+              </FadeIn>
               <FadeIn delay={0.2}>
-                <h1 className="text-3xl md:text-6xl font-bold text-white leading-tight mt-20 lg:mt-0 mb-10 text-center">
+                <h1 className="text-3xl md:text-6xl font-bold text-white leading-tight mt-15 lg:mt-0 mb-6 text-center">
                   {t.hero.title}
                 </h1>
               </FadeIn>
               <FadeIn delay={0.3}>
-                <p className="text-gray-300 md:text-xl ml-20 mr-20 mb-20 text-center">{t.hero.subtitle}</p>
+                <p className="text-gray-300 md:text-xl mx-6 md:mx-16 mb-12 text-center">{t.hero.subtitle}</p>
               </FadeIn>
               <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-4 w-full max-w-3xl mx-auto justify-center">
                 <FadeIn delay={0.4}>
@@ -649,7 +703,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                     onClick={() => handleNavClick('services')}
                     className="group flex items-center justify-center gap-3 bg-brand-gold text-brand-navy px-5 sm:px-7 md:px-8 py-3 md:py-4 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-base hover:bg-white transition-colors w-full sm:w-auto"
                   >
-                    {t.hero.cta} <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                    {t.hero.cta}
                   </button>
                 </FadeIn>
                 <FadeIn delay={0.5}>
@@ -657,7 +711,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                     onClick={() => handleNavClick('services')}
                     className="group flex items-center justify-center gap-3 bg-brand-navy/80 text-white border-2 border-brand-gold px-5 sm:px-7 md:px-8 py-3 md:py-4 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-base hover:bg-brand-gold hover:text-brand-navy transition-colors w-full sm:w-auto"
                   >
-                    {t.hero.cta2} <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                    {t.hero.cta2}
                   </button>
                 </FadeIn>
               </div>
@@ -670,14 +724,10 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 className="relative z-10 border border-white/10 rounded-full w-[400px] h-[400px] flex items-center justify-center"
               >
                 <div className="absolute inset-0 border border-dashed border-white/10 rounded-full scale-75" />
-                <Globe size={120} strokeWidth={0.5} className="text-white/20" />
               </motion.div>
             </div>
           </div>
 
-          <div className="absolute inset-0 flex items-center justify-center text-white/30 animate-bounce pointer-events-none">
-            <ChevronDown size={24} />
-          </div>
         </section>
 
         {/* 2. SERVICES (Light) */}
@@ -703,9 +753,9 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800"
               ];
               const gradients = [
-                'from-emerald-500 to-teal-600',
-                'from-amber-500 to-orange-600', 
-                'from-blue-500 to-indigo-600'
+                'from-[#0b2f6b] to-[#002169]',
+                'from-[#b08c55] to-[#d5ba8c]', 
+                'from-[#27497a] to-[#0f2f66]'
               ];
               const icons = [Package, Layers, Globe];
               
@@ -831,10 +881,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                               ))}
                             </div>
                             
-                            {/* Scroll indicator */}
-                            <div className="flex justify-center mt-8">
-                              <ChevronDown size={24} className="text-gray-500 animate-bounce" />
-                            </div>
                           </div>
                         </MotionDiv>
                       </MotionDiv>
@@ -865,8 +911,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                                 <div className="relative h-full flex flex-col justify-between p-5 md:p-6 text-white">
                                   {/* Top */}
                                   <div className="flex items-center justify-between">
-                                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                      <Icon size={20} className="md:w-6 md:h-6" />
+                                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-xs font-bold uppercase tracking-widest">
+                                      0{idx + 1}
                                     </div>
                                     <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
                                       0{idx + 1}
@@ -880,9 +926,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                                     
                                     {/* Tap indicator */}
                                     <div className="flex items-center gap-2 text-white/60 text-xs group-hover:text-white transition-colors">
-                                      <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                                        <ArrowRight size={14} />
-                                      </div>
                                       <span>{lang === 'es' ? 'Toca para ver más' : 'Tap for details'}</span>
                                     </div>
                                   </div>
@@ -911,7 +954,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                         onClick={() => handleNavClick('contact')} 
                         className="inline-flex items-center gap-2 bg-brand-gold text-brand-navy px-4 py-2 md:px-5 md:py-2.5 rounded-xl text-xs md:text-sm font-bold uppercase tracking-wider hover:bg-brand-navy hover:text-white transition-colors"
                       >
-                        {t.services.missions.cta} <ArrowRight size={14} />
+                        {t.services.missions.cta}
                       </button>
                     </div>
                     
@@ -947,28 +990,28 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             {/* Zigzag Timeline */}
             <div className="relative max-w-4xl mx-auto">
               {/* Central vertical line */}
-              <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-amber-500 via-rose-500 to-emerald-500 -translate-x-1/2 hidden md:block" />
+              <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-[#d5ba8c] via-[#4a638f] to-[#002169] -translate-x-1/2 hidden md:block" />
               
               {t.process.steps.map((step, idx) => {
                 const icons = [Target, FileText, Users, Package, Briefcase, Shield, Ship];
                 const Icon = icons[idx] || Target;
                 const colors = [
-                  'bg-blue-500',
-                  'bg-amber-500', 
-                  'bg-rose-500',
-                  'bg-emerald-500',
-                  'bg-purple-500',
-                  'bg-cyan-500',
-                  'bg-orange-500'
+                  'bg-[#0b2f6b]',
+                  'bg-[#b08c55]', 
+                  'bg-[#1f3f70]',
+                  'bg-[#0f2f66]',
+                  'bg-[#d5ba8c]',
+                  'bg-[#12315c]',
+                  'bg-[#8a744f]'
                 ];
                 const borderColors = [
-                  'border-l-blue-500',
-                  'border-l-amber-500',
-                  'border-l-rose-500', 
-                  'border-l-emerald-500',
-                  'border-l-purple-500',
-                  'border-l-cyan-500',
-                  'border-l-orange-500'
+                  'border-l-[#0b2f6b]',
+                  'border-l-[#b08c55]',
+                  'border-l-[#1f3f70]', 
+                  'border-l-[#0f2f66]',
+                  'border-l-[#d5ba8c]',
+                  'border-l-[#12315c]',
+                  'border-l-[#8a744f]'
                 ];
                 const isLeft = idx % 2 === 0;
                 
@@ -1065,20 +1108,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   </p>
                 </div>
 
-                {/* Education */}
-                {/* <div className="border-t border-gray-100 pt-6 lg:pt-8">
-                  <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-navy mb-4 lg:mb-6">
-                    <GraduationCap size={16} /> Education
-                  </h4>
-                  <div className="grid gap-3 lg:gap-4">
-                    {t.team.profile.education.map((edu, i) => (
-                      <div key={i} className="bg-gray-50 lg:bg-transparent p-4 lg:p-0 rounded-xl lg:rounded-none">
-                        <span className="font-bold text-brand-navy text-sm lg:text-base block lg:inline">{edu.degree}</span>
-                        <span className="text-xs lg:text-sm text-gray-400 block lg:inline lg:ml-2">{edu.school}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div> */}
               </FadeIn>
             </div>
           </div>
@@ -1105,9 +1134,11 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             <div className="lg:hidden space-y-3">
               {t.differentiators.items.map((item, idx) => {
                 const [isExpanded, setIsExpanded] = useState(false);
-                const icons = [Award, Globe, Shield];
-                const Icon = icons[idx] || Star;
-                const colors = ['from-amber-500 to-orange-500', 'from-blue-500 to-indigo-500', 'from-emerald-500 to-teal-500'];
+                const colors = [
+                  'from-[#0b2f6b] to-[#002169]',
+                  'from-[#b08c55] to-[#d5ba8c]',
+                  'from-[#1f3f70] to-[#0f2f66]'
+                ];
                 
                 return (
                   <div 
@@ -1118,17 +1149,16 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                       onClick={() => setIsExpanded(!isExpanded)}
                       className="w-full p-5 flex items-center gap-4 text-left"
                     >
-                      <div className={`bg-gradient-to-br ${colors[idx]} p-3 rounded-xl shadow-lg flex-shrink-0`}>
-                        <Icon size={20} className="text-white" />
+                      <div className={`bg-gradient-to-br ${colors[idx]} px-3 py-2 rounded-xl shadow-lg flex-shrink-0 text-white text-xs font-bold uppercase tracking-wider`}>
+                        0{idx + 1}
                       </div>
                       <div className="flex-1 min-w-0">
                         <span className="text-brand-gold/60 text-[10px] font-bold uppercase tracking-wider">0{idx + 1}</span>
                         <h3 className="text-white font-bold text-sm truncate">{item.title}</h3>
                       </div>
-                      <ChevronDown 
-                        size={20} 
-                        className={`text-brand-gold transition-transform duration-300 flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`} 
-                      />
+                      <span className="text-brand-gold text-xs font-bold uppercase tracking-widest">
+                        {isExpanded ? (lang === 'es' ? 'Cerrar' : 'Close') : (lang === 'es' ? 'Abrir' : 'Open')}
+                      </span>
                     </button>
                     
                     <div className={`overflow-hidden transition-all duration-500 ${isExpanded ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
@@ -1144,9 +1174,14 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             {/* Desktop Grid - Hover reveal cards */}
             <div className="hidden lg:grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {t.differentiators.items.map((item, idx) => {
-                const icons = [Award, Globe, Shield, Compass, Users, Target];
-                const Icon = icons[idx] || Star;
-                const colors = ['from-amber-500 to-orange-500', 'from-blue-500 to-indigo-500', 'from-emerald-500 to-teal-500', 'from-purple-500 to-pink-500', 'from-rose-500 to-red-500', 'from-cyan-500 to-blue-500'];
+                const colors = [
+                  'from-[#0b2f6b] to-[#002169]',
+                  'from-[#b08c55] to-[#d5ba8c]',
+                  'from-[#1f3f70] to-[#0f2f66]',
+                  'from-[#0d264f] to-[#001a3a]',
+                  'from-[#c6ab7b] to-[#d5ba8c]',
+                  'from-[#223b6b] to-[#0f2a57]'
+                ];
                 const images = [
                   'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=800&auto=format&fit=crop',
                   'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=800&auto=format&fit=crop',
@@ -1169,10 +1204,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                         <span className="absolute top-4 right-4 text-7xl font-bold text-brand-gold/10 group-hover:text-brand-gold/30 transition-colors">0{idx + 1}</span>
                         
                         {/* Icon */}
-                        <div className={`bg-gradient-to-br ${colors[idx]} p-3 rounded-xl w-fit mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
-                          <Icon size={24} className="text-white" />
-                        </div>
-                        
                         <h3 className="text-xl font-bold text-white mb-2 group-hover:text-brand-gold transition-colors">{item.title}</h3>
                         
                         {/* Description - Hidden by default, shows on hover */}
@@ -1183,7 +1214,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                         {/* Read more indicator */}
                         <div className="flex items-center gap-2 text-brand-gold/60 text-xs mt-3 group-hover:text-brand-gold transition-colors">
                           <span>{lang === 'es' ? 'Ver más' : 'Learn more'}</span>
-                          <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </div>
@@ -1209,43 +1239,49 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   icon: Scissors, 
                   title: lang === 'es' ? 'Expertise en Cuero y Calzado' : 'Deep Leather & Footwear Expertise',
                   desc: lang === 'es' ? 'Décadas de experiencia en la industria del cuero y calzado de León, México.' : 'Decades of experience in León, Mexico leather and footwear industry.',
-                  color: 'from-amber-500 to-orange-600',
-                  image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=1740&auto=format&fit=crop',
+                  color: 'from-[#b08c55] to-[#d5ba8c]',
+                  video: 'https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4',
+                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/005/166/637/large/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.jpg'
                 },
                 { 
                   icon: Award, 
                   title: lang === 'es' ? 'Acceso a Fábricas Élite en México' : 'Access to Elite Factories in Mexico',
                   desc: lang === 'es' ? 'Red exclusiva de fabricantes certificados y verificados.' : 'Exclusive network of certified and verified manufacturers.',
-                  color: 'from-emerald-500 to-teal-600',
-                  image: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?q=80&w=1740&auto=format&fit=crop',
+                  color: 'from-[#0b2f6b] to-[#002169]',
+                  video: 'https://static.vecteezy.com/system/resources/previews/007/995/834/mp4/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.mp4',
+                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/007/995/834/large/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.jpg'
                 },
                 { 
                   icon: Globe, 
                   title: lang === 'es' ? 'Red Internacional (Brasil, Asia, USA)' : 'International Network (Brazil, Asia, USA)',
                   desc: lang === 'es' ? 'Conexiones globales para oportunidades sin fronteras.' : 'Global connections for borderless opportunities.',
-                  color: 'from-blue-500 to-indigo-600',
-                  image: 'https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=1740&auto=format&fit=crop',
+                  color: 'from-[#1f3f70] to-[#0f2f66]',
+                  video: 'https://static.vecteezy.com/system/resources/previews/024/834/351/mp4/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.mp4',
+                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/024/834/351/large/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.jpg'
                 },
                 { 
                   icon: FileText, 
                   title: lang === 'es' ? 'Experiencia y Certificaciones de Exportación' : 'Export Experience & Certifications',
                   desc: lang === 'es' ? 'Documentación y compliance para comercio internacional.' : 'Documentation and compliance for international trade.',
-                  color: 'from-purple-500 to-violet-600',
-                  image: 'https://images.unsplash.com/photo-1568219656418-15c329312bf1?q=80&w=1740&auto=format&fit=crop',
+                  color: 'from-[#c6ab7b] to-[#d5ba8c]',
+                  video: 'https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4',
+                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg'
                 },
                 { 
                   icon: Settings, 
                   title: lang === 'es' ? 'Presencia Directa en Fábricas' : 'Hands-on Factory Presence',
                   desc: lang === 'es' ? 'Control de calidad en sitio y supervisión directa.' : 'On-site quality control and direct supervision.',
-                  color: 'from-rose-500 to-pink-600',
-                  image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1740&auto=format&fit=crop',
+                  color: 'from-[#12315c] to-[#0b2247]',
+                  video: 'https://static.vecteezy.com/system/resources/previews/060/472/965/mp4/three-people-are-standing-around-a-table-with-boxes-free-video.mp4',
+                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/060/472/965/large/three-people-are-standing-around-a-table-with-boxes-free-video.jpg'
                 },
                 { 
                   icon: Users, 
                   title: lang === 'es' ? 'Liderazgo Bilingüe y Bicultural' : 'Bilingual, Bicultural Leadership',
                   desc: lang === 'es' ? 'Comunicación fluida entre culturas y mercados.' : 'Seamless communication across cultures and markets.',
-                  color: 'from-cyan-500 to-sky-600',
-                  image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1740&auto=format&fit=crop',
+                  color: 'from-[#27497a] to-[#0f2f66]',
+                  video: 'https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4',
+                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg'
                 },
               ];
               
@@ -1366,7 +1402,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   <div className="text-center pt-8 md:pt-10 pb-4 px-4">
                     <FadeIn>
                       <div className="inline-flex items-center gap-2 text-brand-gold font-bold uppercase tracking-widest text-[10px] bg-white/5 border border-brand-gold/30 px-4 py-2 rounded-full mb-3 backdrop-blur-sm">
-                        <Sparkles size={12} />
                         {lang === 'es' ? 'Nuestras Fortalezas' : 'Our Strengths'}
                       </div>
                       <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-2">
@@ -1386,14 +1421,14 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                       className={`absolute left-2 z-30 w-12 h-12 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center border border-white/20 transition-all ${currentIndex === 0 ? 'opacity-30' : 'active:scale-90'}`}
                       disabled={currentIndex === 0}
                     >
-                      <ChevronLeft size={24} className="text-white" />
+                      <span className="text-white text-lg font-bold">‹</span>
                     </button>
                     <button 
                       onClick={() => handleSwipe('left')}
                       className={`absolute right-2 z-30 w-12 h-12 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center border border-white/20 transition-all ${currentIndex === ctbStrengths.length - 1 ? 'opacity-30' : 'active:scale-90'}`}
                       disabled={currentIndex === ctbStrengths.length - 1}
                     >
-                      <ChevronRight size={24} className="text-white" />
+                      <span className="text-white text-lg font-bold">›</span>
                     </button>
                     
                     {/* Card stack container - with swipe gestures */}
@@ -1453,13 +1488,17 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                           }}
                           className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl pointer-events-none will-change-transform"
                         >
-                          {/* Full-bleed background image */}
+                          {/* Full-bleed background video */}
                           <div className="absolute inset-0">
-                            <img 
-                              src={ctbStrengths[currentIndex].image} 
-                              alt={ctbStrengths[currentIndex].title}
+                            <video
                               className="w-full h-full object-cover"
-                              draggable={false}
+                              src={ctbStrengths[currentIndex].video}
+                              poster={ctbStrengths[currentIndex].poster}
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              preload="auto"
                             />
                           </div>
                           
@@ -1484,14 +1523,13 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                               </div>
                             </div>
                             
-                            {/* Icon badge with glow */}
+                            {/* Accent badge */}
                             <div className="relative">
                               <div className={`absolute inset-0 bg-gradient-to-br ${ctbStrengths[currentIndex].color} blur-lg opacity-60`} />
                               <div className={`relative bg-gradient-to-br ${ctbStrengths[currentIndex].color} p-4 rounded-2xl shadow-xl`}>
-                                {(() => {
-                                  const Icon = ctbStrengths[currentIndex].icon;
-                                  return <Icon size={26} className="text-white" />;
-                                })()}
+                                <span className="text-white font-bold text-sm uppercase tracking-widest">
+                                  {String(currentIndex + 1).padStart(2, '0')}
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -1516,11 +1554,9 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                               
                               {/* Swipe hint */}
                               <div className="flex items-center justify-center gap-3 mt-5 pt-4 border-t border-white/10">
-                                <ChevronLeft size={16} className="text-white/40" />
                                 <span className="text-white/40 text-xs font-medium uppercase tracking-wider">
                                   {lang === 'es' ? 'Desliza para explorar' : 'Swipe to explore'}
                                 </span>
-                                <ChevronRight size={16} className="text-white/40" />
                               </div>
                             </MotionDiv>
                           </div>
@@ -1573,11 +1609,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                               </div>
                               
                               {/* Icon */}
-                              <div className={`bg-gradient-to-br ${ctbStrengths[currentIndex].color} p-4 rounded-xl w-fit shadow-2xl`}>
-                                {(() => {
-                                  const Icon = ctbStrengths[currentIndex].icon;
-                                  return <Icon size={32} className="text-white" />;
-                                })()}
+                              <div className={`bg-gradient-to-br ${ctbStrengths[currentIndex].color} px-4 py-2 rounded-xl w-fit shadow-2xl text-white text-sm font-bold uppercase tracking-widest`}>
+                                {String(currentIndex + 1).padStart(2, '0')}
                               </div>
                               
                               {/* Title */}
@@ -1601,7 +1634,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                                       : 'border-white/40 text-white hover:bg-white hover:text-brand-navy'
                                   }`}
                                 >
-                                  <ChevronLeft size={24} />
+                                  <span className="font-bold text-lg">‹</span>
                                 </button>
                                 <button
                                   onClick={() => currentIndex < ctbStrengths.length - 1 && goToCard(currentIndex + 1)}
@@ -1612,7 +1645,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                                       : 'border-white/40 text-white hover:bg-white hover:text-brand-navy'
                                   }`}
                                 >
-                                  <ChevronRight size={24} />
+                                  <span className="font-bold text-lg">›</span>
                                 </button>
                                 
                                 {/* Progress indicator */}
@@ -1645,10 +1678,15 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                               transition={{ duration: 0.5, ease: "easeOut" }}
                               className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl"
                             >
-                              <img 
-                                src={ctbStrengths[currentIndex].image} 
-                                alt={ctbStrengths[currentIndex].title}
+                              <video
                                 className="w-full h-full object-cover"
+                                src={ctbStrengths[currentIndex].video}
+                                poster={ctbStrengths[currentIndex].poster}
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="auto"
                               />
                               {/* Gradient overlay */}
                               <div className={`absolute inset-0 bg-gradient-to-br ${ctbStrengths[currentIndex].color} opacity-40`} />
@@ -1732,10 +1770,10 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   onClick={() => setSelectedTestimonial(null)}
                   className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
                 >
-                  <X size={18} />
+                  <span className="text-xs font-bold uppercase tracking-wider">Close</span>
                 </button>
-                <div className="flex gap-0.5 mb-4">
-                  {[1, 2, 3, 4, 5].map(s => <Star key={s} size={16} className="fill-brand-gold text-brand-gold" />)}
+                <div className="flex gap-1 mb-4 text-brand-gold text-sm font-bold tracking-widest">
+                  ★★★★★
                 </div>
                 <p className="text-gray-700 text-base md:text-lg italic leading-relaxed mb-6">
                   "{selectedTestimonial.text}"
@@ -1744,8 +1782,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   {selectedTestimonial.image ? (
                     <img src={selectedTestimonial.image} alt="" className="w-14 h-14 rounded-full object-cover border-2 border-brand-gold/30" />
                   ) : (
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-navy to-brand-navy/80 flex items-center justify-center border-2 border-brand-gold/30">
-                      <User className="w-7 h-7 text-brand-gold/70" />
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-navy to-brand-navy/80 flex items-center justify-center border-2 border-brand-gold/30 text-brand-gold font-bold">
+                      {selectedTestimonial.name?.[0] || '?'}
                     </div>
                   )}
                   <div>
@@ -1776,7 +1814,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             <FadeIn>
               <div className="text-center mb-6 md:mb-10">
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4">
-                  <Globe size={14} /> {lang === 'en' ? 'Know the Bridge Effect' : 'Conoce el Efecto Puente'}
+                  {lang === 'en' ? 'Know the Bridge Effect' : 'Conoce el Efecto Puente'}
                 </span>
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
                   {lang === 'en' ? 'More Than' : 'Más de'} <span className="text-brand-gold">20</span> {lang === 'en' ? 'Countries' : 'Países'}
@@ -1787,8 +1825,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               </div>
             </FadeIn>
 
-            {/* Bridge SVG with Walking Testimonials */}
-            <div className="relative max-w-6xl mx-auto h-[280px] md:h-[350px] overflow-visible mt-24 md:mt-32">
+            {/* Bridge SVG with Testimonials anchored to deck */}
+            <div className="relative max-w-6xl mx-auto h-[360px] md:h-[420px] overflow-visible mt-24 md:mt-32">
               {/* SVG Bridge */}
               <svg viewBox="0 0 1200 400" className="w-full h-full absolute inset-0" preserveAspectRatio="xMidYMid meet">
                 <defs>
@@ -1837,7 +1875,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 <ellipse cx="600" cy="360" rx="500" ry="30" fill="url(#bridgeGradient)" opacity="0.1" />
               </svg>
 
-              {/* Walking Figures with Cycling Dialog Bubbles */}
+              {/* Testimonials anchored to bridge deck */}
               {testimonialIndices.map((testimonialIdx, idx) => {
                 const testimonial = t.testimonials.items[testimonialIdx];
                 if (!testimonial) return null;
@@ -1847,24 +1885,15 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                     key={`walker-${idx}`}
                     className="absolute"
                     style={{ 
-                      top: '48%',
-                      left: `${15 + idx * 30}%`
-                    }}
-                    animate={{ 
-                      x: ['0%', '60%', '0%'],
-                    }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 12 + idx * 3,
-                      ease: "easeInOut",
-                      delay: idx * 1.5
+                      top: '68%',
+                      left: `${16 + idx * 30}%`
                     }}
                   >
                     <div className="relative">
                       {/* Dialog Bubble - CLICKABLE */}
                       <MotionDiv
                         key={`bubble-${idx}-${testimonialIdx}`}
-                        className={`absolute -top-28 md:-top-36 ${idx === 1 ? '-left-20 md:-left-28' : '-left-12 md:-left-20'} w-44 md:w-60 ${idx === 1 ? 'bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 border-brand-gold/50' : 'bg-white/95 border-brand-gold/20'} backdrop-blur-sm rounded-xl p-3 md:p-4 shadow-xl border cursor-pointer hover:scale-105 transition-transform`}
+                        className={`absolute -top-10 md:-top-16 ${idx === 1 ? '-left-20 md:-left-28' : '-left-12 md:-left-20'} w-44 md:w-60 ${idx === 1 ? 'bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 border-brand-gold/50' : 'bg-white/95 border-brand-gold/20'} backdrop-blur-sm rounded-xl p-3 md:p-4 shadow-xl border cursor-pointer hover:scale-105 transition-transform`}
                         initial={{ opacity: 0, y: 10, scale: 0.9 }}
                         animate={{ opacity: 1, y: [0, -5, 0], scale: 1 }}
                         transition={{ 
@@ -1896,24 +1925,11 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                                 {testimonial.country}
                               </span>
                             </div>
-                          </div>
+                        </div>
                         {/* Bubble tail */}
-                        <div className={`absolute -bottom-2 left-6 w-3 h-3 ${idx === 1 ? 'bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 border-brand-gold/50' : 'bg-white/95 border-brand-gold/20'} transform rotate-45 border-r border-b`} />
-                      </MotionDiv>
-                      
-                      {/* Walking Person SVG with leg animation */}
-                      <MotionDiv
-                        animate={{ 
-                          rotate: [-2, 2, -2]
-                        }}
-                        transition={{ repeat: Infinity, duration: 0.5, ease: "easeInOut" }}
-                      >
-                        <svg width={idx === 1 ? "35" : "28"} height={idx === 1 ? "55" : "45"} viewBox="0 0 30 50" className="md:w-[40px] md:h-[60px]">
-                          <circle cx="15" cy="8" r="7" fill="#C4A661" />
-                          <path d="M15 15 L15 30" stroke="#C4A661" strokeWidth="3" strokeLinecap="round" fill="none" />
-                          <path d="M15 20 L8 28 M15 20 L22 28" stroke="#C4A661" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-                          <path d="M15 30 L10 48 M15 30 L20 48" stroke="#C4A661" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-                        </svg>
+                        <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 ${idx === 1 ? 'bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 border-brand-gold/50' : 'bg-white/95 border-brand-gold/20'} transform rotate-45 border-r border-b`}>
+                          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-1 h-12 bg-gradient-to-b from-brand-gold/50 to-transparent opacity-70" />
+                        </div>
                       </MotionDiv>
                     </div>
                   </MotionDiv>
@@ -2081,72 +2097,55 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               </div>
             </FadeIn>
 
-            {/* Countries Carousel - Multi-level Moving */}
+            {/* Countries Carousel - Single Marquee */}
             <div className="relative py-8 md:py-12 mt-8 md:mt-12 overflow-hidden">
               <FadeIn>
                 <p className="text-center text-xs md:text-sm font-bold uppercase tracking-widest text-brand-gold/60 mb-6 md:mb-8">
                   {lang === 'en' ? 'Presence in 20+ Countries' : 'Presencia en más de 20 Países'}
                 </p>
               </FadeIn>
-              
-              {/* Row 1 - Moves Right */}
-              <div className="relative mb-3 md:mb-4 overflow-hidden mask-fade">
-                <MotionDiv
-                  className="flex gap-3 md:gap-6 whitespace-nowrap"
-                  animate={{ x: ["-50%", "0%"] }}
-                  transition={{ repeat: Infinity, ease: "linear", duration: 25 }}
-                >
-                  {[...['USA', 'Canada', 'Brazil', 'Chile', 'Mexico', 'Germany', 'Spain', 'Portugal', 'Italy', 'England', 'France'], ...['USA', 'Canada', 'Brazil', 'Chile', 'Mexico', 'Germany', 'Spain', 'Portugal', 'Italy', 'England', 'France']].map((country, i) => (
-                    <div key={i} className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2.5 rounded-full bg-white/10 border border-white/20">
-                      <span className="text-xs md:text-sm">{countryCodeToFlag(country === 'USA' ? 'US' : country === 'England' ? 'GB' : country === 'Brazil' ? 'BR' : country === 'Germany' ? 'DE' : country === 'Spain' ? 'ES' : country === 'Portugal' ? 'PT' : country === 'Italy' ? 'IT' : country === 'France' ? 'FR' : country === 'Chile' ? 'CL' : country === 'Canada' ? 'CA' : 'MX')}</span>
-                      <span className="text-[10px] md:text-xs font-semibold text-white/70">{country}</span>
-                    </div>
-                  ))}
-                </MotionDiv>
-              </div>
-              
-              {/* Row 2 - Moves Left */}
-              <div className="relative mb-3 md:mb-4 overflow-hidden mask-fade">
-                <MotionDiv
-                  className="flex gap-3 md:gap-6 whitespace-nowrap"
-                  animate={{ x: ["0%", "-50%"] }}
-                  transition={{ repeat: Infinity, ease: "linear", duration: 30 }}
-                >
-                  {[...['China', 'Japan', 'Taiwan', 'Hong Kong', 'Vietnam', 'Thailand', 'India', 'Singapore', 'Indonesia', 'Malaysia', 'Laos'], ...['China', 'Japan', 'Taiwan', 'Hong Kong', 'Vietnam', 'Thailand', 'India', 'Singapore', 'Indonesia', 'Malaysia', 'Laos']].map((country, i) => (
-                    <div key={i} className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2.5 rounded-full bg-brand-gold/20 border border-brand-gold/30">
-                      <span className="text-xs md:text-sm">{countryCodeToFlag(country === 'China' ? 'CN' : country === 'Japan' ? 'JP' : country === 'Taiwan' ? 'TW' : country === 'Hong Kong' ? 'HK' : country === 'Vietnam' ? 'VN' : country === 'Thailand' ? 'TH' : country === 'India' ? 'IN' : country === 'Singapore' ? 'SG' : country === 'Indonesia' ? 'ID' : country === 'Malaysia' ? 'MY' : 'LA')}</span>
-                      <span className="text-[10px] md:text-xs font-semibold text-white/70">{country}</span>
-                    </div>
-                  ))}
-                </MotionDiv>
-              </div>
-              
-              {/* Row 3 - Moves Right (slower) */}
               <div className="relative overflow-hidden mask-fade">
                 <MotionDiv
-                  className="flex gap-3 md:gap-6 whitespace-nowrap"
-                  animate={{ x: ["-30%", "0%"] }}
-                  transition={{ repeat: Infinity, ease: "linear", duration: 35 }}
+                  className="flex gap-3 md:gap-5 whitespace-nowrap"
+                  animate={{ x: ["0%", "-50%"] }}
+                  transition={{ repeat: Infinity, ease: "linear", duration: 12 }}
                 >
-                  {[...['Australia', 'New Zealand', 'South Africa', 'Argentina', 'Colombia', 'Peru', 'Netherlands', 'Belgium', 'Switzerland'], ...['Australia', 'New Zealand', 'South Africa', 'Argentina', 'Colombia', 'Peru', 'Netherlands', 'Belgium', 'Switzerland']].map((country, i) => (
-                    <div key={i} className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2.5 rounded-full bg-white/10 border border-white/20">
-                      <span className="text-xs md:text-sm">{countryCodeToFlag(country === 'Australia' ? 'AU' : country === 'New Zealand' ? 'NZ' : country === 'South Africa' ? 'ZA' : country === 'Argentina' ? 'AR' : country === 'Colombia' ? 'CO' : country === 'Peru' ? 'PE' : country === 'Netherlands' ? 'NL' : country === 'Belgium' ? 'BE' : 'CH')}</span>
-                      <span className="text-[10px] md:text-xs font-semibold text-white/70">{country}</span>
-                    </div>
-                  ))}
+                  {[...[
+                    'USA','Canada','Mexico','Brazil','Chile','Germany','Spain','Portugal','Italy','England','France',
+                    'China','Japan','Taiwan','Hong Kong','Vietnam','Thailand','India','Singapore','Indonesia','Malaysia','Laos',
+                    'Australia','New Zealand','South Africa','Argentina','Colombia','Peru','Netherlands','Belgium','Switzerland'
+                  ], ...[
+                    'USA','Canada','Mexico','Brazil','Chile','Germany','Spain','Portugal','Italy','England','France',
+                    'China','Japan','Taiwan','Hong Kong','Vietnam','Thailand','India','Singapore','Indonesia','Malaysia','Laos',
+                    'Australia','New Zealand','South Africa','Argentina','Colombia','Peru','Netherlands','Belgium','Switzerland'
+                  ]].map((country, i) => {
+                    const codeMap: Record<string, string> = {
+                      USA: 'US', Canada: 'CA', Mexico: 'MX', Brazil: 'BR', Chile: 'CL',
+                      Germany: 'DE', Spain: 'ES', Portugal: 'PT', Italy: 'IT', England: 'GB', France: 'FR',
+                      China: 'CN', Japan: 'JP', Taiwan: 'TW', 'Hong Kong': 'HK', Vietnam: 'VN', Thailand: 'TH', India: 'IN', Singapore: 'SG', Indonesia: 'ID', Malaysia: 'MY', Laos: 'LA',
+                      Australia: 'AU', 'New Zealand': 'NZ', 'South Africa': 'ZA', Argentina: 'AR', Colombia: 'CO', Peru: 'PE', Netherlands: 'NL', Belgium: 'BE', Switzerland: 'CH'
+                    };
+                    const isGold = i % 5 === 0;
+                    return (
+                      <div key={i} className={`inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2.5 rounded-full border ${isGold ? 'bg-brand-gold/20 border-brand-gold/30' : 'bg-white/10 border-white/20'}`}>
+                        <span className="text-xs md:text-sm">{countryCodeToFlag(codeMap[country] || 'US')}</span>
+                        <span className="text-[10px] md:text-xs font-semibold text-white/80">{country}</span>
+                      </div>
+                    );
+                  })}
                 </MotionDiv>
               </div>
             </div>
 
             {/* Stats Counters */}
             <div className="flex justify-center gap-8 md:gap-16 flex-wrap mt-8 md:mt-12">
-              {[{ v: t.stats.years, l: t.stats.yearsLabel }, { v: t.stats.negotiations, l: t.stats.negotiationsLabel }, { v: t.stats.alliances, l: t.stats.alliancesLabel }].map((stat, i) => (
+              {[{ v: t.stats.years, l: t.stats.yearsLabel }, { v: t.stats.alliances, l: t.stats.alliancesLabel }].map((stat, i) => (
                 <Counter key={i} value={stat.v} label={stat.l} dark={false} />
               ))}
             </div>
 
             {/* Allies Logo Marquee */}
-            <div className="mt-12 md:mt-16">
+            <div className="mt-12 md:mt-16 mb-12">
               <LogoMarquee dark={false} />
             </div>
           </div>
@@ -2202,7 +2201,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
         </section>
 
         {/* BECOME A PARTNER - For Providers */}
-        <section className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-brand-navy via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative py-20 md:py-28 overflow-hidden">
+        <section className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-brand-navy via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative overflow-hidden pb-20 md:pb-28">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {/* World map background */}
@@ -2214,7 +2213,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
           
           <GridPattern color="#C4A661" opacity={0.03} />
           
-          <div className="container mx-auto px-4 md:px-6 relative z-10 py-16 lg:py-24">
+          <div className="container mx-auto px-4 md:px-6 relative z-10 py-16 lg:py-10 mt-8">
             {/* Header */}
             <div className="text-center mb-12 lg:mb-16">
               <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">
@@ -2239,7 +2238,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es' 
                     ? 'Expande tu negocio a mercados internacionales a través de nuestra red establecida'
                     : 'Expand your business to international markets through our established network',
-                  color: 'from-blue-500 to-cyan-500',
+                  color: 'from-[#1f3f70] to-[#0f2f66]',
                   image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop'
                 },
                 {
@@ -2248,7 +2247,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es'
                     ? 'Conecta con marcas premium de USA y otros mercados buscando calidad mexicana'
                     : 'Connect with premium brands from USA and other markets seeking Mexican quality',
-                  color: 'from-emerald-500 to-teal-500',
+                  color: 'from-[#b08c55] to-[#d5ba8c]',
                   image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop'
                 },
                 {
@@ -2257,7 +2256,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es'
                     ? 'Sé parte de un directorio selecto de proveedores certificados y verificados'
                     : 'Be part of a select directory of certified and verified suppliers',
-                  color: 'from-amber-500 to-orange-500',
+                  color: 'from-[#0b2f6b] to-[#002169]',
                   image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop'
                 },
                 {
@@ -2266,7 +2265,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es'
                     ? 'Facilitamos exportaciones y coordinamos envíos internacionales'
                     : 'We facilitate exports and coordinate international shipments',
-                  color: 'from-purple-500 to-violet-500',
+                  color: 'from-[#12315c] to-[#0b2247]',
                   image: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=1740&auto=format&fit=crop'
                 },
                 {
@@ -2275,7 +2274,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es'
                     ? 'Accede a compradores serios y proyectos con volumen garantizado'
                     : 'Access serious buyers and projects with guaranteed volume',
-                  color: 'from-rose-500 to-pink-500',
+                  color: 'from-[#c6ab7b] to-[#d5ba8c]',
                   image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1740&auto=format&fit=crop'
                 },
                 {
@@ -2284,7 +2283,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   desc: lang === 'es'
                     ? 'Transacciones protegidas y términos comerciales claros'
                     : 'Protected transactions and clear commercial terms',
-                  color: 'from-indigo-500 to-blue-500',
+                  color: 'from-[#223b6b] to-[#0f2a57]',
                   image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop'
                 }
               ];
@@ -2366,7 +2365,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               };
               
               const currentBenefit = partnerBenefits[partnerCardIndex];
-              const BenefitIcon = currentBenefit.icon;
               
               return (
                 <div className="max-w-6xl mx-auto mb-12 lg:mb-16">
@@ -2385,18 +2383,18 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                       {/* Navigation arrows */}
                       <button 
                         onClick={(e) => { e.stopPropagation(); handlePartnerSwipe('right'); }}
-                        className={`absolute left-2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all ${partnerCardIndex === 0 ? 'opacity-30' : 'hover:bg-white/20'}`}
-                        disabled={partnerCardIndex === 0}
-                      >
-                        <ChevronLeft size={20} className="text-white" />
-                      </button>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); handlePartnerSwipe('left'); }}
-                        className={`absolute right-2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all ${partnerCardIndex === partnerBenefits.length - 1 ? 'opacity-30' : 'hover:bg-white/20'}`}
-                        disabled={partnerCardIndex === partnerBenefits.length - 1}
-                      >
-                        <ChevronRight size={20} className="text-white" />
-                      </button>
+                      className={`absolute left-2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all ${partnerCardIndex === 0 ? 'opacity-30' : 'hover:bg-white/20'}`}
+                      disabled={partnerCardIndex === 0}
+                    >
+                      <span className="text-white text-lg font-bold">‹</span>
+                    </button>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); handlePartnerSwipe('left'); }}
+                      className={`absolute right-2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all ${partnerCardIndex === partnerBenefits.length - 1 ? 'opacity-30' : 'hover:bg-white/20'}`}
+                      disabled={partnerCardIndex === partnerBenefits.length - 1}
+                    >
+                      <span className="text-white text-lg font-bold">›</span>
+                    </button>
                       
                       {/* Swipeable card */}
                       <AnimatePresence mode="wait" initial={false}>
@@ -2433,8 +2431,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                             
                             {/* Content */}
                             <div className="absolute inset-0 flex flex-col justify-end p-6">
-                              <div className={`bg-gradient-to-br ${currentBenefit.color} p-3 rounded-xl w-fit mb-3 shadow-lg`}>
-                                <BenefitIcon size={24} className="text-white" />
+                              <div className={`bg-gradient-to-br ${currentBenefit.color} px-3 py-1.5 rounded-xl w-fit mb-3 shadow-lg text-white text-sm font-bold uppercase tracking-widest`}>
+                                {String(partnerCardIndex + 1).padStart(2, '0')}
                               </div>
                               <h3 className="text-xl font-bold text-white mb-2">{currentBenefit.title}</h3>
                               <p className="text-gray-300 text-sm leading-relaxed">{currentBenefit.desc}</p>
@@ -2475,7 +2473,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   {/* Desktop: Grid layout */}
                   <div className="hidden lg:grid lg:grid-cols-3 gap-4">
                     {partnerBenefits.map((benefit, idx) => {
-                      const Icon = benefit.icon;
                       return (
                         <FadeIn key={idx} delay={idx * 0.1}>
                           <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:border-brand-gold/50 transition-all duration-500 hover:-translate-y-1 h-full relative overflow-hidden">
@@ -2484,8 +2481,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                               <img src={benefit.image} alt="" className="w-full h-full object-cover" />
                             </div>
                             <div className="relative z-10">
-                              <div className={`bg-gradient-to-br ${benefit.color} p-3 rounded-xl w-fit mb-3 shadow-lg group-hover:scale-110 transition-transform`}>
-                                <Icon size={20} className="text-white" />
+                              <div className={`bg-gradient-to-br ${benefit.color} px-3 py-1.5 rounded-xl w-fit mb-3 shadow-lg group-hover:scale-110 transition-transform text-white text-sm font-bold uppercase tracking-widest`}>
+                                {String(idx + 1).padStart(2, '0')}
                               </div>
                               <h3 className="text-base font-bold text-white mb-1.5 group-hover:text-brand-gold transition-colors">{benefit.title}</h3>
                               <p className="text-gray-400 text-xs leading-relaxed">{benefit.desc}</p>
@@ -2522,8 +2519,8 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 to-transparent" />
                 </div>
                 {/* Badge */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-gold text-brand-navy p-4 rounded-full shadow-xl z-10">
-                  <Compass size={32} className="animate-pulse" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-gold text-brand-navy px-5 py-3 rounded-full shadow-xl z-10 font-bold uppercase tracking-widest animate-pulse">
+                  CTB
                 </div>
               </div>
 
@@ -2553,7 +2550,6 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                   className="inline-flex items-center gap-3 bg-brand-gold text-brand-navy px-8 py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-white hover:scale-105 transition-all shadow-lg shadow-brand-gold/20"
                 >
                   {lang === 'es' ? 'Contactar como Socio' : 'Contact as Partner'}
-                  <ArrowRight size={20} />
                 </a>
               </div>
             </div>
@@ -2570,29 +2566,26 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-6 md:mb-8 text-brand-navy">{t.contact.title}</h2>
                 <div className="space-y-4 md:space-y-8 text-sm md:text-lg">
                   <a href="mailto:info@crossthebridge.co" className="flex items-center gap-3 md:gap-4 hover:text-brand-gold transition-colors active:scale-95">
-                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-navy/5 flex items-center justify-center flex-shrink-0"><Mail size={18} className="md:w-5 md:h-5" /></div>
                     info@crossthebridge.co
                   </a>
                   <a href="tel:+524777653792" className="flex items-center gap-3 md:gap-4 hover:text-brand-gold transition-colors active:scale-95">
-                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-navy/5 flex items-center justify-center flex-shrink-0"><Phone size={18} className="md:w-5 md:h-5" /></div>
                     +52 477 765 3792
                   </a>
                   <div className="flex items-center gap-3 md:gap-4">
-                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-navy/5 flex items-center justify-center flex-shrink-0"><MapPin size={18} className="md:w-5 md:h-5" /></div>
                     León Gto, México
                   </div>
                 </div>
 
                 <div className="flex gap-3 md:gap-4 mt-8 md:mt-12">
-                  <a href="https://www.linkedin.com/company/cross-the-bridge-mx/" target="_blank" rel="noopener noreferrer" className="p-2.5 md:p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90"><Linkedin size={18} className="md:w-5 md:h-5" /></a>
-                  <a href="https://www.instagram.com/crossthebridge.mx?igsh=bnF6dGdtdXB4MHIw" className="p-2.5 md:p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90"><Instagram size={18} className="md:w-5 md:h-5" /></a>
-                  <a href="https://www.facebook.com/profile.php?id=61583895457222" className="p-2.5 md:p-3 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90"><Facebook size={18} className="md:w-5 md:h-5" /></a>
+                  <a href="https://www.linkedin.com/company/cross-the-bridge-mx/" target="_blank" rel="noopener noreferrer" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">LinkedIn</a>
+                  <a href="https://www.instagram.com/crossthebridge.mx?igsh=bnF6dGdtdXB4MHIw" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">Instagram</a>
+                  <a href="https://www.facebook.com/profile.php?id=61583895457222" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">Facebook</a>
                 </div>
               </FadeIn>
             </div>
 
             <div className="w-full bg-[#F5F5F7] text-brand-navy p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-3xl shadow-xl border border-gray-100">
-              <form className="space-y-3 md:space-y-4" onSubmit={handleContactSubmit}>
+              <form className="space-y-4 md:space-y-5" onSubmit={handleContactSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <div>
                     <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 md:mb-2 block">{t.contact.form.name}</label>
@@ -2600,6 +2593,16 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                       type="text"
                       value={contactForm.name}
                       onChange={(e) => handleContactChange('name', e.target.value)}
+                      className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 md:mb-2 block">{t.contact.form.email}</label>
+                    <input
+                      type="email"
+                      value={contactForm.email}
+                      onChange={(e) => handleContactChange('email', e.target.value)}
                       className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                       required
                     />
@@ -2613,23 +2616,40 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                       className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                     />
                   </div>
+                  <div>
+                    <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 md:mb-2 block">{t.contact.form.website}</label>
+                    <input
+                      type="url"
+                      value={contactForm.website}
+                      onChange={(e) => handleContactChange('website', e.target.value)}
+                      placeholder="https://"
+                      className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                    />
+                  </div>
                 </div>
+
                 <div>
-                  <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 md:mb-2 block">{t.contact.form.email}</label>
-                  <input
-                    type="email"
-                    value={contactForm.email}
-                    onChange={(e) => handleContactChange('email', e.target.value)}
-                    className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                  <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 md:mb-2 block">{t.contact.form.serviceInterest}</label>
+                  <select
+                    value={contactForm.serviceInterest}
+                    onChange={(e) => handleContactChange('serviceInterest', e.target.value)}
                     required
-                  />
+                    className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                  >
+                    <option value="">{t.contact.form.servicePlaceholder}</option>
+                    {serviceOptions.map((service, idx) => (
+                      <option key={idx} value={service}>{service}</option>
+                    ))}
+                  </select>
                 </div>
+
                 <div>
                   <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 md:mb-2 block">{t.contact.form.message}</label>
                   <textarea
-                    rows={3}
+                    rows={4}
                     value={contactForm.message}
                     onChange={(e) => handleContactChange('message', e.target.value)}
+                    placeholder={t.contact.form.messageHint}
                     className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                   />
                 </div>
@@ -2683,5 +2703,3 @@ export default function App() {
     </>
   );
 }
-
-

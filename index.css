@@ -67,6 +67,33 @@ a, button {
   background: #1B2440;
 }
 
+.logo-wordmark-blue {
+  filter: brightness(0) saturate(100%) invert(10%) sepia(55%) saturate(2549%) hue-rotate(195deg) brightness(88%) contrast(107%);
+}
+
+.logo-wordmark-on-dark {
+  filter: brightness(0) invert(1);
+}
+
+.logo-wordmark {
+  display: block;
+  height: 100%;
+  width: auto;
+  color: var(--logo-wordmark-color, #002169);
+}
+
+.logo-wordmark--dark {
+  --logo-wordmark-color: #ffffff;
+}
+
+.logo-wordmark--light {
+  --logo-wordmark-color: #002169;
+}
+
+.logo-wordmark-shadow {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
+}
+
 /* Keep native Odoo launcher above UI without overriding its layout */
 .o_livechat_button,
 .o_chat_button,

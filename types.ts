@@ -83,8 +83,8 @@ export interface Content {
   stats: {
     years: string;
     yearsLabel: string;
-    negotiations: string;
-    negotiationsLabel: string;
+    // negotiations: string;
+    // negotiationsLabel: string;
     alliances: string;
     alliancesLabel: string;
   };
@@ -111,6 +111,10 @@ export interface Content {
     form: {
       name: string;
       email: string;
+      website: string;
+      serviceInterest: string;
+      servicePlaceholder: string;
+      messageHint: string;
       company: string;
       message: string;
       submit: string;

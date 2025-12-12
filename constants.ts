@@ -130,7 +130,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       profile: {
         name: "Mariana Muciño Del Rio",
         role: "International Negotiation & Strategic Planning",
-        bio: "International business consultant with 18 years of experience helping Latin American companies expand into the U.S. market.\n\nMy work centers on strategic growth, market entry, and regulatory alignment for manufacturers entering complex, multicultural environments.\n\nI've supported organizations across Latin America, Asia, and North America — guiding them through compliance, supply-chain optimization, and operational integration.\n\nMy approach is rooted in trust, respect, and purposeful collaboration — key elements for building cross-border partnerships that thrive.",
+        bio: "International business consultant with 18 years of experience helping Latin American companies expand into the U.S. market.\n\nMy work centers on strategic growth, market entry, and regulatory alignment for manufacturers entering complex, multicultural environments.\n\nI've supported organizations across Latin America, Europe, Asia, and North America — guiding them through compliance, supply-chain optimization, and operational integration.\n\nMy approach is rooted in trust, respect, and purposeful collaboration — key elements for building cross-border partnerships that thrive.",
         educationTitle: "Education",
         education: [
           { degree: "Intl. Cooperation Diploma", school: "Complutense Univ. of Madrid" },
@@ -140,10 +140,10 @@ export const TRANSLATIONS: Record<Language, Content> = {
       }
     },
     stats: {
-      years: "+20",
+      years: "+25",
       yearsLabel: "Years of Experience",
-      negotiations: "+100",
-      negotiationsLabel: "Successful Negotiations",
+      // negotiations: "+100",
+      // negotiationsLabel: "Successful Negotiations",
       alliances: "+20",
       alliancesLabel: "Strategic Alliances"
     },
@@ -227,7 +227,11 @@ export const TRANSLATIONS: Record<Language, Content> = {
         name: "Name",
         email: "Email",
         company: "Company Name",
+        website: "Company Website",
+        serviceInterest: "Service of Interest",
+        servicePlaceholder: "Choose a service",
         message: "Description (optional)",
+        messageHint: "Tell us what you need, timing, and any requirements.",
         submit: "Send"
       },
       info: {
@@ -415,7 +419,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       profile: {
         name: "Mariana Muciño Del Rio",
         role: "Negociación y Planeación Estratégica Internacional",
-        bio: "Profesional apasionada de la internacionalización con 18 años de trayectoria en negocios internacionales.\n\nMi experiencia se centra en la creación y gestión de alianzas estratégicas comerciales en los 5 continentes.\n\nHe apoyado organizaciones en América Latina, Asia y Norteamérica — guiándolas en cumplimiento, optimización de cadena de suministro e integración operativa.\n\nMi enfoque se basa en confianza, respeto y colaboración con propósito — elementos clave para construir alianzas transfronterizas exitosas.",
+        bio: "Profesional apasionada de la internacionalización con 18 años de trayectoria en negocios internacionales.\n\nMi experiencia se centra en la creación y gestión de alianzas estratégicas comerciales en los 5 continentes.\n\nHe apoyado organizaciones en América Latina, Europa, Asia y Norteamérica — guiándolas en cumplimiento, optimización de cadena de suministro e integración operativa.\n\nMi enfoque se basa en confianza, respeto y colaboración con propósito — elementos clave para construir alianzas transfronterizas exitosas.",
         educationTitle: "Formación",
         education: [
           { degree: "Diplomado Cooperación Intl", school: "Univ. Complutense de Madrid" },
@@ -425,10 +429,10 @@ export const TRANSLATIONS: Record<Language, Content> = {
       }
     },
     stats: {
-      years: "+20",
+      years: "+25",
       yearsLabel: "Años de Experiencia",
-      negotiations: "+100",
-      negotiationsLabel: "Negociaciones Exitosas",
+      // negotiations: "+100",
+      // negotiationsLabel: "Negociaciones Exitosas",
       alliances: "+20",
       alliancesLabel: "Alianzas Estratégicas"
     },
@@ -512,7 +516,11 @@ export const TRANSLATIONS: Record<Language, Content> = {
         name: "Nombre",
         email: "Correo",
         company: "Nombre de la empresa",
+        website: "Página web de la empresa",
+        serviceInterest: "Servicio de interés",
+        servicePlaceholder: "Elige un servicio",
         message: "Descripción (opcional)",
+        messageHint: "Cuéntanos qué necesitas, tiempos y requisitos.",
         submit: "Enviar"
       },
       info: {
