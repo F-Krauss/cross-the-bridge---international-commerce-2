@@ -686,7 +686,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 <img
                   src="/img/Logo_home2.png"
                   alt="Cross the Bridge logo"
-                  className="mx-auto block w-[24rem] mb-26 md:w-[36rem] lg:w-[42rem] max-w-[480px] md:max-w-[630px] lg:max-w-[760px] mb-20 drop-shadow-[0_12px_45px_rgba(0,0,0,0.35)]"
+                  className="mx-auto block w-56 sm:w-72 md:w-[30rem] lg:w-[38rem] max-w-[460px] sm:max-w-[520px] md:max-w-[620px] lg:max-w-[720px] mb-10 md:mb-16 drop-shadow-[0_12px_45px_rgba(0,0,0,0.35)]"
                 />
               </FadeIn>
               <FadeIn delay={0.2}>
