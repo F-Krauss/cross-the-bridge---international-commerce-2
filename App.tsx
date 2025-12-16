@@ -450,6 +450,15 @@ const SECTION_ICONS: Record<string, React.ElementType> = {
   contact: Mail
 };
 
+const ASSURANCE_ICONS: Record<string, React.ElementType> = {
+  Shield,
+  FileText,
+  Compass,
+  Package,
+  Navigation,
+  RotateCcw
+};
+
 // Converts a 2-letter country code into its corresponding flag emoji
 const countryCodeToFlag = (code?: string) => {
   if (!code || code.length !== 2) return '';
@@ -466,6 +475,8 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
   const [contactForm, setContactForm] = useState({ name: '', company: '', email: '', website: '', serviceInterest: '', message: '' });
   const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [contactError, setContactError] = useState<string | null>(null);
+  const [deckForm, setDeckForm] = useState({ name: '', company: '', email: '', role: '' });
+  const [deckStatus, setDeckStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const t = TRANSLATIONS[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
@@ -501,6 +512,10 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     setContactForm(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleDeckChange = (field: string, value: string) => {
+    setDeckForm(prev => ({ ...prev, [field]: value }));
+  };
+
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (contactStatus === 'loading') return;
@@ -530,6 +545,17 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
       setContactStatus('success');
       setContactForm({ name: '', company: '', email: '', website: '', serviceInterest: '', message: '' });
     }, 1000);
+  };
+
+  const handleDeckSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (deckStatus === 'loading') return;
+    setDeckStatus('loading');
+
+    setTimeout(() => {
+      setDeckStatus('success');
+      setDeckForm({ name: '', company: '', email: '', role: '' });
+    }, 800);
   };
 
   const filteredShowroomItems = showroomCategory === 'all'
@@ -657,7 +683,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           <div className="absolute inset-0 z-0">
             <img
               src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
-              className="absolute inset-0 w-full h-full object-cover opacity-50"
+              className="absolute inset-0 w-full h-full object-cover opacity-40 blur-[1px]"
               alt="World"
             />
             {!heroVideoFailed && (
@@ -686,9 +712,9 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               />
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/40 to-brand-navy/35" />
+            <div className="absolute inset-0 bg-brand-navy/75" />
           </div>
-          <GridPattern color="#FFFFFF" opacity={0.05} />
-          <MailStamp className="bottom-10 right-6 md:bottom-20 md:right-20 text-white/20 border-white/20 -rotate-12" />
+          <GridPattern color="#FFFFFF" opacity={0.02} />
 
           <ScrollReveal className="container mx-auto px-6 relative z-10 min-h-[80vh] flex flex-col items-center justify-center gap-8">
             <div className="w-full max-w-6xl">
@@ -724,11 +750,19 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-4 w-full max-w-3xl mx-auto justify-center mt-8">
                 <FadeIn delay={0.4}>
                   <button
-                    onClick={() => handleNavClick('services')}
+                    onClick={() => handleNavClick('contact')}
                     className="group flex items-center justify-center gap-3 bg-brand-gold text-brand-navy px-6 sm:px-8 md:px-10 py-3.5 md:py-4 rounded-full font-bold uppercase tracking-[0.16em] md:tracking-[0.22em] text-xs md:text-base hover:bg-white transition-colors w-full sm:w-auto shadow-lg shadow-brand-gold/30"
                   >
                     {t.hero.cta}
                   </button>
+                </FadeIn>
+                <FadeIn delay={0.45}>
+                  <a
+                    href="#capabilities"
+                    className="group flex items-center justify-center gap-3 border border-white/30 text-white px-6 sm:px-8 md:px-10 py-3.5 md:py-4 rounded-full font-bold uppercase tracking-[0.16em] md:tracking-[0.22em] text-xs md:text-base hover:border-brand-gold hover:text-brand-gold transition-colors w-full sm:w-auto bg-white/5"
+                  >
+                    {t.hero.cta2}
+                  </a>
                 </FadeIn>
               </div>
               <FadeIn delay={0.6} className="w-full">
@@ -754,6 +788,50 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             </div>
           </ScrollReveal>
 
+        </section>
+
+        {/* Proof & Social Trust */}
+        <section className="bg-[#0f1521] text-white py-12 md:py-16">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-8">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <p className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs mb-2">{t.proofBar.title}</p>
+                <h3 className="text-2xl md:text-4xl font-bold">{t.proofBar.subtitle}</h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {t.proofBar.logos.map((logo) => (
+                  <div key={logo} className="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-semibold uppercase tracking-widest text-white/70">
+                    {logo}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+              {t.proofBar.metrics.map((metric, idx) => (
+                <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5 shadow-lg">
+                  <p className="text-brand-gold/70 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">{metric.label}</p>
+                  <div className="text-3xl font-bold text-white mb-1">{metric.value}</div>
+                  <p className="text-white/70 text-sm leading-relaxed">{metric.detail}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+              {t.testimonials.items.slice(0, 2).map((item, idx) => (
+                <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-6 shadow-lg">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <p className="text-sm font-bold text-white">{item.name}</p>
+                      <p className="text-xs uppercase tracking-[0.18em] text-brand-gold">{item.role}</p>
+                    </div>
+                    <div className="text-lg">{countryCodeToFlag(item.countryCode)}</div>
+                  </div>
+                  <p className="text-white/80 text-sm leading-relaxed">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
         </section>
 
         {/* 2. SERVICES (Light) */}
@@ -1000,6 +1078,39 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           </ScrollReveal>
         </section>
 
+        {/* Assurances for decision-makers */}
+        <section className="bg-white text-brand-navy py-16 md:py-24 border-t border-gray-100">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-8">
+            <div className="text-center max-w-3xl mx-auto space-y-3">
+              <p className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs">{t.assurances.title}</p>
+              <h3 className="text-3xl md:text-5xl font-bold leading-tight">{t.assurances.subtitle}</h3>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+              {t.assurances.items.map((item, idx) => {
+                const Icon = ASSURANCE_ICONS[item.icon] || Shield;
+                return (
+                  <div key={idx} className="rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-5 flex flex-col gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-xl bg-brand-gold/10 text-brand-navy flex items-center justify-center">
+                        <Icon size={20} />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold/70">0{idx + 1}</p>
+                        <h4 className="text-lg font-bold">{item.title}</h4>
+                      </div>
+                    </div>
+                    <p className="text-sm text-brand-navy/70 leading-relaxed">{item.desc}</p>
+                    <div className="flex items-center gap-2 text-xs font-semibold text-brand-navy">
+                      <CheckCircle size={14} className="text-brand-gold" />
+                      <span>{item.proof}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </ScrollReveal>
+        </section>
+
         {/* 3. PROCESS - Zigzag Timeline Journey */}
         <section id="process" className="relative flex flex-col justify-center py-16 md:py-24 bg-[#F5F5F7] overflow-hidden">
           <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
@@ -1098,8 +1209,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 </a>
               </div>
             </FadeIn>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
         </section>
 
         {/* 4. OUR FOUNDER (Light) */}
@@ -1247,6 +1357,75 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   </FadeIn>
                 );
               })}
+            </div>
+          </ScrollReveal>
+        </section>
+
+        {/* Capabilities deck landing */}
+        <section id="capabilities" className="bg-[#0f1521] text-white py-16 md:py-24">
+          <ScrollReveal className="container mx-auto px-4 md:px-6">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <p className="text-brand-gold font-bold uppercase tracking-[0.22em] text-xs">{t.capabilities.title}</p>
+                  <h3 className="text-3xl md:text-4xl font-bold leading-tight">{t.capabilities.subtitle}</h3>
+                </div>
+                <ul className="space-y-3">
+                  {t.capabilities.bullets.map((bullet, idx) => (
+                    <li key={idx} className="flex items-start gap-3 text-white/80">
+                      <CheckCircle className="text-brand-gold mt-0.5" size={18} />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+                  <p className="text-xs uppercase tracking-[0.18em] text-brand-gold mb-2">{t.capabilities.previewLabel}</p>
+                  <div className="space-y-3">
+                    {t.capabilities.previewSlides.map((slide, idx) => (
+                      <div key={idx} className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-brand-gold/10 flex items-center justify-center text-brand-gold font-bold">0{idx + 1}</div>
+                        <div>
+                          <p className="font-semibold">{slide.title}</p>
+                          <p className="text-sm text-white/70">{slide.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white text-brand-navy rounded-2xl p-6 md:p-8 shadow-2xl space-y-4">
+                <div className="space-y-1">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-gold">{t.capabilities.form.title}</p>
+                  <h4 className="text-2xl font-bold">{t.capabilities.form.subtitle}</h4>
+                </div>
+                <form className="space-y-4" onSubmit={handleDeckSubmit}>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-navy/60">{t.capabilities.form.name}</label>
+                      <input value={deckForm.name} onChange={(e) => handleDeckChange('name', e.target.value)} required className="w-full rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold/70" />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-navy/60">{t.capabilities.form.company}</label>
+                      <input value={deckForm.company} onChange={(e) => handleDeckChange('company', e.target.value)} required className="w-full rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold/70" />
+                    </div>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-navy/60">{t.capabilities.form.role}</label>
+                      <input value={deckForm.role} onChange={(e) => handleDeckChange('role', e.target.value)} required className="w-full rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold/70" />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-navy/60">{t.capabilities.form.email}</label>
+                      <input type="email" value={deckForm.email} onChange={(e) => handleDeckChange('email', e.target.value)} required className="w-full rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold/70" />
+                    </div>
+                  </div>
+                  <button type="submit" disabled={deckStatus === 'loading'} className="w-full bg-brand-navy text-white rounded-full py-3 font-bold uppercase tracking-[0.2em] hover:bg-brand-gold hover:text-brand-navy transition-colors">
+                    {deckStatus === 'loading' ? 'Sending...' : deckStatus === 'success' ? 'Sent!' : t.capabilities.form.cta}
+                  </button>
+                  <p className="text-xs text-brand-navy/60">{t.capabilities.form.disclaimer}</p>
+                </form>
+              </div>
             </div>
           </ScrollReveal>
         </section>

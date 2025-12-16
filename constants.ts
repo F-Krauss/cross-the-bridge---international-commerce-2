@@ -34,15 +34,25 @@ export const TRANSLATIONS: Record<Language, Content> = {
         "Factory shortlists in 10 days"
       ],
       cta: "Book a Discovery Call",
-      cta2: "Download CTB Capabilities Deck"
+      cta2: "See the Capabilities Deck"
+    },
+    proofBar: {
+      title: "Proof, not promises",
+      subtitle: "Operators care about speed, control, and compliance — here is what we guarantee.",
+      metrics: [
+        { label: "Factory vetting", value: "140+", detail: "audited suppliers across Mexico" },
+        { label: "QC coverage", value: "100%", detail: "of shipments with on-site pre-shipment checks" },
+        { label: "Speed to shortlist", value: "10 days", detail: "to present 3-5 vetted factories" }
+      ],
+      logos: ["Outback Trading Co.", "Viberg Boot", "CICB", "JRD Saddlery"]
     },
     services: {
       title: "Services",
-      subtitle: "Connecting Mexico and other parts of the world.",
+      subtitle: "Sourcing + factory vetting + production operations in Mexico, built for US/EU brands.",
       items: [
         {
-          title: "1. Strategic Sourcing & Supplier Matchmakingt",
-          desc: "Find the right supplier match for your company.",
+          title: "1. Strategic Sourcing & Supplier Matchmaking",
+          desc: "3–5 vetted factories with compliance, capacity, and pricing validated.",
           details: [
             "We connect your brand with the right factory — not just any factory. Our sourcing process combines technical criteria, cost optimization, and decades of industry relationships across Mexico's top manufacturers, tanneries, and material suppliers. We evaluate capabilities, quality standards, pricing structures, certifications, production capacity, and cultural fit to make sure you work with reliable partners from day one.",
                     "This service includes supplier scouting, capability analysis, material sourcing, factory validation, sample coordination, and aligned expectations on timelines and costs. Our goal is simple: to eliminate guesswork and give you a strong, trustworthy production foundation in Mexico."
@@ -52,7 +62,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
         },
         {
           title: "2. Manufacturing & Supply Chain Operations",
-          desc: "Find the best materials for your product.",
+          desc: "Production governance: schedules, QC, risk management, and landed cost clarity.",
           details: [
             "We become your team on the ground, managing every step of the production process so you can focus on design, sales, and brand growth. From product development and prototyping to full-scale production, we coordinate daily with factories, track timelines, streamline communication, solve issues, and ensure every deliverable is on schedule.",
             "Our approach includes production planning, materials follow-up, cost finalization, workload scheduling, continuous updates, risk management, quality inspections, and complete export preparation. You get transparency, control, and peace of mind, knowing your product is being managed with world-class standards."
@@ -199,33 +209,70 @@ export const TRANSLATIONS: Record<Language, Content> = {
       ]
     },
     differentiators: {
-      title: "What makes Cross The Bridge truly different?",
+      title: "Why operations teams choose us",
       items: [
         {
-          title: "Global reach, local execution",
-          desc: "We connect Mexico with the world through a solid network of partners in multiple countries, turning ideas into real, scalable projects."
+          title: "Response SLAs & governance",
+          desc: "Weekly production reports, single point of contact, and bilingual ops so you always know what is happening."
         },
         {
-          title: "Professional, yet genuinely close",
-          desc: "We work with corporate-level rigor while maintaining a warm, approachable, family-style relationship with our clients."
+          title: "Quality controls you can audit",
+          desc: "On-site QC, pre-shipment inspections, and photographic evidence attached to every milestone."
         },
         {
-          title: "Loyalty & transparency",
-          desc: "We say what we do and do what we say. Clear information, no hidden agendas, and full visibility at every stage of the project."
+          title: "Compliance-first execution",
+          desc: "Import/export paperwork, labeling, materials compliance, and NDAs handled without surprises."
         },
         {
-          title: "Strong sense of fairness",
-          desc: "We defend fair deals for all parties involved and protect your interests as if they were our own."
+          title: "Capacity and cost clarity",
+          desc: "Capacity mapping, MOQ negotiation, and landed-cost visibility before you greenlight production."
         },
         {
-          title: "Commitment & integrity",
-          desc: "We stay in the project from beginning to end, honoring agreements and facing challenges alongside you."
+          title: "Contingency ready",
+          desc: "Backup suppliers on deck and risk mitigation plans to avoid line stops."
         },
         {
-          title: "Pursuit of excellence",
-          desc: "We obsess over details, quality, and continuous improvement so that every project becomes a benchmark."
+          title: "Trusted network",
+          desc: "Certified factories, audited partners, and the right introductions when you need them."
         }
       ]
+    },
+    assurances: {
+      title: "Addressing the hard questions upfront",
+      subtitle: "Built for foreign procurement and operations leaders who need proof of control.",
+      items: [
+        { title: "QC & audits", desc: "On-site inspections at first article, mid-line, and pre-shipment with photo reports.", proof: "QC checkpoints built into every PO.", icon: "Shield" },
+        { title: "IP & NDAs", desc: "Two-way NDAs, vetted partners, and controlled sample handling to protect designs.", proof: "Signed NDAs before factory walk-throughs.", icon: "FileText" },
+        { title: "Compliance", desc: "Labeling, HS codes, material traceability, and export documents handled for you.", proof: "Shipping packs reviewed against destination rules.", icon: "Compass" },
+        { title: "Capacity & MOQ", desc: "Capacity plans, negotiated MOQs, and dual sourcing when required.", proof: "Documented run rates before launch.", icon: "Package" },
+        { title: "Lead times", desc: "Realistic calendars, buffer for critical materials, and proactive updates.", proof: "Weekly timeline variance tracking.", icon: "Navigation" },
+        { title: "Fallback plans", desc: "Backup suppliers and remediation playbooks if a factory slips.", proof: "Secondary options sourced in parallel.", icon: "RotateCcw" }
+      ]
+    },
+    capabilities: {
+      title: "Capabilities deck built to convert stakeholders",
+      subtitle: "A concise download with the exact information procurement, ops, and finance teams ask for.",
+      bullets: [
+        "Industries served: footwear, leather goods, accessories, and adjacent soft goods.",
+        "Sample timeline from onboarding to first shipment with QA checkpoints.",
+        "Supplier audit methodology, compliance checklist, and export documentation map."
+      ],
+      previewLabel: "Inside the deck",
+      previewSlides: [
+        { title: "Network map", desc: "Factories, tanneries, and logistics partners across Mexico." },
+        { title: "Audit checklist", desc: "Standards for capability, compliance, and risk scoring." },
+        { title: "Landed-cost view", desc: "Visibility into duties, freight, packaging, and buffer assumptions." }
+      ],
+      form: {
+        title: "Get the deck",
+        subtitle: "We will email you a tailored version based on your category.",
+        name: "Full name",
+        company: "Company",
+        role: "Role",
+        email: "Work email",
+        cta: "Send me the deck",
+        disclaimer: "No spam — just one email with the PDF and an optional follow-up."
+      }
     },
     contact: {
       title: "Contact Us",
@@ -329,37 +376,47 @@ export const TRANSLATIONS: Record<Language, Content> = {
         "Shortlist de fábricas en 10 días"
       ],
       cta: "Agenda una Llamada de Descubrimiento",
-      cta2: "Descargar la Presentación de Capacidades de CTB"
+      cta2: "Ver el Deck de Capacidades"
+    },
+    proofBar: {
+      title: "Pruebas, no promesas",
+      subtitle: "A los equipos de operaciones les importa la velocidad, el control y el compliance — esto es lo que garantizamos.",
+      metrics: [
+        { label: "Vetting de fábricas", value: "140+", detail: "proveedores auditados en México" },
+        { label: "Cobertura de QC", value: "100%", detail: "de embarques con inspección en planta" },
+        { label: "Velocidad de shortlist", value: "10 días", detail: "para presentar 3-5 fábricas validadas" }
+      ],
+      logos: ["Outback Trading Co.", "Viberg Boot", "CICB", "JRD Saddlery"]
     },
     services: {
       title: "Servicios",
-      subtitle: "Conectando a México y otras partes del mundo.",
+      subtitle: "Sourcing + validación de fábricas + operaciones productivas en México, pensado para marcas de EE.UU./Europa.",
       items: [
         {
-          title: "Desarrollo de producto a medida",
-          desc: "Encuentre el proveedor adecuado para su empresa.",
+          title: "1. Sourcing Estratégico y Matchmaking de Proveedores",
+          desc: "3–5 fábricas validadas con compliance, capacidad y costos confirmados.",
           details: [
-            "La idea es suya, nosotros le ayudamos a hacerla realidad.",
-            "Obtenga una solución integral con la fábrica adecuada, las materias primas necesarias y la logística totalmente resuelta.",
-            "Reciba asesoramiento experto sobre viabilidad de producción."
+            "Conectamos tu marca con la fábrica correcta — no cualquier fábrica. Nuestro proceso de sourcing combina criterios técnicos, optimización de costos y décadas de relaciones con fabricantes, tenerías y proveedores de materiales en México. Evaluamos capacidades, estándares de calidad, certificaciones, capacidad de producción y fit cultural para que trabajes con socios confiables desde el día uno.",
+            "Incluye scouting de proveedores, análisis de capacidades, sourcing de materiales, validación de fábricas, coordinación de muestras y expectativas alineadas en tiempos y costos. Eliminamos la incertidumbre para darte una base sólida de producción en México."
           ],
           bullets: ["Búsqueda (Sourcing)", "Fabricación por contrato", "Logística"],
           icon: "package"
         },
         {
-          title: "Proveedor de piel y componentes para industrias de calzado y moda",
-          desc: "Encuentre los mejores materiales para su producto.",
+          title: "2. Operación de Manufactura y Cadena de Suministro",
+          desc: "Gobernanza de producción: calendarios, QC, gestión de riesgos y claridad de costos.",
           details: [
-            "Trabajamos en asociación con las mejores curtidurías y proveedores de componentes líderes en México.",
-            "Nos encargamos de las compras en su nombre, para que obtenga calidad, consistencia y mejores condiciones sin añadir carga de trabajo extra a su equipo."
+            "Nos convertimos en tu equipo en tierra, gestionando cada paso del proceso de producción para que te enfoques en ventas y crecimiento. Desde desarrollo de producto hasta producción a escala, coordinamos con fábricas, seguimos tiempos, optimizamos comunicación, resolvemos problemas y aseguramos cada entregable.",
+            "Incluye planificación de producción, seguimiento de materiales, cierre de costos, calendarización de carga de trabajo, actualizaciones continuas, gestión de riesgos, inspecciones de calidad y preparación completa para exportación. Transparencia y control sin sorpresas."
           ],
           icon: "layers"
         },
         {
-          title: "Gestión de exportaciones",
-          desc: "Convertimos la expansión global en una ventaja estratégica, no en un experimento costoso.",
+          title: "3. Crecimiento Internacional y Alianzas Estratégicas",
+          desc: "Expansión global con estrategia y socios adecuados, no con prueba y error.",
           details: [
-            "Con el respaldo de dos décadas de trabajo con proveedores, marcas y alianzas internacionales de primer nivel, le ayudamos a acceder a nuevos mercados con mayor rapidez, reducir costos operativos y construir una presencia escalable a largo plazo, sin el proceso de prueba y error que suelen pagar la mayoría de las empresas."
+            "Con dos décadas conectando proveedores, marcas y alianzas internacionales, abrimos puertas a nuevos mercados, reducimos costos operativos y construimos presencia escalable.",
+            "Esto incluye insights de mercado, estrategias de entrada, conexiones con distribuidores y socios, soporte en ferias, consultoría de export-readiness y representación local con redes confiables."
           ],
           icon: "globe"
         }
@@ -494,33 +551,70 @@ export const TRANSLATIONS: Record<Language, Content> = {
       ]
     },
     differentiators: {
-      title: "¿Qué hace a Cross The Bridge realmente diferente?",
+      title: "Por qué los equipos de operaciones nos eligen",
       items: [
         {
-          title: "Alcance global, ejecución local",
-          desc: "Conectamos a México con el mundo a través de una sólida red de socios en múltiples países, convirtiendo ideas en proyectos reales y escalables."
+          title: "SLAs y gobernanza",
+          desc: "Reportes semanales de producción, un solo punto de contacto y operación bilingüe para que siempre sepas qué está pasando."
         },
         {
-          title: "Profesional, pero genuinamente cercano",
-          desc: "Trabajamos con rigor corporativo mientras mantenemos una relación cálida, accesible y familiar con nuestros clientes."
+          title: "Controles de calidad auditables",
+          desc: "QC en planta, inspecciones pre-embarque y evidencia fotográfica en cada hito."
         },
         {
-          title: "Lealtad y Transparencia",
-          desc: "Decimos lo que hacemos y hacemos lo que decimos. Información clara, sin agendas ocultas y visibilidad total en cada etapa del proyecto."
+          title: "Compliance primero",
+          desc: "Documentos de import/export, etiquetado, cumplimiento de materiales y NDAs sin sorpresas."
         },
         {
-          title: "Fuerte sentido de justicia",
-          desc: "Defendemos tratos justos para todas las partes involucradas y protegemos sus intereses como si fueran nuestros."
+          title: "Capacidad y costos claros",
+          desc: "Mapeo de capacidad, negociación de MOQ y visibilidad de costo puesto en destino antes de autorizar producción."
         },
         {
-          title: "Compromiso e integridad",
-          desc: "Nos mantenemos en el proyecto de principio a fin, honrando acuerdos y enfrentando desafíos junto a usted."
+          title: "Listos para contingencias",
+          desc: "Proveedores de respaldo y planes de mitigación para evitar paros de línea."
         },
         {
-          title: "Búsqueda de la excelencia",
-          desc: "Nos obsesionamos con los detalles, la calidad y la mejora continua para que cada proyecto se convierta en un referente."
+          title: "Red confiable",
+          desc: "Fábricas certificadas, socios auditados y las introducciones correctas cuando las necesitas."
         }
       ]
+    },
+    assurances: {
+      title: "Respondemos las preguntas difíciles desde el inicio",
+      subtitle: "Pensado para líderes de compras y operaciones extranjeras que necesitan control y visibilidad.",
+      items: [
+        { title: "QC y auditorías", desc: "Inspecciones en primera pieza, en línea y pre-embarque con reportes fotográficos.", proof: "Puntos de control de calidad en cada PO.", icon: "Shield" },
+        { title: "IP y NDAs", desc: "NDAs bilaterales, socios filtrados y manejo controlado de muestras para proteger diseños.", proof: "NDAs firmados antes de recorrer fábricas.", icon: "FileText" },
+        { title: "Compliance", desc: "Etiquetado, códigos HS, trazabilidad de materiales y documentos de exportación listos.", proof: "Packs de embarque revisados contra normas de destino.", icon: "Compass" },
+        { title: "Capacidad y MOQ", desc: "Planes de capacidad, MOQs negociados y dual sourcing cuando es necesario.", proof: "Tiempos y capacidades documentados antes de lanzar.", icon: "Package" },
+        { title: "Lead times", desc: "Calendarios realistas, buffers en materiales críticos y actualizaciones proactivas.", proof: "Seguimiento semanal de variaciones de tiempo.", icon: "Navigation" },
+        { title: "Planes de respaldo", desc: "Proveedores alternos y playbooks de remediación si una fábrica se retrasa.", proof: "Opciones secundarias abastecidas en paralelo.", icon: "RotateCcw" }
+      ]
+    },
+    capabilities: {
+      title: "Deck de capacidades que convence a los decisores",
+      subtitle: "Una descarga concisa con la información que piden compras, operaciones y finanzas.",
+      bullets: [
+        "Industrias atendidas: calzado, leather goods, accesorios y soft goods afines.",
+        "Línea de tiempo ejemplo desde onboarding hasta primer embarque con checkpoints de QA.",
+        "Metodología de auditoría de proveedores, checklist de compliance y mapa de documentación de exportación."
+      ],
+      previewLabel: "Dentro del deck",
+      previewSlides: [
+        { title: "Mapa de red", desc: "Fábricas, tenerías y socios logísticos a lo largo de México." },
+        { title: "Checklist de auditoría", desc: "Estándares para capacidad, compliance y calificación de riesgo." },
+        { title: "Vista de costo puesto en destino", desc: "Visibilidad de aranceles, flete, empaque y buffers." }
+      ],
+      form: {
+        title: "Recibe el deck",
+        subtitle: "Te enviaremos una versión ajustada a tu categoría.",
+        name: "Nombre completo",
+        company: "Empresa",
+        role: "Rol",
+        email: "Correo de trabajo",
+        cta: "Envíame el deck",
+        disclaimer: "Sin spam — solo un correo con el PDF y un posible seguimiento."
+      }
     },
     contact: {
       title: "Contáctanos",

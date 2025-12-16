@@ -22,6 +22,16 @@ export interface Content {
     cta: string;
     cta2: string;
   };
+  proofBar: {
+    title: string;
+    subtitle: string;
+    metrics: {
+      label: string;
+      value: string;
+      detail: string;
+    }[];
+    logos: string[];
+  };
   services: {
     title: string;
     subtitle: string;
@@ -107,6 +117,36 @@ export interface Content {
       title: string;
       desc: string;
     }[];
+  };
+  assurances: {
+    title: string;
+    subtitle: string;
+    items: {
+      title: string;
+      desc: string;
+      proof: string;
+      icon: string;
+    }[];
+  };
+  capabilities: {
+    title: string;
+    subtitle: string;
+    bullets: string[];
+    previewLabel: string;
+    previewSlides: {
+      title: string;
+      desc: string;
+    }[];
+    form: {
+      title: string;
+      subtitle: string;
+      name: string;
+      company: string;
+      role: string;
+      email: string;
+      cta: string;
+      disclaimer: string;
+    };
   };
   contact: {
     title: string;
