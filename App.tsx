@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef, useId } from 'react';
-import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, User, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Play, Pause, Sparkles } from 'lucide-react';
+import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, User, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { TRANSLATIONS } from './constants';
 import { Language } from './types';
@@ -132,12 +132,12 @@ interface ScrollRevealProps {
 }
 
 // Re-usable viewport reveal that plays on enter/exit while scrolling
-const ScrollReveal: React.FC<ScrollRevealProps> = ({ children, className = "", amount = 0.2 }) => (
+const ScrollReveal: React.FC<ScrollRevealProps> = ({ children, className = "", amount = 0.25 }) => (
   <MotionDiv
-    initial={{ opacity: 0, y: 40 }}
+    initial={{ opacity: 0, y: 24 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: false, amount }}
-    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    viewport={{ once: true, amount, margin: "-10% 0px -10% 0px" }}
+    transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
     className={className}
   >
     {children}
@@ -218,7 +218,7 @@ const GlobalMap = ({ title, darkTheme = false }: { title: string, darkTheme?: bo
     <div ref={mapRef} className="w-full relative mt-12 mb-20">
       <div
         className={`relative aspect-[16/9] md:aspect-[2/1] rounded-3xl overflow-hidden border shadow-2xl group ${
-          darkTheme ? 'bg-[#111] border-white/10' : 'bg-white border-gray-100'
+          darkTheme ? 'bg-brand-navy border-white/10' : 'bg-[#f6f7fb] border-gray-100'
         }`}
       >
         {!mapFailed && (
@@ -417,7 +417,7 @@ const LegalPage: React.FC<{
     initial={{ opacity: 0, y: 50 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: 50 }}
-    className="fixed inset-0 bg-[#F5F5F7] z-[300] overflow-y-auto pt-24 pb-12"
+    className="fixed inset-0 bg-[#f6f7fb] z-[300] overflow-y-auto pt-24 pb-12"
   >
     <div className="container mx-auto px-6 max-w-4xl">
       <button onClick={onBack} className="flex items-center gap-2 text-brand-navy font-bold uppercase tracking-widest text-xs mb-8 hover:text-brand-gold">
@@ -477,9 +477,52 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
   const [contactError, setContactError] = useState<string | null>(null);
   const [deckForm, setDeckForm] = useState({ name: '', company: '', email: '', role: '' });
   const [deckStatus, setDeckStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
+  const [bookingStatus, setBookingStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [bookingForm, setBookingForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    phoneCode: '+1',
+    website: '',
+    company: '',
+    orgs: '',
+    position: '',
+    service: '',
+    originCountry: 'South America',
+    targetRegion: '',
+    date: '',
+    timeSlot: ''
+  });
 
   const t = TRANSLATIONS[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
+
+  // Ensure autoplay videos start as soon as possible
+  useEffect(() => {
+    const playAll = () => {
+      const videos = Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]'));
+      videos.forEach((video) => {
+        if (video.paused) {
+          const playPromise = video.play();
+          if (playPromise?.catch) playPromise.catch(() => {});
+        }
+      });
+    };
+
+    playAll();
+    const timer = setTimeout(playAll, 500);
+    const onVisibility = () => !document.hidden && playAll();
+    window.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('touchstart', playAll, { passive: true });
+    window.addEventListener('scroll', playAll, { passive: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('touchstart', playAll);
+      window.removeEventListener('scroll', playAll);
+    };
+  }, []);
 
   // Intersection Observer for Scroll Spy
   useEffect(() => {
@@ -510,6 +553,42 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
   const handleContactChange = (field: string, value: string) => {
     setContactForm(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleBookingChange = (field: string, value: string) => {
+    setBookingForm(prev => ({ ...prev, [field]: value }));
+    if (bookingStatus !== 'idle') setBookingStatus('idle');
+  };
+
+  const openBooking = () => {
+    setCurrentView('home');
+    setMobileMenuOpen(false);
+    setBookingStatus('idle');
+    setBookingModalOpen(true);
+  };
+
+  const handleBookingSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (bookingStatus === 'loading') return;
+    setBookingStatus('loading');
+    setTimeout(() => {
+      setBookingStatus('success');
+      setBookingForm({
+        name: '',
+        email: '',
+        phone: '',
+        phoneCode: '+1',
+        website: '',
+        company: '',
+        orgs: '',
+        position: '',
+        service: '',
+        originCountry: 'South America',
+        targetRegion: '',
+        date: '',
+        timeSlot: ''
+      });
+    }, 600);
   };
 
   const handleDeckChange = (field: string, value: string) => {
@@ -563,23 +642,27 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     : t.showroom.items.filter(item => item.category === showroomCategory);
 
   const serviceOptions = t.services?.items?.map(item => item.title) || [];
+  const processSteps = t.process?.steps || [];
+  const processSubtitle = t.process?.subtitle || (lang === 'en'
+    ? 'From vision to delivery — a structured path to success.'
+    : 'Del plan a la entrega: una ruta estructurada al éxito.');
 
 
   return (
     <div className="text-brand-dark font-sans min-h-screen scroll-smooth flex flex-col overflow-y-auto overflow-x-hidden">
 
       {/* --- Fixed Top Navigation Bar --- */}
-      <nav className="fixed top-0 left-0 right-0 z-[200] py-3 bg-brand-navy/95 backdrop-blur-md border-b border-white/5">
-        <div className="container mx-auto px-4 flex items-center gap-4">
-          <button onClick={() => handleNavClick('about')} className="flex items-center gap-3 text-white">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5">
-              <img src={logoVertical} alt="Cross The Bridge logo" className="h-7 w-auto object-contain" />
+      <nav className="fixed top-0 left-0 right-0 z-[200] py-2 bg-brand-navy/90 backdrop-blur-md border-b border-white/10">
+        <div className="container mx-auto px-4 flex items-center gap-3">
+          <button onClick={() => handleNavClick('about')} className="flex items-center gap-2.5 text-white">
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center bg-white/5">
+              <img src={logoVertical} alt="Cross The Bridge logo" className="h-6 w-auto object-contain" />
             </div>
-            <LogoWordmark className="h-4 w-auto logo-wordmark-shadow" color="#ffffff" />
+            <LogoWordmark className="h-3.5 w-auto logo-wordmark-shadow" color="#ffffff" />
           </button>
 
-          <div className="hidden lg:flex items-center ml-4 flex-1">
-            <div className="flex items-center gap-1 px-3 py-2 rounded-full bg-white/5 border border-white/5">
+          <div className="hidden lg:flex items-center ml-3 flex-1">
+            <div className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
               {navLinks.map((item) => {
                 const Icon = SECTION_ICONS[item] || Circle;
                 const isActive = activeSection === item && currentView === 'home';
@@ -587,7 +670,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   <button
                     key={item}
                     onClick={() => handleNavClick(item)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-full text-[11px] font-bold uppercase tracking-[0.16em] transition-colors ${isActive ? 'text-brand-gold bg-white/10 shadow-sm shadow-brand-gold/20' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
+                    className={`flex items-center gap-2 px-2.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.14em] transition-colors ${isActive ? 'text-brand-gold bg-white/10 shadow-sm shadow-brand-gold/20' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
                   >
                     <Icon size={14} />
                     {t.nav[item as keyof typeof t.nav]}
@@ -597,13 +680,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             </div>
           </div>
 
-          <div className="flex items-center gap-3 ml-auto">
+          <div className="flex items-center gap-2.5 ml-auto">
             <button onClick={() => setLang(lang === 'en' ? 'es' : 'en')} className="text-xs font-bold uppercase tracking-[0.16em] text-white/80 hover:text-white transition-colors">
               {lang === 'en' ? 'EN' : 'ES'}
             </button>
             <button
-              onClick={() => handleNavClick('contact')}
-              className="hidden md:flex items-center gap-2 bg-brand-gold text-brand-navy px-4 py-2 rounded-full font-bold uppercase tracking-[0.16em] text-xs hover:bg-white transition-colors shadow-lg shadow-brand-gold/30"
+              onClick={openBooking}
+              className="hidden md:flex items-center gap-2 bg-brand-gold text-brand-navy px-3.5 py-1.5 rounded-full font-bold uppercase tracking-[0.14em] text-[11px] hover:bg-white transition-colors shadow-md shadow-brand-gold/30"
             >
               <Mail size={14} /> {t.nav.book}
             </button>
@@ -641,10 +724,164 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   </button>
                 );
               })}
-              <button onClick={() => handleNavClick('contact')} className="mt-8 bg-brand-gold text-brand-navy px-8 py-4 rounded-xl font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+              <button onClick={openBooking} className="mt-8 bg-brand-gold text-brand-navy px-8 py-4 rounded-xl font-bold uppercase tracking-widest flex items-center justify-center gap-2">
                 <Mail size={18} /> {t.nav.book}
               </button>
             </div>
+          </MotionDiv>
+        )}
+      </AnimatePresence>
+
+      {/* Booking Modal */}
+      <AnimatePresence>
+        {bookingModalOpen && (
+          <MotionDiv
+            className="fixed inset-0 z-[260] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setBookingModalOpen(false)}
+          >
+            <MotionDiv
+              className="bg-white rounded-2xl shadow-2xl max-w-xl w-full max-h-[92vh] overflow-hidden flex flex-col"
+              initial={{ scale: 0.95, y: 10, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.95, y: 10, opacity: 0 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between px-4 md:px-5 py-3 md:py-4 border-b border-gray-100 bg-[#f6f7fb]">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold">Formulario</p>
+                  <h3 className="text-base md:text-xl font-bold text-brand-navy">Agenda una cita</h3>
+                </div>
+                <button onClick={() => setBookingModalOpen(false)} className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50">
+                  <X size={18} />
+                </button>
+              </div>
+              <form className="p-4 md:p-5 space-y-3 md:space-y-4 overflow-y-auto" onSubmit={handleBookingSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 items-center">
+                  <div>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Nombre</label>
+                    <input value={bookingForm.name} onChange={(e) => handleBookingChange('name', e.target.value)} required className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
+                  </div>
+                  <div>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Email</label>
+                    <input type="email" value={bookingForm.email} onChange={(e) => handleBookingChange('email', e.target.value)} required className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
+                  </div>
+                  <div>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Teléfono</label>
+                    <div className="mt-1 flex gap-2">
+                      <select
+                        value={bookingForm.phoneCode}
+                        onChange={(e) => handleBookingChange('phoneCode', e.target.value)}
+                        className="w-24 rounded-lg border border-gray-200 px-2 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                      >
+                        {['+1', '+34', '+44', '+52', '+55', '+61', '+81'].map(code => (
+                          <option key={code} value={code}>{code}</option>
+                        ))}
+                      </select>
+                      <input value={bookingForm.phone} onChange={(e) => handleBookingChange('phone', e.target.value)} className="flex-1 rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" placeholder="555-123-4567" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Página web</label>
+                    <input value={bookingForm.website} onChange={(e) => handleBookingChange('website', e.target.value)} placeholder="https://" className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
+                  </div>
+                  <div>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Empresa</label>
+                    <input value={bookingForm.company} onChange={(e) => handleBookingChange('company', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
+                  </div>
+                  <div>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Empresas / organizaciones / gobiernos</label>
+                    <input value={bookingForm.orgs} onChange={(e) => handleBookingChange('orgs', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
+                  </div>
+                  <div>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Posición</label>
+                    <input value={bookingForm.position} onChange={(e) => handleBookingChange('position', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
+                  </div>
+                  <div>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Servicio de interés / misiones comerciales</label>
+                    <select
+                      value={bookingForm.service}
+                      onChange={(e) => handleBookingChange('service', e.target.value)}
+                      className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                    >
+                      <option value="">Selecciona un servicio</option>
+                      <option value="Sourcing Estratégico / Strategic Sourcing">Sourcing Estratégico / Strategic Sourcing</option>
+                      <option value="Manufactura & Operaciones / Manufacturing & Operations">Manufactura & Operaciones / Manufacturing & Operations</option>
+                      <option value="Crecimiento Internacional / International Growth">Crecimiento Internacional / International Growth</option>
+                      <option value="Misiones Comerciales / Trade Missions">Misiones Comerciales / Trade Missions</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">País de origen</label>
+                    <select
+                      value={bookingForm.originCountry}
+                      onChange={(e) => handleBookingChange('originCountry', e.target.value)}
+                      className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                    >
+                      {['South America', 'Mexico', 'USA', 'Canada', 'Europe', 'Asia'].map(region => (
+                        <option key={region} value={region}>{region}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Región de interés</label>
+                    <select
+                      value={bookingForm.targetRegion}
+                      onChange={(e) => handleBookingChange('targetRegion', e.target.value)}
+                      className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                    >
+                      <option value="">Selecciona una región</option>
+                      {['South America', 'Mexico', 'USA', 'Canada', 'Europe', 'Asia'].map(region => (
+                        <option key={region} value={region}>{region}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-[1.2fr,0.8fr] gap-3 md:gap-4">
+                    <div>
+                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Fecha (mínimo 2 días después de hoy)</label>
+                      <input
+                        type="date"
+                        value={bookingForm.date}
+                        onChange={(e) => handleBookingChange('date', e.target.value)}
+                        min={(() => {
+                          const d = new Date();
+                          d.setDate(d.getDate() + 2);
+                          return d.toISOString().split('T')[0];
+                        })()}
+                        className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Horario</label>
+                      <select
+                        value={bookingForm.timeSlot}
+                        onChange={(e) => handleBookingChange('timeSlot', e.target.value)}
+                        className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                        required
+                      >
+                        <option value="">Selecciona un horario</option>
+                        {['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'].map(slot => (
+                          <option key={slot} value={slot}>{slot}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  disabled={bookingStatus === 'loading'}
+                  className="w-full bg-brand-navy text-white rounded-xl py-3 font-bold uppercase tracking-[0.16em] text-sm md:text-base hover:bg-brand-gold hover:text-brand-navy transition-colors disabled:opacity-60"
+                >
+                  {bookingStatus === 'loading' ? 'Enviando…' : bookingStatus === 'success' ? 'Enviado' : 'Agendar'}
+                </button>
+                {bookingStatus === 'success' && <p className="text-green-600 text-sm text-center">¡Gracias! Te contactaremos pronto.</p>}
+              </form>
+            </MotionDiv>
           </MotionDiv>
         )}
       </AnimatePresence>
@@ -674,12 +911,12 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
       {/* --- SECTIONS (Snap Scroll) --- */}
 
       {/* Wrapper for main content (top nav offset handled with padding) */}
-      <div className="w-full pt-20 lg:pt-24">
+      <div className="w-full pt-14 lg:pt-16">
 
         {/* 1. HERO (Dark) */}
         <section
           id="about"
-          className="min-h-screen relative overflow-hidden bg-brand-navy py-14 md:py-18 flex items-center"
+          className="min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)] relative overflow-hidden bg-brand-navy py-10 md:py-12 flex items-center"
         >
 
           <div className="absolute inset-0 z-0">
@@ -697,6 +934,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 muted
                 playsInline
                 preload="auto"
+                data-autoplay
                 poster="https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg"
                 onLoadedData={() => {
                   if (!heroSignaledReady.current) {
@@ -720,41 +958,46 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           </div>
           <GridPattern color="#FFFFFF" opacity={0.02} />
 
-          <ScrollReveal className="container mx-auto px-6 relative z-10 min-h-[80vh] flex flex-col items-center justify-center gap-8">
+          <MotionDiv
+            className="container mx-auto px-6 relative z-10 min-h-full flex flex-col gap-6 md:gap-8 pt-8 md:pt-4 pb-10 md:pb-10 items-start md:items-center justify-center"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+          >
             <div className="w-full max-w-6xl">
               {/* <FadeIn delay={0.1}>
                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-gold/30 bg-brand-gold/10 text-brand-gold text-[10px] font-bold tracking-[0.2em] uppercase mb-6">
                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" /> Est. 2004
                  </div>
                </FadeIn> */}
-              <FadeIn delay={0.15} className="pb-4">
+              <FadeIn delay={0.15} className="pb-2">
                 <img
                   src="/img/Logo_home2.png"
                   alt="Cross the Bridge logo"
-                  className="mx-auto block w-48 sm:w-64 md:w-[26rem] lg:w-[32rem] max-w-[460px] sm:max-w-[520px] md:max-w-[600px] lg:max-w-[640px] mb-8 md:mb-12 drop-shadow-[0_12px_45px_rgba(0,0,0,0.35)]"
+                  className="mx-auto block w-48 sm:w-64 md:w-[22rem] lg:w-[26rem] max-w-[460px] sm:max-w-[500px] md:max-w-[520px] lg:max-w-[560px] mb-6 md:mb-8 drop-shadow-[0_12px_45px_rgba(0,0,0,0.35)]"
                 />
               </FadeIn>
               <FadeIn delay={0.2}>
-                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mt-15 lg:mt-0 text-center max-w-4xl mx-auto">
+                <h1 className="text-3xl md:text-[44px] lg:text-[52px] font-bold text-white leading-tight mt-2 md:mt-0 text-left md:text-center max-w-4xl mx-auto">
                   {t.hero.title}
                 </h1>
               </FadeIn>
               <FadeIn delay={0.3}>
-                <div className="flex justify-center">
+                <div className="flex justify-start md:justify-center">
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-xs md:text-sm font-bold uppercase tracking-[0.16em] text-white">
                     {t.hero.audience}
                   </div>
                 </div>
               </FadeIn>
               <FadeIn delay={0.35}>
-                <p className="text-gray-200 text-lg md:text-xl text-center max-w-3xl lg:max-w-4xl mx-auto px-4 md:px-6 mt-4">
+                <p className="text-gray-200 text-base md:text-lg text-left md:text-center max-w-3xl lg:max-w-4xl mx-auto px-4 md:px-6 mt-3">
                   {t.hero.subtitle}
                 </p>
               </FadeIn>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-4 w-full max-w-3xl mx-auto justify-center mt-8">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-3 w-full max-w-3xl mx-auto justify-start md:justify-center mt-6 md:mt-7">
                 <FadeIn delay={0.4}>
                   <button
-                    onClick={() => handleNavClick('contact')}
+                    onClick={openBooking}
                     className="group flex items-center justify-center gap-3 bg-brand-gold text-brand-navy px-5 sm:px-7 md:px-8 py-3 md:py-3.5 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-sm hover:bg-white transition-colors w-full sm:w-auto shadow-lg shadow-brand-gold/30"
                   >
                     {t.hero.cta}
@@ -770,7 +1013,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 </FadeIn>
               </div>
               <FadeIn delay={0.6} className="w-full">
-                <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 max-w-5xl mx-auto mt-4 text-gray-100 text-sm md:text-base">
+                <div className="flex flex-wrap items-center justify-center gap-3 md:gap-5 max-w-5xl mx-auto mt-4 mb-8 text-gray-100 text-sm md:text-base">
                   {t.hero.proofs.map((proof, index) => (
                     <div key={`${proof}-${index}`} className="flex items-center gap-2">
                       <CheckCircle className="text-brand-gold" size={18} />
@@ -790,17 +1033,17 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 <div className="absolute inset-0 border border-dashed border-white/10 rounded-full scale-75" />
               </motion.div>
             </div>
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/60 text-xs uppercase tracking-[0.18em]">
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/60 text-xs uppercase tracking-[0.18em]">
               <span className="w-10 h-[2px] bg-white/30" />
               <span>{lang === 'es' ? 'Desplaza para descubrir' : 'Scroll to explore'}</span>
               <span className="w-10 h-[2px] bg-white/30" />
             </div>
-          </ScrollReveal>
+          </MotionDiv>
 
         </section>
 
         {/* Proof & Social Trust */}
-        <section className="bg-[#0f1521] text-white py-18 md:py-22">
+        <section className="bg-brand-navy text-white py-16">
           <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-12">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
@@ -858,6 +1101,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   muted
                   playsInline
                   preload="auto"
+                  data-autoplay
                   poster="https://static.vecteezy.com/system/resources/thumbnails/005/166/637/large/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.jpg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#0f1521]/70 via-[#0f1521]/40 to-[#0f1521]/70" />
@@ -880,15 +1124,15 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* 2. SERVICES (Light) */}
-        <section id="services" className="relative bg-[#F5F5F7] text-brand-navy flex flex-col justify-center py-18 md:py-24 overflow-hidden">
+        <section id="services" className="relative bg-[#f6f7fb] text-brand-navy flex flex-col justify-center py-16 overflow-hidden">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-white skew-x-12 translate-x-1/4 pointer-events-none" />
 
           <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
             {/* Header */}
-            <div className="mb-6 md:mb-10 pt-16 md:pt-0">
+            <div className="mb-6 md:mb-10 pt-0">
               <FadeIn direction='right'>
                 <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">What We Offer</span>
-                <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-brand-navy">{t.services.title}</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-navy">{t.services.title}</h2>
                 <p className="text-gray-500 mt-2 text-sm md:text-base max-w-md">{t.services.subtitle}</p>
               </FadeIn>
             </div>
@@ -1124,7 +1368,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* Assurances for decision-makers */}
-        <section className="bg-white text-brand-navy py-18 md:py-26 border-t border-gray-100">
+        <section className="bg-[#f6f7fb] text-brand-navy py-16 border-t border-gray-100">
           <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-12">
             <div className="text-center max-w-3xl mx-auto space-y-3">
               <p className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs">{t.assurances.title}</p>
@@ -1169,6 +1413,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   muted
                   playsInline
                   preload="auto"
+                  data-autoplay
                   poster="https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-black/55 via-black/35 to-black/60" />
@@ -1191,108 +1436,188 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* 3. PROCESS - Zigzag Timeline Journey */}
-        <section id="process" className="relative flex flex-col justify-center py-18 md:py-26 bg-[#F5F5F7] overflow-hidden">
+        <section id="process" className="relative flex flex-col justify-center py-16 bg-[#f6f7fb] overflow-hidden">
+          <div className="absolute inset-0 opacity-60 pointer-events-none">
+            <div className="absolute -top-20 -left-10 w-72 h-72 bg-brand-gold/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-[520px] h-[520px] bg-brand-navy/5 rounded-full blur-3xl" />
+          </div>
           <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
-            {/* Header */}
-            <div className="text-center mb-10 md:mb-16">
-              <FadeIn>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-brand-navy mb-3 uppercase tracking-tight">
-                  {lang === 'en' ? 'Your Journey With Us' : 'Tu Viaje Con Nosotros'}
-                </h2>
-                <p className="text-brand-navy/60 text-sm md:text-base max-w-xl mx-auto">{t.process.subtitle}</p>
-              </FadeIn>
-            </div>
-
-            {/* Zigzag Timeline */}
-            <div className="relative max-w-4xl mx-auto">
-              {/* Central vertical line */}
-              <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-[#d5ba8c] via-[#4a638f] to-[#002169] -translate-x-1/2 hidden md:block" />
-              
-              {t.process.steps.map((step, idx) => {
-                const icons = [Target, FileText, Users, Package, Briefcase, Shield, Ship];
-                const Icon = icons[idx] || Target;
-                const colors = [
-                  'bg-[#0b2f6b]',
-                  'bg-[#b08c55]', 
-                  'bg-[#1f3f70]',
-                  'bg-[#0f2f66]',
-                  'bg-[#d5ba8c]',
-                  'bg-[#12315c]',
-                  'bg-[#8a744f]'
-                ];
-                const borderColors = [
-                  'border-l-[#0b2f6b]',
-                  'border-l-[#b08c55]',
-                  'border-l-[#1f3f70]', 
-                  'border-l-[#0f2f66]',
-                  'border-l-[#d5ba8c]',
-                  'border-l-[#12315c]',
-                  'border-l-[#8a744f]'
-                ];
-                const isLeft = idx % 2 === 0;
-                
-                return (
-                  <FadeIn key={idx} delay={idx * 0.1}>
-                    <div className={`relative flex items-center mb-8 md:mb-12 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                      {/* Mobile: Simple vertical timeline */}
-                      <div className="md:hidden flex gap-4 w-full">
-                        {/* Timeline line + icon */}
-                        <div className="flex flex-col items-center">
-                          <div className={`w-12 h-12 rounded-xl ${colors[idx]} flex items-center justify-center shadow-lg flex-shrink-0`}>
-                            <Icon className="w-6 h-6 text-white" />
-                          </div>
-                          {idx < t.process.steps.length - 1 && (
-                            <div className={`w-1 flex-1 min-h-[60px] ${colors[idx]} opacity-30 mt-2`} />
-                          )}
-                        </div>
+            <div className="space-y-8">
+              <div className="text-center mb-10 md:mb-14">
+                <FadeIn>
+                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-brand-navy border border-brand-navy/10 text-[10px] font-bold tracking-[0.22em] uppercase mb-3">
+                    {lang === 'en' ? 'Delivery, not promises' : 'Entrega, no promesas'}
+                  </span>
+                  <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-brand-navy mb-3 uppercase tracking-tight">
+                    {lang === 'en' ? 'Your Journey With Us' : 'Tu Viaje Con Nosotros'}
+                  </h2>
+                  <p className="text-brand-navy/60 text-sm md:text-base max-w-2xl mx-auto">
+                    {t.process?.subtitle || (lang === 'en'
+                      ? 'From vision to delivery — a structured path to success.'
+                      : 'Del plan a la entrega: una ruta estructurada al éxito.')}
+                  </p>
+                </FadeIn>
+              </div>
+              <div className="grid lg:grid-cols-[1.1fr,0.9fr] gap-8 lg:gap-12 items-start">
+                  {/* Zigzag Timeline */}
+                  <div className="relative">
+                    <div className="absolute left-1/2 top-0 bottom-10 w-1 bg-gradient-to-b from-[#d5ba8c] via-[#4a638f] to-[#002169] -translate-x-1/2 hidden md:block" />
+                    
+                      {(t.process?.steps || []).map((step, idx) => {
+                        const icons = [Target, FileText, Users, Package, Briefcase, Shield, Ship];
+                        const Icon = icons[idx] || Target;
+                        const colors = [
+                    'bg-[#0b2f6b]',
+                    'bg-[#b08c55]', 
+                    'bg-[#1f3f70]',
+                    'bg-[#0f2f66]',
+                    'bg-[#d5ba8c]',
+                    'bg-[#12315c]',
+                    'bg-[#8a744f]'
+                  ];
+                  const borderColors = [
+                    'border-l-[#0b2f6b]',
+                    'border-l-[#b08c55]',
+                    'border-l-[#1f3f70]', 
+                    'border-l-[#0f2f66]',
+                    'border-l-[#d5ba8c]',
+                    'border-l-[#12315c]',
+                          'border-l-[#8a744f]'
+                        ];
+                        const isLeft = idx % 2 === 0;
+                        const proofLine = (step as any).proof ?? (lang === 'en' ? 'Documented hand-off' : 'Entrega documentada');
                         
-                        {/* Content card */}
-                        <div className={`flex-1 bg-white rounded-xl p-4 shadow-lg border-l-4 ${borderColors[idx]}`}>
-                          <h3 className="text-brand-navy font-bold text-base mb-2">{step.title}</h3>
-                          <p className="text-brand-navy/60 text-sm leading-relaxed">{step.desc}</p>
-                        </div>
-                      </div>
-                      
-                      {/* Desktop: Zigzag layout */}
-                      <div className={`hidden md:flex items-center w-full ${isLeft ? '' : 'flex-row-reverse'}`}>
-                        {/* Content card */}
-                        <div className={`w-[45%] ${isLeft ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
-                          <div className={`bg-white rounded-2xl p-6 shadow-xl border-l-4 ${borderColors[idx]} hover:shadow-2xl transition-shadow`}>
-                            <h3 className="text-brand-navy font-bold text-lg mb-2">{step.title}</h3>
+                  return (
+                    <FadeIn key={idx} delay={Math.min(idx * 0.08, 0.35)}>
+                      <div className={`relative flex items-center mb-8 md:mb-12 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                        {/* Mobile: Simple vertical timeline */}
+                        <div className="md:hidden flex gap-4 w-full">
+                          {/* Timeline line + icon */}
+                          <div className="flex flex-col items-center">
+                            <div className={`w-12 h-12 rounded-xl ${colors[idx]} flex items-center justify-center shadow-lg flex-shrink-0`}>
+                              <Icon className="w-6 h-6 text-white" />
+                            </div>
+                                  {idx < (t.process?.steps?.length || 0) - 1 && (
+                                    <div className={`w-1 flex-1 min-h-[60px] ${colors[idx]} opacity-30 mt-2`} />
+                                  )}
+                                </div>
+                          
+                          {/* Content card */}
+                          <div className={`flex-1 bg-white rounded-xl p-4 shadow-lg border-l-4 ${borderColors[idx]}`}>
+                            <h3 className="text-brand-navy font-bold text-base mb-2">{step.title}</h3>
                             <p className="text-brand-navy/60 text-sm leading-relaxed">{step.desc}</p>
                           </div>
                         </div>
                         
-                        {/* Center icon */}
-                        <div className="w-[10%] flex justify-center relative z-10">
-                          <div className={`w-14 h-14 rounded-2xl ${colors[idx]} flex items-center justify-center shadow-xl`}>
-                            <Icon className="w-7 h-7 text-white" />
+                        {/* Desktop: Zigzag layout */}
+                        <div className={`hidden md:flex items-center w-full ${isLeft ? '' : 'flex-row-reverse'}`}>
+                          {/* Content card */}
+                          <div className={`w-[48%] ${isLeft ? 'pr-10 text-right' : 'pl-10 text-left'}`}>
+                            <div className={`bg-white rounded-2xl p-6 shadow-xl border-l-4 ${borderColors[idx]} hover:shadow-2xl transition-shadow relative overflow-hidden`}>
+                              <div className="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-navy/30">
+                                0{idx + 1}
+                              </div>
+                              <h3 className="text-brand-navy font-bold text-lg mb-2">{step.title}</h3>
+                              <p className="text-brand-navy/60 text-sm leading-relaxed mb-3">{step.desc}</p>
+                              <div className="flex items-center gap-2 text-xs font-semibold text-brand-navy/80">
+                                <CheckCircle size={14} className="text-brand-gold" />
+                                <span>{proofLine}</span>
+                              </div>
+                            </div>
                           </div>
+                          
+                          {/* Center icon */}
+                          <div className="w-[4%] flex justify-center relative z-10">
+                            <div className={`w-14 h-14 rounded-2xl ${colors[idx]} flex items-center justify-center shadow-xl ring-4 ring-white`}>
+                              <Icon className="w-7 h-7 text-white" />
+                            </div>
+                          </div>
+                          
+                          {/* Empty space for alignment */}
+                          <div className="w-[48%]" />
                         </div>
-                        
-                        {/* Empty space */}
-                        <div className="w-[45%]" />
                       </div>
-                    </div>
-                  </FadeIn>
-                );
-              })}
-            </div>
-            
-            {/* CTA */}
-            <FadeIn delay={0.5}>
-              <div className="mt-10 md:mt-14 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-                <a href="#contact" className="w-full sm:w-auto bg-brand-navy text-white px-8 py-4 rounded-full font-bold text-sm hover:bg-brand-gold hover:text-brand-navy transition-colors flex items-center justify-center gap-2 group">
-                  {lang === 'en' ? 'Start Your Journey' : 'Inicia Tu Viaje'}
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
+                    </FadeIn>
+                  );
+                })}
+
+                {/* CTA */}
+                <FadeIn delay={0.4}>
+                  <div className="mt-8 md:mt-10 flex flex-col sm:flex-row items-center justify-start md:justify-center gap-4 sm:gap-6">
+                    <a href="#contact" className="w-full sm:w-auto bg-brand-navy text-white px-8 py-4 rounded-full font-bold text-sm hover:bg-brand-gold hover:text-brand-navy transition-colors flex items-center justify-center gap-2 group shadow-lg shadow-brand-navy/10">
+                      {lang === 'en' ? 'Start Your Journey' : 'Inicia Tu Viaje'}
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                    <a href="#services" className="w-full sm:w-auto bg-white text-brand-navy px-8 py-4 rounded-full font-bold text-sm border border-brand-navy/10 hover:border-brand-gold hover:text-brand-gold transition-colors flex items-center justify-center gap-2">
+                      {lang === 'en' ? 'See Services' : 'Ver Servicios'}
+                    </a>
+                  </div>
+                </FadeIn>
               </div>
-            </FadeIn>
+
+              {/* Media column */}
+              <div className="hidden lg:flex flex-col gap-4 sticky top-28">
+              <MotionDiv
+                  className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/60 bg-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <img src={processImg1} alt="On-site quality walkthrough" className="w-full h-64 object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-gold">Field Audit</p>
+                    <h4 className="text-xl font-bold">Factory floor validation</h4>
+                    <p className="text-sm text-white/80">Operators, tooling, and QA checkpoints documented with photos.</p>
+                  </div>
+                </MotionDiv>
+
+                <MotionDiv
+                  className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/60 bg-brand-navy"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  <video
+                    className="w-full h-64 object-cover opacity-90"
+                    src="https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    data-autoplay
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-brand-navy/80" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-gold">Process Capture</p>
+                    <h4 className="text-xl font-bold">Material QA in motion</h4>
+                    <p className="text-sm text-white/80">Live clips inside partner factories to de-risk every milestone.</p>
+                  </div>
+                </MotionDiv>
+
+                <MotionDiv
+                  className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/60 bg-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  <img src={processImg3} alt="Shipment ready" className="w-full h-60 object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-gold">Ship-Ready</p>
+                    <h4 className="text-xl font-bold">Sign-offs & staging</h4>
+                    <p className="text-sm text-white/80">Labels, cartons, and documentation completed before departure.</p>
+                  </div>
+                </MotionDiv>
+              </div>
+            </div>
+            </div>
           </ScrollReveal>
         </section>
 
         {/* 4. OUR FOUNDER (Light) */}
-        <section id="team" className="flex flex-col bg-[#F5F5F7] overflow-hidden">
+        <section id="team" className="flex flex-col bg-[#f6f7fb] overflow-hidden">
           {/* Mobile-first stacked layout */}
           <ScrollReveal className="flex flex-col lg:flex-row min-h-screen">
             {/* Image - Full width on mobile, half on desktop */}
@@ -1312,10 +1637,10 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             </div>
 
             {/* Content - Compact on mobile */}
-            <div className="w-full lg:w-1/2 bg-white flex flex-col justify-center p-6 md:p-12 lg:p-24 py-12 lg:py-24">
+            <div className="w-full lg:w-1/2 bg-white flex flex-col justify-center p-6 md:p-12 lg:p-24 py-16 lg:py-16">
               <FadeIn direction='right'>
                 <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 lg:mb-4 block">Leadership</span>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-navy mb-4 lg:mb-8">{t.team.title}</h2>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-brand-navy mb-4 lg:mb-8">{t.team.title}</h2>
                 
                 {/* Quote styling - more compact on mobile */}
                 <div className="relative pl-4 border-l-4 border-brand-gold/30 mb-6 lg:mb-12">
@@ -1330,7 +1655,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* 5. DIFFERENTIATORS - Mobile-First Cards */}
-        <section id="differentiators" className="bg-gradient-to-br from-[#141B2D] via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative py-18 md:py-26 overflow-hidden">
+        <section id="differentiators" className="bg-brand-navy text-white flex flex-col justify-center relative py-16 pt-24 overflow-hidden">
           <GridPattern color="#C4A661" opacity={0.03} />
           
           {/* Animated background shapes */}
@@ -1343,7 +1668,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             {/* Header */}
             <div className="text-center mb-10 lg:mb-16">
               <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">Why Choose Us</span>
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold">{t.differentiators.title}</h2>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">{t.differentiators.title}</h2>
             </div>
 
             {/* Mobile: EXPANDABLE ACCORDION Cards */}
@@ -1441,13 +1766,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* Capabilities deck landing */}
-        <section id="capabilities" className="bg-[#0f1521] text-white py-20 md:py-28">
+        <section id="capabilities" className="bg-brand-navy text-white py-16">
           <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-10">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-14 items-start">
               <div className="space-y-6">
                 <div className="space-y-2">
                   <p className="text-brand-gold font-bold uppercase tracking-[0.22em] text-xs">{t.capabilities.title}</p>
-                  <h3 className="text-3xl md:text-4xl font-bold leading-tight">{t.capabilities.subtitle}</h3>
+                  <h3 className="text-2xl md:text-3xl font-bold leading-tight">{t.capabilities.subtitle}</h3>
                 </div>
                 <ul className="space-y-3">
                   {t.capabilities.bullets.map((bullet, idx) => (
@@ -1481,6 +1806,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                       muted
                       playsInline
                       preload="auto"
+                      data-autoplay
                       poster="https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
@@ -1527,15 +1853,15 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   <button type="submit" disabled={deckStatus === 'loading'} className="w-full bg-brand-navy text-white rounded-full py-3 font-bold uppercase tracking-[0.2em] hover:bg-brand-gold hover:text-brand-navy transition-colors">
                     {deckStatus === 'loading' ? 'Sending...' : deckStatus === 'success' ? 'Sent!' : t.capabilities.form.cta}
                   </button>
-                  <p className="text-xs text-brand-navy/60">{t.capabilities.form.disclaimer}</p>
-                </form>
-              </div>
-            </div>
-          </ScrollReveal>
-        </section>
+              <p className="text-xs text-brand-navy/60">{t.capabilities.form.disclaimer}</p>
+            </form>
+          </div>
+          </div>
+        </ScrollReveal>
+      </section>
 
         {/* CTB STRENGTHS - Full Section with Tinder-Style Cards */}
-        <section className="min-h-screen bg-gradient-to-br from-[#0f1521] via-[#141B2D] to-[#1B2440] text-white relative overflow-hidden py-18 md:py-26">
+        <section className="min-h-screen bg-brand-navy text-white relative overflow-hidden py-16">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-1/4 -right-20 w-96 h-96 bg-brand-gold/10 rounded-full blur-2xl opacity-40" />
@@ -1714,7 +2040,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                       <div className="inline-flex items-center gap-2 text-brand-gold font-bold uppercase tracking-widest text-[10px] bg-white/5 border border-brand-gold/30 px-4 py-2 rounded-full mb-3 backdrop-blur-sm">
                         {lang === 'es' ? 'Nuestras Fortalezas' : 'Our Strengths'}
                       </div>
-                      <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-2">
+                      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2">
                         {lang === 'es' ? 'Fortalezas CTB' : 'CTB Strengths'}
                       </h2>
                       <p className="text-white/40 text-xs md:text-sm max-w-xl mx-auto">
@@ -1809,6 +2135,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                               muted
                               playsInline
                               preload="auto"
+                              data-autoplay
                             />
                           </div>
                           
@@ -1912,7 +2239,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                             >
                               {/* Step indicator */}
                               <div className="flex items-center gap-4">
-                                <span className="text-6xl lg:text-7xl font-black text-white/10">
+                                <span className="text-5xl lg:text-6xl font-black text-white/10">
                                   {String(currentIndex + 1).padStart(2, '0')}
                                 </span>
                                 <div className="h-px flex-1 bg-gradient-to-r from-brand-gold to-transparent" />
@@ -1924,7 +2251,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                               </div>
                               
                               {/* Title */}
-                              <h3 className="text-2xl lg:text-4xl font-bold text-white leading-tight">
+                              <h3 className="text-xl lg:text-3xl font-bold text-white leading-tight">
                                 {ctbStrengths[currentIndex].title}
                               </h3>
                               
@@ -1988,16 +2315,17 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                               transition={{ duration: 0.5, ease: "easeOut" }}
                               className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl"
                             >
-                              <video
-                                className="w-full h-full object-cover"
-                                src={ctbStrengths[currentIndex].video}
-                                poster={ctbStrengths[currentIndex].poster}
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                preload="auto"
-                              />
+                          <video
+                            className="w-full h-full object-cover"
+                            src={ctbStrengths[currentIndex].video}
+                            poster={ctbStrengths[currentIndex].poster}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                            data-autoplay
+                          />
                               {/* Gradient overlay */}
                               <div className={`absolute inset-0 bg-gradient-to-br ${ctbStrengths[currentIndex].color} opacity-40`} />
                               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
@@ -2022,38 +2350,57 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
         {/* BRIDGE EFFECT - Know the Bridge */}
         {(() => {
-          // Cycling testimonials state - using refs to track indices
-          const [testimonialIndices, setTestimonialIndices] = useState([0, 1, 2]);
-          const [selectedTestimonial, setSelectedTestimonial] = useState<typeof t.testimonials.items[0] | null>(null);
-          const totalTestimonials = t.testimonials.items.length;
-          
-          // Cycle through testimonials periodically
+          const testimonialItems = t.testimonials?.items?.length
+            ? t.testimonials.items
+            : [
+                {
+                  name: "Wilson King",
+                  role: "Outback Trading Company, USA",
+                  text: "Cross the Bridge has been exactly what their name promises — a real bridge. They took all the uncertainty out of doing business in Mexico and replaced it with clarity, trust, and results.",
+                  country: "United States",
+                  countryCode: "US",
+                  image: ""
+                },
+                {
+                  name: "Mehrdad Baghai",
+                  role: "JRD Saddlery, USA",
+                  text: "I have worked with Mariana for the last 20 plus years. She managed and oversees all my sourcing, production and even shipping. Value we cannot do without.",
+                  country: "United States",
+                  countryCode: "US",
+                  image: ""
+                },
+                {
+                  name: "Viberg Boot Representative",
+                  role: "Viberg Boot, Canada",
+                  text: "Working with Mariana is always a wonderful experience. The most valuable part has been finding us many connections within the footwear industry.",
+                  country: "Canada",
+                  countryCode: "CA",
+                  image: ""
+                },
+              ];
+
+          const [activeTestimonial, setActiveTestimonial] = useState(0);
+          const [selectedTestimonial, setSelectedTestimonial] = useState<typeof testimonialItems[0] | null>(null);
+          const totalTestimonials = testimonialItems.length;
+
+          if (!totalTestimonials) return null;
+
           useEffect(() => {
-            const intervals = [
-              setInterval(() => {
-                setTestimonialIndices(prev => [
-                  (prev[0] + 3) % totalTestimonials,
-                  prev[1],
-                  prev[2]
-                ]);
-              }, 4000),
-              setInterval(() => {
-                setTestimonialIndices(prev => [
-                  prev[0],
-                  (prev[1] + 3) % totalTestimonials,
-                  prev[2]
-                ]);
-              }, 5000),
-              setInterval(() => {
-                setTestimonialIndices(prev => [
-                  prev[0],
-                  prev[1],
-                  (prev[2] + 3) % totalTestimonials
-                ]);
-              }, 6000)
-            ];
-            return () => intervals.forEach(i => clearInterval(i));
+            if (!totalTestimonials) return;
+            const id = setInterval(() => {
+              setActiveTestimonial(prev => (prev + 1) % totalTestimonials);
+            }, 4500);
+            return () => clearInterval(id);
           }, [totalTestimonials]);
+
+          const visibleTestimonials = [
+            activeTestimonial,
+            (activeTestimonial + 1) % totalTestimonials,
+            (activeTestimonial + 2) % totalTestimonials,
+          ];
+
+          const goPrev = () => setActiveTestimonial(prev => (prev - 1 + totalTestimonials) % totalTestimonials);
+          const goNext = () => setActiveTestimonial(prev => (prev + 1) % totalTestimonials);
 
           return (
         <>
@@ -2110,7 +2457,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           )}
         </AnimatePresence>
 
-        <section className="min-h-screen bg-gradient-to-b from-[#141B2D] via-brand-navy to-brand-navy relative py-16 md:py-24 overflow-hidden">
+        <section className="min-h-screen bg-brand-navy relative py-16 overflow-hidden text-white">
           {/* Background elements */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-0 w-full h-full" style={{
@@ -2126,7 +2473,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4">
                   {lang === 'en' ? 'Know the Bridge Effect' : 'Conoce el Efecto Puente'}
                 </span>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+                <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white mb-2">
                   {lang === 'en' ? 'More Than' : 'Más de'} <span className="text-brand-gold">20</span> {lang === 'en' ? 'Countries' : 'Países'}
                 </h2>
                 <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
@@ -2135,280 +2482,115 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               </div>
             </FadeIn>
 
-            {/* Bridge SVG with Testimonials anchored to deck */}
-            <div className="relative max-w-6xl mx-auto h-[360px] md:h-[420px] overflow-visible mt-24 md:mt-32">
-              {/* SVG Bridge */}
-              <svg viewBox="0 0 1200 400" className="w-full h-full absolute inset-0" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                  <linearGradient id="bridgeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#C4A661" stopOpacity="0.3" />
-                    <stop offset="50%" stopColor="#C4A661" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="#C4A661" stopOpacity="0.3" />
-                  </linearGradient>
-                </defs>
-                
-                {/* Left Tower */}
-                <g className="opacity-90">
-                  <rect x="80" y="80" width="40" height="280" fill="#C4A661" opacity="0.6" rx="4" />
-                  <rect x="90" y="60" width="20" height="30" fill="#C4A661" opacity="0.8" rx="2" />
-                  <circle cx="100" cy="50" r="10" fill="#C4A661" opacity="0.9" />
-                </g>
-                
-                {/* Right Tower */}
-                <g className="opacity-90">
-                  <rect x="1080" y="80" width="40" height="280" fill="#C4A661" opacity="0.6" rx="4" />
-                  <rect x="1090" y="60" width="20" height="30" fill="#C4A661" opacity="0.8" rx="2" />
-                  <circle cx="1100" cy="50" r="10" fill="#C4A661" opacity="0.9" />
-                </g>
-                
-                {/* Main Cables */}
-                <path d="M100 50 Q 600 -20 1100 50" stroke="#C4A661" strokeWidth="4" fill="none" opacity="0.7" />
-                <path d="M100 50 Q 600 0 1100 50" stroke="#C4A661" strokeWidth="2" fill="none" opacity="0.5" />
-                
-                {/* Bridge Deck */}
-                <path d="M60 280 L1140 280" stroke="url(#bridgeGradient)" strokeWidth="8" fill="none" />
-                <path d="M60 290 L1140 290" stroke="#C4A661" strokeWidth="2" fill="none" opacity="0.3" />
-                
-                {/* Vertical cables */}
-                {[150, 250, 350, 450, 550, 650, 750, 850, 950, 1050].map((x, i) => {
-                  const cableHeight = Math.sin((x - 100) / 1000 * Math.PI) * 180 + 50;
-                  return <line key={i} x1={x} y1={cableHeight} x2={x} y2="280" stroke="#C4A661" strokeWidth="1.5" opacity="0.4" />;
-                })}
-                
-                {/* Railings */}
-                <path d="M80 260 L1120 260" stroke="#C4A661" strokeWidth="2" fill="none" opacity="0.3" />
-                {[...Array(27)].map((_, i) => (
-                  <line key={i} x1={80 + i * 40} y1="260" x2={80 + i * 40} y2="280" stroke="#C4A661" strokeWidth="1" opacity="0.3" />
-                ))}
-                
-                {/* Water reflection */}
-                <ellipse cx="600" cy="360" rx="500" ry="30" fill="url(#bridgeGradient)" opacity="0.1" />
-              </svg>
+            {/* Refreshed testimonials slider */}
+            <div className="relative bg-white/5 border border-white/10 rounded-3xl p-5 md:p-7 lg:p-8 shadow-2xl overflow-hidden -mx-4 md:-mx-8 lg:-mx-12">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/6 via-white/4 to-brand-navy/40 pointer-events-none" />
+              <div className="flex flex-wrap items-center gap-4 justify-between relative z-10">
+                <div>
+                  <p className="text-brand-gold text-[10px] md:text-xs font-bold uppercase tracking-[0.22em] mb-1">
+                    {lang === 'en' ? 'Testimonials' : 'Testimonios'}
+                  </p>
+                  <h3 className="text-xl md:text-2xl font-bold text-white">
+                    {lang === 'en' ? 'Partners who crossed with us' : 'Aliados que cruzaron con nosotros'}
+                  </h3>
+                </div>
+                <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-2 py-1">
+                  <button onClick={goPrev} className="w-9 h-9 rounded-full text-white/80 hover:text-brand-navy hover:bg-white transition-all active:scale-95">
+                    ‹
+                  </button>
+                  <button onClick={goNext} className="w-9 h-9 rounded-full text-white/80 hover:text-brand-navy hover:bg-white transition-all active:scale-95">
+                    ›
+                  </button>
+                </div>
+              </div>
 
-              {/* Testimonials anchored to bridge deck */}
-              {testimonialIndices.map((testimonialIdx, idx) => {
-                const testimonial = t.testimonials.items[testimonialIdx];
-                if (!testimonial) return null;
-                
-                return (
-                  <MotionDiv
-                    key={`walker-${idx}`}
-                    className="absolute"
-                    style={{ 
-                      top: '68%',
-                      left: `${16 + idx * 30}%`
-                    }}
-                  >
-                    <div className="relative">
-                      {/* Dialog Bubble - CLICKABLE */}
+              <div className="mt-4 md:mt-6 relative z-10">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 min-h-[230px]">
+                  {visibleTestimonials.map((idx, slot) => {
+                    const testimonial = testimonialItems[idx];
+                    if (!testimonial) return null;
+                    const isPrimary = slot === 1;
+                    return (
                       <MotionDiv
-                        key={`bubble-${idx}-${testimonialIdx}`}
-                        className={`absolute -top-10 md:-top-16 ${idx === 1 ? '-left-20 md:-left-28' : '-left-12 md:-left-20'} w-44 md:w-60 ${idx === 1 ? 'bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 border-brand-gold/50' : 'bg-white/95 border-brand-gold/20'} backdrop-blur-sm rounded-xl p-3 md:p-4 shadow-xl border cursor-pointer hover:scale-105 transition-transform`}
-                        initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                        animate={{ opacity: 1, y: [0, -5, 0], scale: 1 }}
-                        transition={{ 
-                          opacity: { duration: 0.3 },
-                          y: { repeat: Infinity, duration: 2, ease: "easeInOut" },
-                          scale: { duration: 0.3 }
-                        }}
+                        key={`${idx}-${slot}`}
+                        layout
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.35 }}
+                        className={`relative rounded-2xl border backdrop-blur-sm shadow-xl cursor-pointer active:scale-[0.99] transition-all h-full overflow-hidden ${
+                          isPrimary
+                            ? 'bg-gradient-to-br from-brand-gold/25 via-brand-gold/15 to-white/10 border-brand-gold/40'
+                            : 'bg-white/5 border-white/10'
+                        }`}
                         onClick={() => setSelectedTestimonial(testimonial)}
                       >
-                          {/* Click indicator */}
-                          <div className="absolute -top-2 -right-2 w-5 h-5 bg-brand-gold rounded-full flex items-center justify-center shadow-lg">
-                            <span className="text-brand-navy text-[8px] font-bold">+</span>
-                          </div>
-                          <p className={`text-[9px] md:text-[11px] ${idx === 1 ? 'text-white' : 'text-gray-700'} italic leading-relaxed line-clamp-2 md:line-clamp-3`}>
-                            "{testimonial.text.slice(0, 80)}..."
+                        <div className="absolute right-3 top-3 flex gap-1 text-brand-gold text-xs drop-shadow">
+                          ★★★★★
+                        </div>
+                        <div className="p-4 md:p-5 space-y-4 flex flex-col h-full">
+                          <p className={`text-sm leading-relaxed line-clamp-4 ${isPrimary ? 'text-white' : 'text-white/80'}`}>
+                            “{testimonial.text}”
                           </p>
-                          <div className="flex items-center gap-2 mt-2">
+                          <div className="flex items-center gap-3 mt-auto">
                             {testimonial.image ? (
-                              <img src={testimonial.image} alt="" className="w-5 h-5 md:w-7 md:h-7 rounded-full object-cover border border-brand-gold/30" />
+                              <img src={testimonial.image} alt="" className="w-12 h-12 rounded-full object-cover border-2 border-brand-gold/40" />
                             ) : (
-                              <div className={`w-5 h-5 md:w-7 md:h-7 rounded-full flex items-center justify-center border border-brand-gold/30 ${idx === 1 ? 'bg-gradient-to-br from-brand-navy to-brand-navy/80' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`}>
-                                <User className={`w-3 h-3 md:w-4 md:h-4 ${idx === 1 ? 'text-brand-gold/70' : 'text-white/70'}`} />
+                              <div className="w-12 h-12 rounded-full bg-brand-gold/20 border-2 border-brand-gold/40 flex items-center justify-center text-brand-gold font-bold">
+                                {testimonial.name?.[0] || '•'}
                               </div>
                             )}
-                            <div className="flex-1 min-w-0">
-                              <span className={`text-[8px] md:text-[10px] font-semibold ${idx === 1 ? 'text-white' : 'text-brand-navy'} block truncate`}>{testimonial.name}</span>
-                              <span className={`text-[7px] md:text-[9px] ${idx === 1 ? 'text-brand-gold' : 'text-gray-500'} flex items-center gap-1`}>
+                            <div className="min-w-0">
+                              <p className="text-white font-semibold truncate">{testimonial.name}</p>
+                              <p className="text-xs text-white/60 truncate">{testimonial.role}</p>
+                              <p className="text-xs text-brand-gold flex items-center gap-1 mt-0.5">
                                 <span>{getCountryFlag(testimonial.countryCode)}</span>
                                 {testimonial.country}
-                              </span>
+                              </p>
                             </div>
-                        </div>
-                        {/* Bubble tail */}
-                        <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 ${idx === 1 ? 'bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 border-brand-gold/50' : 'bg-white/95 border-brand-gold/20'} transform rotate-45 border-r border-b`}>
-                          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-1 h-12 bg-gradient-to-b from-brand-gold/50 to-transparent opacity-70" />
+                          </div>
+                          <div className="flex items-center gap-2 text-[11px] text-white/70">
+                            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full border border-white/15 bg-white/5 shadow-inner">
+                              <Sparkles size={12} className="text-brand-gold" /> {lang === 'en' ? 'Read story' : 'Ver historia'}
+                            </span>
+                          </div>
                         </div>
                       </MotionDiv>
-                    </div>
-                  </MotionDiv>
-                );
-              })}
-
-              {/* Footsteps trail */}
-              <div className="absolute bottom-[22%] md:bottom-[24%] left-[15%] right-[15%] flex justify-between">
-                {[...Array(8)].map((_, i) => (
-                  <MotionDiv
-                    key={i}
-                    className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-brand-gold/30"
-                    animate={{
-                      opacity: [0.1, 0.6, 0.1],
-                      scale: [0.8, 1.1, 0.8]
-                    }}
-                    transition={{
-                      repeat: Infinity,
-                      duration: 2,
-                      delay: i * 0.25,
-                      ease: "easeInOut"
-                    }}
-                  />
-                ))}
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
-            {/* Collage Section - Stamp Style Photos */}
-            <FadeIn delay={0.2}>
-              <div className="mt-8 md:mt-12">
-                <p className="text-center text-brand-gold/60 text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8">
-                  {lang === 'en' ? 'Success Stories Around the World' : 'Historias de Éxito Alrededor del Mundo'}
+            {/* Global snapshot strip */}
+            <FadeIn delay={0.1}>
+              <div className="mt-10 md:mt-12">
+                <p className="text-center text-brand-gold/60 text-xs md:text-sm font-bold uppercase tracking-widest mb-4">
+                  {lang === 'en' ? 'Snapshots from the field' : 'Postales desde el campo'}
                 </p>
-                
-                {/* Stamp-style Photo Collage */}
-                <div className="relative max-w-5xl mx-auto h-[300px] md:h-[400px]">
-                  {/* Stamp 1 - Large, tilted left */}
-                  <div className="absolute left-[5%] md:left-[8%] top-[5%] w-[140px] md:w-[220px] transform -rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-500 z-10 group">
-                    <div className="bg-white p-2 md:p-3 shadow-2xl rounded-sm border-4 border-dashed border-gray-200">
-                      <img 
-                        src="/img/Collage/Collage_embajada_alemania.jpg" 
-                        alt="German Embassy"
-                        className="w-full h-[80px] md:h-[120px] object-cover grayscale group-hover:grayscale-0 transition-all"
-                      />
-                      <div className="mt-2 text-center">
-                        <p className="text-[8px] md:text-[10px] font-bold text-brand-navy uppercase tracking-wider">{lang === 'en' ? 'Partnerships' : 'Alianzas'}</p>
-                        <p className="text-[7px] md:text-[8px] text-gray-400">🇩🇪 Germany</p>
+                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 -mx-4 md:mx-0">
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-3 p-4 md:p-6">
+                    {[
+                      { src: "/img/Collage/Collage_embajada_alemania.jpg", label: "Germany" },
+                      { src: "/img/Collage/Collage_mision_Thailandia.jpg", label: "Thailand" },
+                      { src: "/img/Collage/Collage_junta.jpg", label: lang === 'en' ? 'Planning' : 'Planeación' },
+                      { src: "/img/Collage/Collage_control_de_calidad.jpg", label: lang === 'en' ? 'Quality' : 'Calidad' },
+                      { src: "/img/Collage/Collage_junta2.jpg", label: lang === 'en' ? 'Alliances' : 'Alianzas' },
+                      { src: "/img/Collage/Collage_mision_Thailandia.jpg", label: lang === 'en' ? 'Asia' : 'Asia' },
+                    ].map((item, i) => (
+                      <div key={i} className="relative overflow-hidden rounded-xl bg-white/5 border border-white/10 shadow-lg">
+                        <img src={item.src} alt={item.label} className="w-full h-28 md:h-32 object-cover grayscale hover:grayscale-0 transition-all duration-500" />
+                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-2 text-xs text-white font-semibold">
+                          {item.label}
+                        </div>
                       </div>
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 md:w-10 md:h-10 bg-brand-gold/90 rounded-full flex items-center justify-center transform rotate-12">
-                      <span className="text-[8px] md:text-[10px] font-bold text-brand-navy">✓</span>
-                    </div>
-                  </div>
-                  
-                  {/* Stamp 2 - Medium, tilted right */}
-                  <div className="absolute left-[35%] md:left-[30%] top-[25%] md:top-[15%] w-[120px] md:w-[180px] transform rotate-3 hover:rotate-0 hover:scale-110 transition-all duration-500 z-20 group">
-                    <div className="bg-white p-2 md:p-3 shadow-2xl rounded-sm border-4 border-dashed border-gray-200">
-                      <img 
-                        src="/img/Collage/Collage_mision_Thailandia.jpg" 
-                        alt="Thailand Mission"
-                        className="w-full h-[70px] md:h-[100px] object-cover grayscale group-hover:grayscale-0 transition-all"
-                      />
-                      <div className="mt-2 text-center">
-                        <p className="text-[8px] md:text-[10px] font-bold text-brand-navy uppercase tracking-wider">{lang === 'en' ? 'Trade Mission' : 'Misión Comercial'}</p>
-                        <p className="text-[7px] md:text-[8px] text-gray-400">🇹🇭 Thailand</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Stamp 3 - Polaroid style, center */}
-                  <div className="absolute right-[25%] md:right-[30%] top-[0%] md:top-[5%] w-[110px] md:w-[160px] transform -rotate-2 hover:rotate-0 hover:scale-110 transition-all duration-500 z-30 group">
-                    <div className="bg-white p-2 pb-8 md:p-3 md:pb-10 shadow-2xl rounded-sm">
-                      <img 
-                        src="/img/Collage/Collage_junta.jpg" 
-                        alt="Business meeting"
-                        className="w-full h-[80px] md:h-[110px] object-cover grayscale group-hover:grayscale-0 transition-all"
-                      />
-                      <p className="absolute bottom-2 left-0 right-0 text-center text-[8px] md:text-[10px] text-gray-500 font-handwriting">{lang === 'en' ? 'Planning Session' : 'Sesión de Planeación'}</p>
-                    </div>
-                  </div>
-                  
-                  {/* Stamp 4 - Small, far right */}
-                  <div className="absolute right-[5%] md:right-[10%] top-[20%] w-[100px] md:w-[150px] transform rotate-8 hover:rotate-0 hover:scale-110 transition-all duration-500 z-10 group">
-                    <div className="bg-white p-2 md:p-3 shadow-2xl rounded-sm border-4 border-dashed border-brand-gold/30">
-                      <img 
-                        src="/img/Collage/Collage_control_de_calidad.jpg" 
-                        alt="Quality Control"
-                        className="w-full h-[60px] md:h-[80px] object-cover grayscale group-hover:grayscale-0 transition-all"
-                      />
-                      <div className="mt-1 text-center">
-                        <p className="text-[7px] md:text-[9px] font-bold text-brand-navy">{lang === 'en' ? 'Quality' : 'Calidad'}</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Stamp 5 - Bottom left */}
-                  <div className="absolute left-[10%] md:left-[15%] bottom-[5%] md:bottom-[10%] w-[115px] md:w-[170px] transform rotate-5 hover:rotate-0 hover:scale-110 transition-all duration-500 z-20 group">
-                    <div className="bg-white p-2 md:p-3 shadow-2xl rounded-sm">
-                      <img 
-                        src="/img/Collage/Collage_junta2.jpg" 
-                        alt="Team meeting"
-                        className="w-full h-[65px] md:h-[90px] object-cover grayscale group-hover:grayscale-0 transition-all"
-                      />
-                      <div className="mt-2 text-center">
-                        <p className="text-[8px] md:text-[10px] font-bold text-brand-navy uppercase">{lang === 'en' ? 'Success' : 'Éxito'}</p>
-                        <p className="text-[7px] md:text-[8px] text-gray-400">⭐ 100+ {lang === 'en' ? 'Businesses' : 'Negocios'}</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Stamp 6 - Bottom center */}
-                  <div className="absolute left-[40%] md:left-[38%] bottom-[0%] md:bottom-[5%] w-[130px] md:w-[190px] transform -rotate-4 hover:rotate-0 hover:scale-110 transition-all duration-500 z-30 group">
-                    <div className="bg-white p-2 pb-6 md:p-3 md:pb-8 shadow-2xl rounded-sm border-2 border-brand-gold/20">
-                      <img 
-                        src="/img/Collage/Collage_control_de_calidad.jpg" 
-                        alt="Quality Control"
-                        className="w-full h-[70px] md:h-[100px] object-cover grayscale group-hover:grayscale-0 transition-all"
-                      />
-                      <p className="absolute bottom-1 md:bottom-2 left-0 right-0 text-center text-[7px] md:text-[9px] text-brand-navy font-medium">{lang === 'en' ? 'Production Excellence' : 'Excelencia en Producción'}</p>
-                    </div>
-                    <div className="absolute -bottom-1 -left-1 w-6 h-6 md:w-8 md:h-8">
-                      <svg viewBox="0 0 24 24" className="w-full h-full text-brand-gold/70">
-                        <path fill="currentColor" d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-                      </svg>
-                    </div>
-                  </div>
-                  
-                  {/* Stamp 7 - Bottom right */}
-                  <div className="absolute right-[8%] md:right-[12%] bottom-[15%] md:bottom-[15%] w-[95px] md:w-[140px] transform -rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-500 z-10 group">
-                    <div className="bg-white p-2 md:p-3 shadow-2xl rounded-sm border-4 border-dotted border-gray-300">
-                      <img 
-                        src="/img/Collage/Collage_mision_Thailandia.jpg" 
-                        alt="Thailand Mission"
-                        className="w-full h-[55px] md:h-[75px] object-cover grayscale group-hover:grayscale-0 transition-all"
-                      />
-                      <div className="mt-1 text-center">
-                        <p className="text-[7px] md:text-[9px] font-bold text-brand-navy">🌏 Asia</p>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
-
-                {/* Stats row */}
-                {/* <div className="flex justify-center gap-6 md:gap-12 mt-6 md:mt-8">
-                  {[
-                    { num: '100+', label: lang === 'en' ? 'Businesses' : 'Negocios' },
-                    { num: '20+', label: lang === 'en' ? 'Countries' : 'Países' },
-                    { num: '18+', label: lang === 'en' ? 'Years' : 'Años' }
-                  ].map((stat, i) => (
-                    <div key={i} className="text-center">
-                      <span className="text-2xl md:text-4xl font-bold text-brand-gold">{stat.num}</span>
-                      <p className="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">{stat.label}</p>
-                    </div>
-                  ))}
-                </div> */}
-              </div>
-            </FadeIn>
-
-            {/* Bottom tagline */}
-            <FadeIn delay={0.3}>
-              <div className="text-center mt-6 md:mt-10">
-                <p className="text-brand-gold/80 text-sm md:text-base font-medium">
-                  {lang === 'en' ? 'Building bridges that turn distance into opportunity' : 'Construyendo puentes que convierten la distancia en oportunidad'}
-                </p>
               </div>
             </FadeIn>
 
             {/* Countries Carousel - Single Marquee */}
-            <div className="relative py-8 md:py-12 mt-8 md:mt-12 overflow-hidden">
+            <div className="relative py-12 md:py-16 mt-8 md:mt-12 overflow-hidden -mx-6 md:-mx-12 px-6 md:px-12">
               <FadeIn>
                 <p className="text-center text-xs md:text-sm font-bold uppercase tracking-widest text-brand-gold/60 mb-6 md:mb-8">
                   {lang === 'en' ? 'Presence in 20+ Countries' : 'Presencia en más de 20 Países'}
@@ -2455,7 +2637,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             </div>
 
             {/* Allies Logo Marquee */}
-            <div className="mt-12 md:mt-16 mb-12">
+            <div className="mt-12 md:mt-16 mb-12 -mx-6 md:-mx-12">
               <LogoMarquee dark={false} />
             </div>
           </ScrollReveal>
@@ -2465,12 +2647,12 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         })()}
 
         {/* 6. SHOWROOM (Dark) */}
-        <section id="showroom" className="bg-[#111] text-white flex flex-col justify-center relative py-18 md:py-24">
+        <section id="showroom" className="bg-brand-navy text-white flex flex-col justify-center relative py-16">
           <ScrollReveal className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center">
             {/* Header - Mobile first */}
             <div className="mb-6 md:mb-12">
               <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Catalog</span>
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">{t.showroom.title}</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.showroom.title}</h2>
               
               {/* Filter pills */}
               <div className="flex gap-2 flex-wrap">
@@ -2511,7 +2693,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* BECOME A PARTNER - For Providers */}
-        <section className="bg-gradient-to-br from-brand-navy via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative overflow-hidden pt-16 md:pt-24 pb-20 md:pb-28">
+        <section className="bg-brand-navy text-white flex flex-col justify-center relative overflow-hidden py-16">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {/* World map background */}
@@ -2523,13 +2705,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           
           <GridPattern color="#C4A661" opacity={0.03} />
           
-          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10 py-16 lg:py-10 mt-8">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10 py-16 mt-8">
             {/* Header */}
             <div className="text-center mb-12 lg:mb-16">
               <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">
                 {lang === 'es' ? 'Para Proveedores' : 'For Providers'}
               </span>
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                 {lang === 'es' ? 'Conviértete en Socio' : 'Become a Partner'}
               </h2>
               <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
@@ -2867,13 +3049,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* 7. CONTACT (Light) */}
-        <section id="contact" className="bg-white flex flex-col justify-center relative text-brand-navy py-18 md:py-26">
+        <section id="contact" className="bg-[#f6f7fb] flex flex-col justify-center relative text-brand-navy py-16">
           <GridPattern color="#1B2440" opacity={0.03} />
           <ScrollReveal className="container mx-auto px-4 md:px-6 flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 items-center flex-1">
             <div>
               <FadeIn>
                 <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Get in Touch</span>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-6 md:mb-8 text-brand-navy">{t.contact.title}</h2>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-8 text-brand-navy">{t.contact.title}</h2>
                 <div className="space-y-4 md:space-y-8 text-sm md:text-lg">
                   <a href="mailto:info@crossthebridge.co" className="flex items-center gap-3 md:gap-4 hover:text-brand-gold transition-colors active:scale-95">
                     info@crossthebridge.co
@@ -2894,7 +3076,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               </FadeIn>
             </div>
 
-            <div className="w-full bg-[#F5F5F7] text-brand-navy p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-3xl shadow-xl border border-gray-100">
+            <div className="w-full bg-white text-brand-navy p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-3xl shadow-xl border border-gray-100">
               <form className="space-y-4 md:space-y-5" onSubmit={handleContactSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <div>
@@ -3011,11 +3193,10 @@ export default function App() {
   return (
     <>
       <NoiseOverlay />
-      <AnimatePresence mode='wait'>
+      <MainContent lang={lang} setLang={setLang} onHeroReady={() => setLoading(false)} />
+      <AnimatePresence>
         {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
       </AnimatePresence>
-
-      {!loading && <MainContent lang={lang} setLang={setLang} onHeroReady={() => setLoading(false)} />}
     </>
   );
 }
