@@ -578,21 +578,23 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             <LogoWordmark className="h-4 w-auto logo-wordmark-shadow" color="#ffffff" />
           </button>
 
-          <div className="hidden lg:flex items-center gap-1 ml-6 flex-1">
-            {navLinks.map((item) => {
-              const Icon = SECTION_ICONS[item] || Circle;
-              const isActive = activeSection === item && currentView === 'home';
-              return (
-                <button
-                  key={item}
-                  onClick={() => handleNavClick(item)}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-full text-[11px] font-bold uppercase tracking-[0.16em] transition-colors ${isActive ? 'text-brand-gold bg-white/10' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
-                >
-                  <Icon size={14} />
-                  {t.nav[item as keyof typeof t.nav]}
-                </button>
-              );
-            })}
+          <div className="hidden lg:flex items-center ml-4 flex-1">
+            <div className="flex items-center gap-1 px-3 py-2 rounded-full bg-white/5 border border-white/5">
+              {navLinks.map((item) => {
+                const Icon = SECTION_ICONS[item] || Circle;
+                const isActive = activeSection === item && currentView === 'home';
+                return (
+                  <button
+                    key={item}
+                    onClick={() => handleNavClick(item)}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-full text-[11px] font-bold uppercase tracking-[0.16em] transition-colors ${isActive ? 'text-brand-gold bg-white/10 shadow-sm shadow-brand-gold/20' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
+                  >
+                    <Icon size={14} />
+                    {t.nav[item as keyof typeof t.nav]}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="flex items-center gap-3 ml-auto">
@@ -677,7 +679,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         {/* 1. HERO (Dark) */}
         <section
           id="about"
-          className="min-h-screen relative overflow-hidden bg-brand-navy py-12 md:py-16 flex items-center"
+          className="min-h-screen relative overflow-hidden bg-brand-navy py-14 md:py-18 flex items-center"
         >
 
           <div className="absolute inset-0 z-0">
@@ -798,8 +800,8 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* Proof & Social Trust */}
-        <section className="bg-[#0f1521] text-white py-16 md:py-20">
-          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-10">
+        <section className="bg-[#0f1521] text-white py-18 md:py-22">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-12">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
                 <p className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs mb-2">{t.proofBar.title}</p>
@@ -878,7 +880,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* 2. SERVICES (Light) */}
-        <section id="services" className="relative bg-[#F5F5F7] text-brand-navy flex flex-col justify-center py-16 md:py-24 overflow-hidden">
+        <section id="services" className="relative bg-[#F5F5F7] text-brand-navy flex flex-col justify-center py-18 md:py-24 overflow-hidden">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-white skew-x-12 translate-x-1/4 pointer-events-none" />
 
           <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
@@ -1123,7 +1125,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
         {/* Assurances for decision-makers */}
         <section className="bg-white text-brand-navy py-18 md:py-26 border-t border-gray-100">
-          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-10">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-12">
             <div className="text-center max-w-3xl mx-auto space-y-3">
               <p className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs">{t.assurances.title}</p>
               <h3 className="text-3xl md:text-5xl font-bold leading-tight">{t.assurances.subtitle}</h3>
@@ -1189,7 +1191,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* 3. PROCESS - Zigzag Timeline Journey */}
-        <section id="process" className="relative flex flex-col justify-center py-16 md:py-24 bg-[#F5F5F7] overflow-hidden">
+        <section id="process" className="relative flex flex-col justify-center py-18 md:py-26 bg-[#F5F5F7] overflow-hidden">
           <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
             {/* Header */}
             <div className="text-center mb-10 md:mb-16">
@@ -1328,7 +1330,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* 5. DIFFERENTIATORS - Mobile-First Cards */}
-        <section id="differentiators" className="bg-gradient-to-br from-[#141B2D] via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative py-16 md:py-24 overflow-hidden">
+        <section id="differentiators" className="bg-gradient-to-br from-[#141B2D] via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative py-18 md:py-26 overflow-hidden">
           <GridPattern color="#C4A661" opacity={0.03} />
           
           {/* Animated background shapes */}
@@ -1533,7 +1535,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* CTB STRENGTHS - Full Section with Tinder-Style Cards */}
-        <section className="min-h-screen bg-gradient-to-br from-[#0f1521] via-[#141B2D] to-[#1B2440] text-white relative overflow-hidden py-16 md:py-24">
+        <section className="min-h-screen bg-gradient-to-br from-[#0f1521] via-[#141B2D] to-[#1B2440] text-white relative overflow-hidden py-18 md:py-26">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-1/4 -right-20 w-96 h-96 bg-brand-gold/10 rounded-full blur-2xl opacity-40" />
@@ -2463,7 +2465,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         })()}
 
         {/* 6. SHOWROOM (Dark) */}
-        <section id="showroom" className="bg-[#111] text-white flex flex-col justify-center relative py-16 md:py-24">
+        <section id="showroom" className="bg-[#111] text-white flex flex-col justify-center relative py-18 md:py-24">
           <ScrollReveal className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center">
             {/* Header - Mobile first */}
             <div className="mb-6 md:mb-12">
@@ -2865,7 +2867,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* 7. CONTACT (Light) */}
-        <section id="contact" className="bg-white flex flex-col justify-center relative text-brand-navy py-16 md:py-24">
+        <section id="contact" className="bg-white flex flex-col justify-center relative text-brand-navy py-18 md:py-26">
           <GridPattern color="#1B2440" opacity={0.03} />
           <ScrollReveal className="container mx-auto px-4 md:px-6 flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 items-center flex-1">
             <div>
