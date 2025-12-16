@@ -19,7 +19,8 @@ body {
   margin: 0;
   background: #1B2440;
   color: #1D1D1F;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* GPU acceleration for smoother animations */

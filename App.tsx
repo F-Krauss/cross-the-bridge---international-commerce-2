@@ -713,6 +713,8 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/40 to-brand-navy/35" />
             <div className="absolute inset-0 bg-brand-navy/75" />
+            <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-white/5 via-transparent to-transparent mix-blend-overlay" />
+            <div className="absolute -left-24 bottom-0 w-96 h-96 bg-brand-gold/10 rounded-full blur-[120px] opacity-50 pointer-events-none" />
           </div>
           <GridPattern color="#FFFFFF" opacity={0.02} />
 
@@ -727,11 +729,11 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 <img
                   src="/img/Logo_home2.png"
                   alt="Cross the Bridge logo"
-                  className="mx-auto block w-56 sm:w-72 md:w-[30rem] lg:w-[38rem] max-w-[460px] sm:max-w-[520px] md:max-w-[620px] lg:max-w-[720px] mb-10 md:mb-16 drop-shadow-[0_12px_45px_rgba(0,0,0,0.35)]"
+                  className="mx-auto block w-48 sm:w-64 md:w-[26rem] lg:w-[32rem] max-w-[460px] sm:max-w-[520px] md:max-w-[600px] lg:max-w-[640px] mb-8 md:mb-12 drop-shadow-[0_12px_45px_rgba(0,0,0,0.35)]"
                 />
               </FadeIn>
               <FadeIn delay={0.2}>
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mt-15 lg:mt-0 text-center max-w-5xl mx-auto">
+                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mt-15 lg:mt-0 text-center max-w-4xl mx-auto">
                   {t.hero.title}
                 </h1>
               </FadeIn>
@@ -743,7 +745,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 </div>
               </FadeIn>
               <FadeIn delay={0.35}>
-                <p className="text-gray-200 md:text-xl text-center max-w-3xl lg:max-w-4xl mx-auto px-4 md:px-6 mt-4">
+                <p className="text-gray-200 text-lg md:text-xl text-center max-w-3xl lg:max-w-4xl mx-auto px-4 md:px-6 mt-4">
                   {t.hero.subtitle}
                 </p>
               </FadeIn>
@@ -751,7 +753,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 <FadeIn delay={0.4}>
                   <button
                     onClick={() => handleNavClick('contact')}
-                    className="group flex items-center justify-center gap-3 bg-brand-gold text-brand-navy px-6 sm:px-8 md:px-10 py-3.5 md:py-4 rounded-full font-bold uppercase tracking-[0.16em] md:tracking-[0.22em] text-xs md:text-base hover:bg-white transition-colors w-full sm:w-auto shadow-lg shadow-brand-gold/30"
+                    className="group flex items-center justify-center gap-3 bg-brand-gold text-brand-navy px-5 sm:px-7 md:px-8 py-3 md:py-3.5 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-sm hover:bg-white transition-colors w-full sm:w-auto shadow-lg shadow-brand-gold/30"
                   >
                     {t.hero.cta}
                   </button>
@@ -759,7 +761,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 <FadeIn delay={0.45}>
                   <a
                     href="#capabilities"
-                    className="group flex items-center justify-center gap-3 border border-white/30 text-white px-6 sm:px-8 md:px-10 py-3.5 md:py-4 rounded-full font-bold uppercase tracking-[0.16em] md:tracking-[0.22em] text-xs md:text-base hover:border-brand-gold hover:text-brand-gold transition-colors w-full sm:w-auto bg-white/5"
+                    className="group flex items-center justify-center gap-3 border border-white/30 text-white px-5 sm:px-7 md:px-8 py-3 md:py-3.5 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-sm hover:border-brand-gold hover:text-brand-gold transition-colors w-full sm:w-auto bg-white/5"
                   >
                     {t.hero.cta2}
                   </a>
@@ -786,6 +788,11 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 <div className="absolute inset-0 border border-dashed border-white/10 rounded-full scale-75" />
               </motion.div>
             </div>
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/60 text-xs uppercase tracking-[0.18em]">
+              <span className="w-10 h-[2px] bg-white/30" />
+              <span>{lang === 'es' ? 'Desplaza para descubrir' : 'Scroll to explore'}</span>
+              <span className="w-10 h-[2px] bg-white/30" />
+            </div>
           </ScrollReveal>
 
         </section>
@@ -809,7 +816,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
             <div className="grid md:grid-cols-3 gap-4 md:gap-6">
               {t.proofBar.metrics.map((metric, idx) => (
-                <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5 shadow-lg">
+                <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5 shadow-lg transition-transform duration-500 hover:-translate-y-1 hover:border-white/20">
                   <p className="text-brand-gold/70 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">{metric.label}</p>
                   <div className="text-3xl font-bold text-white mb-1">{metric.value}</div>
                   <p className="text-white/70 text-sm leading-relaxed">{metric.detail}</p>
