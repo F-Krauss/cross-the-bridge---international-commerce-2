@@ -16,7 +16,9 @@ export interface Content {
   };
   hero: {
     title: string;
+    audience: string;
     subtitle: string;
+    proofs: string[];
     cta: string;
     cta2: string;
   };

@@ -25,8 +25,14 @@ export const TRANSLATIONS: Record<Language, Content> = {
       book: "Book Appointment"
     },
     hero: {
-      title: "Your strategic bridge to World-Class manufacturing in mexico",
-      subtitle: "We connect U.S. brands with certified factories, top-tier leather suppliers, and reliable production partners - so you scale without production headaches.",
+      title: "Sourcing + factory vetting + production management in Mexico",
+      audience: "For US/EU brands",
+      subtitle: "Predictable quality, timelines, and landed cost.",
+      proofs: [
+        "Based in León, Guanajuato (boots/leather supply chain hub)",
+        "On-site QC & pre-shipment inspections",
+        "Factory shortlists in 10 days"
+      ],
       cta: "Book a Discovery Call",
       cta2: "Download CTB Capabilities Deck"
     },
@@ -314,8 +320,14 @@ export const TRANSLATIONS: Record<Language, Content> = {
       book: "Agendar Cita"
     },
     hero: {
-      title: "Tu puente estratégico hacia la manufactura de clase mundial en México",
-      subtitle: "Conectamos marcas estadounidenses con fábricas certificadas, proveedores de cuero de primer nivel y socios de producción confiables, para que puedas escalar sin necesidad de recurrir a la producción principal.",
+      title: "Sourcing + validación de fábricas + gestión de producción en México",
+      audience: "Para marcas de EE.UU. y Europa",
+      subtitle: "Calidad, tiempos y costo puesto en destino predecibles.",
+      proofs: [
+        "Con base en León, Guanajuato (hub de calzado y cadena de piel)",
+        "QC en planta e inspecciones pre-embarque",
+        "Shortlist de fábricas en 10 días"
+      ],
       cta: "Agenda una Llamada de Descubrimiento",
       cta2: "Descargar la Presentación de Capacidades de CTB"
     },
