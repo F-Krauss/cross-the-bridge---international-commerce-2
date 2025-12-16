@@ -497,6 +497,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
   const t = TRANSLATIONS[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
+  const [diffExpanded, setDiffExpanded] = useState<number | null>(null);
 
   // Ensure autoplay videos start as soon as possible
   useEffect(() => {
@@ -643,9 +644,54 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
   const serviceOptions = t.services?.items?.map(item => item.title) || [];
   const processSteps = t.process?.steps || [];
+  const totalProcessSteps = processSteps.length;
   const processSubtitle = t.process?.subtitle || (lang === 'en'
     ? 'From vision to delivery — a structured path to success.'
     : 'Del plan a la entrega: una ruta estructurada al éxito.');
+  const processMedia = [
+    {
+      type: 'video',
+      src: 'https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4',
+      title: lang === 'en' ? 'Discovery' : 'Descubrimiento',
+      caption: t.process?.steps?.[0]?.title || (lang === 'en' ? 'Discovery & Project Alignment' : 'Descubrimiento y Alineación')
+    },
+    {
+      type: 'video',
+      src: 'https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4',
+      title: lang === 'en' ? 'Development' : 'Desarrollo',
+      caption: t.process?.steps?.[1]?.title || (lang === 'en' ? 'Product & Material Development' : 'Desarrollo de Producto y Materiales')
+    },
+    {
+      type: 'video',
+      src: 'https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4',
+      title: lang === 'en' ? 'Network' : 'Red',
+      caption: t.process?.steps?.[2]?.title || (lang === 'en' ? 'Strategic Supplier Matchmaking' : 'Emparejamiento de Proveedores')
+    },
+    {
+      type: 'video',
+      src: 'https://static.vecteezy.com/system/resources/previews/068/361/564/mp4/footwear-manufacturing-industry-shoe-production-on-a-conveyor-belt-with-workers-in-a-factory-free-video.mp4',
+      title: lang === 'en' ? 'Prototyping' : 'Prototipado',
+      caption: t.process?.steps?.[3]?.title || (lang === 'en' ? 'Prototyping & Sample Validation' : 'Prototipado y Validación')
+    },
+    {
+      type: 'video',
+      src: 'https://static.vecteezy.com/system/resources/previews/041/236/463/mp4/factory-production-line-with-machinery-and-workers-conveyor-belt-automation-and-industrial-technology-free-video.mp4',
+      title: lang === 'en' ? 'Operations' : 'Operaciones',
+      caption: t.process?.steps?.[4]?.title || (lang === 'en' ? 'Production Management & Daily Operations' : 'Gestión de Producción y Operaciones')
+    },
+    {
+      type: 'video',
+      src: 'https://static.vecteezy.com/system/resources/previews/043/478/973/mp4/quality-control-inspection-in-a-factory-engineer-checking-products-on-the-production-line-free-video.mp4',
+      title: lang === 'en' ? 'Quality Assurance' : 'Aseguramiento de Calidad',
+      caption: t.process?.steps?.[5]?.title || (lang === 'en' ? 'Quality Assurance & Pre-Shipment Inspections' : 'Control de Calidad e Inspecciones Pre-Embarque')
+    },
+    {
+      type: 'video',
+      src: 'https://static.vecteezy.com/system/resources/previews/051/217/535/mp4/logistics-and-transportation-cargo-containers-shipping-by-sea-truck-and-train-free-video.mp4',
+      title: lang === 'en' ? 'Logistics' : 'Logística',
+      caption: t.process?.steps?.[6]?.title || (lang === 'en' ? 'Logistics, Documentation & Export Coordination' : 'Logística, Documentación y Exportación')
+    }
+  ] as const;
 
 
   return (
@@ -1127,7 +1173,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         <section id="services" className="relative bg-[#f6f7fb] text-brand-navy flex flex-col justify-center py-16 overflow-hidden">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-white skew-x-12 translate-x-1/4 pointer-events-none" />
 
-          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
             {/* Header */}
             <div className="mb-6 md:mb-10 pt-0">
               <FadeIn direction='right'>
@@ -1364,7 +1410,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 </div>
               </FadeIn>
             )}
-          </ScrollReveal>
+          </div>
         </section>
 
         {/* Assurances for decision-makers */}
@@ -1435,13 +1481,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           </ScrollReveal>
         </section>
 
-        {/* 3. PROCESS - Zigzag Timeline Journey */}
+        {/* 3. PROCESS - Journey Timeline */}
         <section id="process" className="relative flex flex-col justify-center py-16 bg-[#f6f7fb] overflow-hidden">
           <div className="absolute inset-0 opacity-60 pointer-events-none">
             <div className="absolute -top-20 -left-10 w-72 h-72 bg-brand-gold/10 rounded-full blur-3xl" />
             <div className="absolute bottom-0 right-0 w-[520px] h-[520px] bg-brand-navy/5 rounded-full blur-3xl" />
           </div>
-          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="space-y-8">
               <div className="text-center mb-10 md:mb-14">
                 <FadeIn>
@@ -1449,7 +1495,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                     {lang === 'en' ? 'Delivery, not promises' : 'Entrega, no promesas'}
                   </span>
                   <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-brand-navy mb-3 uppercase tracking-tight">
-                    {lang === 'en' ? 'Your Journey With Us' : 'Tu Viaje Con Nosotros'}
+                    {t.process?.title || (lang === 'en' ? 'Your Journey With Us' : 'Tu Viaje Con Nosotros')}
                   </h2>
                   <p className="text-brand-navy/60 text-sm md:text-base max-w-2xl mx-auto">
                     {t.process?.subtitle || (lang === 'en'
@@ -1458,15 +1504,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   </p>
                 </FadeIn>
               </div>
-              <div className="grid lg:grid-cols-[1.1fr,0.9fr] gap-8 lg:gap-12 items-start">
-                  {/* Zigzag Timeline */}
-                  <div className="relative">
-                    <div className="absolute left-1/2 top-0 bottom-10 w-1 bg-gradient-to-b from-[#d5ba8c] via-[#4a638f] to-[#002169] -translate-x-1/2 hidden md:block" />
-                    
-                      {(t.process?.steps || []).map((step, idx) => {
-                        const icons = [Target, FileText, Users, Package, Briefcase, Shield, Ship];
-                        const Icon = icons[idx] || Target;
-                        const colors = [
+              <div className="relative">
+                <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-[#d5ba8c] via-[#4a638f] to-[#002169] -translate-x-1/2 hidden md:block" />
+                
+                {processSteps.map((step, idx) => {
+                  const icons = [Target, FileText, Users, Package, Briefcase, Shield, Ship];
+                  const Icon = icons[idx] || Target;
+                  const colors = [
                     'bg-[#0b2f6b]',
                     'bg-[#b08c55]', 
                     'bg-[#1f3f70]',
@@ -1482,38 +1526,22 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                     'border-l-[#0f2f66]',
                     'border-l-[#d5ba8c]',
                     'border-l-[#12315c]',
-                          'border-l-[#8a744f]'
-                        ];
-                        const isLeft = idx % 2 === 0;
-                        const proofLine = (step as any).proof ?? (lang === 'en' ? 'Documented hand-off' : 'Entrega documentada');
-                        
+                    'border-l-[#8a744f]'
+                  ];
+                  const isLeft = idx % 2 === 0;
+                  const isLastStep = idx === totalProcessSteps - 1;
+                  const textPosition = isLeft ? 'md:order-1 md:text-right md:pr-10' : 'md:order-3 md:text-left md:pl-10';
+                  const mediaPosition = isLeft ? 'md:order-3 md:pl-10' : 'md:order-1 md:pr-10';
+                  const proofLine = (step as any).proof ?? (lang === 'en' ? 'Documented hand-off' : 'Entrega documentada');
+                  const media = processMedia[idx % processMedia.length];
+                  
                   return (
                     <FadeIn key={idx} delay={Math.min(idx * 0.08, 0.35)}>
-                      <div className={`relative flex items-center mb-8 md:mb-12 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                        {/* Mobile: Simple vertical timeline */}
-                        <div className="md:hidden flex gap-4 w-full">
-                          {/* Timeline line + icon */}
-                          <div className="flex flex-col items-center">
-                            <div className={`w-12 h-12 rounded-xl ${colors[idx]} flex items-center justify-center shadow-lg flex-shrink-0`}>
-                              <Icon className="w-6 h-6 text-white" />
-                            </div>
-                                  {idx < (t.process?.steps?.length || 0) - 1 && (
-                                    <div className={`w-1 flex-1 min-h-[60px] ${colors[idx]} opacity-30 mt-2`} />
-                                  )}
-                                </div>
-                          
-                          {/* Content card */}
-                          <div className={`flex-1 bg-white rounded-xl p-4 shadow-lg border-l-4 ${borderColors[idx]}`}>
-                            <h3 className="text-brand-navy font-bold text-base mb-2">{step.title}</h3>
-                            <p className="text-brand-navy/60 text-sm leading-relaxed">{step.desc}</p>
-                          </div>
-                        </div>
-                        
-                        {/* Desktop: Zigzag layout */}
-                        <div className={`hidden md:flex items-center w-full ${isLeft ? '' : 'flex-row-reverse'}`}>
-                          {/* Content card */}
-                          <div className={`w-[48%] ${isLeft ? 'pr-10 text-right' : 'pl-10 text-left'}`}>
-                            <div className={`bg-white rounded-2xl p-6 shadow-xl border-l-4 ${borderColors[idx]} hover:shadow-2xl transition-shadow relative overflow-hidden`}>
+                      <div className="relative mb-8 md:mb-14">
+                        <div className="md:grid md:grid-cols-[1fr,120px,1fr] md:items-stretch md:gap-6">
+                          {/* Desktop: Text card (alternates sides) */}
+                          <div className={`hidden md:block ${textPosition}`}>
+                            <div className={`bg-white rounded-2xl p-6 shadow-xl border-l-4 ${borderColors[idx]} hover:shadow-2xl transition-shadow relative overflow-hidden h-full`}>
                               <div className="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-navy/30">
                                 0{idx + 1}
                               </div>
@@ -1525,16 +1553,75 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                               </div>
                             </div>
                           </div>
-                          
-                          {/* Center icon */}
-                          <div className="w-[4%] flex justify-center relative z-10">
-                            <div className={`w-14 h-14 rounded-2xl ${colors[idx]} flex items-center justify-center shadow-xl ring-4 ring-white`}>
+
+                          {/* Center spine + icon */}
+                          <div className="hidden md:flex flex-col items-center gap-3 md:order-2 relative">
+                            <div className={`w-14 h-14 rounded-2xl ${colors[idx]} flex items-center justify-center shadow-xl ring-4 ring-white z-[1]`}>
                               <Icon className="w-7 h-7 text-white" />
                             </div>
+                            {!isLastStep && (
+                              <div className="hidden md:block flex-1 w-[2px] bg-gradient-to-b from-brand-navy/10 via-brand-gold/50 to-brand-navy/10" />
+                            )}
                           </div>
                           
-                          {/* Empty space for alignment */}
-                          <div className="w-[48%]" />
+                          {/* Desktop: Media on opposite side */}
+                          <div className={`hidden md:block ${mediaPosition}`}>
+                            <div className={`relative overflow-hidden rounded-3xl shadow-2xl border ${media.type === 'video' ? 'border-white/60 bg-brand-navy' : 'border-white/60 bg-white'} h-full`}>
+                              {media.type === 'video' ? (
+                                <video
+                                  className="w-full h-full object-cover opacity-90"
+                                  src={media.src}
+                                  autoPlay
+                                  loop
+                                  muted
+                                  playsInline
+                                  preload="auto"
+                                  data-autoplay
+                                />
+                              ) : (
+                                <img src={media.src} alt={media.title} className="w-full h-full object-cover" />
+                              )}
+                              <div className={`absolute inset-0 ${media.type === 'video' ? 'bg-gradient-to-b from-black/40 via-transparent to-brand-navy/80' : 'bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent'}`} />
+                              <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-gold">{media.title}</p>
+                                <h4 className="text-xl font-bold">{media.caption}</h4>
+                                <p className="text-sm text-white/80">{lang === 'en' ? 'Evidence paired to this step.' : 'Evidencia ligada a este paso.'}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Mobile: Timeline + compact media preview */}
+                          <div className="md:hidden flex flex-col gap-3 w-full">
+                            <div className="flex gap-4">
+                              <div className="flex flex-col items-center">
+                                <div className={`w-12 h-12 rounded-xl ${colors[idx]} flex items-center justify-center shadow-lg flex-shrink-0`}>
+                                  <Icon className="w-6 h-6 text-white" />
+                                </div>
+                                {idx < totalProcessSteps - 1 && (
+                                  <div className={`w-1 flex-1 min-h-[60px] ${colors[idx]} opacity-30 mt-2`} />
+                                )}
+                              </div>
+                              <div className={`flex-1 bg-white rounded-xl p-4 shadow-lg border-l-4 ${borderColors[idx]}`}>
+                                <h3 className="text-brand-navy font-bold text-base mb-2">{step.title}</h3>
+                                <p className="text-brand-navy/60 text-sm leading-relaxed">{step.desc}</p>
+                              </div>
+                            </div>
+                            <div className="rounded-xl overflow-hidden border border-white/40 bg-white h-36">
+                              {media.type === 'video' ? (
+                                <video
+                                  className="w-full h-full object-cover"
+                                  src={media.src}
+                                  autoPlay
+                                  loop
+                                  muted
+                                  playsInline
+                                  preload="metadata"
+                                />
+                              ) : (
+                                <img src={media.src} alt={media.title} className="w-full h-full object-cover" />
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </FadeIn>
@@ -1555,65 +1642,8 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 </FadeIn>
               </div>
 
-              {/* Media column */}
-              <div className="hidden lg:flex flex-col gap-4 sticky top-28">
-              <MotionDiv
-                  className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/60 bg-white"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <img src={processImg1} alt="On-site quality walkthrough" className="w-full h-64 object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-gold">Field Audit</p>
-                    <h4 className="text-xl font-bold">Factory floor validation</h4>
-                    <p className="text-sm text-white/80">Operators, tooling, and QA checkpoints documented with photos.</p>
-                  </div>
-                </MotionDiv>
-
-                <MotionDiv
-                  className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/60 bg-brand-navy"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                >
-                  <video
-                    className="w-full h-64 object-cover opacity-90"
-                    src="https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    data-autoplay
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-brand-navy/80" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-gold">Process Capture</p>
-                    <h4 className="text-xl font-bold">Material QA in motion</h4>
-                    <p className="text-sm text-white/80">Live clips inside partner factories to de-risk every milestone.</p>
-                  </div>
-                </MotionDiv>
-
-                <MotionDiv
-                  className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/60 bg-white"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                >
-                  <img src={processImg3} alt="Shipment ready" className="w-full h-60 object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-gold">Ship-Ready</p>
-                    <h4 className="text-xl font-bold">Sign-offs & staging</h4>
-                    <p className="text-sm text-white/80">Labels, cartons, and documentation completed before departure.</p>
-                  </div>
-                </MotionDiv>
-              </div>
             </div>
-            </div>
-          </ScrollReveal>
+          </div>
         </section>
 
         {/* 4. OUR FOUNDER (Light) */}
@@ -1674,20 +1704,19 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             {/* Mobile: EXPANDABLE ACCORDION Cards */}
             <div className="lg:hidden space-y-3">
               {t.differentiators.items.map((item, idx) => {
-                const [isExpanded, setIsExpanded] = useState(false);
                 const colors = [
                   'from-[#0b2f6b] to-[#002169]',
                   'from-[#b08c55] to-[#d5ba8c]',
                   'from-[#1f3f70] to-[#0f2f66]'
                 ];
-                
+                const isExpanded = diffExpanded === idx;
                 return (
                   <div 
                     key={idx} 
                     className={`bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-500 ${isExpanded ? 'border-brand-gold/50' : ''}`}
                   >
                     <button
-                      onClick={() => setIsExpanded(!isExpanded)}
+                      onClick={() => setDiffExpanded(isExpanded ? null : idx)}
                       className="w-full p-5 flex items-center gap-4 text-left"
                     >
                       <div className={`bg-gradient-to-br ${colors[idx]} px-3 py-2 rounded-xl shadow-lg flex-shrink-0 text-white text-xs font-bold uppercase tracking-wider`}>
