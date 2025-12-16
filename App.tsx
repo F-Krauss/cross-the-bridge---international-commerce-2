@@ -125,6 +125,25 @@ const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0, className = "", di
   );
 };
 
+interface ScrollRevealProps {
+  children: React.ReactNode;
+  className?: string;
+  amount?: number;
+}
+
+// Re-usable viewport reveal that plays on enter/exit while scrolling
+const ScrollReveal: React.FC<ScrollRevealProps> = ({ children, className = "", amount = 0.2 }) => (
+  <MotionDiv
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: false, amount }}
+    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    className={className}
+  >
+    {children}
+  </MotionDiv>
+);
+
 // Counter Component for Stats
 type CounterProps = { value: string; label: string; className?: string; dark?: boolean };
 const Counter: React.FC<CounterProps> = ({ value, label, className, dark = false }) => {
@@ -437,11 +456,12 @@ const countryCodeToFlag = (code?: string) => {
   return String.fromCodePoint(...code.toUpperCase().split('').map(char => 127397 + char.charCodeAt(0)));
 };
 
-const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language) => void }) => {
+const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: (l: Language) => void, onHeroReady?: () => void }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [currentView, setCurrentView] = useState<'home' | 'privacy' | 'terms'>('home');
   const [heroVideoFailed, setHeroVideoFailed] = useState(false);
+  const heroSignaledReady = useRef(false);
   const [showroomCategory, setShowroomCategory] = useState('all');
   const [contactForm, setContactForm] = useState({ name: '', company: '', email: '', website: '', serviceInterest: '', message: '' });
   const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -520,63 +540,46 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
 
 
   return (
-    <div className="text-brand-dark font-sans h-[100dvh] overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col">
+    <div className="text-brand-dark font-sans min-h-screen scroll-smooth flex flex-col overflow-y-auto overflow-x-hidden">
 
-      {/* --- Fixed Navigation Bar --- */}
-      {/* DESKTOP SIDEBAR NAV */}
-      <nav className="hidden lg:flex fixed top-0 left-0 bottom-0 w-24 z-[200] bg-brand-navy flex-col justify-between items-center py-8 border-r border-white/10">
-        <button onClick={() => handleNavClick('about')} className="w-12 h-12 rounded-2xl flex items-center justify-center hover:scale-105 transition-transform">
-          <img src={logoVertical} alt="Cross The Bridge goose logo" className="w-9 h-9 object-contain" />
-        </button>
-
-        <div className="flex flex-col gap-6 items-center w-full">
-          {navLinks.map((item) => {
-            const Icon = SECTION_ICONS[item] || Circle;
-            return (
-              <div key={item} className="relative group w-full flex justify-center">
-                <button
-                  onClick={() => handleNavClick(item)}
-                  className={`p-2 rounded-xl transition-all duration-300 group-hover:bg-white/10 ${activeSection === item && currentView === 'home' ? 'text-brand-gold bg-white/10' : 'text-white/40'
-                    }`}
-                >
-                  <Icon size={20} />
-                </button>
-                {/* Tooltip */}
-                <span className="absolute left-16 top-1/2 -translate-y-1/2 bg-white text-brand-navy text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
-                  {t.nav[item as keyof typeof t.nav]}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="flex flex-col gap-6 items-center">
-          <button onClick={() => setLang(lang === 'en' ? 'es' : 'en')} className="text-xs font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors rotate-90 origin-center whitespace-nowrap">
-            {lang === 'en' ? 'EN' : 'ES'}
-          </button>
-        </div>
-      </nav>
-
-      {/* Desktop wordmark next to sidebar */}
-      <div className="hidden lg:block fixed top-6 left-28 z-[180]">
-        <LogoWordmark className="h-5 w-auto logo-wordmark-shadow" color={currentView === 'home' ? '#ffffff' : '#002169'} />
-      </div>
-
-      {/* MOBILE TOP NAV */}
-      <nav className="flex lg:hidden fixed top-0 left-0 right-0 z-[200] py-2 bg-brand-navy/95 backdrop-blur-md border-b border-white/5">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <button onClick={() => handleNavClick('about')} className="flex items-center gap-2 text-white">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center">
-              <img src={logoVertical} alt="Cross The Bridge logo" className="h-6 w-auto object-contain" />
+      {/* --- Fixed Top Navigation Bar --- */}
+      <nav className="fixed top-0 left-0 right-0 z-[200] py-3 bg-brand-navy/95 backdrop-blur-md border-b border-white/5">
+        <div className="container mx-auto px-4 flex items-center gap-4">
+          <button onClick={() => handleNavClick('about')} className="flex items-center gap-3 text-white">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5">
+              <img src={logoVertical} alt="Cross The Bridge logo" className="h-7 w-auto object-contain" />
             </div>
             <LogoWordmark className="h-4 w-auto logo-wordmark-shadow" color="#ffffff" />
           </button>
 
-          <div className="flex items-center gap-4">
-            <button onClick={() => setLang(lang === 'en' ? 'es' : 'en')} className="text-xs font-bold uppercase tracking-widest text-white/80">
+          <div className="hidden lg:flex items-center gap-1 ml-6 flex-1">
+            {navLinks.map((item) => {
+              const Icon = SECTION_ICONS[item] || Circle;
+              const isActive = activeSection === item && currentView === 'home';
+              return (
+                <button
+                  key={item}
+                  onClick={() => handleNavClick(item)}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-full text-[11px] font-bold uppercase tracking-[0.16em] transition-colors ${isActive ? 'text-brand-gold bg-white/10' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
+                >
+                  <Icon size={14} />
+                  {t.nav[item as keyof typeof t.nav]}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center gap-3 ml-auto">
+            <button onClick={() => setLang(lang === 'en' ? 'es' : 'en')} className="text-xs font-bold uppercase tracking-[0.16em] text-white/80 hover:text-white transition-colors">
               {lang === 'en' ? 'EN' : 'ES'}
             </button>
-            <button onClick={() => setMobileMenuOpen(true)} className="text-white">
+            <button
+              onClick={() => handleNavClick('contact')}
+              className="hidden md:flex items-center gap-2 bg-brand-gold text-brand-navy px-4 py-2 rounded-full font-bold uppercase tracking-[0.16em] text-xs hover:bg-white transition-colors shadow-lg shadow-brand-gold/30"
+            >
+              <Mail size={14} /> {t.nav.book}
+            </button>
+            <button onClick={() => setMobileMenuOpen(true)} className="text-white lg:hidden">
               <Menu size={24} />
             </button>
           </div>
@@ -642,13 +645,13 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
 
       {/* --- SECTIONS (Snap Scroll) --- */}
 
-      {/* Wrapper to offset desktop sidebar */}
-      <div className="lg:pl-24 w-full">
+      {/* Wrapper for main content (top nav offset handled with padding) */}
+      <div className="w-full pt-20 lg:pt-24">
 
         {/* 1. HERO (Dark) */}
         <section
           id="about"
-          className="min-h-[100dvh] snap-start snap-always relative overflow-hidden bg-brand-navy py-12 flex items-center"
+          className="min-h-screen relative overflow-hidden bg-brand-navy py-12 md:py-16 flex items-center"
         >
 
           <div className="absolute inset-0 z-0">
@@ -667,7 +670,19 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 playsInline
                 preload="auto"
                 poster="https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg"
-                onError={() => setHeroVideoFailed(true)}
+                onLoadedData={() => {
+                  if (!heroSignaledReady.current) {
+                    heroSignaledReady.current = true;
+                    onHeroReady?.();
+                  }
+                }}
+                onError={() => {
+                  setHeroVideoFailed(true);
+                  if (!heroSignaledReady.current) {
+                    heroSignaledReady.current = true;
+                    onHeroReady?.();
+                  }
+                }}
               />
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/40 to-brand-navy/35" />
@@ -675,7 +690,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
           <GridPattern color="#FFFFFF" opacity={0.05} />
           <MailStamp className="bottom-10 right-6 md:bottom-20 md:right-20 text-white/20 border-white/20 -rotate-12" />
 
-          <div className="container mx-auto px-6 relative z-10 min-h-[80vh] flex flex-col items-center justify-center gap-8">
+          <ScrollReveal className="container mx-auto px-6 relative z-10 min-h-[80vh] flex flex-col items-center justify-center gap-8">
             <div className="w-full max-w-6xl">
               {/* <FadeIn delay={0.1}>
                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-gold/30 bg-brand-gold/10 text-brand-gold text-[10px] font-bold tracking-[0.2em] uppercase mb-6">
@@ -690,31 +705,42 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 />
               </FadeIn>
               <FadeIn delay={0.2}>
-                <h1 className="text-3xl md:text-6xl font-bold text-white leading-tight mt-15 lg:mt-0 mb-6 text-center">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mt-15 lg:mt-0 text-center max-w-5xl mx-auto">
                   {t.hero.title}
                 </h1>
               </FadeIn>
               <FadeIn delay={0.3}>
-                <p className="text-gray-300 md:text-xl mx-6 md:mx-16 mb-12 text-center">{t.hero.subtitle}</p>
+                <div className="flex justify-center">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-xs md:text-sm font-bold uppercase tracking-[0.16em] text-white">
+                    {t.hero.audience}
+                  </div>
+                </div>
               </FadeIn>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-4 w-full max-w-3xl mx-auto justify-center">
+              <FadeIn delay={0.35}>
+                <p className="text-gray-200 md:text-xl text-center max-w-3xl lg:max-w-4xl mx-auto px-4 md:px-6 mt-4">
+                  {t.hero.subtitle}
+                </p>
+              </FadeIn>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-4 w-full max-w-3xl mx-auto justify-center mt-8">
                 <FadeIn delay={0.4}>
                   <button
                     onClick={() => handleNavClick('services')}
-                    className="group flex items-center justify-center gap-3 bg-brand-gold text-brand-navy px-5 sm:px-7 md:px-8 py-3 md:py-4 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-base hover:bg-white transition-colors w-full sm:w-auto"
+                    className="group flex items-center justify-center gap-3 bg-brand-gold text-brand-navy px-6 sm:px-8 md:px-10 py-3.5 md:py-4 rounded-full font-bold uppercase tracking-[0.16em] md:tracking-[0.22em] text-xs md:text-base hover:bg-white transition-colors w-full sm:w-auto shadow-lg shadow-brand-gold/30"
                   >
                     {t.hero.cta}
                   </button>
                 </FadeIn>
-                <FadeIn delay={0.5}>
-                  <button
-                    onClick={() => handleNavClick('services')}
-                    className="group flex items-center justify-center gap-3 bg-brand-navy/80 text-white border-2 border-brand-gold px-5 sm:px-7 md:px-8 py-3 md:py-4 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-base hover:bg-brand-gold hover:text-brand-navy transition-colors w-full sm:w-auto"
-                  >
-                    {t.hero.cta2}
-                  </button>
-                </FadeIn>
               </div>
+              <FadeIn delay={0.6} className="w-full">
+                <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 max-w-5xl mx-auto mt-4 text-gray-100 text-sm md:text-base">
+                  {t.hero.proofs.map((proof, index) => (
+                    <div key={`${proof}-${index}`} className="flex items-center gap-2">
+                      <CheckCircle className="text-brand-gold" size={18} />
+                      <span>{proof}</span>
+                    </div>
+                  ))}
+                </div>
+              </FadeIn>
             </div>
             <div className="hidden md:flex absolute right-10 top-1/2 -translate-y-1/2 justify-center items-center pointer-events-none opacity-70">
               <GlowingOrb className="w-[500px] h-[500px] bg-brand-gold/20" />
@@ -726,15 +752,15 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 <div className="absolute inset-0 border border-dashed border-white/10 rounded-full scale-75" />
               </motion.div>
             </div>
-          </div>
+          </ScrollReveal>
 
         </section>
 
         {/* 2. SERVICES (Light) */}
-        <section id="services" className="min-h-[100dvh] snap-start snap-always relative bg-[#F5F5F7] text-brand-navy flex flex-col justify-center py-20 md:py-28 overflow-hidden">
+        <section id="services" className="relative bg-[#F5F5F7] text-brand-navy flex flex-col justify-center py-16 md:py-24 overflow-hidden">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-white skew-x-12 translate-x-1/4 pointer-events-none" />
 
-          <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
             {/* Header */}
             <div className="mb-6 md:mb-10 pt-16 md:pt-0">
               <FadeIn direction='right'>
@@ -893,14 +919,14 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                       {lang === 'es' ? '← Desliza • Toca para más info →' : '← Swipe • Tap for more →'}
                     </p>
                     
-                    <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible md:pb-0 scrollbar-hide">
+                    <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible md:pb-0 scrollbar-hide">
                       {t.services.items.map((item, idx) => {
                         const Icon = icons[idx];
                         
                         return (
                           <FadeIn key={idx} delay={idx * 0.1}>
                             <div 
-                              className="flex-shrink-0 w-[280px] md:w-auto snap-center cursor-pointer group"
+                              className="flex-shrink-0 w-[280px] md:w-auto cursor-pointer group"
                               onClick={() => setSelectedService(idx)}
                             >
                               <div className="relative h-[320px] md:h-[380px] rounded-2xl md:rounded-3xl overflow-hidden shadow-lg">
@@ -971,12 +997,12 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 </div>
               </FadeIn>
             )}
-          </div>
+          </ScrollReveal>
         </section>
 
         {/* 3. PROCESS - Zigzag Timeline Journey */}
-        <section id="process" className="min-h-[100dvh] snap-start snap-always relative flex flex-col justify-center py-20 md:py-28 bg-[#F5F5F7] overflow-hidden">
-          <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <section id="process" className="relative flex flex-col justify-center py-16 md:py-24 bg-[#F5F5F7] overflow-hidden">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
             {/* Header */}
             <div className="text-center mb-10 md:mb-16">
               <FadeIn>
@@ -1073,12 +1099,13 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               </div>
             </FadeIn>
           </div>
+        </ScrollReveal>
         </section>
 
         {/* 4. OUR FOUNDER (Light) */}
-        <section id="team" className="min-h-[100dvh] snap-start snap-always flex flex-col bg-[#F5F5F7] overflow-hidden">
+        <section id="team" className="flex flex-col bg-[#F5F5F7] overflow-hidden">
           {/* Mobile-first stacked layout */}
-          <div className="flex flex-col lg:flex-row min-h-screen">
+          <ScrollReveal className="flex flex-col lg:flex-row min-h-screen">
             {/* Image - Full width on mobile, half on desktop */}
             <div className="w-full lg:w-1/2 h-[50vh] lg:h-auto lg:min-h-screen relative overflow-hidden">
               <img src={teamPortrait} className="absolute inset-0 w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
@@ -1110,11 +1137,11 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
 
               </FadeIn>
             </div>
-          </div>
+          </ScrollReveal>
         </section>
 
         {/* 5. DIFFERENTIATORS - Mobile-First Cards */}
-        <section id="differentiators" className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-[#141B2D] via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative py-20 md:py-28 overflow-hidden">
+        <section id="differentiators" className="bg-gradient-to-br from-[#141B2D] via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative py-16 md:py-24 overflow-hidden">
           <GridPattern color="#C4A661" opacity={0.03} />
           
           {/* Animated background shapes */}
@@ -1123,7 +1150,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-gold/5 rounded-full blur-2xl opacity-50" />
           </div>
           
-          <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
             {/* Header */}
             <div className="text-center mb-10 lg:mb-16">
               <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">Why Choose Us</span>
@@ -1221,11 +1248,11 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 );
               })}
             </div>
-          </div>
+          </ScrollReveal>
         </section>
 
         {/* CTB STRENGTHS - Full Section with Tinder-Style Cards */}
-        <section className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-[#0f1521] via-[#141B2D] to-[#1B2440] text-white relative overflow-hidden">
+        <section className="min-h-screen bg-gradient-to-br from-[#0f1521] via-[#141B2D] to-[#1B2440] text-white relative overflow-hidden py-16 md:py-24">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-1/4 -right-20 w-96 h-96 bg-brand-gold/10 rounded-full blur-2xl opacity-40" />
@@ -1397,7 +1424,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
               };
               
               return (
-                <div className="h-full min-h-[100dvh] flex flex-col relative z-10">
+                <ScrollReveal className="h-full flex flex-col relative z-10">
                   {/* Section Header - Fixed at top */}
                   <div className="text-center pt-8 md:pt-10 pb-4 px-4">
                     <FadeIn>
@@ -1702,10 +1729,10 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                             </MotionDiv>
                           </AnimatePresence>
                         </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </ScrollReveal>
               );
             })()}
         </section>
@@ -1800,7 +1827,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
           )}
         </AnimatePresence>
 
-        <section className="min-h-[120dvh] md:min-h-[140dvh] snap-start snap-always bg-gradient-to-b from-[#141B2D] via-brand-navy to-brand-navy relative py-20 md:py-24 overflow-hidden">
+        <section className="min-h-screen bg-gradient-to-b from-[#141B2D] via-brand-navy to-brand-navy relative py-16 md:py-24 overflow-hidden">
           {/* Background elements */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-0 w-full h-full" style={{
@@ -1809,7 +1836,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             }} />
           </div>
           
-          <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
             {/* Header */}
             <FadeIn>
               <div className="text-center mb-6 md:mb-10">
@@ -2148,15 +2175,15 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
             <div className="mt-12 md:mt-16 mb-12">
               <LogoMarquee dark={false} />
             </div>
-          </div>
+          </ScrollReveal>
         </section>
         </>
           );
         })()}
 
         {/* 6. SHOWROOM (Dark) */}
-        <section id="showroom" className="min-h-[100dvh] snap-start snap-always bg-[#111] text-white flex flex-col justify-center relative py-20 md:py-28">
-          <div className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center">
+        <section id="showroom" className="bg-[#111] text-white flex flex-col justify-center relative py-16 md:py-24">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center">
             {/* Header - Mobile first */}
             <div className="mb-6 md:mb-12">
               <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Catalog</span>
@@ -2197,11 +2224,11 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 ))}
               </AnimatePresence>
             </div>
-          </div>
+          </ScrollReveal>
         </section>
 
         {/* BECOME A PARTNER - For Providers */}
-        <section className="min-h-[100dvh] snap-start snap-always bg-gradient-to-br from-brand-navy via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative overflow-hidden pb-20 md:pb-28">
+        <section className="bg-gradient-to-br from-brand-navy via-[#1B2440] to-[#0f1521] text-white flex flex-col justify-center relative overflow-hidden pt-16 md:pt-24 pb-20 md:pb-28">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {/* World map background */}
@@ -2213,7 +2240,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
           
           <GridPattern color="#C4A661" opacity={0.03} />
           
-          <div className="container mx-auto px-4 md:px-6 relative z-10 py-16 lg:py-10 mt-8">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10 py-16 lg:py-10 mt-8">
             {/* Header */}
             <div className="text-center mb-12 lg:mb-16">
               <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">
@@ -2553,13 +2580,13 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 </a>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </section>
 
         {/* 7. CONTACT (Light) */}
-        <section id="contact" className="min-h-[100dvh] snap-start snap-always bg-white flex flex-col justify-center relative text-brand-navy py-20 md:py-28">
+        <section id="contact" className="bg-white flex flex-col justify-center relative text-brand-navy py-16 md:py-24">
           <GridPattern color="#1B2440" opacity={0.03} />
-          <div className="container mx-auto px-4 md:px-6 flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 items-center flex-1">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 items-center flex-1">
             <div>
               <FadeIn>
                 <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Get in Touch</span>
@@ -2668,7 +2695,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
                 )}
               </form>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Dedicated Footer Block (Light) */}
           <footer className="bg-white border-t border-gray-100 py-8">
@@ -2682,7 +2709,7 @@ const MainContent = ({ lang, setLang }: { lang: Language, setLang: (l: Language)
           </footer>
         </section>
 
-      </div> {/* End Wrapper */}
+      </div>
 
     </div>
   );
@@ -2692,6 +2719,12 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState<Language>('en');
 
+  // Safety timeout so loading screen doesn't hang if video stalls
+  useEffect(() => {
+    const fallback = setTimeout(() => setLoading(false), 4000);
+    return () => clearTimeout(fallback);
+  }, []);
+
   return (
     <>
       <NoiseOverlay />
@@ -2699,7 +2732,7 @@ export default function App() {
         {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
       </AnimatePresence>
 
-      {!loading && <MainContent lang={lang} setLang={setLang} />}
+      {!loading && <MainContent lang={lang} setLang={setLang} onHeroReady={() => setLoading(false)} />}
     </>
   );
 }
