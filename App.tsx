@@ -798,8 +798,8 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* Proof & Social Trust */}
-        <section className="bg-[#0f1521] text-white py-12 md:py-16">
-          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-8">
+        <section className="bg-[#0f1521] text-white py-16 md:py-20">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-10">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
                 <p className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs mb-2">{t.proofBar.title}</p>
@@ -814,29 +814,65 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4 md:gap-6">
-              {t.proofBar.metrics.map((metric, idx) => (
-                <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5 shadow-lg transition-transform duration-500 hover:-translate-y-1 hover:border-white/20">
-                  <p className="text-brand-gold/70 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">{metric.label}</p>
-                  <div className="text-3xl font-bold text-white mb-1">{metric.value}</div>
-                  <p className="text-white/70 text-sm leading-relaxed">{metric.detail}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-              {t.testimonials.items.slice(0, 2).map((item, idx) => (
-                <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-6 shadow-lg">
-                  <div className="flex items-center justify-between mb-3">
-                    <div>
-                      <p className="text-sm font-bold text-white">{item.name}</p>
-                      <p className="text-xs uppercase tracking-[0.18em] text-brand-gold">{item.role}</p>
+            <div className="grid lg:grid-cols-[1.15fr,0.85fr] gap-6 md:gap-8 items-stretch">
+              <div className="space-y-6">
+                <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+                  {t.proofBar.metrics.map((metric, idx) => (
+                    <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5 shadow-lg transition-transform duration-500 hover:-translate-y-1 hover:border-white/20">
+                      <p className="text-brand-gold/70 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">{metric.label}</p>
+                      <div className="text-3xl font-bold text-white mb-1">{metric.value}</div>
+                      <p className="text-white/70 text-sm leading-relaxed">{metric.detail}</p>
                     </div>
-                    <div className="text-lg">{countryCodeToFlag(item.countryCode)}</div>
-                  </div>
-                  <p className="text-white/80 text-sm leading-relaxed">{item.text}</p>
+                  ))}
                 </div>
-              ))}
+
+                <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+                  {t.testimonials.items.slice(0, 2).map((item, idx) => (
+                    <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-6 shadow-lg">
+                      <div className="flex items-center justify-between mb-3">
+                        <div>
+                          <p className="text-sm font-bold text-white">{item.name}</p>
+                          <p className="text-xs uppercase tracking-[0.18em] text-brand-gold">{item.role}</p>
+                        </div>
+                        <div className="text-lg">{countryCodeToFlag(item.countryCode)}</div>
+                      </div>
+                      <p className="text-white/80 text-sm leading-relaxed">{item.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <MotionDiv
+                className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl min-h-[320px] backdrop-blur-sm"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+              >
+                <video
+                  className="absolute inset-0 w-full h-full object-cover opacity-70"
+                  src="https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  poster="https://static.vecteezy.com/system/resources/thumbnails/005/166/637/large/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.jpg"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#0f1521]/70 via-[#0f1521]/40 to-[#0f1521]/70" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">On-site footage</p>
+                    <h4 className="text-2xl font-bold leading-tight">Material QA & pre-shipment control</h4>
+                    <p className="text-sm text-white/80 leading-relaxed">Walkthroughs, photo evidence, and sign-offs documented in every stage.</p>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/70 text-xs uppercase tracking-[0.18em]">
+                    <span className="w-10 h-[2px] bg-white/30" />
+                    <span>{lang === 'es' ? 'Video real de inspección' : 'Real inspection footage'}</span>
+                    <span className="w-10 h-[2px] bg-white/30" />
+                  </div>
+                </div>
+              </MotionDiv>
             </div>
           </ScrollReveal>
         </section>
@@ -1086,34 +1122,68 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* Assurances for decision-makers */}
-        <section className="bg-white text-brand-navy py-16 md:py-24 border-t border-gray-100">
-          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-8">
+        <section className="bg-white text-brand-navy py-18 md:py-26 border-t border-gray-100">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-10">
             <div className="text-center max-w-3xl mx-auto space-y-3">
               <p className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs">{t.assurances.title}</p>
               <h3 className="text-3xl md:text-5xl font-bold leading-tight">{t.assurances.subtitle}</h3>
             </div>
-            <div className="grid md:grid-cols-3 gap-4 md:gap-6">
-              {t.assurances.items.map((item, idx) => {
-                const Icon = ASSURANCE_ICONS[item.icon] || Shield;
-                return (
-                  <div key={idx} className="rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-5 flex flex-col gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-11 h-11 rounded-xl bg-brand-gold/10 text-brand-navy flex items-center justify-center">
-                        <Icon size={20} />
+            <div className="grid lg:grid-cols-[1.2fr,0.9fr] gap-8 md:gap-10 items-start">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {t.assurances.items.map((item, idx) => {
+                  const Icon = ASSURANCE_ICONS[item.icon] || Shield;
+                  return (
+                    <div key={idx} className="rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-500 p-5 flex flex-col gap-3 hover:-translate-y-1 bg-white">
+                      <div className="flex items-center gap-3">
+                        <div className="w-11 h-11 rounded-xl bg-brand-gold/10 text-brand-navy flex items-center justify-center">
+                          <Icon size={20} />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold/70">0{idx + 1}</p>
+                          <h4 className="text-lg font-bold">{item.title}</h4>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold/70">0{idx + 1}</p>
-                        <h4 className="text-lg font-bold">{item.title}</h4>
+                      <p className="text-sm text-brand-navy/70 leading-relaxed">{item.desc}</p>
+                      <div className="flex items-center gap-2 text-xs font-semibold text-brand-navy">
+                        <CheckCircle size={14} className="text-brand-gold" />
+                        <span>{item.proof}</span>
                       </div>
                     </div>
-                    <p className="text-sm text-brand-navy/70 leading-relaxed">{item.desc}</p>
-                    <div className="flex items-center gap-2 text-xs font-semibold text-brand-navy">
-                      <CheckCircle size={14} className="text-brand-gold" />
-                      <span>{item.proof}</span>
-                    </div>
+                  );
+                })}
+              </div>
+
+              <MotionDiv
+                className="relative w-full h-full min-h-[360px] rounded-3xl overflow-hidden shadow-2xl border border-gray-100"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+              >
+                <video
+                  className="absolute inset-0 w-full h-full object-cover"
+                  src="https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  poster="https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-black/55 via-black/35 to-black/60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/30 via-transparent to-transparent" />
+                <div className="relative z-10 p-6 flex flex-col h-full justify-between">
+                  <div className="space-y-2">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">Compliance in motion</p>
+                    <h4 className="text-2xl font-bold text-white leading-tight">Logistics, labeling & export governance</h4>
+                    <p className="text-sm text-white/80 leading-relaxed">Documentation, HS codes, and labeling validated before cargo leaves the factory.</p>
                   </div>
-                );
-              })}
+                  <div className="flex items-center gap-3 text-white/70 text-xs uppercase tracking-[0.18em]">
+                    <span className="w-10 h-[2px] bg-white/30" />
+                    <span>{lang === 'es' ? 'Vista previa de compliance' : 'Compliance walk-through'}</span>
+                    <span className="w-10 h-[2px] bg-white/30" />
+                  </div>
+                </div>
+              </MotionDiv>
             </div>
           </ScrollReveal>
         </section>
@@ -1369,9 +1439,9 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         </section>
 
         {/* Capabilities deck landing */}
-        <section id="capabilities" className="bg-[#0f1521] text-white py-16 md:py-24">
-          <ScrollReveal className="container mx-auto px-4 md:px-6">
-            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <section id="capabilities" className="bg-[#0f1521] text-white py-20 md:py-28">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-10">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-14 items-start">
               <div className="space-y-6">
                 <div className="space-y-2">
                   <p className="text-brand-gold font-bold uppercase tracking-[0.22em] text-xs">{t.capabilities.title}</p>
@@ -1397,6 +1467,31 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                         </div>
                       </div>
                     ))}
+                  </div>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4 md:gap-5">
+                  <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-xl min-h-[180px]">
+                    <video
+                      className="absolute inset-0 w-full h-full object-cover"
+                      src="https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="auto"
+                      poster="https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+                    <div className="absolute bottom-3 left-3 right-3 text-white text-sm font-semibold">Sample timeline: onboarding to first shipment</div>
+                  </div>
+                  <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-xl min-h-[180px] bg-white/5">
+                    <img
+                      src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=900"
+                      alt="Audit checklist"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
+                    <div className="absolute bottom-3 left-3 right-3 text-white text-sm font-semibold">Audit checklist + compliance map preview</div>
                   </div>
                 </div>
               </div>
