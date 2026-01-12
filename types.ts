@@ -19,6 +19,7 @@ export interface Content {
     subtitle: string;
     cta: string;
     cta2: string;
+    proofs: string[];
   };
   services: {
     title: string;

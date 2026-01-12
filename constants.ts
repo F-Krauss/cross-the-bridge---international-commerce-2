@@ -28,7 +28,12 @@ export const TRANSLATIONS: Record<Language, Content> = {
       title: "Your strategic bridge to World-Class manufacturing in mexico",
       subtitle: "We connect U.S. brands with certified factories, top-tier leather suppliers, and reliable production partners - so you scale without production headaches.",
       cta: "Book a Discovery Call",
-      cta2: "Download CTB Capabilities Deck"
+      cta2: "Download CTB Capabilities Deck",
+      proofs: [
+        "Factory-vetted partners",
+        "Hands-on production oversight",
+        "Export-ready logistics"
+      ]
     },
     services: {
       title: "Services",
@@ -317,7 +322,12 @@ export const TRANSLATIONS: Record<Language, Content> = {
       title: "Tu puente estratégico hacia la manufactura de clase mundial en México",
       subtitle: "Conectamos marcas estadounidenses con fábricas certificadas, proveedores de cuero de primer nivel y socios de producción confiables, para que puedas escalar sin necesidad de recurrir a la producción principal.",
       cta: "Agenda una Llamada de Descubrimiento",
-      cta2: "Descargar la Presentación de Capacidades de CTB"
+      cta2: "Descargar la Presentación de Capacidades de CTB",
+      proofs: [
+        "Socios verificados en fabrica",
+        "Supervision directa de produccion",
+        "Logistica lista para exportar"
+      ]
     },
     services: {
       title: "Servicios",

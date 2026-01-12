@@ -1098,7 +1098,6 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 </a>
               </div>
             </FadeIn>
-          </div>
         </ScrollReveal>
         </section>
 
