@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useId } from 'react';
 import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, User, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
-import { TRANSLATIONS } from './constants';
+import { TRANSLATIONS, UI_TEXT, PROCESS_MEDIA, STRENGTHS_CARDS, PARTNER_BENEFITS, LOGO_MARQUEE_ITEMS, COLLAGE_ITEMS, BOOKING_PHONE_CODES, BOOKING_TIME_SLOTS, DEFAULT_TESTIMONIALS } from './constants';
 import { Language } from './types';
 
 // Assets served from public/img
@@ -13,7 +13,27 @@ const processImg1 = '/img/process2.jpg';
 const processImg3 = '/img/process4.jpg';
 const teamPortrait = '/img/1696903720042.jpeg';
 
-// --- Type Fixes for Framer Motion ---
+const ICON_MAP = {
+  Hexagon,
+  Anchor,
+  Box,
+  Globe,
+  Truck,
+  Layers,
+  MapPin,
+  Navigation,
+  Scissors,
+  Award,
+  FileText,
+  Settings,
+  Users,
+  Ship,
+  Target,
+  Shield,
+  Package
+} as const;
+type IconKey = keyof typeof ICON_MAP;
+
 const MotionDiv = motion.div as any;
 const MotionImg = motion.img as any;
 const MotionSpan = motion.span as any;
@@ -43,10 +63,11 @@ const LogoWordmark = ({ className = "", color }: { className?: string, color?: s
 };
 
 const GridPattern = ({ color = "#1B2440", opacity = 0.08 }) => (
-  <div className="absolute inset-0 pointer-events-none z-0"
+  <div
+    className="absolute inset-0 pointer-events-none z-0"
     style={{
-      opacity: opacity,
-      backgroundImage: `linear-gradient(${color} 1px, transparent 1px), linear-gradient(90deg, ${color} 1px, transparent 1px)`,
+      opacity,
+      backgroundImage: `linear-gradient(${color} 1px, transparent 1px), linear-gradient(90deg, ${color} 1px, transparent 1px)` ,
       backgroundSize: '60px 60px'
     }}
   />
@@ -91,13 +112,13 @@ interface FadeInProps {
 
 const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0, className = "", direction = 'up' }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.15, margin: "50px" });
+  const isInView = useInView(ref, { once: true, amount: 0.05, margin: "0px 0px -15% 0px" });
 
   const variants = {
     hidden: {
       opacity: 0,
-      y: direction === 'up' ? 15 : direction === 'down' ? -15 : 0,
-      x: direction === 'left' ? -15 : direction === 'right' ? 15 : 0,
+      y: direction === 'up' ? 30 : direction === 'down' ? -30 : 0,
+      x: direction === 'left' ? -30 : direction === 'right' ? 30 : 0,
     },
     visible: {
       opacity: 1,
@@ -113,9 +134,9 @@ const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0, className = "", di
       animate={isInView ? "visible" : "hidden"}
       variants={variants}
       transition={{ 
-        duration: 0.4, 
-        delay: Math.min(delay, 0.3), // Cap delay to prevent stacking
-        ease: [0.25, 0.1, 0.25, 1] // CSS ease equivalent - very smooth
+        duration: 0.5, 
+        delay: Math.min(delay, 0.15), // keep cadence tight so sections sync
+        ease: [0.15, 0.85, 0.35, 1]
       }}
       className={className}
       style={{ willChange: isInView ? 'auto' : 'transform, opacity' }}
@@ -132,12 +153,12 @@ interface ScrollRevealProps {
 }
 
 // Re-usable viewport reveal that plays on enter/exit while scrolling
-const ScrollReveal: React.FC<ScrollRevealProps> = ({ children, className = "", amount = 0.25 }) => (
+const ScrollReveal: React.FC<ScrollRevealProps> = ({ children, className = "", amount = 0.05 }) => (
   <MotionDiv
-    initial={{ opacity: 0, y: 24 }}
+    initial={{ opacity: 0, y: 40 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount, margin: "-10% 0px -10% 0px" }}
-    transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+    viewport={{ once: true, amount, margin: "0px 0px -10% 0px" }}
+    transition={{ duration: 0.55, ease: [0.15, 0.85, 0.35, 1] }}
     className={className}
   >
     {children}
@@ -373,37 +394,27 @@ const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
   );
 };
 
-const LogoMarquee = ({ dark = false }: { dark?: boolean }) => {
-  const logos = [
-    { Icon: Hexagon, name: "LogisticsCorp" },
-    { Icon: Anchor, name: "PortAllies" },
-    { Icon: Box, name: "PackSys" },
-    { Icon: Globe, name: "GlobalTrade" },
-    { Icon: Truck, name: "FastFreight" },
-    { Icon: Layers, name: "LeatherCo" },
-    { Icon: MapPin, name: "ZoneNav" },
-    { Icon: Navigation, name: "RouteMasters" },
-  ];
-
-  return (
-    <div className={`w-full overflow-hidden py-8 border-t relative z-10 mt-12 backdrop-blur-sm ${dark ? 'border-brand-navy/10 bg-brand-navy/5' : 'border-white/10 bg-white/5'}`}>
-      <div className="relative flex w-full overflow-hidden mask-fade">
-        <MotionDiv
-          className="flex gap-12 md:gap-24 whitespace-nowrap items-center"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ repeat: Infinity, ease: "linear", duration: 40 }}
-        >
-          {[...logos, ...logos, ...logos].map((logo, i) => (
-            <div key={i} className="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-default">
-              <logo.Icon size={18} className={`md:w-5 md:h-5 ${dark ? 'text-brand-navy' : 'text-white'}`} />
+const LogoMarquee = ({ dark = false }: { dark?: boolean }) => (
+  <div className={`w-full overflow-hidden py-8 border-t relative z-10 mt-12 backdrop-blur-sm ${dark ? 'border-brand-navy/10 bg-brand-navy/5' : 'border-white/10 bg-white/5'}`}>
+    <div className="relative flex w-full overflow-hidden mask-fade">
+      <MotionDiv
+        className="flex gap-12 md:gap-24 whitespace-nowrap items-center"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ repeat: Infinity, ease: "linear", duration: 40 }}
+      >
+        {[...LOGO_MARQUEE_ITEMS, ...LOGO_MARQUEE_ITEMS, ...LOGO_MARQUEE_ITEMS].map((logo, i) => {
+          const Icon = ICON_MAP[logo.icon as IconKey] || Hexagon;
+          return (
+            <div key={`${logo.name}-${i}`} className="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-default">
+              <Icon size={18} className={`md:w-5 md:h-5 ${dark ? 'text-brand-navy' : 'text-white'}`} />
               <span className={`text-[10px] md:text-sm font-bold uppercase tracking-wider ${dark ? 'text-brand-navy' : 'text-white'}`}>{logo.name}</span>
             </div>
-          ))}
-        </MotionDiv>
-      </div>
+          );
+        })}
+      </MotionDiv>
     </div>
-  );
-};
+  </div>
+);
 
 // --- Legal Page ---
 const LegalPage: React.FC<{
@@ -496,34 +507,90 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
   });
 
   const t = TRANSLATIONS[lang];
+  const ui = UI_TEXT[lang];
   const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
   const [diffExpanded, setDiffExpanded] = useState<number | null>(null);
+  const [loadingComplete, setLoadingComplete] = useState(false);
 
-  // Ensure autoplay videos start as soon as possible
+  // Listen for loading complete event
   useEffect(() => {
+    const handleLoadingComplete = () => setLoadingComplete(true);
+    window.addEventListener('loadingComplete', handleLoadingComplete);
+    return () => window.removeEventListener('loadingComplete', handleLoadingComplete);
+  }, []);
+
+  // Ensure autoplay videos start as soon as possible - but AFTER loading screen is gone
+  useEffect(() => {
+    if (!loadingComplete) return; // Wait until loading screen is complete
+    
     const playAll = () => {
       const videos = Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]'));
       videos.forEach((video) => {
-        if (video.paused) {
+        if (!video.paused) return; // Already playing
+        
+        // Check if video is in or near viewport
+        const rect = video.getBoundingClientRect();
+        const isNearViewport = rect.bottom > -500 && rect.top < window.innerHeight + 500;
+        
+        if (isNearViewport) {
+          // Force load if not loaded yet
+          if (video.readyState < 2) {
+            video.load();
+          }
+          
+          // Try to play regardless of readyState - browsers will handle it
           const playPromise = video.play();
-          if (playPromise?.catch) playPromise.catch(() => {});
+          if (playPromise?.catch) {
+            playPromise.catch((err) => {
+              console.debug('Video autoplay blocked:', err);
+            });
+          }
         }
       });
     };
 
+    // Very aggressive initial play attempts after loading completes
     playAll();
-    const timer = setTimeout(playAll, 500);
+    const timer1 = setTimeout(playAll, 100);
+    const timer2 = setTimeout(playAll, 200);
+    const timer3 = setTimeout(playAll, 400);
+    const timer4 = setTimeout(playAll, 800);
+    const timer5 = setTimeout(playAll, 1200);
+    const timer6 = setTimeout(playAll, 1600);
+    const timer7 = setTimeout(playAll, 2000);
+    const timer8 = setTimeout(playAll, 2500);
+    
+    // Play on visibility change (tab becomes visible)
     const onVisibility = () => !document.hidden && playAll();
+    
+    // Play on scroll
+    const onScroll = () => playAll();
+    
+    // Play on user interaction
+    const onInteraction = () => playAll();
+    
     window.addEventListener('visibilitychange', onVisibility);
-    window.addEventListener('touchstart', playAll, { passive: true });
-    window.addEventListener('scroll', playAll, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('touchstart', onInteraction, { passive: true });
+    window.addEventListener('click', onInteraction, { passive: true });
+    window.addEventListener('focus', onInteraction);
+    
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+      clearTimeout(timer4);
+      clearTimeout(timer5);
+      clearTimeout(timer6);
+      clearTimeout(timer7);
+      clearTimeout(timer8);
       window.removeEventListener('visibilitychange', onVisibility);
-      window.removeEventListener('touchstart', playAll);
-      window.removeEventListener('scroll', playAll);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('touchstart', onInteraction);
+      window.removeEventListener('click', onInteraction);
+      window.removeEventListener('focus', onInteraction);
     };
-  }, []);
+  }, [loadingComplete]); // Only run when loading completes
 
   // Intersection Observer for Scroll Spy
   useEffect(() => {
@@ -541,6 +608,37 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     });
 
     return () => observer.disconnect();
+  }, []);
+
+  // Intersection Observer for Videos - trigger autoplay when visible
+  useEffect(() => {
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const video = entry.target as HTMLVideoElement;
+        if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+          // Video is visible, try to play
+          if (video.paused) {
+            const playPromise = video.play();
+            if (playPromise?.catch) {
+              playPromise.catch(() => {
+                // Autoplay might be blocked, that's okay
+              });
+            }
+          }
+        } else {
+          // Video is out of view, pause to save resources
+          if (!video.paused && !video.paused) {
+            // Don't pause - let it continue if it was playing
+          }
+        }
+      });
+    }, { threshold: [0, 0.1, 0.5, 1] });
+
+    // Observe all autoplay videos
+    const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]');
+    videos.forEach(video => videoObserver.observe(video));
+
+    return () => videoObserver.disconnect();
   }, []);
 
   const handleNavClick = (id: string) => {
@@ -645,53 +743,14 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
   const serviceOptions = t.services?.items?.map(item => item.title) || [];
   const processSteps = t.process?.steps || [];
   const totalProcessSteps = processSteps.length;
-  const processSubtitle = t.process?.subtitle || (lang === 'en'
-    ? 'From vision to delivery — a structured path to success.'
-    : 'Del plan a la entrega: una ruta estructurada al éxito.');
-  const processMedia = [
-    {
-      type: 'video',
-      src: 'https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4',
-      title: lang === 'en' ? 'Discovery' : 'Descubrimiento',
-      caption: t.process?.steps?.[0]?.title || (lang === 'en' ? 'Discovery & Project Alignment' : 'Descubrimiento y Alineación')
-    },
-    {
-      type: 'video',
-      src: 'https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4',
-      title: lang === 'en' ? 'Development' : 'Desarrollo',
-      caption: t.process?.steps?.[1]?.title || (lang === 'en' ? 'Product & Material Development' : 'Desarrollo de Producto y Materiales')
-    },
-    {
-      type: 'video',
-      src: 'https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4',
-      title: lang === 'en' ? 'Network' : 'Red',
-      caption: t.process?.steps?.[2]?.title || (lang === 'en' ? 'Strategic Supplier Matchmaking' : 'Emparejamiento de Proveedores')
-    },
-    {
-      type: 'video',
-      src: 'https://static.vecteezy.com/system/resources/previews/068/361/564/mp4/footwear-manufacturing-industry-shoe-production-on-a-conveyor-belt-with-workers-in-a-factory-free-video.mp4',
-      title: lang === 'en' ? 'Prototyping' : 'Prototipado',
-      caption: t.process?.steps?.[3]?.title || (lang === 'en' ? 'Prototyping & Sample Validation' : 'Prototipado y Validación')
-    },
-    {
-      type: 'video',
-      src: 'https://static.vecteezy.com/system/resources/previews/041/236/463/mp4/factory-production-line-with-machinery-and-workers-conveyor-belt-automation-and-industrial-technology-free-video.mp4',
-      title: lang === 'en' ? 'Operations' : 'Operaciones',
-      caption: t.process?.steps?.[4]?.title || (lang === 'en' ? 'Production Management & Daily Operations' : 'Gestión de Producción y Operaciones')
-    },
-    {
-      type: 'video',
-      src: 'https://static.vecteezy.com/system/resources/previews/043/478/973/mp4/quality-control-inspection-in-a-factory-engineer-checking-products-on-the-production-line-free-video.mp4',
-      title: lang === 'en' ? 'Quality Assurance' : 'Aseguramiento de Calidad',
-      caption: t.process?.steps?.[5]?.title || (lang === 'en' ? 'Quality Assurance & Pre-Shipment Inspections' : 'Control de Calidad e Inspecciones Pre-Embarque')
-    },
-    {
-      type: 'video',
-      src: 'https://static.vecteezy.com/system/resources/previews/051/217/535/mp4/logistics-and-transportation-cargo-containers-shipping-by-sea-truck-and-train-free-video.mp4',
-      title: lang === 'en' ? 'Logistics' : 'Logística',
-      caption: t.process?.steps?.[6]?.title || (lang === 'en' ? 'Logistics, Documentation & Export Coordination' : 'Logística, Documentación y Exportación')
-    }
-  ] as const;
+  const processSubtitle = t.process?.subtitle;
+  const processMedia = PROCESS_MEDIA;
+  const bookingServiceOptions = serviceOptions.length ? serviceOptions : ui.booking.serviceOptions;
+  const bookingRegionOptions = ui.booking.regionOptions;
+  const strengthsCards = STRENGTHS_CARDS[lang];
+  const partnerBenefits = PARTNER_BENEFITS[lang];
+  const collageItems = COLLAGE_ITEMS[lang];
+  const bookingCopy = ui.booking;
 
 
   return (
@@ -799,96 +858,114 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             >
               <div className="flex items-center justify-between px-4 md:px-5 py-3 md:py-4 border-b border-gray-100 bg-[#f6f7fb]">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold">Formulario</p>
-                  <h3 className="text-base md:text-xl font-bold text-brand-navy">Agenda una cita</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold">{bookingCopy.formLabel}</p>
+                  <h3 className="text-base md:text-xl font-bold text-brand-navy">{bookingCopy.formTitle}</h3>
                 </div>
                 <button onClick={() => setBookingModalOpen(false)} className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50">
                   <X size={18} />
                 </button>
               </div>
               <form className="p-4 md:p-5 space-y-3 md:space-y-4 overflow-y-auto" onSubmit={handleBookingSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 items-start">
                   <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Nombre</label>
-                    <input value={bookingForm.name} onChange={(e) => handleBookingChange('name', e.target.value)} required className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.name}</label>
+                    <input value={bookingForm.name} onChange={(e) => handleBookingChange('name', e.target.value)} required className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" />
                   </div>
                   <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Email</label>
-                    <input type="email" value={bookingForm.email} onChange={(e) => handleBookingChange('email', e.target.value)} required className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.email}</label>
+                    <input type="email" value={bookingForm.email} onChange={(e) => handleBookingChange('email', e.target.value)} required className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" />
                   </div>
-                  <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Teléfono</label>
-                    <div className="mt-1 flex gap-2">
-                      <select
-                        value={bookingForm.phoneCode}
-                        onChange={(e) => handleBookingChange('phoneCode', e.target.value)}
-                        className="w-24 rounded-lg border border-gray-200 px-2 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
-                      >
-                        {['+1', '+34', '+44', '+52', '+55', '+61', '+81'].map(code => (
-                          <option key={code} value={code}>{code}</option>
-                        ))}
-                      </select>
-                      <input value={bookingForm.phone} onChange={(e) => handleBookingChange('phone', e.target.value)} className="flex-1 rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" placeholder="555-123-4567" />
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                    <div>
+                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.phone}</label>
+                      <div className="flex gap-2">
+                        <select
+                          value={bookingForm.phoneCode}
+                          onChange={(e) => handleBookingChange('phoneCode', e.target.value)}
+                          className="w-15 rounded-lg border border-gray-200 px-2 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
+                        >
+                          {BOOKING_PHONE_CODES.map(code => (
+                            <option key={code} value={code}>{code}</option>
+                          ))}
+                        </select>
+                        <input value={bookingForm.phone} onChange={(e) => handleBookingChange('phone', e.target.value)} className="w-full flex-1 rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" placeholder={bookingCopy.placeholders.phone} />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.website}</label>
+                      <input value={bookingForm.website} onChange={(e) => handleBookingChange('website', e.target.value)} placeholder={bookingCopy.placeholders.website} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" />
                     </div>
                   </div>
                   <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Página web</label>
-                    <input value={bookingForm.website} onChange={(e) => handleBookingChange('website', e.target.value)} placeholder="https://" className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.company}</label>
+                    <input value={bookingForm.company} onChange={(e) => handleBookingChange('company', e.target.value)} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <span className="sr-only">{bookingCopy.orgHint}</span>
+                    <div role="radiogroup" className="flex flex-wrap gap-2 mt-3">
+                      {bookingCopy.orgOptions.map((label) => (
+                        <label
+                          key={label}
+                          className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border text-sm md:text-base cursor-pointer transition-colors h-4 ${bookingForm.orgs === label ? 'border-brand-navy text-brand-navy bg-brand-navy/5' : 'border-gray-200 text-brand-navy/80 hover:border-brand-navy/60'}`}
+                        >
+                          <input
+                            type="radio"
+                            className="sr-only"
+                            name="orgs"
+                            value={label}
+                            checked={bookingForm.orgs === label}
+                            onChange={() => handleBookingChange('orgs', label)}
+                          />
+                          <span>{label}</span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
                   <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Empresa</label>
-                    <input value={bookingForm.company} onChange={(e) => handleBookingChange('company', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.position}</label>
+                    <input value={bookingForm.position} onChange={(e) => handleBookingChange('position', e.target.value)} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" />
                   </div>
                   <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Empresas / organizaciones / gobiernos</label>
-                    <input value={bookingForm.orgs} onChange={(e) => handleBookingChange('orgs', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
-                  </div>
-                  <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Posición</label>
-                    <input value={bookingForm.position} onChange={(e) => handleBookingChange('position', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy" />
-                  </div>
-                  <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Servicio de interés / misiones comerciales</label>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1 leading-tight">{bookingCopy.labels.service}</label>
                     <select
                       value={bookingForm.service}
                       onChange={(e) => handleBookingChange('service', e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                      className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
                     >
-                      <option value="">Selecciona un servicio</option>
-                      <option value="Sourcing Estratégico / Strategic Sourcing">Sourcing Estratégico / Strategic Sourcing</option>
-                      <option value="Manufactura & Operaciones / Manufacturing & Operations">Manufactura & Operaciones / Manufacturing & Operations</option>
-                      <option value="Crecimiento Internacional / International Growth">Crecimiento Internacional / International Growth</option>
-                      <option value="Misiones Comerciales / Trade Missions">Misiones Comerciales / Trade Missions</option>
+                      <option value="">{bookingCopy.placeholders.service}</option>
+                      {bookingServiceOptions.map((option) => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
                     </select>
                   </div>
                   <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">País de origen</label>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.origin}</label>
                     <select
                       value={bookingForm.originCountry}
                       onChange={(e) => handleBookingChange('originCountry', e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                      className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
                     >
-                      {['South America', 'Mexico', 'USA', 'Canada', 'Europe', 'Asia'].map(region => (
+                      {bookingRegionOptions.map(region => (
                         <option key={region} value={region}>{region}</option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Región de interés</label>
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.target}</label>
                     <select
                       value={bookingForm.targetRegion}
                       onChange={(e) => handleBookingChange('targetRegion', e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                      className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
                     >
-                      <option value="">Selecciona una región</option>
-                      {['South America', 'Mexico', 'USA', 'Canada', 'Europe', 'Asia'].map(region => (
+                      <option value="">{bookingCopy.placeholders.region}</option>
+                      {bookingRegionOptions.map(region => (
                         <option key={region} value={region}>{region}</option>
                       ))}
                     </select>
                   </div>
-                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-[1.2fr,0.8fr] gap-3 md:gap-4">
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 items-start">
                     <div>
-                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Fecha (mínimo 2 días después de hoy)</label>
+                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1 leading-tight">{bookingCopy.labels.date}</label>
                       <input
                         type="date"
                         value={bookingForm.date}
@@ -898,20 +975,21 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                           d.setDate(d.getDate() + 2);
                           return d.toISOString().split('T')[0];
                         })()}
-                        className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9 cursor-pointer"
+                        style={{ colorScheme: 'light' }}
                         required
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">Horario</label>
+                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.time}</label>
                       <select
                         value={bookingForm.timeSlot}
                         onChange={(e) => handleBookingChange('timeSlot', e.target.value)}
-                        className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white"
+                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
                         required
                       >
-                        <option value="">Selecciona un horario</option>
-                        {['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'].map(slot => (
+                        <option value="">{bookingCopy.placeholders.time}</option>
+                        {BOOKING_TIME_SLOTS.map(slot => (
                           <option key={slot} value={slot}>{slot}</option>
                         ))}
                       </select>
@@ -923,9 +1001,9 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   disabled={bookingStatus === 'loading'}
                   className="w-full bg-brand-navy text-white rounded-xl py-3 font-bold uppercase tracking-[0.16em] text-sm md:text-base hover:bg-brand-gold hover:text-brand-navy transition-colors disabled:opacity-60"
                 >
-                  {bookingStatus === 'loading' ? 'Enviando…' : bookingStatus === 'success' ? 'Enviado' : 'Agendar'}
+                  {bookingStatus === 'loading' ? bookingCopy.submit.loading : bookingStatus === 'success' ? bookingCopy.submit.success : bookingCopy.submit.idle}
                 </button>
-                {bookingStatus === 'success' && <p className="text-green-600 text-sm text-center">¡Gracias! Te contactaremos pronto.</p>}
+                {bookingStatus === 'success' && <p className="text-green-600 text-sm text-center">{bookingCopy.successMessage}</p>}
               </form>
             </MotionDiv>
           </MotionDiv>
@@ -1041,22 +1119,22 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 </p>
               </FadeIn>
               <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-3 w-full max-w-3xl mx-auto justify-start md:justify-center mt-6 md:mt-7">
-                <FadeIn delay={0.4}>
+                {/* <FadeIn delay={0.4}> */}
                   <button
                     onClick={openBooking}
                     className="group flex items-center justify-center gap-3 bg-brand-gold text-brand-navy px-5 sm:px-7 md:px-8 py-3 md:py-3.5 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-sm hover:bg-white transition-colors w-full sm:w-auto shadow-lg shadow-brand-gold/30"
                   >
                     {t.hero.cta}
                   </button>
-                </FadeIn>
-                <FadeIn delay={0.45}>
+                {/* </FadeIn> */}
+                {/* <FadeIn delay={0.45}> */}
                   <a
                     href="#capabilities"
                     className="group flex items-center justify-center gap-3 border border-white/30 text-white px-5 sm:px-7 md:px-8 py-3 md:py-3.5 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-sm hover:border-brand-gold hover:text-brand-gold transition-colors w-full sm:w-auto bg-white/5"
                   >
                     {t.hero.cta2}
                   </a>
-                </FadeIn>
+                {/* </FadeIn> */}
               </div>
               <FadeIn delay={0.6} className="w-full">
                 <div className="flex flex-wrap items-center justify-center gap-3 md:gap-5 max-w-5xl mx-auto mt-4 mb-8 text-gray-100 text-sm md:text-base">
@@ -1081,7 +1159,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             </div>
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/60 text-xs uppercase tracking-[0.18em]">
               <span className="w-10 h-[2px] bg-white/30" />
-              <span>{lang === 'es' ? 'Desplaza para descubrir' : 'Scroll to explore'}</span>
+              <span>{ui.hero.scrollPrompt}</span>
               <span className="w-10 h-[2px] bg-white/30" />
             </div>
           </MotionDiv>
@@ -1154,13 +1232,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                 <div className="relative z-10 p-6 h-full flex flex-col justify-between">
                   <div className="space-y-2">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">On-site footage</p>
-                    <h4 className="text-2xl font-bold leading-tight">Material QA & pre-shipment control</h4>
-                    <p className="text-sm text-white/80 leading-relaxed">Walkthroughs, photo evidence, and sign-offs documented in every stage.</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">{ui.proofOverlay.badge}</p>
+                    <h4 className="text-2xl font-bold leading-tight">{ui.proofOverlay.title}</h4>
+                    <p className="text-sm text-white/80 leading-relaxed">{ui.proofOverlay.desc}</p>
                   </div>
                   <div className="flex items-center gap-3 text-white/70 text-xs uppercase tracking-[0.18em]">
                     <span className="w-10 h-[2px] bg-white/30" />
-                    <span>{lang === 'es' ? 'Video real de inspección' : 'Real inspection footage'}</span>
+                    <span>{ui.proofOverlay.footer}</span>
                     <span className="w-10 h-[2px] bg-white/30" />
                   </div>
                 </div>
@@ -1177,7 +1255,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             {/* Header */}
             <div className="mb-6 md:mb-10 pt-0">
               <FadeIn direction='right'>
-                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">What We Offer</span>
+                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">{ui.services.tag}</span>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-navy">{t.services.title}</h2>
                 <p className="text-gray-500 mt-2 text-sm md:text-base max-w-md">{t.services.subtitle}</p>
               </FadeIn>
@@ -1197,59 +1275,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 'from-[#27497a] to-[#0f2f66]'
               ];
               const icons = [Package, Layers, Globe];
-              
-              // Extended descriptions from the screenshots
-              const extendedContent = lang === 'es' ? [
-                {
-                  title: "1. Sourcing Estratégico & Matchmaking de Proveedores",
-                  paragraphs: [
-                    "Conectamos tu marca con la fábrica correcta — no cualquier fábrica. Nuestro proceso de sourcing combina criterios técnicos, optimización de costos, y décadas de relaciones industriales con los principales fabricantes, tenerías y proveedores de materiales de México. Evaluamos capacidades, estándares de calidad, estructuras de precios, certificaciones, capacidad de producción y fit cultural para asegurar que trabajes con socios confiables desde el día uno.",
-                    "Este servicio incluye scouting de proveedores, análisis de capacidades, sourcing de materiales, validación de fábricas, coordinación de muestras, y alineación de expectativas en tiempos y costos. Nuestro objetivo es simple: eliminar las conjeturas y darte una base de producción sólida y confiable en México."
-                  ],
-                  includes: ["Scouting de proveedores", "Análisis de capacidades", "Sourcing de materiales", "Validación de fábricas", "Coordinación de muestras"]
-                },
-                {
-                  title: "2. Manufactura & Operaciones de Cadena de Suministro",
-                  paragraphs: [
-                    "Nos convertimos en tu equipo en tierra, gestionando cada paso del proceso de producción para que puedas enfocarte en diseño, ventas y crecimiento de marca. Desde desarrollo de producto y prototipado hasta producción a escala completa, coordinamos diariamente con fábricas, damos seguimiento a tiempos, optimizamos comunicación, resolvemos problemas, y aseguramos que cada entregable esté en calendario.",
-                    "Nuestro enfoque incluye planificación de producción, seguimiento de materiales, finalización de costos, programación de carga de trabajo, actualizaciones continuas, gestión de riesgos, inspecciones de calidad, y preparación completa para exportación. Obtienes transparencia, control y paz mental, sabiendo que tu producto está siendo gestionado con estándares de clase mundial."
-                  ],
-                  includes: ["Planificación de producción", "Seguimiento de materiales", "Control de calidad", "Gestión de riesgos", "Preparación de exportación"]
-                },
-                {
-                  title: "3. Crecimiento Internacional & Alianzas Estratégicas",
-                  paragraphs: [
-                    "Ayudamos a marcas a expandirse a nuevos mercados, construir alianzas internacionales, y crear estrategias de largo plazo para crecimiento global. Ya sea que quieras entrar a México, EE.UU., o Latinoamérica, o seas un proveedor internacional buscando representación en el hub manufacturero de México, te guiamos con un roadmap claro y ejecución estratégica.",
-                    "Este servicio incluye insights de mercado, estrategias de entrada, conexiones con distribuidores y socios, soporte en ferias comerciales, consultoría de export-readiness, y representación local con redes industriales de confianza. A través de alianzas estratégicas, te ayudamos a abrir puertas, acelerar oportunidades, y escalar tu presencia internacional con confianza."
-                  ],
-                  includes: ["Insights de mercado", "Estrategias de entrada", "Conexiones de distribuidores", "Soporte en ferias", "Consultoría de exportación"]
-                }
-              ] : [
-                {
-                  title: "1. Strategic Sourcing & Supplier Matchmaking",
-                  paragraphs: [
-                    "We connect your brand with the right factory — not just any factory. Our sourcing process combines technical criteria, cost optimization, and decades of industry relationships across Mexico's top manufacturers, tanneries, and material suppliers. We evaluate capabilities, quality standards, pricing structures, certifications, production capacity, and cultural fit to make sure you work with reliable partners from day one.",
-                    "This service includes supplier scouting, capability analysis, material sourcing, factory validation, sample coordination, and aligned expectations on timelines and costs. Our goal is simple: to eliminate guesswork and give you a strong, trustworthy production foundation in Mexico."
-                  ],
-                  includes: ["Supplier scouting", "Capability analysis", "Material sourcing", "Factory validation", "Sample coordination"]
-                },
-                {
-                  title: "2. Manufacturing & Supply Chain Operations",
-                  paragraphs: [
-                    "We become your team on the ground, managing every step of the production process so you can focus on design, sales, and brand growth. From product development and prototyping to full-scale production, we coordinate daily with factories, track timelines, streamline communication, solve issues, and ensure every deliverable is on schedule.",
-                    "Our approach includes production planning, materials follow-up, cost finalization, workload scheduling, continuous updates, risk management, quality inspections, and complete export preparation. You get transparency, control, and peace of mind, knowing your product is being managed with world-class standards."
-                  ],
-                  includes: ["Production planning", "Materials follow-up", "Quality inspections", "Risk management", "Export preparation"]
-                },
-                {
-                  title: "3. International Growth & Strategic Partnerships",
-                  paragraphs: [
-                    "We help brands expand into new markets, build international alliances, and create long-term strategies for global growth. Whether you want to enter Mexico, the U.S., or Latin America, or you're an international supplier seeking representation in Mexico's manufacturing hub, we guide you with a clear roadmap and strategic execution.",
-                    "This service includes market insights, entry strategies, distributor and partner connections, trade show support, export-readiness consulting, and local representation with trusted industry networks. Through strategic partnerships, we help you open doors, accelerate opportunities, and scale your international presence with confidence."
-                  ],
-                  includes: ["Market insights", "Entry strategies", "Partner connections", "Trade show support", "Export consulting"]
-                }
-              ];
+              const extendedContent = t.services.items;
 
               return (
                 <>
@@ -1301,10 +1327,10 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                           {/* Content */}
                           <div className="p-6 md:p-8 -mt-8 relative z-10">
                             <h2 className="text-2xl md:text-3xl font-bold mb-6 pr-10 leading-tight">
-                              {extendedContent[selectedService].title}
+                              {extendedContent[selectedService]?.title}
                             </h2>
                             
-                            {extendedContent[selectedService].paragraphs.map((para, i) => (
+                            {(extendedContent[selectedService]?.details || []).map((para, i) => (
                               <p key={i} className="text-gray-300 text-base md:text-lg leading-relaxed mb-6">
                                 {para}
                               </p>
@@ -1312,8 +1338,8 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                             
                             {/* Includes tags */}
                             <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
-                              <span className="text-xs text-gray-500 uppercase tracking-wider mr-2">{lang === 'es' ? 'Incluye:' : 'Includes:'}</span>
-                              {extendedContent[selectedService].includes.map((item, i) => (
+                              <span className="text-xs text-gray-500 uppercase tracking-wider mr-2">{ui.services.includesLabel}</span>
+                              {(extendedContent[selectedService]?.bullets || []).map((item, i) => (
                                 <span key={i} className={`text-xs bg-gradient-to-r ${gradients[selectedService]} text-white px-3 py-1 rounded-full`}>
                                   {item}
                                 </span>
@@ -1329,7 +1355,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   {/* Cards Grid */}
                   <div className="relative mb-8 md:mb-12">
                     <p className="text-center text-xs text-brand-navy/50 mb-4 md:hidden">
-                      {lang === 'es' ? '← Desliza • Toca para más info →' : '← Swipe • Tap for more →'}
+                      {ui.services.mobileHint}
                     </p>
                     
                     <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible md:pb-0 scrollbar-hide">
@@ -1365,7 +1391,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                                     
                                     {/* Tap indicator */}
                                     <div className="flex items-center gap-2 text-white/60 text-xs group-hover:text-white transition-colors">
-                                      <span>{lang === 'es' ? 'Toca para ver más' : 'Tap for details'}</span>
+                                      <span>{ui.services.tapHint}</span>
                                     </div>
                                   </div>
                                 </div>
@@ -1466,13 +1492,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/30 via-transparent to-transparent" />
                 <div className="relative z-10 p-6 flex flex-col h-full justify-between">
                   <div className="space-y-2">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">Compliance in motion</p>
-                    <h4 className="text-2xl font-bold text-white leading-tight">Logistics, labeling & export governance</h4>
-                    <p className="text-sm text-white/80 leading-relaxed">Documentation, HS codes, and labeling validated before cargo leaves the factory.</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">{ui.assurances.badge}</p>
+                    <h4 className="text-2xl font-bold text-white leading-tight">{ui.assurances.title}</h4>
+                    <p className="text-sm text-white/80 leading-relaxed">{ui.assurances.desc}</p>
                   </div>
                   <div className="flex items-center gap-3 text-white/70 text-xs uppercase tracking-[0.18em]">
                     <span className="w-10 h-[2px] bg-white/30" />
-                    <span>{lang === 'es' ? 'Vista previa de compliance' : 'Compliance walk-through'}</span>
+                    <span>{ui.assurances.footer}</span>
                     <span className="w-10 h-[2px] bg-white/30" />
                   </div>
                 </div>
@@ -1492,7 +1518,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               <div className="text-center mb-10 md:mb-14">
                 <FadeIn>
                   <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-brand-navy border border-brand-navy/10 text-[10px] font-bold tracking-[0.22em] uppercase mb-3">
-                    {lang === 'en' ? 'Delivery, not promises' : 'Entrega, no promesas'}
+                    {ui.process.badge}
                   </span>
                   <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-brand-navy mb-3 uppercase tracking-tight">
                     {t.process?.title || (lang === 'en' ? 'Your Journey With Us' : 'Tu Viaje Con Nosotros')}
@@ -1532,12 +1558,12 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   const isLastStep = idx === totalProcessSteps - 1;
                   const textPosition = isLeft ? 'md:order-1 md:text-right md:pr-10' : 'md:order-3 md:text-left md:pl-10';
                   const mediaPosition = isLeft ? 'md:order-3 md:pl-10' : 'md:order-1 md:pr-10';
-                  const proofLine = (step as any).proof ?? (lang === 'en' ? 'Documented hand-off' : 'Entrega documentada');
+                  const proofLine = (step as any).proof ?? ui.process.proofFallback;
                   const media = processMedia[idx % processMedia.length];
                   
                   return (
                     <FadeIn key={idx} delay={Math.min(idx * 0.08, 0.35)}>
-                      <div className="relative mb-8 md:mb-14">
+                      <div className="relative mb-8 md:mb-14 z-[1]">
                         <div className="md:grid md:grid-cols-[1fr,120px,1fr] md:items-stretch md:gap-6">
                           {/* Desktop: Text card (alternates sides) */}
                           <div className={`hidden md:block ${textPosition}`}>
@@ -1553,10 +1579,10 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                               </div>
                             </div>
                           </div>
-
+                          
                           {/* Center spine + icon */}
                           <div className="hidden md:flex flex-col items-center gap-3 md:order-2 relative">
-                            <div className={`w-14 h-14 rounded-2xl ${colors[idx]} flex items-center justify-center shadow-xl ring-4 ring-white z-[1]`}>
+                            <div className={`w-14 h-14 rounded-2xl ${colors[idx]} flex items-center justify-center shadow-xl ring-4 ring-white z-[100]`}>
                               <Icon className="w-7 h-7 text-white" />
                             </div>
                             {!isLastStep && (
@@ -1577,15 +1603,24 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                                   playsInline
                                   preload="auto"
                                   data-autoplay
+                                  poster={media.poster}
+                                  onLoadedData={(e) => {
+                                    const vid = e.currentTarget;
+                                    if (vid.paused) vid.play().catch(() => {});
+                                  }}
+                                  onCanPlay={(e) => {
+                                    const vid = e.currentTarget;
+                                    if (vid.paused) vid.play().catch(() => {});
+                                  }}
                                 />
                               ) : (
                                 <img src={media.src} alt={media.title} className="w-full h-full object-cover" />
                               )}
                               <div className={`absolute inset-0 ${media.type === 'video' ? 'bg-gradient-to-b from-black/40 via-transparent to-brand-navy/80' : 'bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent'}`} />
                               <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-gold">{media.title}</p>
-                                <h4 className="text-xl font-bold">{media.caption}</h4>
-                                <p className="text-sm text-white/80">{lang === 'en' ? 'Evidence paired to this step.' : 'Evidencia ligada a este paso.'}</p>
+                                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-gold">{media.title[lang]}</p>
+                                <h4 className="text-xl font-bold">{media.caption[lang]}</h4>
+                                <p className="text-sm text-white/80">{ui.process.evidenceCaption}</p>
                               </div>
                             </div>
                           </div>
@@ -1616,9 +1651,19 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                                   muted
                                   playsInline
                                   preload="metadata"
+                                  poster={media.poster}
+                                  data-autoplay
+                                  onLoadedData={(e) => {
+                                    const vid = e.currentTarget;
+                                    if (vid.paused) vid.play().catch(() => {});
+                                  }}
+                                  onCanPlay={(e) => {
+                                    const vid = e.currentTarget;
+                                    if (vid.paused) vid.play().catch(() => {});
+                                  }}
                                 />
                               ) : (
-                                <img src={media.src} alt={media.title} className="w-full h-full object-cover" />
+                                <img src={media.src} alt={media.title[lang]} className="w-full h-full object-cover" />
                               )}
                             </div>
                           </div>
@@ -1630,13 +1675,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
                 {/* CTA */}
                 <FadeIn delay={0.4}>
-                  <div className="mt-8 md:mt-10 flex flex-col sm:flex-row items-center justify-start md:justify-center gap-4 sm:gap-6">
-                    <a href="#contact" className="w-full sm:w-auto bg-brand-navy text-white px-8 py-4 rounded-full font-bold text-sm hover:bg-brand-gold hover:text-brand-navy transition-colors flex items-center justify-center gap-2 group shadow-lg shadow-brand-navy/10">
-                      {lang === 'en' ? 'Start Your Journey' : 'Inicia Tu Viaje'}
+                  <div className="mt-8 md:mt-10 flex flex-col sm:flex-row items-center justify-start md:justify-center gap-4 sm:gap-6 z-[1]">
+                    <a href="#contact" className="w-full sm:w-auto bg-brand-navy text-white px-8 py-4 rounded-full font-bold text-sm hover:bg-brand-gold hover:text-brand-navy transition-colors flex items-center justify-center gap-2 group shadow-lg shadow-brand-navy/10 z-[1]">
+                      {ui.process.ctaStart}
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </a>
                     <a href="#services" className="w-full sm:w-auto bg-white text-brand-navy px-8 py-4 rounded-full font-bold text-sm border border-brand-navy/10 hover:border-brand-gold hover:text-brand-gold transition-colors flex items-center justify-center gap-2">
-                      {lang === 'en' ? 'See Services' : 'Ver Servicios'}
+                      {ui.process.ctaServices}
                     </a>
                   </div>
                 </FadeIn>
@@ -1669,7 +1714,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             {/* Content - Compact on mobile */}
             <div className="w-full lg:w-1/2 bg-white flex flex-col justify-center p-6 md:p-12 lg:p-24 py-16 lg:py-16">
               <FadeIn direction='right'>
-                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 lg:mb-4 block">Leadership</span>
+                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 lg:mb-4 block">{ui.founder.badge}</span>
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-brand-navy mb-4 lg:mb-8">{t.team.title}</h2>
                 
                 {/* Quote styling - more compact on mobile */}
@@ -1697,7 +1742,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
             {/* Header */}
             <div className="text-center mb-10 lg:mb-16">
-              <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">Why Choose Us</span>
+              <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">{ui.differentiators.tag}</span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">{t.differentiators.title}</h2>
             </div>
 
@@ -1727,7 +1772,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                         <h3 className="text-white font-bold text-sm truncate">{item.title}</h3>
                       </div>
                       <span className="text-brand-gold text-xs font-bold uppercase tracking-widest">
-                        {isExpanded ? (lang === 'es' ? 'Cerrar' : 'Close') : (lang === 'es' ? 'Abrir' : 'Open')}
+                        {isExpanded ? ui.differentiators.accordionClose : ui.differentiators.accordionOpen}
                       </span>
                     </button>
                     
@@ -1783,7 +1828,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                         
                         {/* Read more indicator */}
                         <div className="flex items-center gap-2 text-brand-gold/60 text-xs mt-3 group-hover:text-brand-gold transition-colors">
-                          <span>{lang === 'es' ? 'Ver más' : 'Learn more'}</span>
+                          <span>{ui.differentiators.readMore}</span>
                         </div>
                       </div>
                     </div>
@@ -1839,7 +1884,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                       poster="https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
-                    <div className="absolute bottom-3 left-3 right-3 text-white text-sm font-semibold">Sample timeline: onboarding to first shipment</div>
+                    <div className="absolute bottom-3 left-3 right-3 text-white text-sm font-semibold">{ui.capabilities.timelineLabel}</div>
                   </div>
                   <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-xl min-h-[180px] bg-white/5">
                     <img
@@ -1848,7 +1893,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
-                    <div className="absolute bottom-3 left-3 right-3 text-white text-sm font-semibold">Audit checklist + compliance map preview</div>
+                    <div className="absolute bottom-3 left-3 right-3 text-white text-sm font-semibold">{ui.capabilities.auditLabel}</div>
                   </div>
                 </div>
               </div>
@@ -1880,7 +1925,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                     </div>
                   </div>
                   <button type="submit" disabled={deckStatus === 'loading'} className="w-full bg-brand-navy text-white rounded-full py-3 font-bold uppercase tracking-[0.2em] hover:bg-brand-gold hover:text-brand-navy transition-colors">
-                    {deckStatus === 'loading' ? 'Sending...' : deckStatus === 'success' ? 'Sent!' : t.capabilities.form.cta}
+                    {deckStatus === 'loading' ? ui.capabilities.sending : deckStatus === 'success' ? ui.capabilities.sent : t.capabilities.form.cta}
                   </button>
               <p className="text-xs text-brand-navy/60">{t.capabilities.form.disclaimer}</p>
             </form>
@@ -1899,56 +1944,10 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           <GridPattern color="#C4A661" opacity={0.03} />
           
           {(() => {
-              const ctbStrengths = [
-                { 
-                  icon: Scissors, 
-                  title: lang === 'es' ? 'Expertise en Cuero y Calzado' : 'Deep Leather & Footwear Expertise',
-                  desc: lang === 'es' ? 'Décadas de experiencia en la industria del cuero y calzado de León, México.' : 'Decades of experience in León, Mexico leather and footwear industry.',
-                  color: 'from-[#b08c55] to-[#d5ba8c]',
-                  video: 'https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4',
-                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/005/166/637/large/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.jpg'
-                },
-                { 
-                  icon: Award, 
-                  title: lang === 'es' ? 'Acceso a Fábricas Élite en México' : 'Access to Elite Factories in Mexico',
-                  desc: lang === 'es' ? 'Red exclusiva de fabricantes certificados y verificados.' : 'Exclusive network of certified and verified manufacturers.',
-                  color: 'from-[#0b2f6b] to-[#002169]',
-                  video: 'https://static.vecteezy.com/system/resources/previews/007/995/834/mp4/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.mp4',
-                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/007/995/834/large/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.jpg'
-                },
-                { 
-                  icon: Globe, 
-                  title: lang === 'es' ? 'Red Internacional (Brasil, Asia, USA)' : 'International Network (Brazil, Asia, USA)',
-                  desc: lang === 'es' ? 'Conexiones globales para oportunidades sin fronteras.' : 'Global connections for borderless opportunities.',
-                  color: 'from-[#1f3f70] to-[#0f2f66]',
-                  video: 'https://static.vecteezy.com/system/resources/previews/024/834/351/mp4/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.mp4',
-                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/024/834/351/large/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.jpg'
-                },
-                { 
-                  icon: FileText, 
-                  title: lang === 'es' ? 'Experiencia y Certificaciones de Exportación' : 'Export Experience & Certifications',
-                  desc: lang === 'es' ? 'Documentación y compliance para comercio internacional.' : 'Documentation and compliance for international trade.',
-                  color: 'from-[#c6ab7b] to-[#d5ba8c]',
-                  video: 'https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4',
-                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg'
-                },
-                { 
-                  icon: Settings, 
-                  title: lang === 'es' ? 'Presencia Directa en Fábricas' : 'Hands-on Factory Presence',
-                  desc: lang === 'es' ? 'Control de calidad en sitio y supervisión directa.' : 'On-site quality control and direct supervision.',
-                  color: 'from-[#12315c] to-[#0b2247]',
-                  video: 'https://static.vecteezy.com/system/resources/previews/060/472/965/mp4/three-people-are-standing-around-a-table-with-boxes-free-video.mp4',
-                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/060/472/965/large/three-people-are-standing-around-a-table-with-boxes-free-video.jpg'
-                },
-                { 
-                  icon: Users, 
-                  title: lang === 'es' ? 'Liderazgo Bilingüe y Bicultural' : 'Bilingual, Bicultural Leadership',
-                  desc: lang === 'es' ? 'Comunicación fluida entre culturas y mercados.' : 'Seamless communication across cultures and markets.',
-                  color: 'from-[#27497a] to-[#0f2f66]',
-                  video: 'https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4',
-                  poster: 'https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg'
-                },
-              ];
+              const ctbStrengths = strengthsCards.map((item) => ({
+                ...item,
+                Icon: ICON_MAP[item.icon as IconKey] || Globe
+              }));
               
               const [currentIndex, setCurrentIndex] = useState(0);
               const [exitDirection, setExitDirection] = useState<'left' | 'right' | null>(null);
@@ -2067,13 +2066,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   <div className="text-center pt-8 md:pt-10 pb-4 px-4">
                     <FadeIn>
                       <div className="inline-flex items-center gap-2 text-brand-gold font-bold uppercase tracking-widest text-[10px] bg-white/5 border border-brand-gold/30 px-4 py-2 rounded-full mb-3 backdrop-blur-sm">
-                        {lang === 'es' ? 'Nuestras Fortalezas' : 'Our Strengths'}
+                        {ui.strengths.tag}
                       </div>
                       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2">
-                        {lang === 'es' ? 'Fortalezas CTB' : 'CTB Strengths'}
+                        {ui.strengths.title}
                       </h2>
                       <p className="text-white/40 text-xs md:text-sm max-w-xl mx-auto">
-                        {lang === 'es' ? '← Desliza para explorar →' : '← Swipe to explore →'}
+                        {ui.strengths.swipeHint}
                       </p>
                     </FadeIn>
                   </div>
@@ -2221,7 +2220,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                               {/* Swipe hint */}
                               <div className="flex items-center justify-center gap-3 mt-5 pt-4 border-t border-white/10">
                                 <span className="text-white/40 text-xs font-medium uppercase tracking-wider">
-                                  {lang === 'es' ? 'Desliza para explorar' : 'Swipe to explore'}
+                                  {ui.strengths.swipeHint}
                                 </span>
                               </div>
                             </MotionDiv>
@@ -2381,32 +2380,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         {(() => {
           const testimonialItems = t.testimonials?.items?.length
             ? t.testimonials.items
-            : [
-                {
-                  name: "Wilson King",
-                  role: "Outback Trading Company, USA",
-                  text: "Cross the Bridge has been exactly what their name promises — a real bridge. They took all the uncertainty out of doing business in Mexico and replaced it with clarity, trust, and results.",
-                  country: "United States",
-                  countryCode: "US",
-                  image: ""
-                },
-                {
-                  name: "Mehrdad Baghai",
-                  role: "JRD Saddlery, USA",
-                  text: "I have worked with Mariana for the last 20 plus years. She managed and oversees all my sourcing, production and even shipping. Value we cannot do without.",
-                  country: "United States",
-                  countryCode: "US",
-                  image: ""
-                },
-                {
-                  name: "Viberg Boot Representative",
-                  role: "Viberg Boot, Canada",
-                  text: "Working with Mariana is always a wonderful experience. The most valuable part has been finding us many connections within the footwear industry.",
-                  country: "Canada",
-                  countryCode: "CA",
-                  image: ""
-                },
-              ];
+            : DEFAULT_TESTIMONIALS;
 
           const [activeTestimonial, setActiveTestimonial] = useState(0);
           const [selectedTestimonial, setSelectedTestimonial] = useState<typeof testimonialItems[0] | null>(null);
@@ -2500,13 +2474,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             <FadeIn>
               <div className="text-center mb-6 md:mb-10">
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4">
-                  {lang === 'en' ? 'Know the Bridge Effect' : 'Conoce el Efecto Puente'}
+                  {ui.bridge.badge}
                 </span>
                 <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white mb-2">
-                  {lang === 'en' ? 'More Than' : 'Más de'} <span className="text-brand-gold">20</span> {lang === 'en' ? 'Countries' : 'Países'}
+                  {ui.bridge.heading}
                 </h2>
                 <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
-                  {lang === 'en' ? 'Connecting businesses across continents, one successful partnership at a time' : 'Conectando negocios a través de continentes, una alianza exitosa a la vez'}
+                  {ui.bridge.subtitle}
                 </p>
               </div>
             </FadeIn>
@@ -2517,10 +2491,10 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               <div className="flex flex-wrap items-center gap-4 justify-between relative z-10">
                 <div>
                   <p className="text-brand-gold text-[10px] md:text-xs font-bold uppercase tracking-[0.22em] mb-1">
-                    {lang === 'en' ? 'Testimonials' : 'Testimonios'}
+                    {ui.bridge.testimonialsLabel}
                   </p>
                   <h3 className="text-xl md:text-2xl font-bold text-white">
-                    {lang === 'en' ? 'Partners who crossed with us' : 'Aliados que cruzaron con nosotros'}
+                    {ui.bridge.testimonialsTitle}
                   </h3>
                 </div>
                 <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-2 py-1">
@@ -2579,7 +2553,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                           </div>
                           <div className="flex items-center gap-2 text-[11px] text-white/70">
                             <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full border border-white/15 bg-white/5 shadow-inner">
-                              <Sparkles size={12} className="text-brand-gold" /> {lang === 'en' ? 'Read story' : 'Ver historia'}
+                              <Sparkles size={12} className="text-brand-gold" /> {ui.bridge.readStory}
                             </span>
                           </div>
                         </div>
@@ -2594,18 +2568,11 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             <FadeIn delay={0.1}>
               <div className="mt-10 md:mt-12">
                 <p className="text-center text-brand-gold/60 text-xs md:text-sm font-bold uppercase tracking-widest mb-4">
-                  {lang === 'en' ? 'Snapshots from the field' : 'Postales desde el campo'}
+                  {ui.bridge.snapshotsLabel}
                 </p>
                 <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 -mx-4 md:mx-0">
                   <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-3 p-4 md:p-6">
-                    {[
-                      { src: "/img/Collage/Collage_embajada_alemania.jpg", label: "Germany" },
-                      { src: "/img/Collage/Collage_mision_Thailandia.jpg", label: "Thailand" },
-                      { src: "/img/Collage/Collage_junta.jpg", label: lang === 'en' ? 'Planning' : 'Planeación' },
-                      { src: "/img/Collage/Collage_control_de_calidad.jpg", label: lang === 'en' ? 'Quality' : 'Calidad' },
-                      { src: "/img/Collage/Collage_junta2.jpg", label: lang === 'en' ? 'Alliances' : 'Alianzas' },
-                      { src: "/img/Collage/Collage_mision_Thailandia.jpg", label: lang === 'en' ? 'Asia' : 'Asia' },
-                    ].map((item, i) => (
+                    {collageItems.map((item, i) => (
                       <div key={i} className="relative overflow-hidden rounded-xl bg-white/5 border border-white/10 shadow-lg">
                         <img src={item.src} alt={item.label} className="w-full h-28 md:h-32 object-cover grayscale hover:grayscale-0 transition-all duration-500" />
                         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-2 text-xs text-white font-semibold">
@@ -2622,7 +2589,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             <div className="relative py-12 md:py-16 mt-8 md:mt-12 overflow-hidden -mx-6 md:-mx-12 px-6 md:px-12">
               <FadeIn>
                 <p className="text-center text-xs md:text-sm font-bold uppercase tracking-widest text-brand-gold/60 mb-6 md:mb-8">
-                  {lang === 'en' ? 'Presence in 20+ Countries' : 'Presencia en más de 20 Países'}
+                  {ui.bridge.presenceLabel}
                 </p>
               </FadeIn>
               <div className="relative overflow-hidden mask-fade">
@@ -2680,7 +2647,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           <ScrollReveal className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center">
             {/* Header - Mobile first */}
             <div className="mb-6 md:mb-12">
-              <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Catalog</span>
+              <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">{ui.showroom.label}</span>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.showroom.title}</h2>
               
               {/* Filter pills */}
@@ -2738,76 +2705,22 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             {/* Header */}
             <div className="text-center mb-12 lg:mb-16">
               <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">
-                {lang === 'es' ? 'Para Proveedores' : 'For Providers'}
+                {ui.providers.tag}
               </span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                {lang === 'es' ? 'Conviértete en Socio' : 'Become a Partner'}
+                {ui.providers.title}
               </h2>
               <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-                {lang === 'es' 
-                  ? 'Únete a nuestra red global de fabricantes y proveedores de élite'
-                  : 'Join our global network of elite manufacturers and suppliers'}
+                {ui.providers.subtitle}
               </p>
             </div>
 
             {/* Benefits - Tinder Style Swipe Cards */}
             {(() => {
-              const partnerBenefits = [
-                {
-                  icon: Globe,
-                  title: lang === 'es' ? 'Alcance Mundial' : 'Worldwide Reach',
-                  desc: lang === 'es' 
-                    ? 'Expande tu negocio a mercados internacionales a través de nuestra red establecida'
-                    : 'Expand your business to international markets through our established network',
-                  color: 'from-[#1f3f70] to-[#0f2f66]',
-                  image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop'
-                },
-                {
-                  icon: Users,
-                  title: lang === 'es' ? 'Socios Estratégicos' : 'Strategic Partners',
-                  desc: lang === 'es'
-                    ? 'Conecta con marcas premium de USA y otros mercados buscando calidad mexicana'
-                    : 'Connect with premium brands from USA and other markets seeking Mexican quality',
-                  color: 'from-[#b08c55] to-[#d5ba8c]',
-                  image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop'
-                },
-                {
-                  icon: Award,
-                  title: lang === 'es' ? 'Reconocimiento de Élite' : 'Elite Recognition',
-                  desc: lang === 'es'
-                    ? 'Sé parte de un directorio selecto de proveedores certificados y verificados'
-                    : 'Be part of a select directory of certified and verified suppliers',
-                  color: 'from-[#0b2f6b] to-[#002169]',
-                  image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop'
-                },
-                {
-                  icon: Ship,
-                  title: lang === 'es' ? 'Soporte Logístico' : 'Logistics Support',
-                  desc: lang === 'es'
-                    ? 'Facilitamos exportaciones y coordinamos envíos internacionales'
-                    : 'We facilitate exports and coordinate international shipments',
-                  color: 'from-[#12315c] to-[#0b2247]',
-                  image: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=1740&auto=format&fit=crop'
-                },
-                {
-                  icon: Target,
-                  title: lang === 'es' ? 'Clientes Calificados' : 'Qualified Clients',
-                  desc: lang === 'es'
-                    ? 'Accede a compradores serios y proyectos con volumen garantizado'
-                    : 'Access serious buyers and projects with guaranteed volume',
-                  color: 'from-[#c6ab7b] to-[#d5ba8c]',
-                  image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1740&auto=format&fit=crop'
-                },
-                {
-                  icon: Shield,
-                  title: lang === 'es' ? 'Pagos Seguros' : 'Secure Payments',
-                  desc: lang === 'es'
-                    ? 'Transacciones protegidas y términos comerciales claros'
-                    : 'Protected transactions and clear commercial terms',
-                  color: 'from-[#223b6b] to-[#0f2a57]',
-                  image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop'
-                }
-              ];
+              const benefits = partnerBenefits.map((benefit) => ({
+                ...benefit,
+                icon: ICON_MAP[benefit.icon as IconKey] || Globe
+              }));
               
               const [partnerCardIndex, setPartnerCardIndex] = useState(0);
               const [partnerExitDir, setPartnerExitDir] = useState<'left' | 'right' | null>(null);
@@ -2822,7 +2735,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                     setPartnerCardIndex(prev => prev - 1);
                     setPartnerExitDir(null);
                   }, 250);
-                } else if (direction === 'left' && partnerCardIndex < partnerBenefits.length - 1) {
+                } else if (direction === 'left' && partnerCardIndex < benefits.length - 1) {
                   setPartnerExitDir('left');
                   setTimeout(() => {
                     setPartnerCardIndex(prev => prev + 1);
@@ -2847,7 +2760,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               const handlePartnerTouchEnd = () => {
                 setPartnerIsDragging(false);
                 const threshold = 60;
-                if (partnerDragX < -threshold && partnerCardIndex < partnerBenefits.length - 1) {
+                if (partnerDragX < -threshold && partnerCardIndex < benefits.length - 1) {
                   handlePartnerSwipe('left');
                 } else if (partnerDragX > threshold && partnerCardIndex > 0) {
                   handlePartnerSwipe('right');
@@ -2871,7 +2784,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 if (!partnerIsDragging) return;
                 setPartnerIsDragging(false);
                 const threshold = 60;
-                if (partnerDragX < -threshold && partnerCardIndex < partnerBenefits.length - 1) {
+                if (partnerDragX < -threshold && partnerCardIndex < benefits.length - 1) {
                   handlePartnerSwipe('left');
                 } else if (partnerDragX > threshold && partnerCardIndex > 0) {
                   handlePartnerSwipe('right');
@@ -2885,7 +2798,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 }
               };
               
-              const currentBenefit = partnerBenefits[partnerCardIndex];
+              const currentBenefit = benefits[partnerCardIndex];
               
               return (
                 <div className="max-w-6xl mx-auto mb-12 lg:mb-16">
@@ -2911,8 +2824,8 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                     </button>
                     <button 
                       onClick={(e) => { e.stopPropagation(); handlePartnerSwipe('left'); }}
-                      className={`absolute right-2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all ${partnerCardIndex === partnerBenefits.length - 1 ? 'opacity-30' : 'hover:bg-white/20'}`}
-                      disabled={partnerCardIndex === partnerBenefits.length - 1}
+                      className={`absolute right-2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all ${partnerCardIndex === benefits.length - 1 ? 'opacity-30' : 'hover:bg-white/20'}`}
+                      disabled={partnerCardIndex === benefits.length - 1}
                     >
                       <span className="text-white text-lg font-bold">›</span>
                     </button>
@@ -2961,7 +2874,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                             
                             {/* Card number indicator */}
                             <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                              <span className="text-white text-xs font-bold">{partnerCardIndex + 1} / {partnerBenefits.length}</span>
+                              <span className="text-white text-xs font-bold">{partnerCardIndex + 1} / {benefits.length}</span>
                             </div>
                           </div>
                         </MotionDiv>
@@ -2970,7 +2883,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                     
                     {/* Dot indicators */}
                     <div className="flex justify-center gap-2 mt-4">
-                      {partnerBenefits.map((_, idx) => (
+                      {benefits.map((_, idx) => (
                         <button
                           key={idx}
                           onClick={() => {
@@ -2987,13 +2900,13 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                     
                     {/* Swipe hint */}
                     <p className="text-center text-white/40 text-xs mt-3">
-                      {lang === 'es' ? '← Desliza para explorar →' : '← Swipe to explore →'}
+                      {ui.strengths.swipeHint}
                     </p>
                   </div>
                   
                   {/* Desktop: Grid layout */}
                   <div className="hidden lg:grid lg:grid-cols-3 gap-4">
-                    {partnerBenefits.map((benefit, idx) => {
+                    {benefits.map((benefit, idx) => {
                       return (
                         <FadeIn key={idx} delay={idx * 0.1}>
                           <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:border-brand-gold/50 transition-all duration-500 hover:-translate-y-1 h-full relative overflow-hidden">
@@ -3048,20 +2961,14 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               {/* CTA Card */}
               <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 md:p-10 text-center lg:text-left">
                 <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                  {lang === 'es' ? '¿Listo para Crecer?' : 'Ready to Grow?'}
+                  {ui.providers.readyTitle}
                 </h3>
                 <p className="text-gray-300 mb-6 leading-relaxed">
-                  {lang === 'es'
-                    ? 'Si eres un fabricante o proveedor de materiales de calidad en México, queremos conocerte. Únete a nuestra red y lleva tus productos al mundo.'
-                    : "If you're a quality manufacturer or material supplier in Mexico, we want to meet you. Join our network and take your products to the world."}
+                  {ui.providers.readyDesc}
                 </p>
                 
                 <div className="flex flex-wrap gap-3 mb-8 justify-center lg:justify-start">
-                  {[
-                    lang === 'es' ? '✓ Sin costo de inscripción' : '✓ No enrollment fee',
-                    lang === 'es' ? '✓ Verificación gratuita' : '✓ Free verification',
-                    lang === 'es' ? '✓ Soporte continuo' : '✓ Ongoing support'
-                  ].map((item, i) => (
+                  {ui.providers.bulletPoints.map((item, i) => (
                     <span key={i} className="text-sm text-brand-gold bg-brand-gold/10 px-3 py-1 rounded-full">{item}</span>
                   ))}
                 </div>
@@ -3070,7 +2977,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   href="mailto:partners@crossthebridge.co?subject=Partner%20Inquiry"
                   className="inline-flex items-center gap-3 bg-brand-gold text-brand-navy px-8 py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-white hover:scale-105 transition-all shadow-lg shadow-brand-gold/20"
                 >
-                  {lang === 'es' ? 'Contactar como Socio' : 'Contact as Partner'}
+                  {ui.providers.cta}
                 </a>
               </div>
             </div>
@@ -3083,24 +2990,27 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           <ScrollReveal className="container mx-auto px-4 md:px-6 flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 items-center flex-1">
             <div>
               <FadeIn>
-                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">Get in Touch</span>
+                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">{ui.contact.tag}</span>
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-8 text-brand-navy">{t.contact.title}</h2>
                 <div className="space-y-4 md:space-y-8 text-sm md:text-lg">
                   <a href="mailto:info@crossthebridge.co" className="flex items-center gap-3 md:gap-4 hover:text-brand-gold transition-colors active:scale-95">
-                    info@crossthebridge.co
+                    {ui.contact.email}
+                  </a>
+                  <a href="tel:+12813232612" className="flex items-center gap-3 md:gap-4 hover:text-brand-gold transition-colors active:scale-95">
+                    {ui.contact.phoneUS}
                   </a>
                   <a href="tel:+524777653792" className="flex items-center gap-3 md:gap-4 hover:text-brand-gold transition-colors active:scale-95">
-                    +52 477 765 3792
+                    {ui.contact.phoneMX}
                   </a>
                   <div className="flex items-center gap-3 md:gap-4">
-                    León Gto, México
+                    {ui.contact.location}
                   </div>
                 </div>
 
                 <div className="flex gap-3 md:gap-4 mt-8 md:mt-12">
-                  <a href="https://www.linkedin.com/company/cross-the-bridge-mx/" target="_blank" rel="noopener noreferrer" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">LinkedIn</a>
-                  <a href="https://www.instagram.com/crossthebridge.mx?igsh=bnF6dGdtdXB4MHIw" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">Instagram</a>
-                  <a href="https://www.facebook.com/profile.php?id=61583895457222" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">Facebook</a>
+                  <a href="https://www.linkedin.com/company/cross-the-bridge-mx/" target="_blank" rel="noopener noreferrer" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">{ui.contact.socials.linkedin}</a>
+                  <a href="https://www.instagram.com/crossthebridge.mx?igsh=bnF6dGdtdXB4MHIw" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">{ui.contact.socials.instagram}</a>
+                  <a href="https://www.facebook.com/profile.php?id=61583895457222" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">{ui.contact.socials.facebook}</a>
                 </div>
               </FadeIn>
             </div>
@@ -3179,20 +3089,20 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   className="w-full bg-brand-navy text-white py-3 md:py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-brand-gold hover:text-brand-navy transition-colors shadow-lg disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98]"
                   disabled={contactStatus === 'loading'}
                 >
-                  {contactStatus === 'loading' ? 'Sending…' : contactStatus === 'success' ? 'Sent!' : t.contact.form.submit}
+                  {contactStatus === 'loading' ? ui.contact.sending : contactStatus === 'success' ? ui.contact.sent : t.contact.form.submit}
                 </button>
                 {contactStatus === 'error' && (
-                  <p className="text-sm text-red-600">{contactError || 'Something went wrong'}</p>
+                  <p className="text-sm text-red-600">{contactError || ui.contact.error}</p>
                 )}
                 {contactStatus === 'success' && (
-                  <p className="text-sm text-green-600">Thanks! We received your details.</p>
+                  <p className="text-sm text-green-600">{ui.contact.success}</p>
                 )}
               </form>
             </div>
           </ScrollReveal>
 
           {/* Dedicated Footer Block (Light) */}
-          <footer className="bg-white border-t border-gray-100 py-8">
+          <footer className="bg-white border-t border-gray-100 py-8 mt-16">
             <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
               <p>{t.footer.rights}</p>
               <div className="flex gap-6 mt-4 md:mt-0">
@@ -3219,12 +3129,20 @@ export default function App() {
     return () => clearTimeout(fallback);
   }, []);
 
+  const handleLoadingComplete = () => {
+    setLoading(false);
+    // Give the loading screen animation time to complete before triggering videos
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('loadingComplete'));
+    }, 500);
+  };
+
   return (
     <>
       <NoiseOverlay />
-      <MainContent lang={lang} setLang={setLang} onHeroReady={() => setLoading(false)} />
+      <MainContent lang={lang} setLang={setLang} onHeroReady={handleLoadingComplete} />
       <AnimatePresence>
-        {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+        {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
       </AnimatePresence>
     </>
   );

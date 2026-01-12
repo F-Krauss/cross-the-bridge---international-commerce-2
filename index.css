@@ -109,15 +109,26 @@ a, button {
   pointer-events: auto !important;
 }
 
-/* .o_livechat_button,
-.o_chat_button,
-.o-livechat-launcher,
-.o_livechat_Launcher {
+/* Video autoplay optimization */
+video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  object-fit: cover;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}
+
+video[data-autoplay] {
   display: block !important;
-  opacity: 1 !important;
   visibility: visible !important;
-  position: fixed !important;
-  right: 24px !important;
-  bottom: 24px !important;
-  z-index: 9999 !important;
-} */
+  opacity: 1 !important;
+}
+
+/* Ensure poster images are visible while loading */
+video::backdrop {
+  background: #000;
+}

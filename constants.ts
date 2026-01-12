@@ -2,6 +2,658 @@
 
 import { Content, Language } from './types';
 
+// ---- Shared Types for localized UI copy ----
+type Localized<T = string> = Record<Language, T>;
+
+type BookingCopy = {
+  formLabel: string;
+  formTitle: string;
+  orgHint: string;
+  labels: {
+    name: string;
+    email: string;
+    phone: string;
+    website: string;
+    company: string;
+    orgs: string;
+    position: string;
+    service: string;
+    origin: string;
+    target: string;
+    date: string;
+    time: string;
+  };
+  placeholders: {
+    phone: string;
+    website: string;
+    service: string;
+    region: string;
+    time: string;
+  };
+  orgOptions: string[];
+  serviceOptions: string[];
+  regionOptions: string[];
+  submit: {
+    idle: string;
+    loading: string;
+    success: string;
+  };
+  successMessage: string;
+};
+
+type UiText = {
+  booking: BookingCopy;
+  hero: { scrollPrompt: string };
+  proofOverlay: { badge: string; title: string; desc: string; footer: string };
+  services: { tag: string; includesLabel: string; mobileHint: string; tapHint: string; whyTag: string };
+  process: { badge: string; ctaStart: string; ctaServices: string; proofFallback: string; evidenceCaption: string };
+  assurances: { badge: string; title: string; desc: string; footer: string };
+  capabilities: { timelineLabel: string; auditLabel: string; sending: string; sent: string };
+  strengths: { tag: string; title: string; swipeHint: string };
+  bridge: { badge: string; heading: string; subtitle: string; testimonialsLabel: string; testimonialsTitle: string; readStory: string; snapshotsLabel: string; presenceLabel: string; swipeHint: string };
+  showroom: { label: string };
+  providers: { tag: string; title: string; subtitle: string; readyTitle: string; readyDesc: string; bulletPoints: string[]; cta: string };
+  contact: { tag: string; sending: string; sent: string; success: string; error: string; location: string; phoneUS: string; phoneMX: string; email: string; socials: { linkedin: string; instagram: string; facebook: string } };
+  differentiators: { tag: string; accordionOpen: string; accordionClose: string; readMore: string };
+  founder: { badge: string };
+};
+
+type ProcessMediaItem = {
+  type: 'video' | 'image';
+  src: string;
+  title: Localized;
+  caption: Localized;
+  poster?: string;
+};
+
+type IconName =
+  | 'Hexagon'
+  | 'Anchor'
+  | 'Box'
+  | 'Globe'
+  | 'Truck'
+  | 'Layers'
+  | 'MapPin'
+  | 'Navigation'
+  | 'Scissors'
+  | 'Award'
+  | 'FileText'
+  | 'Settings'
+  | 'Users'
+  | 'Ship'
+  | 'Target'
+  | 'Shield'
+  | 'Package';
+
+type StrengthCard = {
+  icon: IconName;
+  title: string;
+  desc: string;
+  color: string;
+  video: string;
+  poster: string;
+};
+
+type PartnerBenefit = {
+  icon: IconName;
+  title: string;
+  desc: string;
+  color: string;
+  image: string;
+};
+
+type CollageItem = { src: string; label: string };
+
+export const BOOKING_PHONE_CODES = ['+1', '+34', '+44', '+52', '+55', '+61', '+81'];
+export const BOOKING_TIME_SLOTS = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'];
+
+export const UI_TEXT: Record<Language, UiText> = {
+  en: {
+    booking: {
+      formLabel: 'Form',
+      formTitle: 'Book an appointment',
+      orgHint: 'Companies / organizations / governments',
+      labels: {
+        name: 'Name',
+        email: 'Email',
+        phone: 'Phone',
+        website: 'Website',
+        company: 'Company',
+        orgs: 'Organizations',
+        position: 'Position',
+        service: 'Service of interest',
+        origin: 'Country of origin',
+        target: 'Target region',
+        date: 'Preferred date',
+        time: 'Time slot'
+      },
+      placeholders: {
+        phone: '555-123-4567',
+        website: 'https://',
+        service: 'Select a service',
+        region: 'Select a region',
+        time: 'Select a time'
+      },
+      orgOptions: ['Company', 'Organization', 'Government', 'Other'],
+      serviceOptions: [
+        'Strategic Sourcing / Sourcing Estratégico',
+        'Manufacturing & Operations / Manufactura & Operaciones',
+        'International Growth / Crecimiento Internacional',
+        'Trade Missions / Misiones Comerciales'
+      ],
+      regionOptions: ['South America', 'Mexico', 'USA', 'Canada', 'Europe', 'Asia'],
+      submit: {
+        idle: 'Book',
+        loading: 'Sending…',
+        success: 'Sent'
+      },
+      successMessage: 'Thanks! We will reach out soon.'
+    },
+    hero: { scrollPrompt: 'Scroll to explore' },
+    proofOverlay: {
+      badge: 'On-site footage',
+      title: 'Material QA & pre-shipment control',
+      desc: 'Walkthroughs, photo evidence, and sign-offs documented in every stage.',
+      footer: 'Real inspection footage'
+    },
+    services: {
+      tag: 'What We Offer',
+      includesLabel: 'Includes:',
+      mobileHint: '← Swipe • Tap for more →',
+      tapHint: 'Tap for details',
+      whyTag: 'Why Choose Us'
+    },
+    process: {
+      badge: 'Delivery, not promises',
+      ctaStart: 'Start Your Journey',
+      ctaServices: 'See Services',
+      proofFallback: 'Documented hand-off',
+      evidenceCaption: 'Evidence paired to this step.'
+    },
+    assurances: {
+      badge: 'Compliance in motion',
+      title: 'Logistics, labeling & export governance',
+      desc: 'Documentation, HS codes, and labeling validated before cargo leaves the factory.',
+      footer: 'Compliance walk-through'
+    },
+    capabilities: {
+      timelineLabel: 'Sample timeline: onboarding to first shipment',
+      auditLabel: 'Audit checklist + compliance map preview',
+      sending: 'Sending...',
+      sent: 'Sent!'
+    },
+    strengths: {
+      tag: 'Our Strengths',
+      title: 'CTB Strengths',
+      swipeHint: '← Swipe to explore →'
+    },
+    bridge: {
+      badge: 'Know the Bridge Effect',
+      heading: 'More Than 20 Countries',
+      subtitle: 'Connecting businesses across continents, one successful partnership at a time',
+      testimonialsLabel: 'Testimonials',
+      testimonialsTitle: 'Partners who crossed with us',
+      readStory: 'Read story',
+      snapshotsLabel: 'Snapshots from the field',
+      presenceLabel: 'Presence in 20+ Countries',
+      swipeHint: '← Swipe to explore →'
+    },
+    showroom: { label: 'Catalog' },
+    providers: {
+      tag: 'For Providers',
+      title: 'Become a Partner',
+      subtitle: 'Join our global network of elite manufacturers and suppliers',
+      readyTitle: 'Ready to Grow?',
+      readyDesc: "If you're a quality manufacturer or material supplier in Mexico, we want to meet you. Join our network and take your products to the world.",
+      bulletPoints: ['✓ No enrollment fee', '✓ Free verification', '✓ Ongoing support'],
+      cta: 'Contact as Partner'
+    },
+    contact: {
+      tag: 'Get in Touch',
+      sending: 'Sending…',
+      sent: 'Sent!',
+      success: 'Thanks! We received your details.',
+      error: 'Something went wrong',
+      location: 'León Gto, México',
+      phoneUS: 'US +1 281 323 2612',
+      phoneMX: 'MX +52 477 765 3792',
+      email: 'info@crossthebridge.co',
+      socials: {
+        linkedin: 'LinkedIn',
+        instagram: 'Instagram',
+        facebook: 'Facebook'
+      }
+    },
+    differentiators: {
+      tag: 'Why Choose Us',
+      accordionOpen: 'Open',
+      accordionClose: 'Close',
+      readMore: 'Learn more'
+    },
+    founder: { badge: 'Leadership' }
+  },
+  es: {
+    booking: {
+      formLabel: 'Formulario',
+      formTitle: 'Agenda una cita',
+      orgHint: 'Empresas / organizaciones / gobiernos',
+      labels: {
+        name: 'Nombre',
+        email: 'Email',
+        phone: 'Teléfono',
+        website: 'Página web',
+        company: 'Empresa',
+        orgs: 'Organizaciones',
+        position: 'Posición',
+        service: 'Servicio de interés',
+        origin: 'País de origen',
+        target: 'Región de interés',
+        date: 'Fecha de interés',
+        time: 'Horario'
+      },
+      placeholders: {
+        phone: '555-123-4567',
+        website: 'https://',
+        service: 'Selecciona un servicio',
+        region: 'Selecciona una región',
+        time: 'Selecciona un horario'
+      },
+      orgOptions: ['Empresa', 'Organización', 'Gobierno', 'Otro'],
+      serviceOptions: [
+        'Sourcing Estratégico / Strategic Sourcing',
+        'Manufactura & Operaciones / Manufacturing & Operations',
+        'Crecimiento Internacional / International Growth',
+        'Misiones Comerciales / Trade Missions'
+      ],
+      regionOptions: ['Sudamérica', 'México', 'EUA', 'Canadá', 'Europa', 'Asia'],
+      submit: {
+        idle: 'Agendar',
+        loading: 'Enviando…',
+        success: 'Enviado'
+      },
+      successMessage: '¡Gracias! Te contactaremos pronto.'
+    },
+    hero: { scrollPrompt: 'Desplaza para descubrir' },
+    proofOverlay: {
+      badge: 'Video en planta',
+      title: 'QA de materiales y control pre-embarque',
+      desc: 'Recorridos, evidencia fotográfica y aprobaciones documentadas en cada etapa.',
+      footer: 'Video real de inspección'
+    },
+    services: {
+      tag: 'Lo que ofrecemos',
+      includesLabel: 'Incluye:',
+      mobileHint: '← Desliza • Toca para más info →',
+      tapHint: 'Toca para ver más',
+      whyTag: 'Por qué elegirnos'
+    },
+    process: {
+      badge: 'Entrega, no promesas',
+      ctaStart: 'Inicia Tu Viaje',
+      ctaServices: 'Ver Servicios',
+      proofFallback: 'Entrega documentada',
+      evidenceCaption: 'Evidencia ligada a este paso.'
+    },
+    assurances: {
+      badge: 'Compliance en acción',
+      title: 'Logística, etiquetado y gobernanza de exportación',
+      desc: 'Documentación, códigos HS y etiquetado validados antes de que la carga salga de planta.',
+      footer: 'Vista previa de compliance'
+    },
+    capabilities: {
+      timelineLabel: 'Línea de tiempo ejemplo: onboarding al primer embarque',
+      auditLabel: 'Checklist de auditoría y mapa de compliance',
+      sending: 'Enviando...',
+      sent: '¡Enviado!'
+    },
+    strengths: {
+      tag: 'Nuestras Fortalezas',
+      title: 'Fortalezas CTB',
+      swipeHint: '← Desliza para explorar →'
+    },
+    bridge: {
+      badge: 'Conoce el Efecto Puente',
+      heading: 'Más de 20 Países',
+      subtitle: 'Conectando negocios entre continentes, una alianza exitosa a la vez',
+      testimonialsLabel: 'Testimonios',
+      testimonialsTitle: 'Aliados que cruzaron con nosotros',
+      readStory: 'Ver historia',
+      snapshotsLabel: 'Postales desde el campo',
+      presenceLabel: 'Presencia en más de 20 Países',
+      swipeHint: '← Desliza para explorar →'
+    },
+    showroom: { label: 'Catálogo' },
+    providers: {
+      tag: 'Para Proveedores',
+      title: 'Conviértete en Socio',
+      subtitle: 'Únete a nuestra red global de fabricantes y proveedores de élite',
+      readyTitle: '¿Listo para Crecer?',
+      readyDesc: 'Si eres un fabricante o proveedor de materiales de calidad en México, queremos conocerte. Únete a nuestra red y lleva tus productos al mundo.',
+      bulletPoints: ['✓ Sin costo de inscripción', '✓ Verificación gratuita', '✓ Soporte continuo'],
+      cta: 'Contactar como Socio'
+    },
+    contact: {
+      tag: 'Ponte en contacto',
+      sending: 'Enviando…',
+      sent: '¡Enviado!',
+      success: '¡Gracias! Recibimos tus datos.',
+      error: 'Ocurrió un error',
+      location: 'León Gto, México',
+      phoneUS: 'EUA +1 281 323 2612',
+      phoneMX: 'MX +52 477 765 3792',
+      email: 'info@crossthebridge.co',
+      socials: {
+        linkedin: 'LinkedIn',
+        instagram: 'Instagram',
+        facebook: 'Facebook'
+      }
+    },
+    differentiators: {
+      tag: '¿Por qué elegirnos?',
+      accordionOpen: 'Abrir',
+      accordionClose: 'Cerrar',
+      readMore: 'Ver más'
+    },
+    founder: { badge: 'Liderazgo' }
+  }
+};
+
+export const PROCESS_MEDIA: ProcessMediaItem[] = [
+  {
+    type: 'video',
+    src: 'https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4',
+    title: { en: 'Discovery', es: 'Descubrimiento' },
+    caption: { en: 'Discovery & Project Alignment', es: 'Descubrimiento y Alineación del Proyecto' }
+  },
+  {
+    type: 'video',
+    src: 'https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4',
+    title: { en: 'Development', es: 'Desarrollo' },
+    caption: { en: 'Product & Material Development', es: 'Desarrollo de Producto y Materiales' }
+  },
+  {
+    type: 'video',
+    src: 'https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4',
+    title: { en: 'Network', es: 'Red' },
+    caption: { en: 'Strategic Supplier Matchmaking', es: 'Emparejamiento Estratégico de Proveedores' }
+  },
+  {
+    type: 'video',
+    src: 'https://static.vecteezy.com/system/resources/previews/068/361/564/mp4/footwear-manufacturing-industry-shoe-production-on-a-conveyor-belt-with-workers-in-a-factory-free-video.mp4',
+    title: { en: 'Prototyping', es: 'Prototipado' },
+    caption: { en: 'Prototyping & Sample Validation', es: 'Prototipado y Validación de Muestras' }
+  },
+  {
+    type: 'video',
+    src: 'https://static.vecteezy.com/system/resources/previews/041/236/463/mp4/factory-production-line-with-machinery-and-workers-conveyor-belt-automation-and-industrial-technology-free-video.mp4',
+    title: { en: 'Operations', es: 'Operaciones' },
+    caption: { en: 'Production Management & Daily Operations', es: 'Gestión de Producción y Operaciones' }
+  },
+  {
+    type: 'video',
+    src: 'https://static.vecteezy.com/system/resources/previews/043/478/973/mp4/quality-control-inspection-in-a-factory-engineer-checking-products-on-the-production-line-free-video.mp4',
+    title: { en: 'Quality Assurance', es: 'Aseguramiento de Calidad' },
+    caption: { en: 'Quality Assurance & Pre-Shipment Inspections', es: 'Control de Calidad e Inspecciones Pre-Embarque' }
+  },
+  {
+    type: 'video',
+    src: 'https://static.vecteezy.com/system/resources/previews/051/217/535/mp4/logistics-and-transportation-cargo-containers-shipping-by-sea-truck-and-train-free-video.mp4',
+    title: { en: 'Logistics', es: 'Logística' },
+    caption: { en: 'Logistics, Documentation & Export Coordination', es: 'Logística, Documentación y Exportación' }
+  }
+];
+
+export const STRENGTHS_CARDS: Record<Language, StrengthCard[]> = {
+  en: [
+    {
+      icon: 'Scissors',
+      title: 'Deep Leather & Footwear Expertise',
+      desc: 'Decades of experience in León, Mexico leather and footwear industry.',
+      color: 'from-[#b08c55] to-[#d5ba8c]',
+      video: 'https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/005/166/637/large/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.jpg'
+    },
+    {
+      icon: 'Award',
+      title: 'Access to Elite Factories in Mexico',
+      desc: 'Exclusive network of certified and verified manufacturers.',
+      color: 'from-[#0b2f6b] to-[#002169]',
+      video: 'https://static.vecteezy.com/system/resources/previews/007/995/834/mp4/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/007/995/834/large/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.jpg'
+    },
+    {
+      icon: 'Globe',
+      title: 'International Network (Brazil, Asia, USA)',
+      desc: 'Global connections for borderless opportunities.',
+      color: 'from-[#1f3f70] to-[#0f2f66]',
+      video: 'https://static.vecteezy.com/system/resources/previews/024/834/351/mp4/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/024/834/351/large/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.jpg'
+    },
+    {
+      icon: 'FileText',
+      title: 'Export Experience & Certifications',
+      desc: 'Documentation and compliance for international trade.',
+      color: 'from-[#c6ab7b] to-[#d5ba8c]',
+      video: 'https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg'
+    },
+    {
+      icon: 'Settings',
+      title: 'Hands-on Factory Presence',
+      desc: 'On-site quality control and direct supervision.',
+      color: 'from-[#12315c] to-[#0b2247]',
+      video: 'https://static.vecteezy.com/system/resources/previews/060/472/965/mp4/three-people-are-standing-around-a-table-with-boxes-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/060/472/965/large/three-people-are-standing-around-a-table-with-boxes-free-video.jpg'
+    },
+    {
+      icon: 'Users',
+      title: 'Bilingual, Bicultural Leadership',
+      desc: 'Seamless communication across cultures and markets.',
+      color: 'from-[#27497a] to-[#0f2f66]',
+      video: 'https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg'
+    }
+  ],
+  es: [
+    {
+      icon: 'Scissors',
+      title: 'Expertise en Cuero y Calzado',
+      desc: 'Décadas de experiencia en la industria del cuero y calzado de León, México.',
+      color: 'from-[#b08c55] to-[#d5ba8c]',
+      video: 'https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/005/166/637/large/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.jpg'
+    },
+    {
+      icon: 'Award',
+      title: 'Acceso a Fábricas Élite en México',
+      desc: 'Red exclusiva de fabricantes certificados y verificados.',
+      color: 'from-[#0b2f6b] to-[#002169]',
+      video: 'https://static.vecteezy.com/system/resources/previews/007/995/834/mp4/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/007/995/834/large/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.jpg'
+    },
+    {
+      icon: 'Globe',
+      title: 'Red Internacional (Brasil, Asia, EUA)',
+      desc: 'Conexiones globales para oportunidades sin fronteras.',
+      color: 'from-[#1f3f70] to-[#0f2f66]',
+      video: 'https://static.vecteezy.com/system/resources/previews/024/834/351/mp4/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/024/834/351/large/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.jpg'
+    },
+    {
+      icon: 'FileText',
+      title: 'Experiencia y Certificaciones de Exportación',
+      desc: 'Documentación y compliance para comercio internacional.',
+      color: 'from-[#c6ab7b] to-[#d5ba8c]',
+      video: 'https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg'
+    },
+    {
+      icon: 'Settings',
+      title: 'Presencia Directa en Fábricas',
+      desc: 'Control de calidad en sitio y supervisión directa.',
+      color: 'from-[#12315c] to-[#0b2247]',
+      video: 'https://static.vecteezy.com/system/resources/previews/060/472/965/mp4/three-people-are-standing-around-a-table-with-boxes-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/060/472/965/large/three-people-are-standing-around-a-table-with-boxes-free-video.jpg'
+    },
+    {
+      icon: 'Users',
+      title: 'Liderazgo Bilingüe y Bicultural',
+      desc: 'Comunicación fluida entre culturas y mercados.',
+      color: 'from-[#27497a] to-[#0f2f66]',
+      video: 'https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4',
+      poster: 'https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg'
+    }
+  ]
+};
+
+export const PARTNER_BENEFITS: Record<Language, PartnerBenefit[]> = {
+  en: [
+    {
+      icon: 'Globe',
+      title: 'Worldwide Reach',
+      desc: 'Expand your business to international markets through our established network',
+      color: 'from-[#1f3f70] to-[#0f2f66]',
+      image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      icon: 'Users',
+      title: 'Strategic Partners',
+      desc: 'Connect with premium brands from USA and other markets seeking Mexican quality',
+      color: 'from-[#b08c55] to-[#d5ba8c]',
+      image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      icon: 'Award',
+      title: 'Elite Recognition',
+      desc: 'Be part of a select directory of certified and verified suppliers',
+      color: 'from-[#0b2f6b] to-[#002169]',
+      image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      icon: 'Ship',
+      title: 'Logistics Support',
+      desc: 'We facilitate exports and coordinate international shipments',
+      color: 'from-[#12315c] to-[#0b2247]',
+      image: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      icon: 'Target',
+      title: 'Qualified Clients',
+      desc: 'Access serious buyers and projects with guaranteed volume',
+      color: 'from-[#c6ab7b] to-[#d5ba8c]',
+      image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      icon: 'Shield',
+      title: 'Secure Payments',
+      desc: 'Protected transactions and clear commercial terms',
+      color: 'from-[#223b6b] to-[#0f2a57]',
+      image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop'
+    }
+  ],
+  es: [
+    {
+      icon: 'Globe',
+      title: 'Alcance Mundial',
+      desc: 'Expande tu negocio a mercados internacionales a través de nuestra red establecida',
+      color: 'from-[#1f3f70] to-[#0f2f66]',
+      image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      icon: 'Users',
+      title: 'Socios Estratégicos',
+      desc: 'Conecta con marcas premium de USA y otros mercados buscando calidad mexicana',
+      color: 'from-[#b08c55] to-[#d5ba8c]',
+      image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      icon: 'Award',
+      title: 'Reconocimiento de Élite',
+      desc: 'Sé parte de un directorio selecto de proveedores certificados y verificados',
+      color: 'from-[#0b2f6b] to-[#002169]',
+      image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      icon: 'Ship',
+      title: 'Soporte Logístico',
+      desc: 'Facilitamos exportaciones y coordinamos envíos internacionales',
+      color: 'from-[#12315c] to-[#0b2247]',
+      image: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      icon: 'Target',
+      title: 'Clientes Calificados',
+      desc: 'Accede a compradores serios y proyectos con volumen garantizado',
+      color: 'from-[#c6ab7b] to-[#d5ba8c]',
+      image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      icon: 'Shield',
+      title: 'Pagos Seguros',
+      desc: 'Transacciones protegidas y términos comerciales claros',
+      color: 'from-[#223b6b] to-[#0f2a57]',
+      image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop'
+    }
+  ]
+};
+
+export const LOGO_MARQUEE_ITEMS: { icon: IconName; name: string }[] = [
+  { icon: 'Hexagon', name: 'LogisticsCorp' },
+  { icon: 'Anchor', name: 'PortAllies' },
+  { icon: 'Box', name: 'PackSys' },
+  { icon: 'Globe', name: 'GlobalTrade' },
+  { icon: 'Truck', name: 'FastFreight' },
+  { icon: 'Layers', name: 'LeatherCo' },
+  { icon: 'MapPin', name: 'ZoneNav' },
+  { icon: 'Navigation', name: 'RouteMasters' }
+];
+
+export const COLLAGE_ITEMS: Record<Language, CollageItem[]> = {
+  en: [
+    { src: '/img/Collage/Collage_embajada_alemania.jpg', label: 'Germany' },
+    { src: '/img/Collage/Collage_mision_Thailandia.jpg', label: 'Thailand' },
+    { src: '/img/Collage/Collage_junta.jpg', label: 'Planning' },
+    { src: '/img/Collage/Collage_control_de_calidad.jpg', label: 'Quality' },
+    { src: '/img/Collage/Collage_junta2.jpg', label: 'Alliances' },
+    { src: '/img/Collage/Collage_mision_Thailandia.jpg', label: 'Asia' }
+  ],
+  es: [
+    { src: '/img/Collage/Collage_embajada_alemania.jpg', label: 'Alemania' },
+    { src: '/img/Collage/Collage_mision_Thailandia.jpg', label: 'Tailandia' },
+    { src: '/img/Collage/Collage_junta.jpg', label: 'Planeación' },
+    { src: '/img/Collage/Collage_control_de_calidad.jpg', label: 'Calidad' },
+    { src: '/img/Collage/Collage_junta2.jpg', label: 'Alianzas' },
+    { src: '/img/Collage/Collage_mision_Thailandia.jpg', label: 'Asia' }
+  ]
+};
+
+export const DEFAULT_TESTIMONIALS = [
+  {
+    name: 'Wilson King',
+    role: 'Outback Trading Company, USA',
+    text: 'Cross the Bridge has been exactly what their name promises — a real bridge. They took all the uncertainty out of doing business in Mexico and replaced it with clarity, trust, and results.',
+    country: 'United States',
+    countryCode: 'US',
+    image: ''
+  },
+  {
+    name: 'Mehrdad Baghai',
+    role: 'JRD Saddlery, USA',
+    text: 'I have worked with Mariana for the last 20 plus years. She managed and oversees all my sourcing, production and even shipping. Value we cannot do without.',
+    country: 'United States',
+    countryCode: 'US',
+    image: ''
+  },
+  {
+    name: 'Viberg Boot Representative',
+    role: 'Viberg Boot, Canada',
+    text: 'Working with Mariana is always a wonderful experience. The most valuable part has been finding us many connections within the footwear industry.',
+    country: 'Canada',
+    countryCode: 'CA',
+    image: ''
+  }
+];
+
 const SHOWROOM_ITEMS = [
   { id: 1, category: 'footwear', title: 'Luxury Leather Boots', image: 'https://plus.unsplash.com/premium_photo-1729285270693-3131f27a56c0?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
   { id: 2, category: 'leather', title: 'Premium Automotive Leather', image: 'https://images.unsplash.com/photo-1573227896778-8f378c4029d4?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
