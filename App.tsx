@@ -1,16 +1,20 @@
 
 import React, { useState, useEffect, useRef, useId } from 'react';
-import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, User, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Circle, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Home, Briefcase, Settings, Award, MessageSquare, ShoppingBag, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Sparkles } from 'lucide-react';
+import { Package, Globe, Layers, ArrowRight, CheckCircle, Phone, Mail, Menu, X, Users, User, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Settings, Award, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
-import { TRANSLATIONS, UI_TEXT, PROCESS_MEDIA, STRENGTHS_CARDS, PARTNER_BENEFITS, LOGO_MARQUEE_ITEMS, COLLAGE_ITEMS, BOOKING_PHONE_CODES, BOOKING_TIME_SLOTS, DEFAULT_TESTIMONIALS } from './constants';
+import HeroSection from './src/sections/HeroSection';
+import LogoCarouselSection from './src/sections/LogoCarouselSection';
+import ServicesSection from './src/sections/ServicesSection';
+import ProcessSection from './src/sections/ProcessSection';
+import TradeMissionsSection from './src/sections/TradeMissionsSection';
+import LogoMarquee from './src/components/LogoMarquee';
+import { TRANSLATIONS, UI_TEXT, STRENGTHS_CARDS, PARTNER_BENEFITS, COLLAGE_ITEMS, BOOKING_PHONE_CODES, BOOKING_TIME_SLOTS, DEFAULT_TESTIMONIALS } from './constants';
 import { Language } from './types';
 
 // Assets served from public/img
 const mapImage = '/img/world-map.svg';
 const logoVertical = '/img/ganzo.png';
 const logoWordmarkPng = '/img/Logo_letras.png';
-const processImg1 = '/img/process2.jpg';
-const processImg3 = '/img/process4.jpg';
 const teamPortrait = '/img/1696903720042.jpeg';
 
 const ICON_MAP = {
@@ -33,6 +37,83 @@ const ICON_MAP = {
   Package
 } as const;
 type IconKey = keyof typeof ICON_MAP;
+
+const SERVICES_CONTENT: Record<Language, {
+  title: string;
+  intro: string;
+  items: { title: string; short: string; long: string[] }[];
+}> = {
+  en: {
+    title: "Services",
+    intro: "We are a strategic partner for brands building reliable international manufacturing.",
+    items: [
+      {
+        title: "Raw Materials Sourcing & Supply Assurance",
+        short: "We make sourcing from Mexico reliable for international brands.",
+        long: [
+          "We make raw material sourcing from Mexico reliable, predictable, and export-ready for the leather, footwear, and fashion industries.",
+          "Cross the Bridge ensures consistent raw material sourcing through local oversight and an established supply network across Mexico’s leather and fashion ecosystem. We secure aligned specifications, material availability, and market-based commercial terms to support uninterrupted production.",
+          "By representing multiple brands and maintaining long-term supplier relationships, we operate with collective scale and credibility. This provides access to preferred materials and commercially aligned conditions, particularly for high-demand or limited-supply inputs.",
+          "Through on-the-ground follow-up, we anticipate risks, align negotiations with local market realities, and address issues early, turning raw material sourcing into a dependable supply strategy."
+        ]
+      },
+      {
+        title: "Manufacturing & Supply Chain Operations",
+        short: "Scale without production headaches.",
+        long: [
+          "We become your team on the ground, managing every step of the production process so you can focus on design, sales, and brand growth.",
+          "From product development and prototyping to full-scale production, we coordinate daily with factories, track timelines, streamline communication, and resolve issues to keep every deliverable on schedule. Our role goes beyond coordination. We translate expectations, align standards, and anticipate risks before they impact cost, quality, or delivery.",
+          "This service includes production planning, materials follow-up, cost finalization, capacity scheduling, quality inspections, risk management, and complete export readiness. You gain transparency, control, and peace of mind, knowing your production is managed locally with international standards and a clear understanding of both sides of the bridge."
+        ]
+      },
+      {
+        title: "International Growth & Strategic Partnerships",
+        short: "We transform international expansion into a strategic advantage, not a costly learning curve.",
+        long: [
+          "At Cross the Bridge, we support companies ready to expand beyond their home market through informed decisions and strategic partnerships — not trial-and-error internationalization.",
+          "We combine market intelligence, a trusted international network, and hands-on guidance to define where to expand, how to enter, and which partners to align with. Rather than pushing expansion for expansion’s sake, we structure each move based on real opportunity, timing, and strategic fit.",
+          "We work through carefully selected projects, supporting founders and leadership teams as they navigate complex international decisions. From early market validation to long-term partner structuring, we reduce risk by ensuring every step is grounded in operational reality, not assumptions.",
+          "This service includes market validation, entry and expansion strategies, partner and distributor structuring, trade show and commercial support, export-readiness consulting, and local representation through licensing or strategic alliances. We stay involved on the ground, helping companies move from strategy to execution with confidence and control."
+        ]
+      }
+    ]
+  },
+  es: {
+    title: "Servicios",
+    intro: "We are a strategic partner for brands building reliable international manufacturing.",
+    items: [
+      {
+        title: "Raw Materials Sourcing & Supply Assurance",
+        short: "We make sourcing from Mexico reliable for international brands.",
+        long: [
+          "We make raw material sourcing from Mexico reliable, predictable, and export-ready for the leather, footwear, and fashion industries.",
+          "Cross the Bridge ensures consistent raw material sourcing through local oversight and an established supply network across Mexico’s leather and fashion ecosystem. We secure aligned specifications, material availability, and market-based commercial terms to support uninterrupted production.",
+          "By representing multiple brands and maintaining long-term supplier relationships, we operate with collective scale and credibility. This provides access to preferred materials and commercially aligned conditions, particularly for high-demand or limited-supply inputs.",
+          "Through on-the-ground follow-up, we anticipate risks, align negotiations with local market realities, and address issues early, turning raw material sourcing into a dependable supply strategy."
+        ]
+      },
+      {
+        title: "Manufacturing & Supply Chain Operations",
+        short: "Scale without production headaches.",
+        long: [
+          "We become your team on the ground, managing every step of the production process so you can focus on design, sales, and brand growth.",
+          "From product development and prototyping to full-scale production, we coordinate daily with factories, track timelines, streamline communication, and resolve issues to keep every deliverable on schedule. Our role goes beyond coordination. We translate expectations, align standards, and anticipate risks before they impact cost, quality, or delivery.",
+          "This service includes production planning, materials follow-up, cost finalization, capacity scheduling, quality inspections, risk management, and complete export readiness. You gain transparency, control, and peace of mind, knowing your production is managed locally with international standards and a clear understanding of both sides of the bridge."
+        ]
+      },
+      {
+        title: "International Growth & Strategic Partnerships",
+        short: "We transform international expansion into a strategic advantage, not a costly learning curve.",
+        long: [
+          "At Cross the Bridge, we support companies ready to expand beyond their home market through informed decisions and strategic partnerships — not trial-and-error internationalization.",
+          "We combine market intelligence, a trusted international network, and hands-on guidance to define where to expand, how to enter, and which partners to align with. Rather than pushing expansion for expansion’s sake, we structure each move based on real opportunity, timing, and strategic fit.",
+          "We work through carefully selected projects, supporting founders and leadership teams as they navigate complex international decisions. From early market validation to long-term partner structuring, we reduce risk by ensuring every step is grounded in operational reality, not assumptions.",
+          "This service includes market validation, entry and expansion strategies, partner and distributor structuring, trade show and commercial support, export-readiness consulting, and local representation through licensing or strategic alliances. We stay involved on the ground, helping companies move from strategy to execution with confidence and control."
+        ]
+      }
+    ]
+  }
+};
 
 const MotionDiv = motion.div as any;
 const MotionImg = motion.img as any;
@@ -394,28 +475,6 @@ const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
   );
 };
 
-const LogoMarquee = ({ dark = false }: { dark?: boolean }) => (
-  <div className={`w-full overflow-hidden py-8 border-t relative z-10 mt-12 backdrop-blur-sm ${dark ? 'border-brand-navy/10 bg-brand-navy/5' : 'border-white/10 bg-white/5'}`}>
-    <div className="relative flex w-full overflow-hidden mask-fade">
-      <MotionDiv
-        className="flex gap-12 md:gap-24 whitespace-nowrap items-center"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ repeat: Infinity, ease: "linear", duration: 40 }}
-      >
-        {[...LOGO_MARQUEE_ITEMS, ...LOGO_MARQUEE_ITEMS, ...LOGO_MARQUEE_ITEMS].map((logo, i) => {
-          const Icon = ICON_MAP[logo.icon as IconKey] || Hexagon;
-          return (
-            <div key={`${logo.name}-${i}`} className="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-default">
-              <Icon size={18} className={`md:w-5 md:h-5 ${dark ? 'text-brand-navy' : 'text-white'}`} />
-              <span className={`text-[10px] md:text-sm font-bold uppercase tracking-wider ${dark ? 'text-brand-navy' : 'text-white'}`}>{logo.name}</span>
-            </div>
-          );
-        })}
-      </MotionDiv>
-    </div>
-  </div>
-);
-
 // --- Legal Page ---
 const LegalPage: React.FC<{
   title: string;
@@ -450,17 +509,6 @@ const LegalPage: React.FC<{
   </MotionDiv>
 );
 
-const SECTION_ICONS: Record<string, React.ElementType> = {
-  about: Home,
-  services: Briefcase,
-  process: Settings,
-  team: Users,
-  differentiators: Award,
-  testimonials: MessageSquare,
-  showroom: ShoppingBag,
-  contact: Mail
-};
-
 const ASSURANCE_ICONS: Record<string, React.ElementType> = {
   Shield,
   FileText,
@@ -480,8 +528,6 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [currentView, setCurrentView] = useState<'home' | 'privacy' | 'terms'>('home');
-  const [heroVideoFailed, setHeroVideoFailed] = useState(false);
-  const heroSignaledReady = useRef(false);
   const [showroomCategory, setShowroomCategory] = useState('all');
   const [contactForm, setContactForm] = useState({ name: '', company: '', email: '', website: '', serviceInterest: '', message: '' });
   const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -508,7 +554,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
   const t = TRANSLATIONS[lang];
   const ui = UI_TEXT[lang];
-  const navLinks = ['about', 'services', 'process', 'team', 'differentiators', 'testimonials', 'showroom', 'contact'];
+  const navLinks = ['services', 'process', 'trade_missions', 'about', 'bridge_effect', 'contact'];
   const [diffExpanded, setDiffExpanded] = useState<number | null>(null);
   const [loadingComplete, setLoadingComplete] = useState(false);
 
@@ -740,11 +786,8 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     ? t.showroom.items
     : t.showroom.items.filter(item => item.category === showroomCategory);
 
-  const serviceOptions = t.services?.items?.map(item => item.title) || [];
-  const processSteps = t.process?.steps || [];
-  const totalProcessSteps = processSteps.length;
-  const processSubtitle = t.process?.subtitle;
-  const processMedia = PROCESS_MEDIA;
+  const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
+  const serviceOptions = servicesContent.items.map(item => item.title);
   const bookingServiceOptions = serviceOptions.length ? serviceOptions : ui.booking.serviceOptions;
   const bookingRegionOptions = ui.booking.regionOptions;
   const strengthsCards = STRENGTHS_CARDS[lang];
@@ -757,8 +800,8 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     <div className="text-brand-dark font-sans min-h-screen scroll-smooth flex flex-col overflow-y-auto overflow-x-hidden">
 
       {/* --- Fixed Top Navigation Bar --- */}
-      <nav className="fixed top-0 left-0 right-0 z-[200] py-2 bg-brand-navy/90 backdrop-blur-md border-b border-white/10">
-        <div className="container mx-auto px-4 flex items-center gap-3">
+      <nav className="fixed top-0 left-0 right-0 z-[200] py-2.5 bg-brand-navy/90 backdrop-blur-md border-b border-white/10">
+        <div className="mx-auto w-full max-w-[1400px] px-2 flex items-center gap-5">
           <button onClick={() => handleNavClick('about')} className="flex items-center gap-2.5 text-white">
             <div className="w-9 h-9 rounded-lg flex items-center justify-center bg-white/5">
               <img src={logoVertical} alt="Cross The Bridge logo" className="h-6 w-auto object-contain" />
@@ -766,26 +809,22 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             <LogoWordmark className="h-3.5 w-auto logo-wordmark-shadow" color="#ffffff" />
           </button>
 
-          <div className="hidden lg:flex items-center ml-3 flex-1">
-            <div className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
-              {navLinks.map((item) => {
-                const Icon = SECTION_ICONS[item] || Circle;
-                const isActive = activeSection === item && currentView === 'home';
-                return (
-                  <button
-                    key={item}
-                    onClick={() => handleNavClick(item)}
-                    className={`flex items-center gap-2 px-2.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.14em] transition-colors ${isActive ? 'text-brand-gold bg-white/10 shadow-sm shadow-brand-gold/20' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
-                  >
-                    <Icon size={14} />
-                    {t.nav[item as keyof typeof t.nav]}
-                  </button>
-                );
-              })}
-            </div>
+          <div className="hidden lg:flex items-center flex-1 justify-center">
+            {navLinks.map((item) => {
+              const isActive = activeSection === item && currentView === 'home';
+              return (
+                <button
+                  key={item}
+                  onClick={() => handleNavClick(item)}
+                  className={`flex items-center px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.14em] transition-colors ${isActive ? 'text-brand-gold bg-white/10 shadow-sm shadow-brand-gold/20' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
+                >
+                  {t.nav[item as keyof typeof t.nav]}
+                </button>
+              );
+            })}
           </div>
 
-          <div className="flex items-center gap-2.5 ml-auto">
+          <div className="flex items-center gap-4 ml-auto">
             <button onClick={() => setLang(lang === 'en' ? 'es' : 'en')} className="text-xs font-bold uppercase tracking-[0.16em] text-white/80 hover:text-white transition-colors">
               {lang === 'en' ? 'EN' : 'ES'}
             </button>
@@ -817,14 +856,12 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
             </button>
             <div className="flex flex-col gap-6 w-full max-w-sm">
               {navLinks.map((item) => {
-                const Icon = SECTION_ICONS[item] || Circle;
                 return (
                   <button
                     key={item}
                     onClick={() => handleNavClick(item)}
-                    className="flex items-center gap-4 text-xl font-bold uppercase tracking-widest hover:text-brand-gold p-2 hover:bg-white/5 rounded-xl transition-colors"
+                    className="flex items-center text-xl font-bold uppercase tracking-widest hover:text-brand-gold p-2 hover:bg-white/5 rounded-xl transition-colors"
                   >
-                    <Icon size={24} className="text-brand-gold" />
                     {t.nav[item as keyof typeof t.nav]}
                   </button>
                 );
@@ -1035,409 +1072,15 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
       {/* --- SECTIONS (Snap Scroll) --- */}
 
       {/* Wrapper for main content (top nav offset handled with padding) */}
-      <div className="w-full pt-14 lg:pt-16">
+      <div className="w-full pt-16 lg:pt-20 bg-white">
 
-        {/* 1. HERO (Dark) */}
-        <section
-          id="about"
-          className="min-h-[calc(100vh-56px)] lg:min-h-[calc(100vh-64px)] relative overflow-hidden bg-brand-navy py-10 md:py-12 flex items-center"
-        >
+        {/* 1. HERO */}
+        <HeroSection hero={t.hero} onCtaClick={openBooking} onHeroReady={onHeroReady} />
 
-          <div className="absolute inset-0 z-0">
-            <img
-              src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
-              className="absolute inset-0 w-full h-full object-cover opacity-40 blur-[1px]"
-              alt="World"
-            />
-            {!heroVideoFailed && (
-              <video
-                className="absolute inset-0 w-full h-full object-cover opacity-60"
-                src="https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                data-autoplay
-                poster="https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg"
-                onLoadedData={() => {
-                  if (!heroSignaledReady.current) {
-                    heroSignaledReady.current = true;
-                    onHeroReady?.();
-                  }
-                }}
-                onError={() => {
-                  setHeroVideoFailed(true);
-                  if (!heroSignaledReady.current) {
-                    heroSignaledReady.current = true;
-                    onHeroReady?.();
-                  }
-                }}
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/40 to-brand-navy/35" />
-            <div className="absolute inset-0 bg-brand-navy/75" />
-            <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-white/5 via-transparent to-transparent mix-blend-overlay" />
-            <div className="absolute -left-24 bottom-0 w-96 h-96 bg-brand-gold/10 rounded-full blur-[120px] opacity-50 pointer-events-none" />
-          </div>
-          <GridPattern color="#FFFFFF" opacity={0.02} />
-
-          <MotionDiv
-            className="container mx-auto px-6 relative z-10 min-h-full flex flex-col gap-6 md:gap-8 pt-8 md:pt-4 pb-10 md:pb-10 items-start md:items-center justify-center"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            <div className="w-full max-w-6xl">
-              {/* <FadeIn delay={0.1}>
-                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-gold/30 bg-brand-gold/10 text-brand-gold text-[10px] font-bold tracking-[0.2em] uppercase mb-6">
-                   <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" /> Est. 2004
-                 </div>
-               </FadeIn> */}
-              <FadeIn delay={0.15} className="pb-2">
-                <img
-                  src="/img/Logo_home2.png"
-                  alt="Cross the Bridge logo"
-                  className="mx-auto block w-48 sm:w-64 md:w-[22rem] lg:w-[26rem] max-w-[460px] sm:max-w-[500px] md:max-w-[520px] lg:max-w-[560px] mb-6 md:mb-8 drop-shadow-[0_12px_45px_rgba(0,0,0,0.35)]"
-                />
-              </FadeIn>
-              <FadeIn delay={0.2}>
-                <h1 className="text-3xl md:text-[44px] lg:text-[52px] font-bold text-white leading-tight mt-2 md:mt-0 text-left md:text-center max-w-4xl mx-auto">
-                  {t.hero.title}
-                </h1>
-              </FadeIn>
-              <FadeIn delay={0.3}>
-                <div className="flex justify-start md:justify-center">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-xs md:text-sm font-bold uppercase tracking-[0.16em] text-white">
-                    {t.hero.audience}
-                  </div>
-                </div>
-              </FadeIn>
-              <FadeIn delay={0.35}>
-                <p className="text-gray-200 text-base md:text-lg text-left md:text-center max-w-3xl lg:max-w-4xl mx-auto px-4 md:px-6 mt-3">
-                  {t.hero.subtitle}
-                </p>
-              </FadeIn>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-3 w-full max-w-3xl mx-auto justify-start md:justify-center mt-6 md:mt-7">
-                {/* <FadeIn delay={0.4}> */}
-                  <button
-                    onClick={openBooking}
-                    className="group flex items-center justify-center gap-3 bg-brand-gold text-brand-navy px-5 sm:px-7 md:px-8 py-3 md:py-3.5 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-sm hover:bg-white transition-colors w-full sm:w-auto shadow-lg shadow-brand-gold/30"
-                  >
-                    {t.hero.cta}
-                  </button>
-                {/* </FadeIn> */}
-                {/* <FadeIn delay={0.45}> */}
-                  <a
-                    href="#capabilities"
-                    className="group flex items-center justify-center gap-3 border border-white/30 text-white px-5 sm:px-7 md:px-8 py-3 md:py-3.5 rounded-full font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] text-xs md:text-sm hover:border-brand-gold hover:text-brand-gold transition-colors w-full sm:w-auto bg-white/5"
-                  >
-                    {t.hero.cta2}
-                  </a>
-                {/* </FadeIn> */}
-              </div>
-              <FadeIn delay={0.6} className="w-full">
-                <div className="flex flex-wrap items-center justify-center gap-3 md:gap-5 max-w-5xl mx-auto mt-4 mb-8 text-gray-100 text-sm md:text-base">
-                  {t.hero.proofs.map((proof, index) => (
-                    <div key={`${proof}-${index}`} className="flex items-center gap-2">
-                      <CheckCircle className="text-brand-gold" size={18} />
-                      <span>{proof}</span>
-                    </div>
-                  ))}
-                </div>
-              </FadeIn>
-            </div>
-            <div className="hidden md:flex absolute right-10 top-1/2 -translate-y-1/2 justify-center items-center pointer-events-none opacity-70">
-              <GlowingOrb className="w-[500px] h-[500px] bg-brand-gold/20" />
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                className="relative z-10 border border-white/10 rounded-full w-[400px] h-[400px] flex items-center justify-center"
-              >
-                <div className="absolute inset-0 border border-dashed border-white/10 rounded-full scale-75" />
-              </motion.div>
-            </div>
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/60 text-xs uppercase tracking-[0.18em]">
-              <span className="w-10 h-[2px] bg-white/30" />
-              <span>{ui.hero.scrollPrompt}</span>
-              <span className="w-10 h-[2px] bg-white/30" />
-            </div>
-          </MotionDiv>
-
-        </section>
-
-        {/* Proof & Social Trust */}
-        <section className="bg-brand-navy text-white py-16">
-          <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-12">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-              <div>
-                <p className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs mb-2">{t.proofBar.title}</p>
-                <h3 className="text-2xl md:text-4xl font-bold">{t.proofBar.subtitle}</h3>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {t.proofBar.logos.map((logo) => (
-                  <div key={logo} className="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-semibold uppercase tracking-widest text-white/70">
-                    {logo}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid lg:grid-cols-[1.15fr,0.85fr] gap-6 md:gap-8 items-stretch">
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-3 gap-4 md:gap-6">
-                  {t.proofBar.metrics.map((metric, idx) => (
-                    <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5 shadow-lg transition-transform duration-500 hover:-translate-y-1 hover:border-white/20">
-                      <p className="text-brand-gold/70 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">{metric.label}</p>
-                      <div className="text-3xl font-bold text-white mb-1">{metric.value}</div>
-                      <p className="text-white/70 text-sm leading-relaxed">{metric.detail}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-                  {t.testimonials.items.slice(0, 2).map((item, idx) => (
-                    <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-6 shadow-lg">
-                      <div className="flex items-center justify-between mb-3">
-                        <div>
-                          <p className="text-sm font-bold text-white">{item.name}</p>
-                          <p className="text-xs uppercase tracking-[0.18em] text-brand-gold">{item.role}</p>
-                        </div>
-                        <div className="text-lg">{countryCodeToFlag(item.countryCode)}</div>
-                      </div>
-                      <p className="text-white/80 text-sm leading-relaxed">{item.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <MotionDiv
-                className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl min-h-[320px] backdrop-blur-sm"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-              >
-                <video
-                  className="absolute inset-0 w-full h-full object-cover opacity-70"
-                  src="https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  data-autoplay
-                  poster="https://static.vecteezy.com/system/resources/thumbnails/005/166/637/large/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.jpg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0f1521]/70 via-[#0f1521]/40 to-[#0f1521]/70" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">{ui.proofOverlay.badge}</p>
-                    <h4 className="text-2xl font-bold leading-tight">{ui.proofOverlay.title}</h4>
-                    <p className="text-sm text-white/80 leading-relaxed">{ui.proofOverlay.desc}</p>
-                  </div>
-                  <div className="flex items-center gap-3 text-white/70 text-xs uppercase tracking-[0.18em]">
-                    <span className="w-10 h-[2px] bg-white/30" />
-                    <span>{ui.proofOverlay.footer}</span>
-                    <span className="w-10 h-[2px] bg-white/30" />
-                  </div>
-                </div>
-              </MotionDiv>
-            </div>
-          </ScrollReveal>
-        </section>
-
-        {/* 2. SERVICES (Light) */}
-        <section id="services" className="relative bg-[#f6f7fb] text-brand-navy flex flex-col justify-center py-16 overflow-hidden">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-white skew-x-12 translate-x-1/4 pointer-events-none" />
-
-          <div className="container mx-auto px-4 md:px-6 relative z-10">
-            {/* Header */}
-            <div className="mb-6 md:mb-10 pt-0">
-              <FadeIn direction='right'>
-                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">{ui.services.tag}</span>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-navy">{t.services.title}</h2>
-                <p className="text-gray-500 mt-2 text-sm md:text-base max-w-md">{t.services.subtitle}</p>
-              </FadeIn>
-            </div>
-
-            {/* SERVICE CARDS - Tap to open modal */}
-            {(() => {
-              const [selectedService, setSelectedService] = useState<number | null>(null);
-              const images = [
-                "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
-                "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=800",
-                "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800"
-              ];
-              const gradients = [
-                'from-[#0b2f6b] to-[#002169]',
-                'from-[#b08c55] to-[#d5ba8c]', 
-                'from-[#27497a] to-[#0f2f66]'
-              ];
-              const icons = [Package, Layers, Globe];
-              const extendedContent = t.services.items;
-
-              return (
-                <>
-                  {/* Service Modal */}
-                  <AnimatePresence>
-                    {selectedService !== null && (
-                      <MotionDiv
-                        className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-                        onClick={() => setSelectedService(null)}
-                      >
-                        <MotionDiv
-                          className="bg-[#111] text-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto relative"
-                          initial={{ scale: 0.95, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          exit={{ scale: 0.95, opacity: 0 }}
-                          transition={{ duration: 0.2, ease: "easeOut" }}
-                          onClick={(e: React.MouseEvent) => e.stopPropagation()}
-                        >
-                          {/* Close button */}
-                          <button
-                            onClick={() => setSelectedService(null)}
-                            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center hover:bg-black/70 transition-colors z-20"
-                          >
-                            <X size={20} />
-                          </button>
-                          
-                          {/* Hero Image */}
-                          <div className="relative h-48 md:h-64 w-full overflow-hidden rounded-t-2xl">
-                            <img 
-                              src={images[selectedService]} 
-                              alt={extendedContent[selectedService].title}
-                              className="w-full h-full object-cover"
-                            />
-                            <div className={`absolute inset-0 bg-gradient-to-t ${gradients[selectedService]} opacity-60`} />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent" />
-                            
-                            {/* Service number badge */}
-                            <div className="absolute top-4 left-4 flex items-center gap-2">
-                              <span className={`text-xs font-bold uppercase tracking-wider bg-gradient-to-r ${gradients[selectedService]} text-white px-3 py-1 rounded-full`}>
-                                0{selectedService + 1}
-                              </span>
-                            </div>
-                          </div>
-                          
-                          {/* Content */}
-                          <div className="p-6 md:p-8 -mt-8 relative z-10">
-                            <h2 className="text-2xl md:text-3xl font-bold mb-6 pr-10 leading-tight">
-                              {extendedContent[selectedService]?.title}
-                            </h2>
-                            
-                            {(extendedContent[selectedService]?.details || []).map((para, i) => (
-                              <p key={i} className="text-gray-300 text-base md:text-lg leading-relaxed mb-6">
-                                {para}
-                              </p>
-                            ))}
-                            
-                            {/* Includes tags */}
-                            <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
-                              <span className="text-xs text-gray-500 uppercase tracking-wider mr-2">{ui.services.includesLabel}</span>
-                              {(extendedContent[selectedService]?.bullets || []).map((item, i) => (
-                                <span key={i} className={`text-xs bg-gradient-to-r ${gradients[selectedService]} text-white px-3 py-1 rounded-full`}>
-                                  {item}
-                                </span>
-                              ))}
-                            </div>
-                            
-                          </div>
-                        </MotionDiv>
-                      </MotionDiv>
-                    )}
-                  </AnimatePresence>
-
-                  {/* Cards Grid */}
-                  <div className="relative mb-8 md:mb-12">
-                    <p className="text-center text-xs text-brand-navy/50 mb-4 md:hidden">
-                      {ui.services.mobileHint}
-                    </p>
-                    
-                    <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible md:pb-0 scrollbar-hide">
-                      {t.services.items.map((item, idx) => {
-                        const Icon = icons[idx];
-                        
-                        return (
-                          <FadeIn key={idx} delay={idx * 0.1}>
-                            <div 
-                              className="flex-shrink-0 w-[280px] md:w-auto cursor-pointer group"
-                              onClick={() => setSelectedService(idx)}
-                            >
-                              <div className="relative h-[320px] md:h-[380px] rounded-2xl md:rounded-3xl overflow-hidden shadow-lg">
-                                {/* Background Image */}
-                                <img src={images[idx]} alt={item.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                                <div className={`absolute inset-0 bg-gradient-to-t ${gradients[idx]} opacity-80 group-hover:opacity-90 transition-opacity`} />
-                                
-                                <div className="relative h-full flex flex-col justify-between p-5 md:p-6 text-white">
-                                  {/* Top */}
-                                  <div className="flex items-center justify-between">
-                                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-xs font-bold uppercase tracking-widest">
-                                      0{idx + 1}
-                                    </div>
-                                    <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
-                                      0{idx + 1}
-                                    </span>
-                                  </div>
-                                  
-                                  {/* Bottom */}
-                                  <div>
-                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-tight">{item.title}</h3>
-                                    <p className="text-white/80 text-xs md:text-sm mb-4 line-clamp-2">{item.desc}</p>
-                                    
-                                    {/* Tap indicator */}
-                                    <div className="flex items-center gap-2 text-white/60 text-xs group-hover:text-white transition-colors">
-                                      <span>{ui.services.tapHint}</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </FadeIn>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </>
-              );
-            })()}
-
-            {/* Missions Section - Compact */}
-            {t.services.missions && (
-              <FadeIn>
-                <div className="bg-white rounded-2xl md:rounded-3xl border border-gray-200 shadow-lg p-5 md:p-8 overflow-hidden">
-                  <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
-                    {/* Left: Title & CTA */}
-                    <div className="flex-1">
-                      <h3 className="text-xl md:text-2xl font-bold mb-2">{t.services.missions.title}</h3>
-                      <p className="text-sm text-brand-navy/70 mb-4 line-clamp-2 md:line-clamp-none">{t.services.missions.intro}</p>
-                      <button 
-                        onClick={() => handleNavClick('contact')} 
-                        className="inline-flex items-center gap-2 bg-brand-gold text-brand-navy px-4 py-2 md:px-5 md:py-2.5 rounded-xl text-xs md:text-sm font-bold uppercase tracking-wider hover:bg-brand-navy hover:text-white transition-colors"
-                      >
-                        {t.services.missions.cta}
-                      </button>
-                    </div>
-                    
-                    {/* Right: Events */}
-                    <div className="flex items-center gap-3 md:gap-4 flex-wrap">
-                      {t.services.missions.events.map((event, idx) => (
-                        <div key={idx} className="flex-shrink-0 bg-brand-navy/5 rounded-xl px-4 py-3 md:px-5 md:py-4">
-                          <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-navy/50 mb-1">{t.services.missions.eventsTitle}</p>
-                          <p className="text-sm md:text-base font-semibold text-brand-navy whitespace-nowrap">{event}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </FadeIn>
-            )}
-          </div>
-        </section>
+        <LogoCarouselSection />
+        <ServicesSection servicesContent={servicesContent} />
+        <ProcessSection />
+        <TradeMissionsSection onCtaClick={() => handleNavClick('contact')} />
 
         {/* Assurances for decision-makers */}
         <section className="bg-[#f6f7fb] text-brand-navy py-16 border-t border-gray-100">
@@ -1505,190 +1148,6 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               </MotionDiv>
             </div>
           </ScrollReveal>
-        </section>
-
-        {/* 3. PROCESS - Journey Timeline */}
-        <section id="process" className="relative flex flex-col justify-center py-16 bg-[#f6f7fb] overflow-hidden">
-          <div className="absolute inset-0 opacity-60 pointer-events-none">
-            <div className="absolute -top-20 -left-10 w-72 h-72 bg-brand-gold/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-[520px] h-[520px] bg-brand-navy/5 rounded-full blur-3xl" />
-          </div>
-          <div className="container mx-auto px-4 md:px-6 relative z-10">
-            <div className="space-y-8">
-              <div className="text-center mb-10 md:mb-14">
-                <FadeIn>
-                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-brand-navy border border-brand-navy/10 text-[10px] font-bold tracking-[0.22em] uppercase mb-3">
-                    {ui.process.badge}
-                  </span>
-                  <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-brand-navy mb-3 uppercase tracking-tight">
-                    {t.process?.title || (lang === 'en' ? 'Your Journey With Us' : 'Tu Viaje Con Nosotros')}
-                  </h2>
-                  <p className="text-brand-navy/60 text-sm md:text-base max-w-2xl mx-auto">
-                    {t.process?.subtitle || (lang === 'en'
-                      ? 'From vision to delivery — a structured path to success.'
-                      : 'Del plan a la entrega: una ruta estructurada al éxito.')}
-                  </p>
-                </FadeIn>
-              </div>
-              <div className="relative">
-                <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-[#d5ba8c] via-[#4a638f] to-[#002169] -translate-x-1/2 hidden md:block" />
-                
-                {processSteps.map((step, idx) => {
-                  const icons = [Target, FileText, Users, Package, Briefcase, Shield, Ship];
-                  const Icon = icons[idx] || Target;
-                  const colors = [
-                    'bg-[#0b2f6b]',
-                    'bg-[#b08c55]', 
-                    'bg-[#1f3f70]',
-                    'bg-[#0f2f66]',
-                    'bg-[#d5ba8c]',
-                    'bg-[#12315c]',
-                    'bg-[#8a744f]'
-                  ];
-                  const borderColors = [
-                    'border-l-[#0b2f6b]',
-                    'border-l-[#b08c55]',
-                    'border-l-[#1f3f70]', 
-                    'border-l-[#0f2f66]',
-                    'border-l-[#d5ba8c]',
-                    'border-l-[#12315c]',
-                    'border-l-[#8a744f]'
-                  ];
-                  const isLeft = idx % 2 === 0;
-                  const isLastStep = idx === totalProcessSteps - 1;
-                  const textPosition = isLeft ? 'md:order-1 md:text-right md:pr-10' : 'md:order-3 md:text-left md:pl-10';
-                  const mediaPosition = isLeft ? 'md:order-3 md:pl-10' : 'md:order-1 md:pr-10';
-                  const proofLine = (step as any).proof ?? ui.process.proofFallback;
-                  const media = processMedia[idx % processMedia.length];
-                  
-                  return (
-                    <FadeIn key={idx} delay={Math.min(idx * 0.08, 0.35)}>
-                      <div className="relative mb-8 md:mb-14 z-[1]">
-                        <div className="md:grid md:grid-cols-[1fr,120px,1fr] md:items-stretch md:gap-6">
-                          {/* Desktop: Text card (alternates sides) */}
-                          <div className={`hidden md:block ${textPosition}`}>
-                            <div className={`bg-white rounded-2xl p-6 shadow-xl border-l-4 ${borderColors[idx]} hover:shadow-2xl transition-shadow relative overflow-hidden h-full`}>
-                              <div className="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-navy/30">
-                                0{idx + 1}
-                              </div>
-                              <h3 className="text-brand-navy font-bold text-lg mb-2">{step.title}</h3>
-                              <p className="text-brand-navy/60 text-sm leading-relaxed mb-3">{step.desc}</p>
-                              <div className="flex items-center gap-2 text-xs font-semibold text-brand-navy/80">
-                                <CheckCircle size={14} className="text-brand-gold" />
-                                <span>{proofLine}</span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          {/* Center spine + icon */}
-                          <div className="hidden md:flex flex-col items-center gap-3 md:order-2 relative">
-                            <div className={`w-14 h-14 rounded-2xl ${colors[idx]} flex items-center justify-center shadow-xl ring-4 ring-white z-[100]`}>
-                              <Icon className="w-7 h-7 text-white" />
-                            </div>
-                            {!isLastStep && (
-                              <div className="hidden md:block flex-1 w-[2px] bg-gradient-to-b from-brand-navy/10 via-brand-gold/50 to-brand-navy/10" />
-                            )}
-                          </div>
-                          
-                          {/* Desktop: Media on opposite side */}
-                          <div className={`hidden md:block ${mediaPosition}`}>
-                            <div className={`relative overflow-hidden rounded-3xl shadow-2xl border ${media.type === 'video' ? 'border-white/60 bg-brand-navy' : 'border-white/60 bg-white'} h-full`}>
-                              {media.type === 'video' ? (
-                                <video
-                                  className="w-full h-full object-cover opacity-90"
-                                  src={media.src}
-                                  autoPlay
-                                  loop
-                                  muted
-                                  playsInline
-                                  preload="auto"
-                                  data-autoplay
-                                  poster={media.poster}
-                                  onLoadedData={(e) => {
-                                    const vid = e.currentTarget;
-                                    if (vid.paused) vid.play().catch(() => {});
-                                  }}
-                                  onCanPlay={(e) => {
-                                    const vid = e.currentTarget;
-                                    if (vid.paused) vid.play().catch(() => {});
-                                  }}
-                                />
-                              ) : (
-                                <img src={media.src} alt={media.title} className="w-full h-full object-cover" />
-                              )}
-                              <div className={`absolute inset-0 ${media.type === 'video' ? 'bg-gradient-to-b from-black/40 via-transparent to-brand-navy/80' : 'bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent'}`} />
-                              <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-gold">{media.title[lang]}</p>
-                                <h4 className="text-xl font-bold">{media.caption[lang]}</h4>
-                                <p className="text-sm text-white/80">{ui.process.evidenceCaption}</p>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Mobile: Timeline + compact media preview */}
-                          <div className="md:hidden flex flex-col gap-3 w-full">
-                            <div className="flex gap-4">
-                              <div className="flex flex-col items-center">
-                                <div className={`w-12 h-12 rounded-xl ${colors[idx]} flex items-center justify-center shadow-lg flex-shrink-0`}>
-                                  <Icon className="w-6 h-6 text-white" />
-                                </div>
-                                {idx < totalProcessSteps - 1 && (
-                                  <div className={`w-1 flex-1 min-h-[60px] ${colors[idx]} opacity-30 mt-2`} />
-                                )}
-                              </div>
-                              <div className={`flex-1 bg-white rounded-xl p-4 shadow-lg border-l-4 ${borderColors[idx]}`}>
-                                <h3 className="text-brand-navy font-bold text-base mb-2">{step.title}</h3>
-                                <p className="text-brand-navy/60 text-sm leading-relaxed">{step.desc}</p>
-                              </div>
-                            </div>
-                            <div className="rounded-xl overflow-hidden border border-white/40 bg-white h-36">
-                              {media.type === 'video' ? (
-                                <video
-                                  className="w-full h-full object-cover"
-                                  src={media.src}
-                                  autoPlay
-                                  loop
-                                  muted
-                                  playsInline
-                                  preload="metadata"
-                                  poster={media.poster}
-                                  data-autoplay
-                                  onLoadedData={(e) => {
-                                    const vid = e.currentTarget;
-                                    if (vid.paused) vid.play().catch(() => {});
-                                  }}
-                                  onCanPlay={(e) => {
-                                    const vid = e.currentTarget;
-                                    if (vid.paused) vid.play().catch(() => {});
-                                  }}
-                                />
-                              ) : (
-                                <img src={media.src} alt={media.title[lang]} className="w-full h-full object-cover" />
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </FadeIn>
-                  );
-                })}
-
-                {/* CTA */}
-                <FadeIn delay={0.4}>
-                  <div className="mt-8 md:mt-10 flex flex-col sm:flex-row items-center justify-start md:justify-center gap-4 sm:gap-6 z-[1]">
-                    <a href="#contact" className="w-full sm:w-auto bg-brand-navy text-white px-8 py-4 rounded-full font-bold text-sm hover:bg-brand-gold hover:text-brand-navy transition-colors flex items-center justify-center gap-2 group shadow-lg shadow-brand-navy/10 z-[1]">
-                      {ui.process.ctaStart}
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </a>
-                    <a href="#services" className="w-full sm:w-auto bg-white text-brand-navy px-8 py-4 rounded-full font-bold text-sm border border-brand-navy/10 hover:border-brand-gold hover:text-brand-gold transition-colors flex items-center justify-center gap-2">
-                      {ui.process.ctaServices}
-                    </a>
-                  </div>
-                </FadeIn>
-              </div>
-
-            </div>
-          </div>
         </section>
 
         {/* 4. OUR FOUNDER (Light) */}
@@ -2460,7 +1919,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           )}
         </AnimatePresence>
 
-        <section className="min-h-screen bg-brand-navy relative py-16 overflow-hidden text-white">
+        <section id="bridge_effect" className="min-h-screen bg-brand-navy relative py-16 overflow-hidden text-white">
           {/* Background elements */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-0 w-full h-full" style={{

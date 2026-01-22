@@ -666,27 +666,19 @@ const SHOWROOM_ITEMS = [
 export const TRANSLATIONS: Record<Language, Content> = {
   en: {
     nav: {
-      about: "About",
-      services: "Services",
-      showroom: "Showroom",
-      process: "Process",
-      team: "Our Founder",
-      testimonials: "Testimonials",
-      why_us: "Why Us",
+      services: "What We Do",
+      process: "How We Work",
+      trade_missions: "Trade Missions",
+      about: "Why Cross the Bridge",
+      bridge_effect: "The bridge effect",
       contact: "Contact",
-      book: "Book Appointment"
+      book: "Book a Discovery Call"
     },
     hero: {
-      title: "Sourcing + factory vetting + production management in Mexico",
-      audience: "For US/EU brands",
-      subtitle: "Predictable quality, timelines, and landed cost.",
-      proofs: [
-        "Based in León, Guanajuato (boots/leather supply chain hub)",
-        "On-site QC & pre-shipment inspections",
-        "Factory shortlists in 10 days"
-      ],
-      cta: "Book a Discovery Call",
-      cta2: "See the Capabilities Deck"
+      title: "Your strategic bridge to trusted manufacturing partners in Mexico",
+      subtitle: "We help U.S. brands produce and scale in Mexico by connecting them with vetted factories, reliable suppliers, and the right partners — so they move faster, avoid costly mistakes, and scale with confidence.",
+      cta: "Explore a Strategic Partnership",
+      cta2: ""
     },
     proofBar: {
       title: "Proof, not promises",
@@ -741,7 +733,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
         ],
         eventsTitle: "Upcoming events",
         events: ["WanYoung Fair", "Portland Fair"],
-        cta: "Join the next mission",
+        cta: "Request a Custom Trade Mission",
         tagline: "We do things with passion"
       }
     },
@@ -1008,27 +1000,19 @@ export const TRANSLATIONS: Record<Language, Content> = {
   },
   es: {
     nav: {
-      about: "Nosotros",
-      services: "Servicios",
-      showroom: "Showroom",
-      process: "Proceso",
-      team: "Nuestra Fundadora",
-      why_us: "Por qué nosotros",
-      testimonials: "Testimonios",
+      services: "Servicios / Lo Que Hacemos",
+      process: "Cómo Trabajamos",
+      trade_missions: "Misiones Comerciales",
+      about: "Nosotros / Por Qué Cross the Bridge",
+      bridge_effect: "El Efecto Puente",
       contact: "Contacto",
-      book: "Agendar Cita"
+      book: "Agenda una Llamada de Descubrimiento"
     },
     hero: {
-      title: "Sourcing + validación de fábricas + gestión de producción en México",
-      audience: "Para marcas de EE.UU. y Europa",
-      subtitle: "Calidad, tiempos y costo puesto en destino predecibles.",
-      proofs: [
-        "Con base en León, Guanajuato (hub de calzado y cadena de piel)",
-        "QC en planta e inspecciones pre-embarque",
-        "Shortlist de fábricas en 10 días"
-      ],
-      cta: "Agenda una Llamada de Descubrimiento",
-      cta2: "Ver el Deck de Capacidades"
+      title: "Tu puente estratégico hacia socios de manufactura confiables en México",
+      subtitle: "Ayudamos a marcas de EE. UU. a producir y escalar en México conectándolas con fábricas verificadas, proveedores confiables y los aliados correctos — para avanzar más rápido, evitar errores costosos y crecer con confianza.",
+      cta: "Explora una Alianza Estratégica",
+      cta2: ""
     },
     proofBar: {
       title: "Pruebas, no promesas",
@@ -1083,7 +1067,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
         ],
         eventsTitle: "Próximos eventos",
         events: ["Feria WanYoung", "Feria Portland"],
-        cta: "Inscríbete a la próxima misión",
+        cta: "Solicita una Misión Comercial a Medida",
         tagline: "Hacemos las cosas con pasión"
       }
     },

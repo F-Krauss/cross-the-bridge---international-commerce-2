@@ -4,13 +4,11 @@ export type Language = 'en' | 'es';
 
 export interface Content {
   nav: {
-    about: string;
     services: string;
-    showroom: string;
     process: string;
-    team: string;
-    why_us: string;
-    testimonials: string;
+    trade_missions: string;
+    about: string;
+    bridge_effect: string;
     contact: string;
     book: string;
   };
