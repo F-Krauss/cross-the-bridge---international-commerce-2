@@ -1092,7 +1092,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         {/* 1. HERO */}
         <HeroSection hero={t.hero} onCtaClick={openBooking} onHeroReady={onHeroReady} />
 
-        <LogoCarouselSection />
+        {/* <LogoCarouselSection /> */}
         <ServicesSection servicesContent={servicesContent} />
         <ProcessSection />
         <TradeMissionsSection onCtaClick={() => handleNavClick('contact')} />

@@ -140,7 +140,7 @@ const AboutSection = () => {
               <div className="relative">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] shadow-xl transition-all duration-700 group-hover:shadow-2xl">
                   <img
-                    src="/img/1696903720042.jpeg"
+                    src="/img/about/MarianaBio.PNG"
                     alt="Mariana Muciño"
                     className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   />
@@ -286,8 +286,8 @@ const AboutSection = () => {
               style={{ y: leonAccentY }}
               className="absolute -left-6 top-10 hidden h-32 w-32 rounded-full bg-brand-gold/20 blur-2xl lg:block"
             />
-            <div className="grid gap-12 lg:grid-cols-[0.6fr,1.4fr] items-start">
-              <div className="space-y-6 lg:sticky lg:top-28">
+            <div className="grid gap-12 lg:grid-cols-2 items-start">
+              <div className="space-y-6">
                 <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                   Why León, Guanajuato?
                 </p>
@@ -300,41 +300,51 @@ const AboutSection = () => {
                 </div>
               </div>
 
-              <div className="space-y-12">
-                <div className="grid gap-10 lg:grid-cols-[1.05fr,0.95fr] items-start">
-                  <div className="space-y-6">
-                    {LEON_PARAGRAPHS.map((paragraph, idx) => (
-                      <FadeIn key={`${paragraph}-${idx}`} delay={idx * 0.04}>
-                        <p
-                          className={`leading-relaxed ${
-                            idx === 0
-                              ? "text-lg md:text-xl font-medium text-[#0b2f6b]"
-                              : "text-sm sm:text-base text-brand-navy/70"
-                          }`}
-                        >
-                          {paragraph}
-                        </p>
-                      </FadeIn>
-                    ))}
-                  </div>
-
-                  <MotionDiv
-                    style={{ y: leonImageY }}
-                    className="relative aspect-[3/4] overflow-hidden rounded-[28px] shadow-2xl"
-                  >
-                    <img
-                      src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&q=80&w=1400"
-                      alt="Manufacturing in Mexico"
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/55 via-transparent to-transparent" />
-                    <div className="absolute bottom-6 left-6">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/70">Scale signal</p>
-                      <p className="text-sm font-semibold text-white">40M pairs exported annually</p>
-                    </div>
-                  </MotionDiv>
+              <MotionDiv
+                style={{ y: leonImageY }}
+                className="relative aspect-[16/9] overflow-hidden rounded-[32px] shadow-2xl"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&q=80&w=1800"
+                  alt="Manufacturing in Mexico"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/70">Scale signal</p>
+                  <p className="text-base font-semibold text-white">40M pairs exported annually</p>
                 </div>
+              </MotionDiv>
 
+              <div className="space-y-6">
+                <img
+                  src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1500&q=80"
+                  alt="Leather crafting"
+                  className="w-full object-cover h-[320px]"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1500&q=80"
+                  alt="Factory environment"
+                  className="w-full object-cover h-[320px]"
+                />
+              </div>
+
+              <div className="space-y-10">
+                <div className="grid gap-6">
+                  {LEON_PARAGRAPHS.map((paragraph, idx) => (
+                    <FadeIn key={`${paragraph}-${idx}`} delay={idx * 0.04}>
+                      <p
+                        className={`leading-relaxed ${
+                          idx === 0
+                            ? "text-lg md:text-xl font-medium text-[#0b2f6b]"
+                            : "text-sm sm:text-base text-brand-navy/70"
+                        }`}
+                      >
+                        {paragraph}
+                      </p>
+                    </FadeIn>
+                  ))}
+                </div>
                 <div className="grid gap-8 lg:grid-cols-[0.9fr,1.1fr] items-start">
                   <div className="space-y-3">
                     <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">

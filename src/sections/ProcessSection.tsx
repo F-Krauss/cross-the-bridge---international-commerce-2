@@ -93,20 +93,20 @@ const ProcessSection = () => (
               <div className="group relative sm:row-span-2 aspect-[3/4] sm:aspect-auto sm:h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
                 <video
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  src="https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4"
+                  src="./../img/how-we-work/OnSite1.jpg"
                   autoPlay
                   loop
                   muted
                   playsInline
                   preload="auto"
                   data-autoplay
-                  poster="https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg"
+                  poster="./../img/how-we-work/OnSite1.jpg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent group-hover:from-black/50 transition-all duration-500" />
               </div>
               <div className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
                 <img
-                  src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=800"
+                  src="./../img/how-we-work/Leather inspection.jpg"
                   alt="Partner alignment"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -115,14 +115,14 @@ const ProcessSection = () => (
               <div className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
                 <video
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  src="https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4"
+                  src="./../img/how-we-work/Proceso3.jpg"
                   autoPlay
                   loop
                   muted
                   playsInline
                   preload="auto"
                   data-autoplay
-                  poster="https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg"
+                  poster="./../img/how-we-work/Proceso3.jpg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent group-hover:from-black/50 transition-all duration-500" />
               </div>

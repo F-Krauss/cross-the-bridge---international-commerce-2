@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import type { Content } from '../../types';
 
@@ -33,8 +33,13 @@ type HeroSectionProps = {
   onHeroReady?: () => void;
 };
 
+const PARTNER_LOGOS = [
+  { src: "/img/Logos/Chazlyn.png", alt: "Chazlyn" },
+  { src: "/img/Logos/Outback.png", alt: "Outback" },
+  { src: "/img/Logos/Viberg.png", alt: "Viberg" }
+];
+
 const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady }) => {
-  const [heroVideoFailed, setHeroVideoFailed] = useState(false);
   const heroSignaledReady = useRef(false);
 
   return (
@@ -48,8 +53,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <div className="grid gap-12 lg:gap-10 lg:grid-cols-[1.08fr,0.92fr] items-center lg:items-stretch min-h-[70vh] lg:min-h-[calc(100vh-64px)]">
-          <div className="flex flex-col gap-6 sm:gap-7 py-12 lg:py-0 lg:justify-center">
+        <div className="grid gap-12 lg:gap-10 lg:grid-cols-[1.08fr,0.92fr] items-center lg:items-stretch min-h-[80vh] lg:min-h-[calc(100vh-80px)]">
+          <div className="flex flex-col gap-6 sm:gap-7 py-12 lg:py-6 lg:justify-center">
             <FadeIn delay={0.15}>
               <h1 className="text-[36px] sm:text-[42px] md:text-[52px] lg:text-[60px] font-semibold tracking-tight text-[#0b2f6b] leading-[1.06]">
                 {hero.title}
@@ -75,72 +80,37 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
           </div>
 
           <FadeIn delay={0.2} className="w-full">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="group relative col-span-2 aspect-[16/10] sm:aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl transition-all duration-700 hover:shadow-2xl hover:-translate-y-1">
-                {!heroVideoFailed ? (
-                  <video
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    data-autoplay
-                    poster="https://static.vecteezy.com/system/resources/thumbnails/005/166/637/large/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.jpg"
-                    onLoadedData={() => {
-                      if (!heroSignaledReady.current) {
-                        heroSignaledReady.current = true;
-                        onHeroReady?.();
-                      }
-                    }}
-                    onError={() => {
-                      setHeroVideoFailed(true);
-                      if (!heroSignaledReady.current) {
-                        heroSignaledReady.current = true;
-                        onHeroReady?.();
-                      }
-                    }}
-                  />
-                ) : (
-                  <img
-                    src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
-                    alt="Global operations"
-                    className="w-full h-full object-cover"
-                    onLoad={() => {
-                      if (!heroSignaledReady.current) {
-                        heroSignaledReady.current = true;
-                        onHeroReady?.();
-                      }
-                    }}
-                  />
-                )}
-              </div>
-              <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
-                <video
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  src="https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  data-autoplay
-                  poster="https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg"
+            <div className="flex flex-col gap-6 h-full lg:min-h-[calc(100vh-80px)] lg:pt-6">
+              <div className="group relative flex-1 min-h-[240px] lg:min-h-[420px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl transition-all duration-700 hover:shadow-2xl hover:-translate-y-1">
+                <img
+                  src="./../img/Calzado1.jpg"
+                  alt="Manufacturing craftsmanship"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  onLoad={() => {
+                    if (!heroSignaledReady.current) {
+                      heroSignaledReady.current = true;
+                      onHeroReady?.();
+                    }
+                  }}
                 />
               </div>
-              <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
-                <video
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  src="https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  data-autoplay
-                  poster="https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg"
-                />
+
+              <div className="space-y-4 pt-2 pb-8">
+                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-brand-navy/60">
+                  <span>Our partners</span>
+                  <span className="text-brand-gold">Trusted by</span>
+                </div>
+                <div className="grid grid-cols-3 items-center gap-4 sm:gap-6">
+                  {PARTNER_LOGOS.map((logo) => (
+                    <div key={logo.src} className="flex items-center justify-center">
+                      <img
+                        src={logo.src}
+                        alt={logo.alt}
+                        className="h-16 sm:h-16 w-full object-contain opacity-70 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </FadeIn>

@@ -45,9 +45,9 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
   const [selectedService, setSelectedService] = useState<number | null>(null);
 
   const serviceImages = [
-    "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&q=80&w=1200"
+    "./../img/services/Piel1.jpg",
+    "./../img/services/Calzado5.jpg",
+    "./../img/services/OnSite2.jpg"
   ];
 
   return (
