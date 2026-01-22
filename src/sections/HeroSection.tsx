@@ -76,10 +76,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
 
           <FadeIn delay={0.2} className="w-full">
             <div className="grid grid-cols-2 gap-4">
-              <div className="relative col-span-2 aspect-[16/10] sm:aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
+              <div className="group relative col-span-2 aspect-[16/10] sm:aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl transition-all duration-700 hover:shadow-2xl hover:-translate-y-1">
                 {!heroVideoFailed ? (
                   <video
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     src="https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4"
                     autoPlay
                     loop
@@ -116,9 +116,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
                   />
                 )}
               </div>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
+              <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
                 <video
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   src="https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4"
                   autoPlay
                   loop
@@ -129,9 +129,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
                   poster="https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg"
                 />
               </div>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
+              <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
                 <video
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   src="https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4"
                   autoPlay
                   loop

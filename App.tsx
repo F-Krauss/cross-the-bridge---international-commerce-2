@@ -7,6 +7,7 @@ import LogoCarouselSection from './src/sections/LogoCarouselSection';
 import ServicesSection from './src/sections/ServicesSection';
 import ProcessSection from './src/sections/ProcessSection';
 import TradeMissionsSection from './src/sections/TradeMissionsSection';
+import AboutSection from './src/sections/AboutSection';
 import LogoMarquee from './src/components/LogoMarquee';
 import { TRANSLATIONS, UI_TEXT, STRENGTHS_CARDS, PARTNER_BENEFITS, COLLAGE_ITEMS, BOOKING_PHONE_CODES, BOOKING_TIME_SLOTS, DEFAULT_TESTIMONIALS } from './constants';
 import { Language } from './types';
@@ -15,7 +16,6 @@ import { Language } from './types';
 const mapImage = '/img/world-map.svg';
 const logoVertical = '/img/ganzo.png';
 const logoWordmarkPng = '/img/Logo_letras.png';
-const teamPortrait = '/img/1696903720042.jpeg';
 
 const ICON_MAP = {
   Hexagon,
@@ -551,12 +551,19 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     date: '',
     timeSlot: ''
   });
+  const [scrollY, setScrollY] = useState(0);
 
   const t = TRANSLATIONS[lang];
   const ui = UI_TEXT[lang];
   const navLinks = ['services', 'process', 'trade_missions', 'about', 'bridge_effect', 'contact'];
-  const [diffExpanded, setDiffExpanded] = useState<number | null>(null);
   const [loadingComplete, setLoadingComplete] = useState(false);
+
+  // Track scroll position for progress indicator
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Listen for loading complete event
   useEffect(() => {
@@ -801,6 +808,14 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
       {/* --- Fixed Top Navigation Bar --- */}
       <nav className="fixed top-0 left-0 right-0 z-[200] py-2.5 bg-brand-navy/90 backdrop-blur-md border-b border-white/10">
+        {/* Scroll progress indicator */}
+        <div 
+          className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-brand-gold via-brand-gold/80 to-brand-gold transition-all duration-300" 
+          style={{ 
+            width: `${Math.min(100, (scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100)}%` 
+          }}
+        />
+        
         <div className="mx-auto w-full max-w-[1400px] px-2 flex items-center gap-5">
           <button onClick={() => handleNavClick('about')} className="flex items-center gap-2.5 text-white">
             <div className="w-9 h-9 rounded-lg flex items-center justify-center bg-white/5">
@@ -1083,7 +1098,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         <TradeMissionsSection onCtaClick={() => handleNavClick('contact')} />
 
         {/* Assurances for decision-makers */}
-        <section className="bg-[#f6f7fb] text-brand-navy py-16 border-t border-gray-100">
+        {/* <section className="bg-[#f6f7fb] text-brand-navy py-16 border-t border-gray-100">
           <ScrollReveal className="container mx-auto px-4 md:px-6 space-y-12">
             <div className="text-center max-w-3xl mx-auto space-y-3">
               <p className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs">{t.assurances.title}</p>
@@ -1148,155 +1163,9 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
               </MotionDiv>
             </div>
           </ScrollReveal>
-        </section>
+        </section> */}
 
-        {/* 4. OUR FOUNDER (Light) */}
-        <section id="team" className="flex flex-col bg-[#f6f7fb] overflow-hidden">
-          {/* Mobile-first stacked layout */}
-          <ScrollReveal className="flex flex-col lg:flex-row min-h-screen">
-            {/* Image - Full width on mobile, half on desktop */}
-            <div className="w-full lg:w-1/2 h-[50vh] lg:h-auto lg:min-h-screen relative overflow-hidden">
-              <img src={teamPortrait} className="absolute inset-0 w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-700" alt="Mariana" />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent lg:bg-brand-navy/20 lg:mix-blend-multiply" />
-              {/* Mobile: Name overlay at bottom */}
-              <div className="absolute bottom-0 left-0 right-0 lg:hidden p-6 text-white">
-                <h3 className="text-2xl font-bold">{t.team.profile.name}</h3>
-                <p className="text-brand-gold font-bold uppercase tracking-widest text-xs">{t.team.profile.role}</p>
-              </div>
-              {/* Desktop: Glass card */}
-              <div className="hidden lg:block absolute bottom-12 left-12 text-white p-6 backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl">
-                <h3 className="text-3xl font-bold">{t.team.profile.name}</h3>
-                <p className="text-brand-gold font-bold uppercase tracking-widest text-sm">{t.team.profile.role}</p>
-              </div>
-            </div>
-
-            {/* Content - Compact on mobile */}
-            <div className="w-full lg:w-1/2 bg-white flex flex-col justify-center p-6 md:p-12 lg:p-24 py-16 lg:py-16">
-              <FadeIn direction='right'>
-                <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 lg:mb-4 block">{ui.founder.badge}</span>
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-brand-navy mb-4 lg:mb-8">{t.team.title}</h2>
-                
-                {/* Quote styling - more compact on mobile */}
-                <div className="relative pl-4 border-l-4 border-brand-gold/30 mb-6 lg:mb-12">
-                  <p className="text-base lg:text-xl text-brand-navy/80 leading-relaxed font-light italic">
-                    "{t.team.profile.bio}"
-                  </p>
-                </div>
-
-              </FadeIn>
-            </div>
-          </ScrollReveal>
-        </section>
-
-        {/* 5. DIFFERENTIATORS - Mobile-First Cards */}
-        <section id="differentiators" className="bg-brand-navy text-white flex flex-col justify-center relative py-16 pt-24 overflow-hidden">
-          <GridPattern color="#C4A661" opacity={0.03} />
-          
-          {/* Animated background shapes */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute -top-40 -right-40 w-80 h-80 bg-brand-gold/5 rounded-full blur-2xl opacity-50" />
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-gold/5 rounded-full blur-2xl opacity-50" />
-          </div>
-          
-          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
-            {/* Header */}
-            <div className="text-center mb-10 lg:mb-16">
-              <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">{ui.differentiators.tag}</span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">{t.differentiators.title}</h2>
-            </div>
-
-            {/* Mobile: EXPANDABLE ACCORDION Cards */}
-            <div className="lg:hidden space-y-3">
-              {t.differentiators.items.map((item, idx) => {
-                const colors = [
-                  'from-[#0b2f6b] to-[#002169]',
-                  'from-[#b08c55] to-[#d5ba8c]',
-                  'from-[#1f3f70] to-[#0f2f66]'
-                ];
-                const isExpanded = diffExpanded === idx;
-                return (
-                  <div 
-                    key={idx} 
-                    className={`bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden transition-all duration-500 ${isExpanded ? 'border-brand-gold/50' : ''}`}
-                  >
-                    <button
-                      onClick={() => setDiffExpanded(isExpanded ? null : idx)}
-                      className="w-full p-5 flex items-center gap-4 text-left"
-                    >
-                      <div className={`bg-gradient-to-br ${colors[idx]} px-3 py-2 rounded-xl shadow-lg flex-shrink-0 text-white text-xs font-bold uppercase tracking-wider`}>
-                        0{idx + 1}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <span className="text-brand-gold/60 text-[10px] font-bold uppercase tracking-wider">0{idx + 1}</span>
-                        <h3 className="text-white font-bold text-sm truncate">{item.title}</h3>
-                      </div>
-                      <span className="text-brand-gold text-xs font-bold uppercase tracking-widest">
-                        {isExpanded ? ui.differentiators.accordionClose : ui.differentiators.accordionOpen}
-                      </span>
-                    </button>
-                    
-                    <div className={`overflow-hidden transition-all duration-500 ${isExpanded ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
-                      <div className="px-5 pb-5 pt-0">
-                        <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Desktop Grid - Hover reveal cards */}
-            <div className="hidden lg:grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {t.differentiators.items.map((item, idx) => {
-                const colors = [
-                  'from-[#0b2f6b] to-[#002169]',
-                  'from-[#b08c55] to-[#d5ba8c]',
-                  'from-[#1f3f70] to-[#0f2f66]',
-                  'from-[#0d264f] to-[#001a3a]',
-                  'from-[#c6ab7b] to-[#d5ba8c]',
-                  'from-[#223b6b] to-[#0f2a57]'
-                ];
-                const images = [
-                  'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=800&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=800&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=800&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=800&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1533750349088-cd871a92f312?q=80&w=800&auto=format&fit=crop',
-                ];
-                
-                return (
-                  <FadeIn key={idx} delay={idx * 0.1}>
-                    <div className="relative group h-[320px] rounded-3xl overflow-hidden cursor-pointer">
-                      {/* Background Image */}
-                      <img src={images[idx]} alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                      <div className={`absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/90 to-brand-navy/60 group-hover:opacity-95 transition-opacity`} />
-                      
-                      {/* Content - Slides up on hover */}
-                      <div className="absolute inset-0 flex flex-col justify-end p-6 transition-all duration-500">
-                        {/* Top badge */}
-                        <span className="absolute top-4 right-4 text-7xl font-bold text-brand-gold/10 group-hover:text-brand-gold/30 transition-colors">0{idx + 1}</span>
-                        
-                        {/* Icon */}
-                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-brand-gold transition-colors">{item.title}</h3>
-                        
-                        {/* Description - Hidden by default, shows on hover */}
-                        <div className="max-h-0 overflow-hidden group-hover:max-h-24 transition-all duration-500">
-                          <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
-                        </div>
-                        
-                        {/* Read more indicator */}
-                        <div className="flex items-center gap-2 text-brand-gold/60 text-xs mt-3 group-hover:text-brand-gold transition-colors">
-                          <span>{ui.differentiators.readMore}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </FadeIn>
-                );
-              })}
-            </div>
-          </ScrollReveal>
-        </section>
+        <AboutSection />
 
         {/* Capabilities deck landing */}
         <section id="capabilities" className="bg-brand-navy text-white py-16">

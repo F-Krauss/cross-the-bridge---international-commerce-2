@@ -51,8 +51,14 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
   ];
 
   return (
-    <section id="services" className="bg-white text-brand-navy py-16 md:py-20">
-      <div className="container mx-auto px-6 md:px-8">
+    <section id="services" className="relative bg-gradient-to-b from-white via-[#fafbfc] to-[#f8f9fc] text-brand-navy py-16 md:py-20 overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-20 right-10 w-72 h-72 bg-brand-gold/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-[#0b2f6b]/5 rounded-full blur-3xl" />
+      </div>
+      
+      <div className="container mx-auto px-6 md:px-8 relative z-10">
         <AnimatePresence>
           {selectedService !== null && (
             <MotionDiv
@@ -119,12 +125,12 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
               <button
                 type="button"
                 onClick={() => setSelectedService(idx)}
-                className="w-full h-full text-left rounded-3xl border border-slate-200 bg-white p-0 shadow-[0_18px_40px_rgba(15,23,42,0.06)] transition-colors hover:border-[#0b2f6b]/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0b2f6b]/40"
+                className="group w-full h-full text-left rounded-3xl border border-slate-200 bg-white p-0 shadow-[0_18px_40px_rgba(15,23,42,0.06)] transition-all duration-500 hover:border-[#0b2f6b]/40 hover:shadow-[0_24px_60px_rgba(11,47,107,0.14)] hover:-translate-y-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0b2f6b]/40 cursor-pointer"
               >
                 <div className="flex h-full flex-col">
                   <div className="relative h-48 md:h-52 overflow-hidden rounded-t-3xl">
-                    <img src={serviceImages[idx]} alt="" className="absolute inset-0 h-full w-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/70 via-transparent to-transparent" />
+                    <img src={serviceImages[idx]} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/70 via-transparent to-transparent group-hover:from-[#0b2f6b]/85 transition-all duration-500" />
                     <div className="absolute bottom-4 left-4 text-white">
                       <p className="text-[10px] font-bold uppercase tracking-[0.22em]">{String(idx + 1).padStart(2, '0')}</p>
                     </div>
@@ -134,8 +140,9 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
                       <h3 className="text-xl md:text-2xl font-semibold text-[#0b2f6b]">{service.title}</h3>
                       <p className="text-sm md:text-base text-brand-navy/70">{service.short}</p>
                     </div>
-                    <div className="mt-auto text-xs font-bold uppercase tracking-[0.2em] text-[#0b2f6b]">
-                      Read more
+                    <div className="mt-auto flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[#0b2f6b] group-hover:text-brand-gold transition-colors duration-300">
+                      <span>Read more</span>
+                      <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </div>
                   </div>
                 </div>

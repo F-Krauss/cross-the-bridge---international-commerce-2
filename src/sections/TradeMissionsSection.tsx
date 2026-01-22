@@ -101,11 +101,12 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
   const active = MISSION_PANELS.find((panel) => panel.id === activePanel) ?? MISSION_PANELS[0];
 
   return (
-    <section id="trade_missions" className="relative bg-[#1B2440] text-white py-16 md:py-20 overflow-hidden">
+    <section id="trade_missions" className="relative bg-gradient-to-br from-[#0f1729] via-[#1a2847] to-[#0f1729] text-white py-16 md:py-24 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-32 right-0 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-        <div className="absolute -bottom-24 left-0 h-72 w-72 rounded-full bg-brand-gold/20 blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:140px_140px] opacity-30" />
+        <div className="absolute -top-32 right-0 h-96 w-96 rounded-full bg-white/5 blur-[100px]" />
+        <div className="absolute -bottom-24 left-0 h-96 w-96 rounded-full bg-brand-gold/10 blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-brand-gold/5 blur-[150px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[length:100px_100px] opacity-40" />
       </div>
 
       <div className="container mx-auto px-6 md:px-8 relative z-10">
@@ -147,21 +148,27 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
                         type="button"
                         onClick={() => setActivePanel(panel.id)}
                         aria-pressed={isActive}
-                        className={`group w-full rounded-2xl border border-dashed px-4 py-3 text-left transition-all ${
+                        className={`group relative w-full rounded-2xl border px-5 py-4 text-left transition-all duration-500 overflow-hidden ${
                           isActive
-                            ? "border-white/40 bg-white/10 text-white shadow-lg"
-                            : "border-white/20 bg-white/5 text-white/70 hover:border-white/50 hover:text-white"
+                            ? "border-brand-gold/50 bg-gradient-to-br from-brand-gold/10 to-brand-gold/5 text-white shadow-[0_8px_30px_rgba(197,166,97,0.2)]"
+                            : "border-white/10 bg-white/5 text-white/70 hover:border-white/30 hover:bg-white/8 hover:text-white hover:shadow-[0_8px_20px_rgba(255,255,255,0.05)] hover:-translate-y-0.5"
                         }`}
                       >
-                        <div className="flex items-center gap-3">
-                          <span className={`text-[10px] font-bold tracking-[0.22em] ${
-                            isActive ? "text-brand-gold" : "text-brand-gold/80"
+                        {isActive && (
+                          <div className="absolute inset-0 bg-gradient-to-r from-brand-gold/5 to-transparent" />
+                        )}
+                        <div className="relative flex items-center gap-3">
+                          <span className={`text-xs font-bold tracking-[0.22em] transition-all duration-300 ${
+                            isActive ? "text-brand-gold scale-110" : "text-brand-gold/60 group-hover:text-brand-gold/80"
                           }`}>
                             {String(idx + 1).padStart(2, '0')}
                           </span>
                           <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.18em]">
                             {panel.label}
                           </span>
+                          {isActive && (
+                            <span className="ml-auto text-brand-gold">→</span>
+                          )}
                         </div>
                       </button>
                     );
