@@ -59,18 +59,18 @@ const ProcessSection = () => (
       <div className="grid gap-12 lg:grid-cols-[0.95fr,1.05fr] items-start">
         <div className="space-y-10 lg:pl-6 order-1 lg:order-2">
           <FadeIn>
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold text-left lg:text-right">Your Journey With Us</p>
-            <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-[#0b2f6b] text-left lg:text-right">
+            <p className="text-[8.5px] font-bold uppercase tracking-[0.22em] text-brand-gold text-left lg:text-right">Your Journey With Us</p>
+            <h2 className="mt-3 text-[25.5px] sm:text-[30px] md:text-[42.5px] font-semibold tracking-tight text-[#0b2f6b] text-left lg:text-right">
               A proven system to execute manufacturing in Mexico - without costly trial and error.
             </h2>
-            <p className="mt-4 text-sm sm:text-base md:text-lg text-brand-navy/70 text-left lg:text-right">
+            <p className="mt-4 text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 text-left lg:text-right">
               We've refined this framework over 20+ years, so you don't have to learn the hard way.
             </p>
           </FadeIn>
 
           <FadeIn delay={0.15} className="w-full">
             <div className="grid gap-4 sm:grid-cols-[1.2fr,0.8fr] sm:grid-rows-2">
-              <div className="group relative sm:row-span-2 aspect-[3/4] sm:aspect-auto sm:h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+              <div className="group relative sm:row-span-2 aspect-[3/4] sm:aspect-auto sm:h-[420px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
                 <video
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   src="./../img/how-we-work/OnSite1.jpg"
@@ -85,7 +85,7 @@ const ProcessSection = () => (
                 <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent group-hover:from-black/50 transition-all duration-500" />
               </div>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-1 sm:grid-rows-2">
-                <div className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
+                <div className="group relative aspect-[16/10] sm:aspect-auto sm:h-[200px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
                   <img
                     src="./../img/how-we-work/Leather inspection.jpg"
                     alt="Partner alignment"
@@ -93,7 +93,7 @@ const ProcessSection = () => (
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/50 via-transparent to-transparent group-hover:from-[#0b2f6b]/70 transition-all duration-500" />
                 </div>
-                <div className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
+                <div className="group relative aspect-[16/10] sm:aspect-auto sm:h-[200px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
                   <video
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     src="./../img/how-we-work/Proceso3.jpg"
@@ -112,7 +112,7 @@ const ProcessSection = () => (
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <p className="text-sm md:text-base text-brand-navy/70 font-medium text-left lg:text-right">
+            <p className="text-[12px] md:text-[13.6px] text-brand-navy/70 font-medium text-left lg:text-right">
               With Cross the Bridge, you don't start from zero. You operate with a system refined by real-world execution.
             </p>
           </FadeIn>
@@ -126,11 +126,11 @@ const ProcessSection = () => (
                 <div className="group relative cursor-pointer transition-all duration-500 hover:pl-3">
                   <span className="absolute -left-[21px] top-1 h-3 w-3 rounded-full bg-[#0b2f6b] border-2 border-[#f2f4f8] transition-all duration-500 group-hover:scale-150 group-hover:bg-brand-gold group-hover:shadow-lg group-hover:shadow-brand-gold/50" />
                   <div className="space-y-2 p-4 -ml-4 rounded-xl transition-all duration-500 group-hover:bg-white/60 group-hover:shadow-lg">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#0b2f6b] group-hover:text-brand-gold transition-colors duration-300">
+                    <p className="text-[8.5px] font-bold uppercase tracking-[0.22em] text-[#0b2f6b] group-hover:text-brand-gold transition-colors duration-300">
                       0{idx + 1} - {step.title}
                     </p>
-                    <p className="text-sm md:text-base text-brand-navy/80 font-medium group-hover:text-brand-navy transition-colors duration-300">{step.tagline}</p>
-                    <p className="text-sm md:text-base text-brand-navy/60 leading-relaxed group-hover:text-brand-navy/80 transition-colors duration-300">{step.body}</p>
+                    <p className="text-[12px] md:text-[13.6px] text-brand-navy/80 font-medium group-hover:text-brand-navy transition-colors duration-300">{step.tagline}</p>
+                    <p className="text-[12px] md:text-[13.6px] text-brand-navy/60 leading-relaxed group-hover:text-brand-navy/80 transition-colors duration-300">{step.body}</p>
                   </div>
                 </div>
               </FadeIn>

@@ -56,12 +56,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
         <div className="grid gap-12 lg:gap-10 lg:grid-cols-[1.08fr,0.92fr] items-center lg:items-stretch min-h-[80vh] lg:min-h-[calc(100vh-80px)]">
           <div className="flex flex-col gap-6 sm:gap-7 py-12 lg:py-6 lg:justify-center">
             <FadeIn delay={0.15}>
-              <h1 className="text-[36px] sm:text-[42px] md:text-[52px] lg:text-[60px] font-semibold tracking-tight text-[#0b2f6b] leading-[1.06]">
+              <h1 className="text-[30px] sm:text-[35px] md:text-[44px] lg:text-[51px] font-semibold tracking-tight text-[#0b2f6b] leading-[1.06]">
                 {hero.title}
               </h1>
             </FadeIn>
             <FadeIn delay={0.2}>
-              <p className="text-sm sm:text-base md:text-lg text-brand-navy/65 leading-relaxed max-w-xl">
+              <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/65 leading-relaxed max-w-xl">
                 {hero.subtitle}
               </p>
             </FadeIn>
@@ -72,7 +72,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
             >
               <button
                 onClick={onCtaClick}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-brand-navy text-white px-7 sm:px-9 py-3.5 rounded-full font-bold uppercase tracking-[0.16em] text-[11px] sm:text-xs md:text-sm hover:bg-brand-gold hover:text-brand-navy transition-colors shadow-[0_16px_30px_rgba(11,47,107,0.18)]"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-brand-navy text-white px-7 sm:px-9 py-3.5 rounded-full font-bold uppercase tracking-[0.16em] text-[9px] sm:text-[8.5px] md:text-[8.5px] hover:bg-brand-gold hover:text-brand-navy transition-colors shadow-[0_16px_30px_rgba(11,47,107,0.18)]"
               >
                 {hero.cta}
               </button>
@@ -96,7 +96,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
               </div>
 
               <div className="space-y-4 pt-2 pb-8">
-                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-brand-navy/60">
+                <div className="flex items-center justify-between text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-navy/60">
                   <span>Our partners</span>
                   <span className="text-brand-gold">Trusted by</span>
                 </div>

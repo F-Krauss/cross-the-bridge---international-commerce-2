@@ -92,16 +92,16 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/70 via-transparent to-transparent" />
                 </div>
                 <div className="p-6 sm:p-8 space-y-5">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                  <p className="text-[8.5px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                     {String(selectedService + 1).padStart(2, '0')}
                   </p>
-                  <h3 className="text-2xl sm:text-3xl font-semibold text-[#0b2f6b]">
+                  <h3 className="text-[20px] sm:text-[25.5px] font-semibold text-[#0b2f6b]\">
                     {servicesContent.items[selectedService].title}
                   </h3>
-                  <p className="text-sm sm:text-base text-brand-navy/70">
+                  <p className="text-[12px] sm:text-[13.6px] text-brand-navy/70">
                     {servicesContent.items[selectedService].short}
                   </p>
-                  <div className="space-y-4 text-sm sm:text-base text-brand-navy/70 leading-relaxed">
+                  <div className="space-y-4 text-[12px] sm:text-[13.6px] text-brand-navy/70 leading-relaxed\">
                     {servicesContent.items[selectedService].long.map((para, pIdx) => (
                       <p key={`service-long-${pIdx}`}>{para}</p>
                     ))}
@@ -113,8 +113,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
         </AnimatePresence>
 
         <FadeIn>
-          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{servicesContent.title}</p>
-          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold text-brand-navy max-w-3xl">
+          <p className="text-[8.5px] font-bold uppercase tracking-[0.22em] text-brand-gold">{servicesContent.title}</p>
+          <h2 className="mt-3 text-[20px] sm:text-[25.5px] md:text-[30px] font-semibold text-brand-navy max-w-3xl">
             {servicesContent.intro}
           </h2>
         </FadeIn>
@@ -132,15 +132,15 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
                     <img src={serviceImages[idx]} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/70 via-transparent to-transparent group-hover:from-[#0b2f6b]/85 transition-all duration-500" />
                     <div className="absolute bottom-4 left-4 text-white">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.22em]">{String(idx + 1).padStart(2, '0')}</p>
+                      <p className="text-[8.5px] font-bold uppercase tracking-[0.22em]">{String(idx + 1).padStart(2, '0')}</p>
                     </div>
                   </div>
                   <div className="p-6 md:p-7 flex flex-1 flex-col gap-4">
                     <div className="space-y-2">
-                      <h3 className="text-xl md:text-2xl font-semibold text-[#0b2f6b]">{service.title}</h3>
-                      <p className="text-sm md:text-base text-brand-navy/70">{service.short}</p>
+                      <h3 className="text-[17px] md:text-[20px] font-semibold text-[#0b2f6b]">{service.title}</h3>
+                      <p className="text-[12px] md:text-[13.6px] text-brand-navy/70">{service.short}</p>
                     </div>
-                    <div className="mt-auto flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[#0b2f6b] group-hover:text-brand-gold transition-colors duration-300">
+                    <div className="mt-auto flex items-center gap-2 text-[8.5px] font-bold uppercase tracking-[0.2em] text-[#0b2f6b] group-hover:text-brand-gold transition-colors duration-300\">
                       <span>Read more</span>
                       <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </div>

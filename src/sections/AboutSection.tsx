@@ -125,8 +125,8 @@ const AboutSection = () => {
 
       <div className="container mx-auto px-6 md:px-8 relative z-10 space-y-16 md:space-y-20">
         <FadeIn className="max-w-2xl space-y-3">
-          <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">About</p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-[#0b2f6b]">
+          <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">About</p>
+          <h2 className="text-[25.5px] sm:text-[30px] md:text-[42.5px] font-semibold tracking-tight text-[#0b2f6b]">
             Our Founder
           </h2>
           {/* <p className="text-sm sm:text-base md:text-lg text-brand-navy/70">
@@ -136,7 +136,7 @@ const AboutSection = () => {
 
         <FadeIn delay={0.05}>
           <div className="group rounded-[32px] border border-slate-200 bg-white p-6 pb-10 md:p-10 shadow-[0_30px_60px_rgba(15,23,42,0.08)] transition-all duration-700 hover:shadow-[0_40px_80px_rgba(15,23,42,0.12)] hover:-translate-y-1">
-            <div className="grid gap-8 lg:grid-cols-[0.9fr,1.1fr] items-center">
+            <div className="grid gap-8 lg:grid-cols-[0.72fr,1.28fr] items-center">
               <div className="relative">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] shadow-xl transition-all duration-700 group-hover:shadow-2xl">
                   <img
@@ -147,8 +147,8 @@ const AboutSection = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/45 via-transparent to-transparent transition-all duration-700 group-hover:from-[#0b2f6b]/55" />
                 </div>
                 <div className="absolute -bottom-5 left-6 right-6 rounded-2xl bg-white/95 backdrop-blur-sm border border-slate-200 px-5 py-3 shadow-lg transition-all duration-500 group-hover:bg-white group-hover:shadow-xl">
-                  <p className="text-sm font-semibold text-[#0b2f6b]">Mariana Muciño Del Rio</p>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">
+                  <p className="text-[12px] font-semibold text-[#0b2f6b]">Mariana Muciño Del Rio</p>
+                  <p className="text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-gold">
                     International Negotiation & Strategic Planning
                   </p>
                 </div>
@@ -156,12 +156,12 @@ const AboutSection = () => {
 
               <div className="space-y-5">
                 <div className="space-y-1">
-                  <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">Founder story</p>
-                  <h3 className="text-2xl sm:text-3xl font-semibold text-[#0b2f6b]">
+                  <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">Founder story</p>
+                  <h3 className="text-[20px] sm:text-[25.5px] font-semibold text-[#0b2f6b]">
                     Visionary leadership driving global connections.
                   </h3>
                 </div>
-                <p className="text-sm sm:text-base text-brand-navy/70 leading-relaxed">
+                <p className="text-[12px] sm:text-[13.6px] text-brand-navy/70 leading-relaxed">
                   {FOUNDER_BIO[0]}
                 </p>
                 <AnimatePresence initial={false}>
@@ -180,7 +180,7 @@ const AboutSection = () => {
                 <button
                   type="button"
                   onClick={() => setBioExpanded((prev) => !prev)}
-                  className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#0b2f6b] hover:text-brand-gold transition-colors"
+                  className="inline-flex items-center gap-2 text-[8.5px] font-bold uppercase tracking-[0.18em] text-[#0b2f6b] hover:text-brand-gold transition-colors"
                 >
                   {bioExpanded ? "Collapse bio" : "Read full bio"}
                   <span className="w-8 h-[2px] bg-current opacity-40" />
@@ -194,13 +194,13 @@ const AboutSection = () => {
           <div className="rounded-[32px] border border-slate-200 bg-[#f7f8fb] p-6 md:p-10">
             <div className="grid gap-8 lg:grid-cols-[0.9fr,1.1fr] items-start">
               <div className="space-y-4">
-                <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                   What makes Cross the Bridge truly different
                 </p>
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#0b2f6b]">
+                <h3 className="text-[20px] sm:text-[25.5px] md:text-[30px] font-semibold text-[#0b2f6b]\">
                   Strategic partnership with measurable control.
                 </h3>
-                <p className="text-sm sm:text-base text-brand-navy/70 leading-relaxed">
+                <p className="text-[12px] sm:text-[13.6px] text-brand-navy/70 leading-relaxed">
                   Each point below expands into the specific ways we reduce risk, accelerate decisions, and keep you in control.
                 </p>
               </div>
@@ -221,12 +221,12 @@ const AboutSection = () => {
                     >
                       <div className="flex items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
-                          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">
+                          <span className="text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-gold">
                             0{idx + 1}
                           </span>
-                          <span className="text-sm sm:text-base font-semibold text-[#0b2f6b]">{item.title}</span>
+                          <span className="text-[12px] sm:text-[13.6px] font-semibold text-[#0b2f6b]">{item.title}</span>
                         </div>
-                        <span className="text-[10px] uppercase tracking-[0.2em] text-brand-navy/50">
+                        <span className="text-[8.5px] uppercase tracking-[0.2em] text-brand-navy/50]">
                           {isActive ? "Open" : "View"}
                         </span>
                       </div>
@@ -239,7 +239,7 @@ const AboutSection = () => {
                             transition={{ duration: 0.25, ease: "easeOut" }}
                             className="overflow-hidden"
                           >
-                            <p className="mt-3 text-sm sm:text-base text-brand-navy/70 leading-relaxed">
+                            <p className="mt-3 text-[12px] sm:text-[13.6px] text-brand-navy/70 leading-relaxed">
                               {item.body}
                             </p>
                           </MotionDiv>
@@ -256,10 +256,10 @@ const AboutSection = () => {
         <FadeIn delay={0.15}>
           <div className="space-y-6">
             <div className="max-w-2xl space-y-2">
-              <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+              <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                 What this means for our clients
               </p>
-              <h3 className="text-2xl sm:text-3xl font-semibold text-[#0b2f6b]">
+              <h3 className="text-[20px] sm:text-[25.5px] font-semibold text-[#0b2f6b]\">
                 Clear outcomes with one accountable partner.
               </h3>
             </div>
@@ -269,11 +269,11 @@ const AboutSection = () => {
                   key={item.title}
                   className="min-w-0"
                 >
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">
+                  <p className="text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-gold">
                     0{idx + 1}
                   </p>
-                  <p className="mt-3 text-sm font-semibold text-[#0b2f6b]">{item.title}</p>
-                  <p className="mt-2 text-sm text-brand-navy/70 leading-relaxed">{item.body}</p>
+                  <p className="mt-3 text-[12px] font-semibold text-[#0b2f6b]">{item.title}</p>
+                  <p className="mt-2 text-[12px] text-brand-navy/70 leading-relaxed">{item.body}</p>
                 </div>
               ))}
             </div>
@@ -288,13 +288,13 @@ const AboutSection = () => {
             />
             <div className="grid gap-12 lg:grid-cols-2 items-start">
               <div className="space-y-6">
-                <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                   Why León, Guanajuato?
                 </p>
-                <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-[#0b2f6b]">
+                <h3 className="text-[25.5px] sm:text-[30px] md:text-[42.5px] lg:text-[51px] font-semibold tracking-tight text-[#0b2f6b]\">
                   Where global craftsmanship meets industrial scale
                 </h3>
-                <div className="flex flex-wrap gap-4 text-[15px] font-bold uppercase tracking-[0.18em] text-brand-gold">
+                <div className="flex flex-wrap gap-4 text-[13px] font-bold uppercase tracking-[0.18em] text-brand-gold\">
                   <span>40M pairs exported annually</span>
                   <span>5 days logistic door to door</span>
                 </div>
@@ -311,8 +311,8 @@ const AboutSection = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
                 <div className="absolute bottom-6 left-6">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/70">Scale signal</p>
-                  <p className="text-base font-semibold text-white">40M pairs exported annually</p>
+                  <p className="text-[8.5px] font-bold uppercase tracking-[0.18em] text-white/70">Scale signal</p>
+                  <p className="text-[13.6px] font-semibold text-white">40M pairs exported annually</p>
                 </div>
               </MotionDiv>
 
@@ -336,8 +336,8 @@ const AboutSection = () => {
                       <p
                         className={`leading-relaxed ${
                           idx === 0
-                            ? "text-lg md:text-xl font-medium text-[#0b2f6b]"
-                            : "text-sm sm:text-base text-brand-navy/70"
+                            ? "text-[15px] md:text-[17px] font-medium text-[#0b2f6b]"
+                            : "text-[12px] sm:text-[13.6px] text-brand-navy/70"
                         }`}
                       >
                         {paragraph}
@@ -347,7 +347,7 @@ const AboutSection = () => {
                 </div>
                 <div className="grid gap-8 lg:grid-cols-[0.9fr,1.1fr] items-start">
                   <div className="space-y-3">
-                    <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                    <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                       Manufacturing advantages
                     </p>
                     <AnimatePresence mode="wait">
@@ -359,10 +359,10 @@ const AboutSection = () => {
                         transition={{ duration: 0.25, ease: "easeOut" }}
                         className="space-y-3"
                       >
-                        <p className="text-3xl font-semibold text-[#0b2f6b]">
+                        <p className="text-[25.5px] font-semibold text-[#0b2f6b]\">
                           {LEON_POINTS[activeLeonPoint].title}
                         </p>
-                        <p className="text-sm sm:text-base text-brand-navy/70 leading-relaxed">
+                        <p className="text-[12px] sm:text-[13.6px] text-brand-navy/70 leading-relaxed">
                           {LEON_POINTS[activeLeonPoint].body}
                         </p>
                       </MotionDiv>
@@ -380,12 +380,12 @@ const AboutSection = () => {
                           className="w-full text-left"
                         >
                           <div className="flex items-center gap-4 pb-3 border-b border-[#0b2f6b]/10">
-                            <span className={`text-2xl font-semibold ${
+                            <span className={`text-[20px] font-semibold ${
                               isActive ? "text-brand-gold" : "text-brand-navy/20"
                             }`}>
                               0{idx + 1}
                             </span>
-                            <span className={`text-sm sm:text-base font-semibold ${
+                            <span className={`text-[12px] sm:text-[13.6px] font-semibold ${
                               isActive ? "text-[#0b2f6b]" : "text-brand-navy/60"
                             }`}>
                               {item.title}

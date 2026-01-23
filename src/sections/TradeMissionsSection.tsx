@@ -170,11 +170,11 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
           <FadeIn delay={0.1} className="flex flex-col items-start gap-4">
             <button
               onClick={onCtaClick}
-              className="inline-flex items-center justify-center gap-2 bg-brand-gold text-brand-navy px-6 py-3 rounded-full text-xs md:text-sm font-bold uppercase tracking-[0.18em] hover:bg-white transition-colors shadow-[0_16px_30px_rgba(0,0,0,0.25)]"
+              className="inline-flex items-center justify-center gap-2 bg-brand-gold text-brand-navy px-6 py-3 rounded-full text-[8.5px] md:text-[12px] font-bold uppercase tracking-[0.18em] hover:bg-white transition-colors shadow-[0_16px_30px_rgba(0,0,0,0.25)]"
             >
               Request a Custom Trade Mission
             </button>
-            <p className="text-xs uppercase tracking-[0.2em] text-brand-gold font-bold">
+            <p className="text-[8.5px] uppercase tracking-[0.2em] text-brand-gold font-bold">
               International growth, built on experience.
             </p>
           </FadeIn>
@@ -242,24 +242,24 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
                     transition={{ duration: 0.25, ease: "easeOut" }}
                     className="space-y-4 min-w-0 min-h-[360px]"
                   >
-                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                    <p className="text-[8.5px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                       {active.label}
                     </p>
-                    <h3 className="text-3xl sm:text-4xl font-semibold text-white">
+                    <h3 className="text-[25.5px] sm:text-[30px] font-semibold text-white">
                       {active.title}
                     </h3>
                     {active.body && (
-                      <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed">
+                      <div className="space-y-4 text-[12px] sm:text-[13.6px] text-white/70 leading-relaxed">
                         {active.body.map((paragraph) => (
                           <p key={paragraph}>{paragraph}</p>
                         ))}
                       </div>
                     )}
                     {active.list && (
-                      <div className="grid gap-4 sm:grid-cols-2 text-base sm:text-lg font-medium text-white/85">
+                      <div className="grid gap-4 sm:grid-cols-2 text-[13.6px] sm:text-[15px] font-medium text-white/85\">
                         {active.list.map((benefit, idx) => (
                           <div key={benefit} className="flex items-start gap-4">
-                            <span className="mt-1 flex h-8 w-8 items-center justify-center rounded-full border border-brand-gold/50 text-[10px] font-bold tracking-[0.2em] text-brand-gold">
+                            <span className="mt-1 flex h-8 w-8 items-center justify-center rounded-full border border-brand-gold/50 text-[8.5px] font-bold tracking-[0.2em] text-brand-gold">
                               0{idx + 1}
                             </span>
                             <p className="leading-relaxed">{benefit}</p>
