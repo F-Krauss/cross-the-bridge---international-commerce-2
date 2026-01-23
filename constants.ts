@@ -786,7 +786,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
     },
     team: {
       title: "Our Founder",
-      subtitle: "Visionary leadership driving global connections.",
+      subtitle: "",
       profile: {
         name: "Mariana Muciño Del Rio",
         role: "International Negotiation & Strategic Planning",

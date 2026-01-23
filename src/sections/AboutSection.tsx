@@ -125,17 +125,17 @@ const AboutSection = () => {
 
       <div className="container mx-auto px-6 md:px-8 relative z-10 space-y-16 md:space-y-20">
         <FadeIn className="max-w-2xl space-y-3">
-          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">About</p>
+          <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">About</p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-[#0b2f6b]">
             Our Founder
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-brand-navy/70">
+          {/* <p className="text-sm sm:text-base md:text-lg text-brand-navy/70">
             Visionary leadership driving global connections.
-          </p>
+          </p> */}
         </FadeIn>
 
         <FadeIn delay={0.05}>
-          <div className="group rounded-[32px] border border-slate-200 bg-white p-6 md:p-10 shadow-[0_30px_60px_rgba(15,23,42,0.08)] transition-all duration-700 hover:shadow-[0_40px_80px_rgba(15,23,42,0.12)] hover:-translate-y-1">
+          <div className="group rounded-[32px] border border-slate-200 bg-white p-6 pb-10 md:p-10 shadow-[0_30px_60px_rgba(15,23,42,0.08)] transition-all duration-700 hover:shadow-[0_40px_80px_rgba(15,23,42,0.12)] hover:-translate-y-1">
             <div className="grid gap-8 lg:grid-cols-[0.9fr,1.1fr] items-center">
               <div className="relative">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] shadow-xl transition-all duration-700 group-hover:shadow-2xl">
@@ -156,9 +156,9 @@ const AboutSection = () => {
 
               <div className="space-y-5">
                 <div className="space-y-1">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">Founder story</p>
+                  <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">Founder story</p>
                   <h3 className="text-2xl sm:text-3xl font-semibold text-[#0b2f6b]">
-                    Founder-led partnerships with global reach.
+                    Visionary leadership driving global connections.
                   </h3>
                 </div>
                 <p className="text-sm sm:text-base text-brand-navy/70 leading-relaxed">
@@ -194,7 +194,7 @@ const AboutSection = () => {
           <div className="rounded-[32px] border border-slate-200 bg-[#f7f8fb] p-6 md:p-10">
             <div className="grid gap-8 lg:grid-cols-[0.9fr,1.1fr] items-start">
               <div className="space-y-4">
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                   What makes Cross the Bridge truly different
                 </p>
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#0b2f6b]">
@@ -205,7 +205,7 @@ const AboutSection = () => {
                 </p>
               </div>
 
-              <div className="space-y-4">
+              <div className="-mx-2 flex gap-4 overflow-x-auto pb-2 px-2 snap-x snap-mandatory sm:mx-0 sm:px-0 sm:flex-col sm:gap-4 sm:overflow-visible sm:pb-0 sm:snap-none">
                 {DIFFERENTIATOR_ITEMS.map((item, idx) => {
                   const isActive = activeDifferentiator === idx;
                   return (
@@ -213,7 +213,7 @@ const AboutSection = () => {
                       key={item.title}
                       type="button"
                       onClick={() => setActiveDifferentiator(idx)}
-                      className={`w-full rounded-2xl border px-5 py-4 text-left transition-all ${
+                      className={`min-w-[260px] rounded-2xl border px-5 py-4 text-left transition-all snap-start sm:min-w-0 ${
                         isActive
                           ? "border-[#0b2f6b]/40 bg-white shadow-lg"
                           : "border-slate-200 bg-white/70 hover:border-[#0b2f6b]/20"
@@ -256,18 +256,18 @@ const AboutSection = () => {
         <FadeIn delay={0.15}>
           <div className="space-y-6">
             <div className="max-w-2xl space-y-2">
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+              <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                 What this means for our clients
               </p>
               <h3 className="text-2xl sm:text-3xl font-semibold text-[#0b2f6b]">
                 Clear outcomes with one accountable partner.
               </h3>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
               {CLIENT_OUTCOMES.map((item, idx) => (
                 <div
                   key={item.title}
-                  // className="p-5 shadow-[0_18px_40px_rgba(15,23,42,0.06)]"
+                  className="min-w-0"
                 >
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">
                     0{idx + 1}
@@ -288,15 +288,15 @@ const AboutSection = () => {
             />
             <div className="grid gap-12 lg:grid-cols-2 items-start">
               <div className="space-y-6">
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                   Why León, Guanajuato?
                 </p>
                 <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-[#0b2f6b]">
                   Where global craftsmanship meets industrial scale
                 </h3>
-                <div className="flex flex-wrap gap-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-navy/60">
+                <div className="flex flex-wrap gap-4 text-[15px] font-bold uppercase tracking-[0.18em] text-brand-gold">
                   <span>40M pairs exported annually</span>
-                  <span>3-5 days to Texas</span>
+                  <span>5 days logistic door to door</span>
                 </div>
               </div>
 
@@ -305,7 +305,7 @@ const AboutSection = () => {
                 className="relative aspect-[16/9] overflow-hidden rounded-[32px] shadow-2xl"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&q=80&w=1800"
+                  src="/img/about/leon.jpeg"
                   alt="Manufacturing in Mexico"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
@@ -316,7 +316,7 @@ const AboutSection = () => {
                 </div>
               </MotionDiv>
 
-              <div className="space-y-6">
+              <div className="space-y-6 hidden md:block">
                 <img
                   src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1500&q=80"
                   alt="Leather crafting"
@@ -347,7 +347,7 @@ const AboutSection = () => {
                 </div>
                 <div className="grid gap-8 lg:grid-cols-[0.9fr,1.1fr] items-start">
                   <div className="space-y-3">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                    <p className="text-[15px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                       Manufacturing advantages
                     </p>
                     <AnimatePresence mode="wait">
@@ -369,7 +369,7 @@ const AboutSection = () => {
                     </AnimatePresence>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-2">
                     {LEON_POINTS.map((item, idx) => {
                       const isActive = activeLeonPoint === idx;
                       return (

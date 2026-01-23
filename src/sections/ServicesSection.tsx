@@ -119,13 +119,13 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
           </h2>
         </FadeIn>
 
-        <div className="mt-10 md:mt-12 grid gap-6 md:grid-cols-3 md:items-stretch md:auto-rows-fr">
+        <div className="mt-10 md:mt-12 grid gap-6 grid-flow-col auto-cols-[85%] overflow-x-auto snap-x snap-mandatory pb-2 -mx-2 px-2 md:mx-0 md:px-0 md:grid-flow-row md:auto-cols-auto md:overflow-visible md:snap-none md:grid-cols-3 md:items-stretch md:auto-rows-fr">
           {servicesContent.items.map((service, idx) => (
             <FadeIn key={service.title} delay={idx * 0.05}>
               <button
                 type="button"
                 onClick={() => setSelectedService(idx)}
-                className="group w-full h-full text-left rounded-3xl border border-slate-200 bg-white p-0 shadow-[0_18px_40px_rgba(15,23,42,0.06)] transition-all duration-500 hover:border-[#0b2f6b]/40 hover:shadow-[0_24px_60px_rgba(11,47,107,0.14)] hover:-translate-y-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0b2f6b]/40 cursor-pointer"
+                className="group w-full h-full min-w-[260px] md:min-w-0 text-left rounded-3xl border border-slate-200 bg-white p-0 shadow-[0_18px_40px_rgba(15,23,42,0.06)] transition-all duration-500 hover:border-[#0b2f6b]/40 hover:shadow-[0_24px_60px_rgba(11,47,107,0.14)] hover:-translate-y-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0b2f6b]/40 cursor-pointer snap-start"
               >
                 <div className="flex h-full flex-col">
                   <div className="relative h-48 md:h-52 overflow-hidden rounded-t-3xl">

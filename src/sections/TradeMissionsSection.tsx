@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 
 const MotionDiv = motion.div as any;
@@ -53,8 +53,8 @@ const MISSION_PANELS: MissionPanel[] = [
       "Our trade missions are built on 20+ years of hands-on participation in the world's most relevant manufacturing and sourcing markets - from Hong Kong to Italy to the United States - helping companies make smarter international decisions and expand with greater reach."
     ],
     media: { 
-      src: "https://www.vecteezy.com/video/46549926-two-businessman-passengers-sitting-in-airplane-cabin-and-working-on-laptop-together-businessman-in-brown-suit-showing-project-on-notebook-to-businessman-with-eyeglasses-business-and-travel-concept",
-      alt: "Port containers"
+      src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
+      alt: "Business travel"
     }
   },
   {
@@ -66,7 +66,7 @@ const MISSION_PANELS: MissionPanel[] = [
       "Our trade missions are often built around the world's most relevant trade fairs, using them as strategic accelerators to identify suppliers, validate markets, and open high-level conversations that would otherwise take years to access."
     ],
     media: {
-      src: "https://www.vecteezy.com/video/42647396-young-friends-hanging-social-media-concept",
+      src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
       alt: "Agenda setting with charts"
     }
   },
@@ -81,7 +81,7 @@ const MISSION_PANELS: MissionPanel[] = [
       "Faster learning curves and better international judgment"
     ],
     media: {
-      src: "../video/trade-missions/Proceso4.mp4",
+      src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
       alt: "Team collaborating over plans"
     }
   },
@@ -93,7 +93,7 @@ const MISSION_PANELS: MissionPanel[] = [
       "Designed for founders and business owners looking to scale internationally with clarity, structure, and confidence."
     ],
     media: {
-      src: "../video/trade-missions/Proceso5.mp4",
+      src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
       alt: "CEO shaking hands"
     }
   }
@@ -107,7 +107,11 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
   const activeIndex = MISSION_PANELS.findIndex((panel) => panel.id === active.id);
   const autoTimer = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
+  const scheduleAutoRotate = useCallback(() => {
+    if (autoTimer.current) {
+      clearInterval(autoTimer.current);
+    }
+
     autoTimer.current = setInterval(() => {
       setActivePanel((prev) => {
         const currentIndex = MISSION_PANELS.findIndex((panel) => panel.id === prev);
@@ -115,13 +119,33 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
         return MISSION_PANELS[nextIndex].id;
       });
     }, AUTO_ROTATE_MS);
+  }, []);
+
+  const pauseAutoRotate = useCallback(() => {
+    if (autoTimer.current) {
+      clearInterval(autoTimer.current);
+      autoTimer.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    scheduleAutoRotate();
 
     return () => {
       if (autoTimer.current) {
         clearInterval(autoTimer.current);
       }
     };
-  }, []);
+  }, [scheduleAutoRotate]);
+
+  useEffect(() => {
+    scheduleAutoRotate();
+  }, [activePanel, scheduleAutoRotate]);
+
+  const handlePanelChange = (panelId: string) => {
+    setActivePanel(panelId);
+    scheduleAutoRotate();
+  };
  
 
   return (
@@ -133,7 +157,7 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[length:100px_100px] opacity-40" />
       </div>
 
-      <div className="container mx-auto px-6 md:px-8 relative z-10">
+      <div className="container mx-auto px-6 md:px-8 relative z-10 overflow-hidden">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <FadeIn className="max-w-2xl">
             <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
@@ -156,16 +180,22 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
           </FadeIn>
         </div>
 
-        <FadeIn delay={0.15} className="mt-10">
-          <div className="rounded-[32px] bg-transparent">
-            <div className="grid gap-8 lg:grid-cols-[0.5fr,1fr] p-6 sm:p-8 md:p-10">
-              <div className="space-y-4">
+          <FadeIn delay={0.15} className="mt-10">
+          <div className="rounded-[32px] bg-transparent overflow-hidden">
+            <div
+              className="grid gap-8 lg:grid-cols-[0.5fr,1fr] p-6 sm:p-8 md:p-10 items-start max-w-6xl mx-auto"
+              onMouseEnter={pauseAutoRotate}
+              onMouseLeave={scheduleAutoRotate}
+              onTouchStart={pauseAutoRotate}
+              onTouchEnd={scheduleAutoRotate}
+            >
+              <div className="space-y-4 min-w-0">
                 <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/60">
                   Select a briefing
                 </p>
-                <div className="overflow-hidden">
+                <div className="overflow-hidden rounded-3xl border border-white/5 max-w-[520px] mx-auto w-full">
                   <div
-                    className="flex transition-transform duration-700 ease-[0.7,0,0.3,1]"
+                    className="flex w-full transition-transform duration-700 ease-[0.7,0,0.3,1]"
                     style={{ transform: `translateX(-${activeIndex * 100}%)` }}
                   >
                     {MISSION_PANELS.map((panel, idx) => {
@@ -174,10 +204,10 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
                         <button
                           key={panel.id}
                           type="button"
-                          onClick={() => setActivePanel(panel.id)}
-                        className="min-w-full shrink-0 group"
+                          onClick={() => handlePanelChange(panel.id)}
+                          className="min-w-full shrink-0 group"
                         >
-                          <div className="relative px-1 sm:px-3 text-left">
+                          <div className="relative px-1 sm:px-3 text-left min-w-0 max-w-[520px] mx-auto">
                             <div className="relative h-48 sm:h-60 lg:h-72 overflow-hidden rounded-[36px] shadow-[0_30px_60px_rgba(5,10,25,0.35)]">
                               <img
                                 src={panel.media.src}
@@ -202,7 +232,7 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
                 </div>
               </div>
 
-              <div className="relative">
+              <div className="relative min-w-0">
                 <AnimatePresence mode="wait">
                   <MotionDiv
                     key={active.id}
@@ -210,7 +240,7 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -12 }}
                     transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="space-y-4"
+                    className="space-y-4 min-w-0 min-h-[360px]"
                   >
                     <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                       {active.label}
