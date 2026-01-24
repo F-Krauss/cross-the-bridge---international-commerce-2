@@ -329,11 +329,11 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
           <div className="space-y-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div className="space-y-2">
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.badge}</p>
+                {/* <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.badge}</p> */}
                 <h3 className="text-3xl md:text-4xl font-semibold">{copy.industriesTitle}</h3>
-                <p className="text-sm text-white/70 max-w-2xl leading-relaxed">
+                {/* <p className="text-sm text-white/70 max-w-2xl leading-relaxed">
                   {copy.industriesIntro}
-                </p>
+                </p> */}
               </div>
               {/* <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
                 <Sparkles size={14} className="text-brand-gold" /> {INDUSTRY_OPTIONS.length} {copy.categoriesSuffix}
@@ -399,7 +399,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
             <div className="space-y-10">
               <div className="grid lg:grid-cols-[1.1fr,1fr] gap-8 lg:gap-14 items-start">
                 <div className="space-y-5">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.testimonialsBadge}</p>
+                  {/* <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.testimonialsBadge}</p> */}
                   <h3 className="text-4xl sm:text-5xl font-semibold leading-tight">{copy.testimonialsTitle}</h3>
                   <p className="text-base text-white/75 max-w-2xl leading-relaxed">
                     {copy.testimonialsSubtitle}
