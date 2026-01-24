@@ -245,12 +245,12 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                 </div>
               </MotionDiv>
 
-              <div className="relative hidden md:block min-h-[1000px]" aria-hidden="true">
+              <div className="relative hidden md:block min-h-[800px]" aria-hidden="true">
                 <div className="absolute left-[-500px] top-1/2 -translate-y-1/2">
                   <img
                     src="/img/leather-svgrepo-com.svg"
                     alt=""
-                    className="w-[1000px] max-w-none select-none opacity-50"
+                    className="w-[950px] max-w-none select-none opacity-50"
                     draggable={false}
                   />
                 </div>

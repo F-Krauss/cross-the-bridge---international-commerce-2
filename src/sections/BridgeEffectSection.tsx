@@ -275,16 +275,16 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
       </div>
 
       <div className="container mx-auto px-6 md:px-10 relative z-10 space-y-16 md:space-y-24">
-        <div className="grid gap-10 lg:grid-cols-[1.05fr,0.95fr] items-center">
+        <div className="grid gap-10 lg:grid-cols-[1.05fr,0.95fr] items-center overflow-hidden">
           <FadeIn className="space-y-6">
             <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
               <Sparkles size={14} /> {copy.badge}
             </div>
             <div className="space-y-4">
-              <h2 className="text-[30px] sm:text-[38px] md:text-[48px] font-semibold leading-tight drop-shadow-[0_10px_40px_rgba(0,0,0,0.25)]">
+              <h2 className="text-[26px] sm:text-[32px] md:text-[48px] font-semibold leading-tight drop-shadow-[0_10px_40px_rgba(0,0,0,0.25)]">
                 {copy.title}
               </h2>
-              <p className="text-sm sm:text-base text-white/75 max-w-2xl leading-relaxed">
+              <p className="text-sm sm:text-base text-white/75 max-w-2xl leading-relaxed md:leading-relaxed md:text-base">
                 {copy.body}
               </p>
             </div>
@@ -335,9 +335,9 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                   {copy.industriesIntro}
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
+              {/* <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
                 <Sparkles size={14} className="text-brand-gold" /> {INDUSTRY_OPTIONS.length} {copy.categoriesSuffix}
-              </div>
+              </div> */}
             </div>
 
             <div className="flex flex-wrap gap-2">
