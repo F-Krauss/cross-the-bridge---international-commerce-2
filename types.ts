@@ -59,6 +59,8 @@ export interface Content {
       leather: string;
       hats: string;
       industrial: string;
+      equestrian?: string;
+      private_label?: string;
     };
     items: {
       id: number;
@@ -73,8 +75,10 @@ export interface Content {
     intro: string;
     steps: {
       title: string;
+      tagline?: string;
       desc: string;
     }[];
+    outro?: string;
   };
   team: {
     title: string;
@@ -97,6 +101,40 @@ export interface Content {
     // negotiationsLabel: string;
     alliances: string;
     alliancesLabel: string;
+  };
+  about: {
+    badge: string;
+    founderTitle: string;
+    founderTagline: string;
+    founderStoryBadge: string;
+    founderName: string;
+    founderRole: string;
+    bio: string[];
+    bioCtaMore: string;
+    bioCtaLess: string;
+    differentiators: {
+      badge: string;
+      title: string;
+      subtitle: string;
+      openLabel: string;
+      viewLabel: string;
+      items: { title: string; body: string }[];
+    };
+    outcomes: {
+      badge: string;
+      title: string;
+      items: { title: string; body: string }[];
+    };
+    leon: {
+      badge: string;
+      heading: string;
+      stats: string[];
+      scaleBadge: string;
+      scaleLabel: string;
+      paragraphs: string[];
+      advantagesBadge: string;
+      advantages: { title: string; body: string }[];
+    };
   };
   testimonials: {
     title: string;
@@ -169,6 +207,34 @@ export interface Content {
     rights: string;
     privacy: string;
     terms: string;
+  };
+  bridgeEffect: {
+    badge: string;
+    title: string;
+    body: string;
+    industriesTitle: string;
+    industriesIntro: string;
+    selectedLabel: string;
+    categoriesSuffix: string;
+    testimonialsBadge: string;
+    testimonialsTitle: string;
+    testimonialsSubtitle: string;
+    storyLabel: string;
+  };
+  tradeMissions?: {
+    badge: string;
+    title: string;
+    cta: string;
+    tagline: string;
+    selectLabel: string;
+    panels: {
+      id: string;
+      label: string;
+      title: string;
+      body?: string[];
+      list?: string[];
+      media: { src: string; alt: string };
+    }[];
   };
   legal: {
     privacy: {

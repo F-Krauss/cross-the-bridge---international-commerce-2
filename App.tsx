@@ -41,11 +41,13 @@ type IconKey = keyof typeof ICON_MAP;
 const SERVICES_CONTENT: Record<Language, {
   title: string;
   intro: string;
+  cta: string;
   items: { title: string; short: string; long: string[] }[];
 }> = {
   en: {
     title: "Services",
     intro: "We are a strategic partner for brands building reliable international manufacturing.",
+    cta: "Read more",
     items: [
       {
         title: "Raw Materials Sourcing & Supply Assurance",
@@ -80,35 +82,36 @@ const SERVICES_CONTENT: Record<Language, {
   },
   es: {
     title: "Servicios",
-    intro: "We are a strategic partner for brands building reliable international manufacturing.",
+    intro: "Somos un socio estratégico para marcas que buscan manufactura internacional confiable.",
+    cta: "Ver más",
     items: [
       {
-        title: "Raw Materials Sourcing & Supply Assurance",
-        short: "We make sourcing from Mexico reliable for international brands.",
+        title: "Abastecimiento de materias primas y aseguramiento de suministro",
+        short: "Hacemos confiable el abastecimiento desde México para marcas internacionales.",
         long: [
-          "We make raw material sourcing from Mexico reliable, predictable, and export-ready for the leather, footwear, and fashion industries.",
-          "Cross the Bridge ensures consistent raw material sourcing through local oversight and an established supply network across Mexico’s leather and fashion ecosystem. We secure aligned specifications, material availability, and market-based commercial terms to support uninterrupted production.",
-          "By representing multiple brands and maintaining long-term supplier relationships, we operate with collective scale and credibility. This provides access to preferred materials and commercially aligned conditions, particularly for high-demand or limited-supply inputs.",
-          "Through on-the-ground follow-up, we anticipate risks, align negotiations with local market realities, and address issues early, turning raw material sourcing into a dependable supply strategy."
+          "Hacemos que el abastecimiento de materias primas desde México sea confiable, predecible y listo para exportar para las industrias de piel, calzado y moda.",
+          "Cross the Bridge asegura un abastecimiento consistente mediante supervisión local y una red establecida en el ecosistema de piel y moda de México. Alineamos especificaciones, disponibilidad de materiales y condiciones comerciales de mercado para sostener producción sin interrupciones.",
+          "Al representar a varias marcas y mantener relaciones de largo plazo con proveedores, operamos con escala y credibilidad colectiva. Esto abre acceso a materiales preferentes y condiciones comerciales alineadas, incluso en insumos de alta demanda o limitada disponibilidad.",
+          "Con seguimiento en sitio anticipamos riesgos, alineamos negociaciones a la realidad local y resolvemos fricciones temprano, convirtiendo el abastecimiento en una estrategia confiable."
         ]
       },
       {
-        title: "Manufacturing & Supply Chain Operations",
-        short: "Scale without production headaches.",
+        title: "Operación de manufactura y cadena de suministro",
+        short: "Escala sin dolores de cabeza operativos.",
         long: [
-          "We become your team on the ground, managing every step of the production process so you can focus on design, sales, and brand growth.",
-          "From product development and prototyping to full-scale production, we coordinate daily with factories, track timelines, streamline communication, and resolve issues to keep every deliverable on schedule. Our role goes beyond coordination. We translate expectations, align standards, and anticipate risks before they impact cost, quality, or delivery.",
-          "This service includes production planning, materials follow-up, cost finalization, capacity scheduling, quality inspections, risk management, and complete export readiness. You gain transparency, control, and peace of mind, knowing your production is managed locally with international standards and a clear understanding of both sides of the bridge."
+          "Nos convertimos en tu equipo en tierra, gestionando cada paso del proceso para que te enfoques en diseño, ventas y crecimiento de marca.",
+          "Desde desarrollo y prototipado hasta producción a escala, coordinamos diario con fábricas, seguimos tiempos, agilizamos comunicación y resolvemos issues para mantener cada entregable a tiempo. Traducimos expectativas, alineamos estándares y anticipamos riesgos antes de que impacten costo, calidad o entrega.",
+          "Incluye planeación de producción, seguimiento de materiales, cierre de costos, calendarización de capacidad, inspecciones de calidad, gestión de riesgos y preparación completa para exportar. Obtienes transparencia, control y tranquilidad, con producción gestionada localmente bajo estándares internacionales y entendimiento de ambos lados del puente."
         ]
       },
       {
-        title: "International Growth & Strategic Partnerships",
-        short: "We transform international expansion into a strategic advantage, not a costly learning curve.",
+        title: "Crecimiento internacional y alianzas estratégicas",
+        short: "Convertimos la expansión internacional en ventaja estratégica, no en curva de aprendizaje costosa.",
         long: [
-          "At Cross the Bridge, we support companies ready to expand beyond their home market through informed decisions and strategic partnerships — not trial-and-error internationalization.",
-          "We combine market intelligence, a trusted international network, and hands-on guidance to define where to expand, how to enter, and which partners to align with. Rather than pushing expansion for expansion’s sake, we structure each move based on real opportunity, timing, and strategic fit.",
-          "We work through carefully selected projects, supporting founders and leadership teams as they navigate complex international decisions. From early market validation to long-term partner structuring, we reduce risk by ensuring every step is grounded in operational reality, not assumptions.",
-          "This service includes market validation, entry and expansion strategies, partner and distributor structuring, trade show and commercial support, export-readiness consulting, and local representation through licensing or strategic alliances. We stay involved on the ground, helping companies move from strategy to execution with confidence and control."
+          "En Cross the Bridge acompañamos a empresas listas para expandirse más allá de su mercado de origen, con decisiones informadas y alianzas estratégicas — no con prueba y error.",
+          "Combinamos inteligencia de mercado, una red internacional confiable y guía práctica para definir dónde expandir, cómo entrar y con qué socios alinearse. No empujamos expansión por expansión: cada movimiento se estructura según oportunidad real, timing y fit estratégico.",
+          "Trabajamos en proyectos seleccionados, apoyando a fundadores y equipos directivos en decisiones complejas. Desde validación temprana hasta estructuración de socios de largo plazo, reducimos riesgo asegurando que cada paso esté anclado en la realidad operativa, no en supuestos.",
+          "Incluye validación de mercado, estrategias de entrada y expansión, estructuración de socios y distribuidores, soporte en ferias y gestión comercial, consultoría de export-readiness y representación local vía licencias o alianzas estratégicas. Permanecemos en campo para llevar la estrategia a la ejecución con confianza y control."
         ]
       }
     ]
@@ -761,7 +764,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     }, 1000);
   };
 
-  const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
+const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
   const serviceOptions = servicesContent.items.map(item => item.title);
   const bookingServiceOptions = serviceOptions.length ? serviceOptions : ui.booking.serviceOptions;
   const bookingRegionOptions = ui.booking.regionOptions;
@@ -1064,8 +1067,10 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
         {/* <LogoCarouselSection /> */}
         <ServicesSection servicesContent={servicesContent} />
-        <ProcessSection />
-        <TradeMissionsSection onCtaClick={() => handleNavClick('contact')} />
+        <ProcessSection copy={t.process} />
+        {t.tradeMissions && (
+          <TradeMissionsSection copy={t.tradeMissions} onCtaClick={() => handleNavClick('contact')} />
+        )}
 
         {/* Assurances for decision-makers */}
         {/* <section className="bg-[#f6f7fb] text-brand-navy py-16 border-t border-gray-100">
@@ -1135,9 +1140,14 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
           </ScrollReveal>
         </section> */}
 
-        <AboutSection />
+        <AboutSection copy={t.about} />
 
-        <BridgeEffectSection showroom={showroomContent} testimonials={testimonialItems} />
+        <BridgeEffectSection
+          showroom={showroomContent}
+          testimonials={testimonialItems}
+          lang={lang}
+          copy={t.bridgeEffect}
+        />
 
         {/* BECOME A PARTNER - For Providers */}
         <section className="bg-brand-navy text-white flex flex-col justify-center relative overflow-hidden py-16">
@@ -1395,6 +1405,11 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                 <span className="text-brand-gold font-bold uppercase tracking-widest text-xs mb-2 block">{ui.contact.tag}</span>
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-8 text-brand-navy">{t.contact.title}</h2>
                 <div className="space-y-4 md:space-y-8 text-sm md:text-lg">
+                  <div className="flex gap-3 md:gap-4 mt-8 md:mt-12">
+                  <a href="https://www.linkedin.com/company/cross-the-bridge-mx/" target="_blank" rel="noopener noreferrer" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-gold rounded-full hover:bg-brand-navy hover:text-white transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">{ui.contact.socials.linkedin}</a>
+                  <a href="https://www.instagram.com/crossthebridge.mx?igsh=bnF6dGdtdXB4MHIw" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-gold rounded-full hover:bg-brand-navy hover:text-white transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">{ui.contact.socials.instagram}</a>
+                  <a href="https://www.facebook.com/profile.php?id=61583895457222" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-gold rounded-full hover:bg-brand-navy hover:text-white transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">{ui.contact.socials.facebook}</a>
+                </div>
                   <a href="mailto:info@crossthebridge.co" className="flex items-center gap-3 md:gap-4 hover:text-brand-gold transition-colors active:scale-95">
                     {ui.contact.email}
                   </a>
@@ -1409,11 +1424,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
                   </div>
                 </div>
 
-                <div className="flex gap-3 md:gap-4 mt-8 md:mt-12">
-                  <a href="https://www.linkedin.com/company/cross-the-bridge-mx/" target="_blank" rel="noopener noreferrer" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">{ui.contact.socials.linkedin}</a>
-                  <a href="https://www.instagram.com/crossthebridge.mx?igsh=bnF6dGdtdXB4MHIw" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">{ui.contact.socials.instagram}</a>
-                  <a href="https://www.facebook.com/profile.php?id=61583895457222" className="px-3 py-2 md:px-4 md:py-2.5 bg-brand-navy/5 rounded-full hover:bg-brand-gold hover:text-brand-navy transition-all active:scale-90 text-sm font-bold uppercase tracking-widest">{ui.contact.socials.facebook}</a>
-                </div>
+                
               </FadeIn>
             </div>
 

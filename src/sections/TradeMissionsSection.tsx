@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
+import { Content } from '../../types';
 
 const MotionDiv = motion.div as any;
 
@@ -28,6 +29,7 @@ const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0, className = "" }) 
 
 type TradeMissionsSectionProps = {
   onCtaClick?: () => void;
+  copy: NonNullable<Content['tradeMissions']>;
 };
 
 type MediaItem = {
@@ -44,67 +46,13 @@ type MissionPanel = {
   media: MediaItem;
 };
 
-const MISSION_PANELS: MissionPanel[] = [
-  {
-    id: "briefing",
-    label: "Mission Briefing",
-    title: "Trade missions built on real market time.",
-    body: [
-      "Our trade missions are built on 20+ years of hands-on participation in the world's most relevant manufacturing and sourcing markets - from Hong Kong to Italy to the United States - helping companies make smarter international decisions and expand with greater reach."
-    ],
-    media: { 
-      src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
-      alt: "Business travel"
-    }
-  },
-  {
-    id: "agenda",
-    label: "Business Agenda",
-    title: "Focused agendas with the right partners.",
-    body: [
-      "We design focused business agendas that connect companies directly with the right suppliers, manufacturers, and commercial partners. Every mission is grounded in real industry experience, trusted international networks, and a clear strategic objective - not generic tours or one-off introductions.",
-      "Our trade missions are often built around the world's most relevant trade fairs, using them as strategic accelerators to identify suppliers, validate markets, and open high-level conversations that would otherwise take years to access."
-    ],
-    media: {
-      src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
-      alt: "Agenda setting with charts"
-    }
-  },
-  {
-    id: "benefits",
-    label: "Benefits",
-    title: "Clarity, speed, and commercial advantage.",
-    list: [
-      "Direct access to vetted manufacturers and decision-makers",
-      "Strategic meetings aligned with your business goals",
-      "Cultural and commercial context that reduces risk",
-      "Faster learning curves and better international judgment"
-    ],
-    media: {
-      src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
-      alt: "Team collaborating over plans"
-    }
-  },
-  {
-    id: "audience",
-    label: "Who it's for",
-    title: "Built for founders ready to scale.",
-    body: [
-      "Designed for founders and business owners looking to scale internationally with clarity, structure, and confidence."
-    ],
-    media: {
-      src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
-      alt: "CEO shaking hands"
-    }
-  }
-];
-
 const AUTO_ROTATE_MS = 4000;
 
-const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick }) => {
-  const [activePanel, setActivePanel] = useState(MISSION_PANELS[0].id);
-  const active = MISSION_PANELS.find((panel) => panel.id === activePanel) ?? MISSION_PANELS[0];
-  const activeIndex = MISSION_PANELS.findIndex((panel) => panel.id === active.id);
+const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick, copy }) => {
+  const panels: MissionPanel[] = copy.panels || [];
+  const [activePanel, setActivePanel] = useState(panels[0]?.id || '');
+  const active = panels.find((panel) => panel.id === activePanel) ?? panels[0];
+  const activeIndex = panels.findIndex((panel) => panel.id === active?.id);
   const autoTimer = useRef<NodeJS.Timeout | null>(null);
 
   const scheduleAutoRotate = useCallback(() => {
@@ -114,12 +62,12 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
 
     autoTimer.current = setInterval(() => {
       setActivePanel((prev) => {
-        const currentIndex = MISSION_PANELS.findIndex((panel) => panel.id === prev);
-        const nextIndex = (currentIndex + 1) % MISSION_PANELS.length;
-        return MISSION_PANELS[nextIndex].id;
+        const currentIndex = panels.findIndex((panel) => panel.id === prev);
+        const nextIndex = (currentIndex + 1) % panels.length;
+        return panels[nextIndex].id;
       });
     }, AUTO_ROTATE_MS);
-  }, []);
+  }, [panels]);
 
   const pauseAutoRotate = useCallback(() => {
     if (autoTimer.current) {
@@ -142,6 +90,14 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
     scheduleAutoRotate();
   }, [activePanel, scheduleAutoRotate]);
 
+  useEffect(() => {
+    if (panels.length && !activePanel) {
+      setActivePanel(panels[0].id);
+    }
+  }, [panels, activePanel]);
+
+  if (!panels.length) return null;
+
   const handlePanelChange = (panelId: string) => {
     setActivePanel(panelId);
     scheduleAutoRotate();
@@ -161,10 +117,10 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <FadeIn className="max-w-2xl">
             <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
-              Trade missions & business agendas
+              {copy.badge}
             </p>
             <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
-              Trade missions & business agendas
+              {copy.title}
             </h2>
           </FadeIn>
           <FadeIn delay={0.1} className="flex flex-col items-start gap-4">
@@ -172,103 +128,90 @@ const TradeMissionsSection: React.FC<TradeMissionsSectionProps> = ({ onCtaClick 
               onClick={onCtaClick}
               className="inline-flex items-center justify-center gap-2 bg-brand-gold text-brand-navy px-6 py-3 rounded-full text-[8.5px] md:text-[12px] font-bold uppercase tracking-[0.18em] hover:bg-white transition-colors shadow-[0_16px_30px_rgba(0,0,0,0.25)]"
             >
-              Request a Custom Trade Mission
+              {copy.cta}
             </button>
             <p className="text-[8.5px] uppercase tracking-[0.2em] text-brand-gold font-bold">
-              International growth, built on experience.
+              {copy.tagline}
             </p>
           </FadeIn>
         </div>
 
-          <FadeIn delay={0.15} className="mt-10">
-          <div className="rounded-[32px] bg-transparent overflow-hidden">
-            <div
-              className="grid gap-8 lg:grid-cols-[0.5fr,1fr] p-6 sm:p-8 md:p-10 items-start max-w-6xl mx-auto"
-              onMouseEnter={pauseAutoRotate}
-              onMouseLeave={scheduleAutoRotate}
-              onTouchStart={pauseAutoRotate}
-              onTouchEnd={scheduleAutoRotate}
-            >
-              <div className="space-y-4 min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/60">
-                  Select a briefing
-                </p>
-                <div className="overflow-hidden rounded-3xl border border-white/5 max-w-[520px] mx-auto w-full">
-                  <div
-                    className="flex w-full transition-transform duration-700 ease-[0.7,0,0.3,1]"
-                    style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-                  >
-                    {MISSION_PANELS.map((panel, idx) => {
-                      const isActive = panel.id === activePanel;
-                      return (
-                        <button
-                          key={panel.id}
-                          type="button"
-                          onClick={() => handlePanelChange(panel.id)}
-                          className="min-w-full shrink-0 group"
-                        >
-                          <div className="relative px-1 sm:px-3 text-left min-w-0 max-w-[520px] mx-auto">
-                            <div className="relative h-48 sm:h-60 lg:h-72 overflow-hidden rounded-[36px] shadow-[0_30px_60px_rgba(5,10,25,0.35)]">
-                              <img
-                                src={panel.media.src}
-                                alt={panel.media.alt}
-                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-                            </div>
-                            <div className="mt-5 flex items-center gap-3">
-                              <span className={`text-sm font-bold tracking-[0.24em] ${isActive ? "text-brand-gold" : "text-white/60"}`}>
-                                {String(idx + 1).padStart(2, '0')}
-                              </span>
-                              <span className={`text-base font-semibold uppercase tracking-[0.22em] ${isActive ? "text-white" : "text-white/60"}`}>
-                                {panel.label}
-                              </span>
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
+        <FadeIn delay={0.15} className="mt-10">
+          <div
+            className="rounded-[32px] border border-white/10 bg-white/5 overflow-hidden"
+            onMouseEnter={pauseAutoRotate}
+            onMouseLeave={scheduleAutoRotate}
+            onTouchStart={pauseAutoRotate}
+            onTouchEnd={scheduleAutoRotate}
+          >
+            <div className="grid lg:grid-cols-2 items-stretch">
+              <div className="relative min-h-[320px] lg:min-h-[420px] overflow-hidden">
+                <img
+                  src={active.media.src}
+                  alt={active.media.alt}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/25 to-transparent" />
+                <div className="absolute bottom-4 left-4 space-y-2 text-white">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.24em] text-brand-gold">
+                    {copy.selectLabel}
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[11px] font-bold tracking-[0.24em] bg-black/40 px-3 py-1 rounded-full border border-white/10">
+                      {String(activeIndex + 1).padStart(2, '0')}
+                    </span>
+                    <span className="text-sm font-semibold uppercase tracking-[0.24em]">
+                      {active.label}
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <div className="relative min-w-0">
-                <AnimatePresence mode="wait">
-                  <MotionDiv
-                    key={active.id}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="space-y-4 min-w-0 min-h-[360px]"
+              <div className="p-6 sm:p-8 md:p-10 flex flex-col justify-between gap-6 bg-gradient-to-br from-[#0f1729]/60 via-[#0f1729]/40 to-[#1a2847]/30">
+                <div className="space-y-3">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.24em] text-brand-gold">
+                    {active.label}
+                  </p>
+                  <h3 className="text-[24px] sm:text-[28px] md:text-[32px] font-semibold text-white leading-tight">
+                    {active.title}
+                  </h3>
+                  {active.body && (
+                    <div className="space-y-3 text-[12px] sm:text-[13.6px] text-white/80 leading-relaxed">
+                      {active.body.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      ))}
+                    </div>
+                  )}
+                  {active.list && (
+                    <div className="grid gap-3 sm:grid-cols-2 text-[12.5px] sm:text-[14px] font-medium text-white/85">
+                      {active.list.map((benefit, idx) => (
+                        <div key={benefit} className="flex items-start gap-3">
+                          <span className="mt-1 flex h-7 w-7 items-center justify-center rounded-full border border-brand-gold/50 text-[9px] font-bold tracking-[0.2em] text-brand-gold">
+                            0{idx + 1}
+                          </span>
+                          <p className="leading-relaxed">{benefit}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handlePanelChange(panels[(activeIndex - 1 + panels.length) % panels.length].id)}
+                    className="w-11 h-11 rounded-full border border-white/30 text-white/80 hover:border-white hover:text-white transition flex items-center justify-center"
                   >
-                    <p className="text-[8.5px] font-bold uppercase tracking-[0.22em] text-brand-gold">
-                      {active.label}
-                    </p>
-                    <h3 className="text-[25.5px] sm:text-[30px] font-semibold text-white">
-                      {active.title}
-                    </h3>
-                    {active.body && (
-                      <div className="space-y-4 text-[12px] sm:text-[13.6px] text-white/70 leading-relaxed">
-                        {active.body.map((paragraph) => (
-                          <p key={paragraph}>{paragraph}</p>
-                        ))}
-                      </div>
-                    )}
-                    {active.list && (
-                      <div className="grid gap-4 sm:grid-cols-2 text-[13.6px] sm:text-[15px] font-medium text-white/85\">
-                        {active.list.map((benefit, idx) => (
-                          <div key={benefit} className="flex items-start gap-4">
-                            <span className="mt-1 flex h-8 w-8 items-center justify-center rounded-full border border-brand-gold/50 text-[8.5px] font-bold tracking-[0.2em] text-brand-gold">
-                              0{idx + 1}
-                            </span>
-                            <p className="leading-relaxed">{benefit}</p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </MotionDiv>
-                </AnimatePresence>
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handlePanelChange(panels[(activeIndex + 1) % panels.length].id)}
+                    className="w-11 h-11 rounded-full border border-white/30 text-white/80 hover:border-white hover:text-white transition flex items-center justify-center"
+                  >
+                    ›
+                  </button>
+                </div>
               </div>
             </div>
           </div>

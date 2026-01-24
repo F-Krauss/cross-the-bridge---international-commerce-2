@@ -217,7 +217,7 @@ export const UI_TEXT: Record<Language, UiText> = {
       location: 'León Gto, México',
       phoneUS: 'US +1 281 323 2612',
       phoneMX: 'MX +52 477 765 3792',
-      email: 'info@crossthebridge.co',
+      email: 'marianamucino@crossthebridge.com.mx',
       socials: {
         linkedin: 'LinkedIn',
         instagram: 'Instagram',
@@ -676,6 +676,12 @@ export const TRANSLATIONS: Record<Language, Content> = {
     },
     hero: {
       title: "Your strategic bridge to trusted manufacturing partners in Mexico",
+      audience: "For operators, founders, and sourcing teams",
+      proofs: [
+        "140+ vetted suppliers across Mexico",
+        "On-the-ground production governance",
+        "Export-ready compliance and QA"
+      ],
       subtitle: "We help U.S. brands produce and scale in Mexico by connecting them with vetted factories, reliable suppliers, and the right partners — so they move faster, avoid costly mistakes, and scale with confidence.",
       cta: "Explore a Strategic Partnership",
       cta2: ""
@@ -745,44 +751,39 @@ export const TRANSLATIONS: Record<Language, Content> = {
         footwear: "Footwear",
         leather: "Leather",
         hats: "Hats",
-        industrial: "Industrial"
+        industrial: "Industrial",
+        equestrian: "Equestrian goods",
+        private_label: "Private label & custom development"
       },
       items: SHOWROOM_ITEMS
     },
     process: {
       title: "Your Journey With Us",
-      subtitle: "From vision to delivery — a structured path to success.",
-      intro: "We know you want to do business abroad. For 20 years we have contributed to successfully connect Mexico with more than 20 countries in Asia, Europe, America, Africa and Oceania.",
+      subtitle: "A proven system to execute manufacturing in Mexico — without costly trial and error.",
+      intro: "We’ve refined this framework over 20+ years, so you don’t have to learn the hard way.",
       steps: [
         {
-          title: "Discovery & Project Alignment",
-          desc: "Your vision, goals, pricing targets, timeline expectations, and market positioning come together here. We define the roadmap and align all strategic decisions before moving forward."
+          title: "Align",
+          tagline: "Strategy before production.",
+          desc: "We define goals, pricing targets, timelines, and feasibility upfront, so every decision is aligned before money is spent or factories are engaged."
         },
         {
-          title: "Product & Material Development",
-          desc: "We translate your idea into a manufacturable product. This includes technical specs, material research, construction guidance, cost estimates, and industry-driven recommendations."
+          title: "Build",
+          tagline: "From idea to validated product.",
+          desc: "We support product development, material selection, supplier and factory matching, and prototype validation, ensuring your product is technically sound, cost-aligned, and ready for production."
         },
         {
-          title: "Strategic Supplier Matchmaking",
-          desc: "We connect you with the right factory and material suppliers based on capabilities, quality, certifications, pricing, capacity, and long-term fit. You get curated options, not guesswork."
+          title: "Execute",
+          tagline: "Hands-on production control.",
+          desc: "We manage production on the ground, coordinating suppliers, timelines, technical follow-up, and quality standards so your team can stay focused on growth."
         },
         {
-          title: "Prototyping & Sample Validation",
-          desc: "We coordinate all sample rounds to test construction, fit, comfort, finishing, materials, and cost accuracy. This is where your product takes shape and gets validated before production."
-        },
-        {
-          title: "Production Management & Daily Operations",
-          desc: "We manage your production from A to Z: scheduling, raw materials, communication, technical follow-up, problem-solving, and timeline control. You focus on sales — we run the factory."
-        },
-        {
-          title: "Quality Assurance & Pre-Shipment Inspections",
-          desc: "We implement international-level quality standards through inspections, testing, reports, and final validation. Our Zero-Surprises approach protects your brand at every stage."
-        },
-        {
-          title: "Logistics, Documentation & Export Coordination",
-          desc: "We prepare all packaging details, coordinate with carriers, review commercial documents, ensure compliance, and guide your shipment from factory floor to final destination."
+          title: "Deliver",
+          tagline: "Export-ready and market compliant.",
+          desc: "We coordinate logistics, documentation, and export requirements, guiding your shipment from factory floor to final destination with full visibility and control."
         }
-      ]
+      ],
+      outro: "With Cross the Bridge, you don’t start from zero. You operate with a system refined by real-world execution."
     },
     team: {
       title: "Our Founder",
@@ -806,6 +807,107 @@ export const TRANSLATIONS: Record<Language, Content> = {
       // negotiationsLabel: "Successful Negotiations",
       alliances: "+20",
       alliancesLabel: "Strategic Alliances"
+    },
+    about: {
+      badge: "About",
+      founderTitle: "Our Founder",
+      founderTagline: "Visionary leadership driving global connections.",
+      founderStoryBadge: "Founder story",
+      founderName: "Mariana Muciño Del Rio",
+      founderRole: "International Negotiation & Strategic Planning",
+      bio: [
+        "Mariana Muciño is the founder of Cross the Bridge. She began her career in international business at 23 and has spent two decades living and working across global markets, leading manufacturing and sourcing projects on five continents. This experience allows her to help companies simplify international expansion, providing the clarity, structure, and trusted resources they need to grow with confidence.",
+        "Rather than acting as a traditional consultant, Mariana builds long-term strategic alliances, working side by side with founders and teams. Through her experience and global network, clients do not start from zero - they move forward with the right partners, clearer decisions, and a stronger foundation for sustainable international growth."
+      ],
+      bioCtaMore: "Read full bio",
+      bioCtaLess: "Collapse bio",
+      differentiators: {
+        badge: "What makes Cross the Bridge truly different",
+        title: "Strategic partnership with measurable control.",
+        subtitle: "Each point below expands into the specific ways we reduce risk, accelerate decisions, and keep you in control.",
+        openLabel: "Open",
+        viewLabel: "View",
+        items: [
+          {
+            title: "Strategic partner, not an intermediary",
+            body: "Cross the Bridge is not an intermediary. We are a strategic partner embedded in Mexico's most competitive manufacturing ecosystem."
+          },
+          {
+            title: "Hands-on execution and accountability",
+            body: "We help brands reduce risk, gain control, and scale production in Mexico by combining direct access to vetted manufacturers, hands-on execution, and clear accountability across the entire production cycle."
+          },
+          {
+            title: "Side-by-side collaboration",
+            body: "Rather than managing processes from a distance, we work side by side with founders and teams throughout development, production, and expansion. This proximity enables faster decisions, fewer costly mistakes, and real ownership at every stage."
+          },
+          {
+            title: "Vetted network from day one",
+            body: "Our clients do not start from zero. Every project is built on factories, suppliers, and partners we already know, have vetted, and have successfully worked with. This gives brands an operational foundation from day one - not a trial-and-error learning curve."
+          },
+          {
+            title: "Connection that accelerates growth",
+            body: "Beyond structure and strategy, our value lies in connection. We connect our clients to a trusted network of manufacturers, suppliers, and business leaders who operate with shared standards of quality, responsibility, and long-term vision - accelerating growth through alignment, not guesswork."
+          }
+        ]
+      },
+      outcomes: {
+        badge: "What this means for our clients",
+        title: "Clear outcomes with one accountable partner.",
+        items: [
+          {
+            title: "Direct access, not intermediaries",
+            body: "Hands-on collaboration with vetted factories and key suppliers across the full value chain."
+          },
+          {
+            title: "End-to-end coordination under one lead",
+            body: "Product development, production, quality control, and cross-border logistics managed with clarity and accountability."
+          },
+          {
+            title: "Operational clarity and risk control",
+            body: "A single point of responsibility across factories, exporters, and regulatory requirements."
+          },
+          {
+            title: "Built for long-term scale",
+            body: "Support from early development to repeatable, scalable production inside Mexico's most established manufacturing hub."
+          }
+        ]
+      },
+      leon: {
+        badge: "Why León, Guanajuato?",
+        heading: "Where global craftsmanship meets industrial scale",
+        stats: ["40M pairs exported annually", "5 days logistic door to door"],
+        scaleBadge: "Scale signal",
+        scaleLabel: "40M pairs exported annually",
+        paragraphs: [
+          "For generations, León has been the heart of Latin America's leather, footwear, and fashion industry. Expertise here is built across generations, refined through disciplined manufacturing, and scaled for global markets.",
+          "Today, Guanajuato exports nearly 40 million pairs of footwear annually, positioning León among the world's leading leather footwear production hubs. Manufacturers in the region are recognized for both scale and technical specialization, including heritage constructions such as Goodyear Welt trusted by international brands.",
+          "\"Made in León, Guanajuato\" represents more than origin. It signals a manufacturing ecosystem where craftsmanship, technical execution, and export readiness coexist at scale.",
+          "CTB operates within this ecosystem, connecting high-performing family manufacturers with international brands seeking controlled growth and resilient supply chains. León provides the manufacturing advantage. CTB delivers the structure and execution that turn it into measurable performance."
+        ],
+        advantagesBadge: "Manufacturing advantages",
+        advantages: [
+          {
+            title: "Deep manufacturing roots",
+            body: "Generations of family-owned SMEs specialized in leather, footwear, and fashion."
+          },
+          {
+            title: "Proven global export performance",
+            body: "Approximately 40 million pairs exported annually to more than 30 international markets."
+          },
+          {
+            title: "Technical specialization",
+            body: "Advanced constructions, precision components, and complex assemblies requiring skilled labor and mature processes."
+          },
+          {
+            title: "Strategic logistics advantage",
+            body: "Access to major U.S. border crossings and both Pacific and Gulf ports, enabling exports to Texas in 3-5 days."
+          },
+          {
+            title: "Nearshoring that truly works",
+            body: "A vertically integrated supply chain concentrated within a single industrial cluster, reducing lead times and operational risk."
+          }
+        ]
+      }
     },
     testimonials: {
       title: "Trust the over 100 businesses that we've helped",
@@ -942,6 +1044,80 @@ export const TRANSLATIONS: Record<Language, Content> = {
       privacy: "Privacy Policy",
       terms: "Terms of Service"
     },
+    bridgeEffect: {
+      badge: "The bridge effect",
+      title: "Cross the bridge without fear.",
+      body: "For over two decades, we’ve been operating where global business actually happens. On factory floors, at international trade fairs, inside distribution centers, and across cultures, regulations, and markets. The Bridge Effect is the result of sustained international execution. It’s what happens when brands don’t just source abroad, but successfully enter, scale, and endure in global markets. From Asia to Europe, Africa, and the Americas, we turn ideas into export-ready operations, supported by real infrastructure, trusted alliances, and on-the-ground leadership. This section highlights the product categories where that experience lives today, and where new global success stories continue to be built.",
+      industriesTitle: "Industries we work with",
+      industriesIntro: "Pick a category to see the focus areas and a gallery of recent partner builds.",
+      selectedLabel: "Selected category",
+      categoriesSuffix: "categories",
+      testimonialsBadge: "Trusted by over 100 businesses worldwide",
+      testimonialsTitle: "Real voices from both sides of the bridge",
+      testimonialsSubtitle: "Founders, operators, and industry leaders who rely on our on-the-ground partnership.",
+      storyLabel: "Story"
+    },
+    tradeMissions: {
+      badge: "Trade missions & business agendas",
+      title: "Trade missions & business agendas",
+      cta: "Request a Custom Trade Mission",
+      tagline: "International growth, built on experience.",
+      selectLabel: "Select a briefing",
+      panels: [
+        {
+          id: "briefing",
+          label: "Mission Briefing",
+          title: "Trade missions built on real market time.",
+          body: [
+            "Our trade missions are built on 20+ years of hands-on participation in the world's most relevant manufacturing and sourcing markets - from Hong Kong to Italy to the United States - helping companies make smarter international decisions and expand with greater reach."
+          ],
+          media: {
+            src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
+            alt: "Business travel"
+          }
+        },
+        {
+          id: "agenda",
+          label: "Business Agenda",
+          title: "Focused agendas with the right partners.",
+          body: [
+            "We design focused business agendas that connect companies directly with the right suppliers, manufacturers, and commercial partners. Every mission is grounded in real industry experience, trusted international networks, and a clear strategic objective - not generic tours or one-off introductions.",
+            "Our trade missions are often built around the world's most relevant trade fairs, using them as strategic accelerators to identify suppliers, validate markets, and open high-level conversations that would otherwise take years to access."
+          ],
+          media: {
+            src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
+            alt: "Agenda setting with charts"
+          }
+        },
+        {
+          id: "benefits",
+          label: "Benefits",
+          title: "Clarity, speed, and commercial advantage.",
+          list: [
+            "Direct access to vetted manufacturers and decision-makers",
+            "Strategic meetings aligned with your business goals",
+            "Cultural and commercial context that reduces risk",
+            "Faster learning curves and better international judgment"
+          ],
+          media: {
+            src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
+            alt: "Team collaborating over plans"
+          }
+        },
+        {
+          id: "audience",
+          label: "Who it's for",
+          title: "Built for founders ready to scale.",
+          body: [
+            "Designed for founders and business owners looking to scale internationally with clarity, structure, and confidence."
+          ],
+          media: {
+            src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
+            alt: "CEO shaking hands"
+          }
+        }
+      ]
+    },
     legal: {
       back: "Back to Home",
       privacy: {
@@ -1010,6 +1186,12 @@ export const TRANSLATIONS: Record<Language, Content> = {
     },
     hero: {
       title: "Tu puente estratégico hacia socios de manufactura confiables en México",
+      audience: "Para operadores, fundadores y equipos de sourcing",
+      proofs: [
+        "Más de 140 proveedores validados en México",
+        "Gobernanza operativa en campo",
+        "Cumplimiento y QA listos para exportar"
+      ],
       subtitle: "Ayudamos a marcas de EE. UU. a producir y escalar en México conectándolas con fábricas verificadas, proveedores confiables y los aliados correctos — para avanzar más rápido, evitar errores costosos y crecer con confianza.",
       cta: "Explora una Alianza Estratégica",
       cta2: ""
@@ -1079,44 +1261,39 @@ export const TRANSLATIONS: Record<Language, Content> = {
         footwear: "Calzado",
         leather: "Piel",
         hats: "Sombreros",
-        industrial: "Industrial"
+        industrial: "Industrial",
+        equestrian: "Bienes ecuestres",
+        private_label: "Marca privada y desarrollo a medida"
       },
       items: SHOWROOM_ITEMS
     },
     process: {
-      title: "Tu Camino Con Nosotros",
-      subtitle: "De la visión a la entrega — un camino estructurado hacia el éxito.",
-      intro: "Sabemos que quiere hacer negocios en el extranjero. Durante 20 años hemos contribuido a conectar exitosamente a México con más de 20 países en Asia, Europa, América, África y Oceanía.",
+      title: "Tu camino con nosotros",
+      subtitle: "Un sistema probado para ejecutar manufactura en México — sin errores costosos.",
+      intro: "Hemos refinado este marco por más de 20 años; no necesitas aprender por las malas.",
       steps: [
         {
-          title: "Descubrimiento y Alineación del Proyecto",
-          desc: "Tu visión, objetivos, metas de precio, expectativas de tiempo y posicionamiento de mercado se unen aquí. Definimos la hoja de ruta y alineamos todas las decisiones estratégicas antes de avanzar."
+          title: "Alinear",
+          tagline: "Estrategia antes de producir.",
+          desc: "Definimos objetivos, metas de precio, tiempos y viabilidad desde el inicio, para que cada decisión se alinee antes de gastar o involucrar fábricas."
         },
         {
-          title: "Desarrollo de Producto y Materiales",
-          desc: "Traducimos tu idea en un producto manufacturable. Esto incluye especificaciones técnicas, investigación de materiales, guía de construcción, estimaciones de costos y recomendaciones impulsadas por la industria."
+          title: "Construir",
+          tagline: "De la idea al producto validado.",
+          desc: "Acompañamos desarrollo de producto, selección de materiales, matchmaking de proveedores y fábricas, y validación de prototipos, asegurando que tu producto sea sólido, alineado en costo y listo para producir."
         },
         {
-          title: "Emparejamiento Estratégico de Proveedores",
-          desc: "Te conectamos con la fábrica y proveedores de materiales adecuados según capacidades, calidad, certificaciones, precios, capacidad y ajuste a largo plazo. Obtienes opciones seleccionadas, no conjeturas."
+          title: "Ejecutar",
+          tagline: "Control operativo en campo.",
+          desc: "Gestionamos producción en sitio, coordinando proveedores, tiempos, seguimiento técnico y estándares de calidad para que tu equipo se enfoque en crecer."
         },
         {
-          title: "Prototipado y Validación de Muestras",
-          desc: "Coordinamos todas las rondas de muestras para probar construcción, ajuste, comodidad, acabado, materiales y precisión de costos. Aquí es donde tu producto toma forma y se valida antes de la producción."
-        },
-        {
-          title: "Gestión de Producción y Operaciones Diarias",
-          desc: "Gestionamos tu producción de la A a la Z: programación, materias primas, comunicación, seguimiento técnico, resolución de problemas y control de tiempos. Tú te enfocas en ventas — nosotros manejamos la fábrica."
-        },
-        {
-          title: "Control de Calidad e Inspecciones Pre-Envío",
-          desc: "Implementamos estándares de calidad de nivel internacional mediante inspecciones, pruebas, reportes y validación final. Nuestro enfoque Cero-Sorpresas protege tu marca en cada etapa."
-        },
-        {
-          title: "Logística, Documentación y Coordinación de Exportación",
-          desc: "Preparamos todos los detalles de empaque, coordinamos con transportistas, revisamos documentos comerciales, aseguramos cumplimiento y guiamos tu envío desde la fábrica hasta el destino final."
+          title: "Entregar",
+          tagline: "Listo para exportar y cumplir mercados.",
+          desc: "Coordinamos logística, documentación y requisitos de exportación, guiando tu embarque desde planta hasta destino final con total visibilidad y control."
         }
-      ]
+      ],
+      outro: "Con Cross the Bridge no empiezas desde cero. Operas con un sistema refinado por ejecución real."
     },
     team: {
       title: "Nuestra Fundadora",
@@ -1140,6 +1317,107 @@ export const TRANSLATIONS: Record<Language, Content> = {
       // negotiationsLabel: "Negociaciones Exitosas",
       alliances: "+20",
       alliancesLabel: "Alianzas Estratégicas"
+    },
+    about: {
+      badge: "Nosotros",
+      founderTitle: "Nuestra fundadora",
+      founderTagline: "Liderazgo visionario impulsando conexiones globales.",
+      founderStoryBadge: "Historia de la fundadora",
+      founderName: "Mariana Muciño Del Rio",
+      founderRole: "Negociación y planeación estratégica internacional",
+      bio: [
+        "Mariana Muciño es la fundadora de Cross the Bridge. Inició su carrera en negocios internacionales a los 23 años y ha pasado dos décadas viviendo y trabajando en mercados globales, liderando proyectos de manufactura y sourcing en cinco continentes. Esta experiencia le permite ayudar a las empresas a simplificar su expansión internacional, brindándoles claridad, estructura y recursos confiables para crecer con seguridad.",
+        "En lugar de actuar como una consultora tradicional, Mariana construye alianzas estratégicas de largo plazo, trabajando hombro a hombro con fundadores y equipos. Gracias a su experiencia y red global, los clientes no comienzan desde cero: avanzan con los socios correctos, decisiones más claras y una base más sólida para un crecimiento internacional sostenible."
+      ],
+      bioCtaMore: "Leer biografía completa",
+      bioCtaLess: "Cerrar biografía",
+      differentiators: {
+        badge: "Qué hace único a Cross the Bridge",
+        title: "Alianza estratégica con control medible.",
+        subtitle: "Cada punto muestra cómo reducimos riesgo, aceleramos decisiones y te mantenemos en control.",
+        openLabel: "Abrir",
+        viewLabel: "Ver",
+        items: [
+          {
+            title: "Socio estratégico, no intermediario",
+            body: "Cross the Bridge no es un intermediario. Somos un socio estratégico incrustado en el ecosistema manufacturero más competitivo de México."
+          },
+          {
+            title: "Ejecución práctica y responsabilidad",
+            body: "Ayudamos a marcas a reducir riesgo, ganar control y escalar producción en México combinando acceso directo a fábricas validadas, ejecución práctica y responsabilidad clara en todo el ciclo productivo."
+          },
+          {
+            title: "Colaboración hombro a hombro",
+            body: "En vez de gestionar a distancia, trabajamos junto a fundadores y equipos durante desarrollo, producción y expansión. Esta cercanía permite decisiones más rápidas, menos errores costosos y verdadera propiedad en cada etapa."
+          },
+          {
+            title: "Red validada desde el día uno",
+            body: "Nuestros clientes no comienzan desde cero. Cada proyecto se basa en fábricas, proveedores y socios que ya conocemos, hemos validado y con quienes hemos trabajado exitosamente. Esto da una base operativa desde el día uno, sin curva de prueba y error."
+          },
+          {
+            title: "Conexión que acelera el crecimiento",
+            body: "Más allá de estructura y estrategia, nuestro valor está en la conexión. Conectamos a nuestros clientes con una red confiable de fabricantes, proveedores y líderes que operan con estándares compartidos de calidad, responsabilidad y visión de largo plazo — acelerando el crecimiento por alineación, no por ensayo y error."
+          }
+        ]
+      },
+      outcomes: {
+        badge: "Qué significa para nuestros clientes",
+        title: "Resultados claros con un solo responsable.",
+        items: [
+          {
+            title: "Acceso directo, sin intermediarios",
+            body: "Colaboración práctica con fábricas validadas y proveedores clave en toda la cadena de valor."
+          },
+          {
+            title: "Coordinación end-to-end bajo un solo líder",
+            body: "Desarrollo de producto, producción, control de calidad y logística transfronteriza gestionados con claridad y responsabilidad."
+          },
+          {
+            title: "Claridad operativa y control de riesgo",
+            body: "Un solo responsable frente a fábricas, exportadores y requisitos regulatorios."
+          },
+          {
+            title: "Listo para escalar a largo plazo",
+            body: "Soporte desde el desarrollo temprano hasta producción repetible y escalable en el hub manufacturero más consolidado de México."
+          }
+        ]
+      },
+      leon: {
+        badge: "¿Por qué León, Guanajuato?",
+        heading: "Donde la artesanía global se une con la escala industrial",
+        stats: ["40M de pares exportados al año", "Logística puerta a puerta en 5 días"],
+        scaleBadge: "Señal de escala",
+        scaleLabel: "40M de pares exportados al año",
+        paragraphs: [
+          "Por generaciones, León ha sido el corazón de la industria de piel, calzado y moda de América Latina. Aquí la experiencia se construye entre generaciones, se refina con manufactura disciplinada y se escala para mercados globales.",
+          "Hoy Guanajuato exporta casi 40 millones de pares de calzado al año, posicionando a León entre los principales polos de producción de calzado de piel del mundo. Los fabricantes de la región se distinguen por escala y especialización técnica, incluyendo construcciones de herencia como Goodyear Welt confiadas por marcas internacionales.",
+          "\"Hecho en León, Guanajuato\" es más que origen. Señala un ecosistema manufacturero donde la artesanía, la ejecución técnica y la preparación para exportar conviven a escala.",
+          "CTB opera dentro de este ecosistema, conectando fabricantes familiares de alto desempeño con marcas internacionales que buscan crecimiento controlado y cadenas de suministro resilientes. León ofrece la ventaja manufacturera. CTB aporta la estructura y ejecución que la convierten en desempeño medible."
+        ],
+        advantagesBadge: "Ventajas de manufactura",
+        advantages: [
+          {
+            title: "Raíces profundas en manufactura",
+            body: "Generaciones de PYMES familiares especializadas en piel, calzado y moda."
+          },
+          {
+            title: "Desempeño exportador probado",
+            body: "Aproximadamente 40 millones de pares exportados cada año a más de 30 mercados internacionales."
+          },
+          {
+            title: "Especialización técnica",
+            body: "Construcciones avanzadas, componentes de precisión y ensambles complejos que requieren mano de obra experta y procesos maduros."
+          },
+          {
+            title: "Ventaja logística estratégica",
+            body: "Acceso a los principales cruces fronterizos con EE. UU. y a puertos del Pacífico y Golfo, permitiendo exportar a Texas en 3-5 días."
+          },
+          {
+            title: "Nearshoring que realmente funciona",
+            body: "Cadena de suministro integrada verticalmente en un solo clúster industrial, reduciendo tiempos y riesgo operativo."
+          }
+        ]
+      }
     },
     testimonials: {
       title: "Confíe en las más de 100 empresas que hemos ayudado",
@@ -1275,6 +1553,80 @@ export const TRANSLATIONS: Record<Language, Content> = {
       rights: "© 2024 Cross The Bridge. Todos los derechos reservados.",
       privacy: "Política de Privacidad",
       terms: "Términos de Servicio"
+    },
+    bridgeEffect: {
+      badge: "El efecto puente",
+      title: "Cruza el puente sin miedo.",
+      body: "Durante más de dos décadas hemos operado donde realmente sucede el negocio global: en planta, en ferias internacionales, dentro de centros de distribución y a través de culturas, regulaciones y mercados. El Efecto Puente es el resultado de una ejecución internacional sostenida. Es lo que pasa cuando las marcas no solo compran fuera, sino que entran, escalan y se sostienen en mercados globales. De Asia a Europa, África y las Américas, convertimos ideas en operaciones listas para exportar, con infraestructura real, alianzas confiables y liderazgo en tierra. Aquí mostramos las categorías de producto donde vive esa experiencia hoy y donde se siguen construyendo nuevas historias de éxito.",
+      industriesTitle: "Industrias con las que trabajamos",
+      industriesIntro: "Elige una categoría para ver los enfoques y una galería de proyectos recientes.",
+      selectedLabel: "Categoría seleccionada",
+      categoriesSuffix: "categorías",
+      testimonialsBadge: "Respaldados por más de 100 empresas en el mundo",
+      testimonialsTitle: "Voces reales a ambos lados del puente",
+      testimonialsSubtitle: "Fundadores, operadores y líderes que confían en nuestra presencia en tierra.",
+      storyLabel: "Historia"
+    },
+    tradeMissions: {
+      badge: "Misiones comerciales y agendas de negocio",
+      title: "Misiones comerciales y agendas de negocio",
+      cta: "Solicita una misión a medida",
+      tagline: "Crecimiento internacional, construido con experiencia.",
+      selectLabel: "Elige un briefing",
+      panels: [
+        {
+          id: "briefing",
+          label: "Brief de la misión",
+          title: "Misiones construidas con tiempo real de mercado.",
+          body: [
+            "Nuestras misiones se basan en 20+ años participando en los mercados de manufactura y sourcing más relevantes — de Hong Kong a Italia y Estados Unidos — ayudando a empresas a decidir mejor y ampliar su alcance internacional."
+          ],
+          media: {
+            src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
+            alt: "Viaje de negocios"
+          }
+        },
+        {
+          id: "agenda",
+          label: "Agenda de negocios",
+          title: "Agendas enfocadas con los socios correctos.",
+          body: [
+            "Diseñamos agendas que conectan directamente a las empresas con los proveedores, fabricantes y socios comerciales correctos. Cada misión se basa en experiencia real, redes internacionales confiables y un objetivo estratégico claro — no en tours genéricos ni presentaciones al azar.",
+            "Frecuentemente construimos las misiones alrededor de las ferias más relevantes del mundo, usándolas como aceleradores para identificar proveedores, validar mercados y abrir conversaciones de alto nivel que de otra forma tomarían años."
+          ],
+          media: {
+            src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
+            alt: "Definiendo agenda con gráficos"
+          }
+        },
+        {
+          id: "benefits",
+          label: "Beneficios",
+          title: "Claridad, velocidad y ventaja comercial.",
+          list: [
+            "Acceso directo a fabricantes y decisores validados",
+            "Reuniones estratégicas alineadas a tus objetivos",
+            "Contexto cultural y comercial que reduce riesgo",
+            "Curva de aprendizaje más rápida y mejor criterio internacional"
+          ],
+          media: {
+            src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
+            alt: "Equipo colaborando sobre planes"
+          }
+        },
+        {
+          id: "audience",
+          label: "Para quién es",
+          title: "Diseñado para fundadores listos para escalar.",
+          body: [
+            "Pensado para fundadores y dueños que buscan escalar internacionalmente con claridad, estructura y confianza."
+          ],
+          media: {
+            src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
+            alt: "CEO estrechando manos"
+          }
+        }
+      ]
     },
     legal: {
       back: "Volver al Inicio",

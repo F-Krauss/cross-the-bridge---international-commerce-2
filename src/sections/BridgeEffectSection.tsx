@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import { Content, Language } from '../../types';
 
 const MotionDiv = motion.div as any;
 
@@ -53,6 +54,26 @@ type Testimonial = {
 type BridgeEffectSectionProps = {
   showroom: ShowroomContent;
   testimonials: Testimonial[];
+  lang: Language;
+  copy: Content['bridgeEffect'];
+};
+
+type LocalizedString = { en: string; es: string };
+
+type IndustryOption = {
+  key: string;
+  label: LocalizedString;
+  title: LocalizedString;
+  description: LocalizedString;
+  image: string;
+  showroomCategories: string[];
+  gallery: string[];
+};
+
+type GalleryItem = {
+  src: string;
+  title?: string;
+  categoryLabel?: string;
 };
 
 const TESTIMONIAL_IMAGES = [
@@ -63,18 +84,9 @@ const TESTIMONIAL_IMAGES = [
   "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80"
 ];
 
-const GALLERY_IMAGES = [
-  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80"
-];
+type HeroGalleryItem = { src: string; title: string; tag: string };
 
-const HERO_GALLERY = [
+const HERO_GALLERY: HeroGalleryItem[] = [
   { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", title: "Hands-on sourcing and production", tag: "Factory & materials" },
   { src: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80", title: "Leather inspection on-site", tag: "Quality control" },
   { src: "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1600&q=80", title: "Materials moving daily", tag: "Logistics" },
@@ -85,30 +97,92 @@ const HERO_GALLERY = [
   { src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80", title: "Alliance building", tag: "Alliances" }
 ];
 
-const INDUSTRY_CARDS = [
+const INDUSTRY_OPTIONS: IndustryOption[] = [
   {
-    title: "Footwear manufacturing",
-    impact: "Goodyear welt, cemented, and stitchdown builds supervised on the factory floor.",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80"
+    key: "footwear",
+    label: { en: "Footwear", es: "Calzado" },
+    title: { en: "Footwear manufacturing", es: "Manufactura de calzado" },
+    description: { en: "Goodyear welt, cemented, and stitchdown builds supervised on the factory floor.", es: "Construcciones Goodyear welt, cementado y stitchdown supervisadas directamente en planta." },
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80",
+    showroomCategories: ["footwear"],
+    gallery: [
+      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80"
+    ]
   },
   {
-    title: "Leather goods",
-    impact: "Supple leathers cut, skived, and finished with export-ready QC.",
-    image: "https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=1600&q=80"
+    key: "leather",
+    label: { en: "Leather", es: "Piel" },
+    title: { en: "Leather goods", es: "Artículos de piel" },
+    description: { en: "Supple leathers cut, skived, and finished with export-ready QC.", es: "Pieles suaves cortadas, rebajadas y terminadas con control de calidad listo para exportación." },
+    image: "https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=1600&q=80",
+    showroomCategories: ["leather"],
+    gallery: [
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1000&q=80"
+    ]
   },
   {
-    title: "Fashion & accessories",
-    impact: "Accessories crafted with boutique detail and industrial discipline.",
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80"
+    key: "hats",
+    label: { en: "Hats", es: "Sombreros" },
+    title: { en: "Fashion & accessories", es: "Moda y accesorios" },
+    description: { en: "Accessories crafted with boutique detail and industrial discipline.", es: "Accesorios creados con detalle boutique y disciplina industrial." },
+    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80",
+    showroomCategories: ["hats"],
+    gallery: [
+      "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=1000&q=80"
+    ]
   },
   {
-    title: "Private label & custom development",
-    impact: "Co-created lines, rapid prototyping, and hands-on materials sourcing.",
-    image: "https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80"
+    key: "industrial",
+    label: { en: "Industrial", es: "Industrial" },
+    title: { en: "Industrial components", es: "Componentes industriales" },
+    description: { en: "Safety-rated components and materials engineered for performance and durability.", es: "Componentes y materiales certificados para seguridad, diseñados para desempeño y durabilidad." },
+    image: "https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80",
+    showroomCategories: ["industrial"],
+    gallery: [
+      "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    key: "equestrian",
+    label: { en: "Equestrian goods", es: "Bienes ecuestres" },
+    title: { en: "Equestrian goods", es: "Bienes ecuestres" },
+    description: { en: "Tack, saddlery, and leather components made to withstand real-world use.", es: "Cabezal, sillería y componentes de piel hechos para resistir uso real." },
+    image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80",
+    showroomCategories: ["equestrian"],
+    gallery: [
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1000&q=80"
+    ]
+  },
+  {
+    key: "private_label",
+    label: { en: "Private label & custom development", es: "Marca privada y desarrollo a medida" },
+    title: { en: "Private label & custom development", es: "Marca privada y desarrollo a medida" },
+    description: { en: "Co-created lines, rapid prototyping, and hands-on materials sourcing.", es: "Líneas co-creadas, prototipado ágil y sourcing práctico de materiales." },
+    image: "https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80",
+    showroomCategories: [],
+    gallery: [
+      "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1000&q=80"
+    ]
   }
 ];
-
-const ambientImage = "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80";
 
 const getCountryFlag = (countryCode: string): string => {
   if (!countryCode || countryCode.length !== 2) return '';
@@ -119,10 +193,15 @@ const getCountryFlag = (countryCode: string): string => {
   return String.fromCodePoint(...codePoints);
 };
 
-const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, testimonials }) => {
-  const [activeCategory, setActiveCategory] = useState('all');
+const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, testimonials, lang, copy }) => {
+  const [activeCategory, setActiveCategory] = useState(INDUSTRY_OPTIONS[0]?.key ?? '');
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [direction, setDirection] = useState<'next' | 'prev'>('next');
+
+  const getText = (value: LocalizedString | string) => {
+    if (typeof value === 'string') return value;
+    return value[lang] || value.en;
+  };
 
   const testimonialsWithImages = useMemo(() => {
     const fallbacks = TESTIMONIAL_IMAGES;
@@ -132,12 +211,34 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
     }));
   }, [testimonials]);
 
-  const filteredItems = useMemo(() => {
+  const activeIndustry = useMemo(
+    () => INDUSTRY_OPTIONS.find((option) => option.key === activeCategory) || INDUSTRY_OPTIONS[0],
+    [activeCategory]
+  );
+
+  const filteredItems = useMemo<GalleryItem[]>(() => {
+    if (!activeIndustry) return [];
     const items = showroom?.items || [];
-    return activeCategory === 'all'
-      ? items
-      : items.filter((item) => item.category === activeCategory);
-  }, [activeCategory, showroom?.items]);
+    const showroomMatches = activeIndustry.showroomCategories?.length
+      ? items.filter((item) => activeIndustry.showroomCategories.includes(item.category))
+      : [];
+    const showroomGallery = showroomMatches.map((item) => ({
+      src: item.image,
+      title: item.title,
+      categoryLabel: showroom?.categories?.[item.category] || getText(activeIndustry.label) || item.category
+    }));
+    const fallbackNeeded = Math.max(0, 6 - showroomGallery.length);
+    const fallbackGallery = (activeIndustry.gallery || []).slice(0, fallbackNeeded).map((src) => ({
+      src
+    }));
+    const combined = [...showroomGallery, ...fallbackGallery];
+    const seen = new Set<string>();
+    return combined.filter((item) => {
+      if (seen.has(item.src)) return false;
+      seen.add(item.src);
+      return true;
+    }).slice(0, 6);
+  }, [activeIndustry, showroom?.items, showroom?.categories]);
 
   useEffect(() => {
     if (!testimonialsWithImages.length) return;
@@ -148,13 +249,11 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
     return () => clearInterval(id);
   }, [testimonialsWithImages.length]);
 
-  if (!showroom) return null;
+  if (!showroom || !activeIndustry) return null;
 
   const testimonial = testimonialsWithImages[activeTestimonial];
-  const categoryOrder = ['all', 'footwear', 'leather', 'hats', 'industrial', 'equestrian goods'];
-  const gallerySequence = [...GALLERY_IMAGES, ...GALLERY_IMAGES];
   const heroGroups = useMemo(() => {
-    const groups: typeof HERO_GALLERY[][] = [];
+    const groups: HeroGalleryItem[][] = [];
     for (let i = 0; i < HERO_GALLERY.length; i += 3) {
       const group = HERO_GALLERY.slice(i, i + 3);
       while (group.length < 3) {
@@ -179,35 +278,20 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
         <div className="grid gap-10 lg:grid-cols-[1.05fr,0.95fr] items-center">
           <FadeIn className="space-y-6">
             <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
-              <Sparkles size={14} /> The bridge effect
+              <Sparkles size={14} /> {copy.badge}
             </div>
             <div className="space-y-4">
               <h2 className="text-[30px] sm:text-[38px] md:text-[48px] font-semibold leading-tight drop-shadow-[0_10px_40px_rgba(0,0,0,0.25)]">
-                Cross the bridge without fear.
+                {copy.title}
               </h2>
               <p className="text-sm sm:text-base text-white/75 max-w-2xl leading-relaxed">
-                For over two decades, we’ve been operating where global business actually happens. On factory floors, at international trade fairs, inside distribution centers, and across cultures, regulations, and markets. The Bridge Effect is the result of sustained international execution. It’s what happens when brands don’t just source abroad, but successfully enter, scale, and endure in global markets. From Asia to Europe, Africa, and the Americas, we turn ideas into export-ready operations, supported by real infrastructure, trusted alliances, and on-the-ground leadership. This section highlights the product categories where that experience lives today, and where new global success stories continue to be built.
+                {copy.body}
               </p>
             </div>
-            {/* <div className="grid sm:grid-cols-2 gap-4">
-              {INDUSTRY_CARDS.slice(0, 2).map((item) => (
-                <div key={item.title} className="space-y-1">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">{item.title}</p>
-                  <p className="text-sm text-white/75 leading-relaxed">{item.impact}</p>
-                </div>
-              ))}
-            </div> */}
-            {/* <div className="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/80">
-              {categoryOrder.map((cat) => (
-                <span key={cat} className="px-2 py-1 border-b border-white/30">
-                  {showroom.categories?.[cat] || cat}
-                </span>
-              ))}
-            </div> */}
           </FadeIn>
 
           <FadeIn delay={0.08}>
-            <div className="relative rounded-3xl overflow-hidden lg:max-w-[45vw] lg:ml-auto">
+            <div className="relative rounded-3xl overflow-hidden lg:max-w-[50vw] lg:ml-auto">
               <MotionDiv
                 className="flex gap-6 px-4 py-4"
                 animate={{ x: ["0%", "-50%"] }}
@@ -241,92 +325,49 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
             </div>
           </FadeIn>
         </div>
-        {/* <FadeIn delay={0.12} className="mt-8">
-          <div className="overflow-hidden rounded-[32px] border border-white/10 bg-white/5">
-            <MotionDiv
-              className="flex gap-4 px-4 py-5"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ repeat: Infinity, duration: 36, ease: "linear" }}
-            >
-              {gallerySequence.map((src, idx) => (
-                <div key={`${src}-${idx}`} className="min-w-[240px] sm:min-w-[280px] md:min-w-[320px] h-40 md:h-48 overflow-hidden rounded-2xl border border-white/15 shadow-lg">
-                  <img src={src} alt={`Bridge gallery ${idx + 1}`} className="w-full h-full object-cover" />
-                </div>
-              ))}
-            </MotionDiv>
-          </div>
-        </FadeIn> */}
-
         <FadeIn>
-          <div className="space-y-6">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div className="space-y-8">
+            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div className="space-y-2">
-                <h3 className="text-3xl md:text-4xl font-semibold">Industries we work with</h3>
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.badge}</p>
+                <h3 className="text-3xl md:text-4xl font-semibold">{copy.industriesTitle}</h3>
+                <p className="text-sm text-white/70 max-w-2xl leading-relaxed">
+                  {copy.industriesIntro}
+                </p>
               </div>
               <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
-                <Sparkles size={14} className="text-brand-gold" /> 4 core industries
+                <Sparkles size={14} className="text-brand-gold" /> {INDUSTRY_OPTIONS.length} {copy.categoriesSuffix}
               </div>
             </div>
-            <div className="grid grid-cols-2 lg:grid-cols-4 auto-rows-[180px] md:auto-rows-[220px] gap-4 md:gap-5">
-              {INDUSTRY_CARDS.map((item, idx) => {
-                const layout =
-                  idx === 0 ? "lg:col-span-2 lg:row-span-2" :
-                  idx === 3 ? "lg:col-span-2" :
-                  "";
-                return (
-                  <MotionDiv
-                    key={item.title}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ delay: idx * 0.04, duration: 0.4 }}
-                    className={`relative overflow-hidden rounded-3xl shadow-[0_25px_80px_rgba(0,0,0,0.35)] ${layout}`}
-                  >
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/15 via-transparent to-transparent mix-blend-screen" />
-                    <div className="absolute inset-0 p-4 md:p-5 flex flex-col justify-end space-y-1.5">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">0{idx + 1}</p>
-                      <h4 className="text-lg md:text-xl font-semibold text-white leading-tight">{item.title}</h4>
-                      <p className="text-sm text-white/80 leading-relaxed max-w-lg">{item.impact}</p>
-                    </div>
-                  </MotionDiv>
-                );
-              })}
-            </div>
-          </div>
-        </FadeIn>
 
-        <FadeIn delay={0.05}>
-          <div className="space-y-6">
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">Showroom snapshots</p>
-                <h3 className="text-3xl sm:text-4xl font-semibold text-white">Categories built with our partners</h3>
-              </div>
-              <div className="flex gap-2 flex-wrap">
-                {categoryOrder.map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setActiveCategory(cat)}
-                    className={`px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] rounded-full border transition-all ${
-                      activeCategory === cat
-                        ? 'border-white text-white'
-                        : 'border-white/30 text-white/70 hover:text-white'
-                    }`}
-                  >
-                    {showroom.categories?.[cat] || cat}
-                  </button>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-2">
+              {INDUSTRY_OPTIONS.map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  onClick={() => setActiveCategory(option.key)}
+                  className={`px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] rounded-full border transition-all ${
+                    activeCategory === option.key
+                      ? 'border-white text-white bg-white/10'
+                      : 'border-white/30 text-white/70 hover:text-white'
+                  }`}
+                >
+                  {getText(option.label)}
+                </button>
+              ))}
+            </div>
+
+            <div className="space-y-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.selectedLabel}</p>
+              <h4 className="text-2xl sm:text-3xl font-semibold">{getText(activeIndustry.title)}</h4>
+              <p className="text-sm sm:text-base text-white/75 max-w-3xl leading-relaxed">{getText(activeIndustry.description)}</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-7">
               <AnimatePresence>
-                {filteredItems.map((item) => (
+                {filteredItems.map((item, idx) => (
                   <MotionDiv
-                    key={`${item.id}-${item.category}`}
+                    key={`${item.src}-${idx}`}
                     layout
                     initial={{ opacity: 0, scale: 0.97 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -334,14 +375,18 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                     transition={{ duration: 0.2 }}
                     className="relative overflow-hidden rounded-3xl shadow-[0_24px_70px_rgba(0,0,0,0.28)]"
                   >
-                    <img src={item.image} alt={item.title} className="w-full h-48 md:h-56 object-cover opacity-95" />
+                    <img src={item.src} alt={item.title || getText(activeIndustry.title)} className="w-full h-48 md:h-56 object-cover opacity-95" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-3 md:p-4 space-y-1">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">
-                        {showroom.categories?.[item.category] || item.category}
-                      </p>
-                      <p className="text-sm md:text-base font-semibold text-white leading-tight">{item.title}</p>
-                    </div>
+                    {item.title ? (
+                      <div className="absolute inset-x-0 bottom-0 p-3 md:p-4 space-y-1">
+                        {item.categoryLabel ? (
+                          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">
+                            {item.categoryLabel}
+                          </p>
+                        ) : null}
+                        <p className="text-sm md:text-base font-semibold text-white leading-tight">{item.title}</p>
+                      </div>
+                    ) : null}
                   </MotionDiv>
                 ))}
               </AnimatePresence>
@@ -354,10 +399,10 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
             <div className="space-y-10">
               <div className="grid lg:grid-cols-[1.1fr,1fr] gap-8 lg:gap-14 items-start">
                 <div className="space-y-5">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">Trusted by over 100 businesses worldwide</p>
-                  <h3 className="text-4xl sm:text-5xl font-semibold leading-tight">Real voices from both sides of the bridge</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.testimonialsBadge}</p>
+                  <h3 className="text-4xl sm:text-5xl font-semibold leading-tight">{copy.testimonialsTitle}</h3>
                   <p className="text-base text-white/75 max-w-2xl leading-relaxed">
-                    Founders, operators, and industry leaders who rely on our on-the-ground partnership.
+                    {copy.testimonialsSubtitle}
                   </p>
                   <div className="flex gap-3">
                     <button
@@ -394,7 +439,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                       className="space-y-4"
                     >
                       <div className="flex items-center gap-2 text-brand-gold text-sm font-bold tracking-[0.16em] uppercase">
-                        <Sparkles size={16} /> Story
+                        <Sparkles size={16} /> {copy.storyLabel}
                       </div>
                       <div className="grid md:grid-cols-[0.9fr,1.1fr] gap-4 items-center">
                         <MotionDiv

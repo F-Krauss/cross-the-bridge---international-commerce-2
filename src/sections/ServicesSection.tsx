@@ -11,6 +11,7 @@ type ServiceItem = {
 export type ServicesContent = {
   title: string;
   intro: string;
+  cta: string;
   items: ServiceItem[];
 };
 
@@ -140,8 +141,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
                       <h3 className="text-[17px] md:text-[20px] font-semibold text-[#0b2f6b]">{service.title}</h3>
                       <p className="text-[12px] md:text-[13.6px] text-brand-navy/70">{service.short}</p>
                     </div>
-                    <div className="mt-auto flex items-center gap-2 text-[8.5px] font-bold uppercase tracking-[0.2em] text-[#0b2f6b] group-hover:text-brand-gold transition-colors duration-300\">
-                      <span>Read more</span>
+                    <div className="mt-auto flex items-center gap-2 text-[8.5px] font-bold uppercase tracking-[0.2em] text-[#0b2f6b] group-hover:text-brand-gold transition-colors duration-300">
+                      <span>{servicesContent.cta}</span>
                       <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </div>
                   </div>
