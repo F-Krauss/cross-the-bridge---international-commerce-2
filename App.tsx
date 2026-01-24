@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef, useId } from 'react';
+import React, { useState, useEffect, useRef, useId, useCallback } from 'react';
 import { Package, Globe, Layers, ArrowRight, Phone, Mail, Menu, X, Users, User, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Settings, Award, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import HeroSection from './src/sections/HeroSection';
@@ -1535,20 +1535,28 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState<Language>('en');
+  const loadingResolved = useRef(false);
 
-  // Safety timeout so loading screen doesn't hang if video stalls
-  useEffect(() => {
-    const fallback = setTimeout(() => setLoading(false), 4000);
-    return () => clearTimeout(fallback);
-  }, []);
-
-  const handleLoadingComplete = () => {
+  const handleLoadingComplete = useCallback(() => {
+    if (loadingResolved.current) return;
+    loadingResolved.current = true;
     setLoading(false);
     // Give the loading screen animation time to complete before triggering videos
     setTimeout(() => {
       window.dispatchEvent(new CustomEvent('loadingComplete'));
     }, 500);
-  };
+  }, []);
+
+  // Only fall back to a timer in non-production; in prod wait for real readiness signals
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      const fallback = setTimeout(() => handleLoadingComplete(), 5000);
+      return () => clearTimeout(fallback);
+    }
+    const onWindowLoad = () => handleLoadingComplete();
+    window.addEventListener('load', onWindowLoad);
+    return () => window.removeEventListener('load', onWindowLoad);
+  }, [handleLoadingComplete]);
 
   return (
     <>
