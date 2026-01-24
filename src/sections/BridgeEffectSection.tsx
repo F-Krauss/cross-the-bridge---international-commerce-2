@@ -63,6 +63,28 @@ const TESTIMONIAL_IMAGES = [
   "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80"
 ];
 
+const GALLERY_IMAGES = [
+  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80"
+];
+
+const HERO_GALLERY = [
+  { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", title: "Hands-on sourcing and production", tag: "Factory & materials" },
+  { src: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80", title: "Leather inspection on-site", tag: "Quality control" },
+  { src: "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1600&q=80", title: "Materials moving daily", tag: "Logistics" },
+  { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", title: "Prototyping with partners", tag: "Development" },
+  { src: "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1600&q=80", title: "Factory floor execution", tag: "Production" },
+  { src: "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1600&q=80", title: "Export-ready packaging", tag: "Export" },
+  { src: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1600&q=80", title: "Material sourcing", tag: "Sourcing" },
+  { src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80", title: "Alliance building", tag: "Alliances" }
+];
+
 const INDUSTRY_CARDS = [
   {
     title: "Footwear manufacturing",
@@ -129,7 +151,20 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
   if (!showroom) return null;
 
   const testimonial = testimonialsWithImages[activeTestimonial];
-  const categoryOrder = ['all', 'footwear', 'leather', 'hats', 'industrial'];
+  const categoryOrder = ['all', 'footwear', 'leather', 'hats', 'industrial', 'equestrian goods'];
+  const gallerySequence = [...GALLERY_IMAGES, ...GALLERY_IMAGES];
+  const heroGroups = useMemo(() => {
+    const groups: typeof HERO_GALLERY[][] = [];
+    for (let i = 0; i < HERO_GALLERY.length; i += 3) {
+      const group = HERO_GALLERY.slice(i, i + 3);
+      while (group.length < 3) {
+        group.push(HERO_GALLERY[(i + group.length) % HERO_GALLERY.length]);
+      }
+      groups.push(group);
+    }
+    return groups;
+  }, []);
+  const heroGroupSequence = useMemo(() => [...heroGroups, ...heroGroups], [heroGroups]);
 
   return (
     <section id="bridge_effect" className="relative bg-gradient-to-b from-[#071024] via-[#0b1736] to-[#060b18] text-white py-20 md:py-28 overflow-hidden">
@@ -151,51 +186,81 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                 Cross the bridge without fear.
               </h2>
               <p className="text-sm sm:text-base text-white/75 max-w-2xl leading-relaxed">
-                Real factories, real materials, and a partner who lives on the ground. We combine candid factory time with curated categories so you see how your product moves from concept to export-ready reality.
+                For over two decades, we’ve been operating where global business actually happens. On factory floors, at international trade fairs, inside distribution centers, and across cultures, regulations, and markets. The Bridge Effect is the result of sustained international execution. It’s what happens when brands don’t just source abroad, but successfully enter, scale, and endure in global markets. From Asia to Europe, Africa, and the Americas, we turn ideas into export-ready operations, supported by real infrastructure, trusted alliances, and on-the-ground leadership. This section highlights the product categories where that experience lives today, and where new global success stories continue to be built.
               </p>
             </div>
-            <div className="grid sm:grid-cols-2 gap-4">
+            {/* <div className="grid sm:grid-cols-2 gap-4">
               {INDUSTRY_CARDS.slice(0, 2).map((item) => (
                 <div key={item.title} className="space-y-1">
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">{item.title}</p>
                   <p className="text-sm text-white/75 leading-relaxed">{item.impact}</p>
                 </div>
               ))}
-            </div>
-            <div className="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/80">
+            </div> */}
+            {/* <div className="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/80">
               {categoryOrder.map((cat) => (
                 <span key={cat} className="px-2 py-1 border-b border-white/30">
                   {showroom.categories?.[cat] || cat}
                 </span>
               ))}
-            </div>
+            </div> */}
           </FadeIn>
 
           <FadeIn delay={0.08}>
-            <div className="relative h-[360px] sm:h-[440px] overflow-hidden rounded-[26px] shadow-[0_30px_120px_rgba(0,0,0,0.35)] border border-white/10">
-              <img src={ambientImage} alt="Factory floor" className="absolute inset-0 w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/30 to-brand-navy/40" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 via-black/30 to-transparent">
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold mb-2">Ambient</p>
-                <h3 className="text-2xl md:text-3xl font-semibold">Hands-on sourcing and production</h3>
-                <p className="text-sm text-white/75 mt-2 max-w-xl">
-                  Materials moving, hands working, and production cycles we oversee daily.
-                </p>
-              </div>
-              <div className="absolute top-6 right-6 text-xs font-semibold text-white/80 bg-black/30 px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
-                Factory & materials
-              </div>
-              <div className="absolute -left-12 top-10 w-28 h-28 rounded-full bg-brand-gold/25 blur-3xl opacity-40" />
-              <div className="absolute -right-8 bottom-10 w-32 h-32 rounded-full bg-white/15 blur-3xl opacity-30" />
+            <div className="relative rounded-3xl overflow-hidden lg:max-w-[45vw] lg:ml-auto">
+              <MotionDiv
+                className="flex gap-6 px-4 py-4"
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
+              >
+                {heroGroupSequence.map((group, idx) => {
+                  const isReverse = idx % 2 === 1;
+                  return (
+                    <div
+                      key={`hero-group-${idx}`}
+                      className={`flex gap-4 min-w-[420px] sm:min-w-[520px] lg:min-w-[640px] h-[280px] sm:h-[340px] lg:h-[420px] ${isReverse ? 'flex-row-reverse' : ''}`}
+                    >
+                      <div className="relative flex-[1.6] h-full overflow-hidden rounded-3xl border border-white/15 bg-black/40">
+                        <img src={group[0].src} alt={group[0].title} className="absolute inset-0 w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-black/35 via-black/10 to-brand-navy/35" />
+                      </div>
+                      <div className="flex flex-col flex-[1] h-full gap-4 justify-between">
+                        <div className="relative w-full aspect-square overflow-hidden rounded-3xl border border-white/15 bg-black/40">
+                          <img src={group[1].src} alt={group[1].title} className="absolute inset-0 w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-gradient-to-br from-black/35 via-black/10 to-brand-navy/35" />
+                        </div>
+                        <div className="relative w-full aspect-[5/3] overflow-hidden rounded-3xl border border-white/15 bg-black/40">
+                          <img src={group[2].src} alt={group[2].title} className="absolute inset-0 w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-gradient-to-br from-black/35 via-black/10 to-brand-navy/35" />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </MotionDiv>
             </div>
           </FadeIn>
         </div>
+        {/* <FadeIn delay={0.12} className="mt-8">
+          <div className="overflow-hidden rounded-[32px] border border-white/10 bg-white/5">
+            <MotionDiv
+              className="flex gap-4 px-4 py-5"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, duration: 36, ease: "linear" }}
+            >
+              {gallerySequence.map((src, idx) => (
+                <div key={`${src}-${idx}`} className="min-w-[240px] sm:min-w-[280px] md:min-w-[320px] h-40 md:h-48 overflow-hidden rounded-2xl border border-white/15 shadow-lg">
+                  <img src={src} alt={`Bridge gallery ${idx + 1}`} className="w-full h-full object-cover" />
+                </div>
+              ))}
+            </MotionDiv>
+          </div>
+        </FadeIn> */}
 
         <FadeIn>
           <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
               <div className="space-y-2">
-                {/* <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-brand-gold">Industries we work with</p> */}
                 <h3 className="text-3xl md:text-4xl font-semibold">Industries we work with</h3>
               </div>
               <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
@@ -342,7 +407,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                           <img src={testimonial.image} alt={testimonial.name} className="absolute inset-0 w-full h-full object-cover" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                         </MotionDiv>
-                        <p className="text-lg sm:text-xl leading-relaxed text-white/85 italic">
+                        <p className="text-lg sm:text-base leading-relaxed text-white/85 italic">
                           “{testimonial.text}”
                         </p>
                       </div>
@@ -360,7 +425,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                     </MotionDiv>
                   </AnimatePresence>
 
-                  <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {/* <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {testimonialsWithImages.map((item, idx) => (
                       <button
                         key={item.name}
@@ -378,7 +443,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                         <p className="text-[10px] text-white/60 truncate">{item.country}</p>
                       </button>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
