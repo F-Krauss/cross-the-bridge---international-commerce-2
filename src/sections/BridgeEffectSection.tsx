@@ -291,7 +291,19 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
           </FadeIn>
 
           <FadeIn delay={0.08}>
-            <div className="relative rounded-3xl overflow-hidden lg:max-w-[50vw] lg:ml-auto">
+            {/* Mobile static grid */}
+            <div className="lg:hidden">
+              <div className="grid grid-cols-2 gap-3">
+                {HERO_GALLERY.slice(0, 4).map((item, idx) => (
+                  <div key={`${item.src}-${idx}`} className="relative w-full aspect-square rounded-2xl overflow-hidden border border-white/10 bg-black/30">
+                    <img src={item.src} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/10 to-brand-navy/30" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Desktop marquee collage */}
+            <div className="relative rounded-3xl overflow-hidden hidden lg:block lg:max-w-[50vw] lg:ml-auto">
               <MotionDiv
                 className="flex gap-6 px-4 py-4"
                 animate={{ x: ["0%", "-50%"] }}
@@ -302,7 +314,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                   return (
                     <div
                       key={`hero-group-${idx}`}
-                      className={`flex gap-4 min-w-[420px] sm:min-w-[520px] lg:min-w-[640px] h-[280px] sm:h-[340px] lg:h-[420px] ${isReverse ? 'flex-row-reverse' : ''}`}
+                      className={`flex gap-4 min-w-[640px] h-[420px] ${isReverse ? 'flex-row-reverse' : ''}`}
                     >
                       <div className="relative flex-[1.6] h-full overflow-hidden rounded-3xl border border-white/15 bg-black/40">
                         <img src={group[0].src} alt={group[0].title} className="absolute inset-0 w-full h-full object-cover" />
