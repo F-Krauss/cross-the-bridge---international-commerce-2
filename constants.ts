@@ -15,6 +15,7 @@ type BookingCopy = {
     phone: string;
     website: string;
     company: string;
+    companyCountry: string;
     orgs: string;
     position: string;
     service: string;
@@ -119,6 +120,7 @@ export const UI_TEXT: Record<Language, UiText> = {
         phone: 'Phone',
         website: 'Website',
         company: 'Company',
+        companyCountry: 'Company country',
         orgs: 'Organizations',
         position: 'Position',
         service: 'Service of interest',
@@ -217,7 +219,7 @@ export const UI_TEXT: Record<Language, UiText> = {
       location: 'León Gto, México',
       phoneUS: 'US +1 281 323 2612',
       phoneMX: 'MX +52 477 765 3792',
-      email: 'marianamucino@crossthebridge.com.mx',
+      email: 'mariana@crossthebridge.com.mx',
       socials: {
         linkedin: 'LinkedIn',
         instagram: 'Instagram',
@@ -243,6 +245,7 @@ export const UI_TEXT: Record<Language, UiText> = {
         phone: 'Teléfono',
         website: 'Página web',
         company: 'Empresa',
+        companyCountry: 'País de la empresa',
         orgs: 'Organizaciones',
         position: 'Posición',
         service: 'Servicio de interés',

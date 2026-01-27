@@ -9,7 +9,7 @@ import ProcessSection from './src/sections/ProcessSection';
 import TradeMissionsSection from './src/sections/TradeMissionsSection';
 import AboutSection from './src/sections/AboutSection';
 import BridgeEffectSection from './src/sections/BridgeEffectSection';
-import { TRANSLATIONS, UI_TEXT, PARTNER_BENEFITS, BOOKING_PHONE_CODES, BOOKING_TIME_SLOTS, DEFAULT_TESTIMONIALS } from './constants';
+import { TRANSLATIONS, UI_TEXT, PARTNER_BENEFITS, BOOKING_TIME_SLOTS, DEFAULT_TESTIMONIALS } from './constants';
 import { Language } from './types';
 
 // Assets served from public/img
@@ -511,6 +511,12 @@ const ASSURANCE_ICONS: Record<string, React.ElementType> = {
   RotateCcw
 };
 
+const BOOKING_STEP_MEDIA = [
+  { src: "/img/process2.jpg", alt: "Company overview" },
+  { src: "/img/Calzado1.jpg", alt: "Factory production" },
+  { src: "/img/process4.jpg", alt: "Planning a call" }
+];
+
 // Converts a 2-letter country code into its corresponding flag emoji
 const countryCodeToFlag = (code?: string) => {
   if (!code || code.length !== 2) return '';
@@ -525,6 +531,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
   const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [contactError, setContactError] = useState<string | null>(null);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
+  const [bookingStep, setBookingStep] = useState(0);
   const [bookingStatus, setBookingStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [bookingForm, setBookingForm] = useState({
     name: '',
@@ -533,10 +540,11 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     phoneCode: '+1',
     website: '',
     company: '',
+    companyCountry: '',
     orgs: '',
     position: '',
     service: '',
-    originCountry: 'South America',
+    originCountry: '',
     targetRegion: '',
     date: '',
     timeSlot: ''
@@ -706,11 +714,24 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     setCurrentView('home');
     setMobileMenuOpen(false);
     setBookingStatus('idle');
+    setBookingStep(0);
     setBookingModalOpen(true);
+  };
+
+  const closeBooking = () => {
+    setBookingModalOpen(false);
+    setBookingStep(0);
+    setBookingStatus('idle');
   };
 
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (bookingStep < 2) {
+      if (canAdvanceBooking) {
+        setBookingStep((step) => Math.min(2, step + 1));
+      }
+      return;
+    }
     if (bookingStatus === 'loading') return;
     setBookingStatus('loading');
     setTimeout(() => {
@@ -722,10 +743,11 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         phoneCode: '+1',
         website: '',
         company: '',
+        companyCountry: '',
         orgs: '',
         position: '',
         service: '',
-        originCountry: 'South America',
+        originCountry: '',
         targetRegion: '',
         date: '',
         timeSlot: ''
@@ -770,6 +792,28 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
   const bookingRegionOptions = ui.booking.regionOptions;
   const partnerBenefits = PARTNER_BENEFITS[lang];
   const bookingCopy = ui.booking;
+  const bookingStepLabel = lang === 'es' ? 'Paso' : 'Step';
+  const bookingNextLabel = lang === 'es' ? 'Siguiente' : 'Next';
+  const bookingBackLabel = lang === 'es' ? 'Volver' : 'Back';
+  const bookingStepMedia = BOOKING_STEP_MEDIA[bookingStep] || BOOKING_STEP_MEDIA[0];
+  const isStepOneComplete = Boolean(
+    bookingForm.company.trim() &&
+    bookingForm.companyCountry &&
+    bookingForm.website.trim()
+  );
+  const isStepTwoComplete = Boolean(
+    bookingForm.service &&
+    bookingForm.originCountry &&
+    bookingForm.targetRegion
+  );
+  const isStepThreeComplete = Boolean(
+    bookingForm.name.trim() &&
+    bookingForm.email.trim() &&
+    bookingForm.position.trim() &&
+    bookingForm.date &&
+    bookingForm.timeSlot
+  );
+  const canAdvanceBooking = bookingStep === 0 ? isStepOneComplete : isStepTwoComplete;
   const showroomContent = t.showroom;
   const testimonialItems = t.testimonials?.items?.length
     ? t.testimonials.items
@@ -871,10 +915,10 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            onClick={() => setBookingModalOpen(false)}
+            onClick={closeBooking}
           >
             <MotionDiv
-              className="bg-white rounded-2xl shadow-2xl max-w-xl w-full max-h-[92vh] overflow-hidden flex flex-col"
+              className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[92vh] overflow-hidden flex flex-col"
               initial={{ scale: 0.95, y: 10, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.95, y: 10, opacity: 0 }}
@@ -886,149 +930,236 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                   <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold">{bookingCopy.formLabel}</p>
                   <h3 className="text-base md:text-xl font-bold text-brand-navy">{bookingCopy.formTitle}</h3>
                 </div>
-                <button onClick={() => setBookingModalOpen(false)} className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50">
-                  <X size={18} />
-                </button>
+                <div className="flex items-center gap-3">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-navy/60">
+                    {bookingStepLabel} {bookingStep + 1} / {BOOKING_STEP_MEDIA.length}
+                  </span>
+                  <button onClick={closeBooking} className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50">
+                    <X size={18} />
+                  </button>
+                </div>
               </div>
-              <form className="p-4 md:p-5 space-y-3 md:space-y-4 overflow-y-auto" onSubmit={handleBookingSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 items-start">
-                  <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.name}</label>
-                    <input value={bookingForm.name} onChange={(e) => handleBookingChange('name', e.target.value)} required className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" />
-                  </div>
-                  <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.email}</label>
-                    <input type="email" value={bookingForm.email} onChange={(e) => handleBookingChange('email', e.target.value)} required className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" />
-                  </div>
-                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                    <div>
-                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.phone}</label>
-                      <div className="flex gap-2">
-                        <select
-                          value={bookingForm.phoneCode}
-                          onChange={(e) => handleBookingChange('phoneCode', e.target.value)}
-                          className="w-15 rounded-lg border border-gray-200 px-2 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
-                        >
-                          {BOOKING_PHONE_CODES.map(code => (
-                            <option key={code} value={code}>{code}</option>
-                          ))}
-                        </select>
-                        <input value={bookingForm.phone} onChange={(e) => handleBookingChange('phone', e.target.value)} className="w-full flex-1 rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" placeholder={bookingCopy.placeholders.phone} />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.website}</label>
-                      <input value={bookingForm.website} onChange={(e) => handleBookingChange('website', e.target.value)} placeholder={bookingCopy.placeholders.website} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.company}</label>
-                    <input value={bookingForm.company} onChange={(e) => handleBookingChange('company', e.target.value)} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <span className="sr-only">{bookingCopy.orgHint}</span>
-                    <div role="radiogroup" className="flex flex-wrap gap-2 mt-3">
-                      {bookingCopy.orgOptions.map((label) => (
-                        <label
-                          key={label}
-                          className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border text-sm md:text-base cursor-pointer transition-colors h-4 ${bookingForm.orgs === label ? 'border-brand-navy text-brand-navy bg-brand-navy/5' : 'border-gray-200 text-brand-navy/80 hover:border-brand-navy/60'}`}
-                        >
+              <form className="flex-1 min-h-0" onSubmit={handleBookingSubmit}>
+                <div className="grid grid-cols-1 lg:grid-cols-[1.05fr,0.95fr] items-center gap-5 md:gap-6 p-4 md:p-6 min-h-[350px] lg:min-h-[350px]">
+                  <MotionDiv
+                    key={bookingStep}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="flex flex-col justify-between min-h-[360px] gap-4"
+                  >
+                    <div className="flex-1 flex flex-col justify-center">
+                    {bookingStep === 0 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 items-start">
+                        <div className="md:col-span-2">
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.company}</label>
                           <input
-                            type="radio"
-                            className="sr-only"
-                            name="orgs"
-                            value={label}
-                            checked={bookingForm.orgs === label}
-                            onChange={() => handleBookingChange('orgs', label)}
+                            value={bookingForm.company}
+                            onChange={(e) => handleBookingChange('company', e.target.value)}
+                            required
+                            className="w-full rounded-l px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-10"
                           />
-                          <span>{label}</span>
-                        </label>
-                      ))}
+                        </div>
+                        <div>
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.companyCountry}</label>
+                          <select
+                            value={bookingForm.companyCountry}
+                            onChange={(e) => handleBookingChange('companyCountry', e.target.value)}
+                            required
+                            className="w-full rounded-lg px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10"
+                          >
+                            <option value="">{bookingCopy.placeholders.region}</option>
+                            {bookingRegionOptions.map(region => (
+                              <option key={region} value={region}>{region}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.website}</label>
+                          <input
+                            type="url"
+                            value={bookingForm.website}
+                            onChange={(e) => handleBookingChange('website', e.target.value)}
+                            placeholder={bookingCopy.placeholders.website}
+                            required
+                            className="w-full rounded-lg px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-10"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {bookingStep === 1 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 items-start">
+                        <div className="md:col-span-2">
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1 leading-tight">{bookingCopy.labels.service}</label>
+                          <select
+                            value={bookingForm.service}
+                            onChange={(e) => handleBookingChange('service', e.target.value)}
+                            required
+                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10"
+                          >
+                            <option value="">{bookingCopy.placeholders.service}</option>
+                            {bookingServiceOptions.map((option) => (
+                              <option key={option} value={option}>{option}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.origin}</label>
+                          <select
+                            value={bookingForm.originCountry}
+                            onChange={(e) => handleBookingChange('originCountry', e.target.value)}
+                            required
+                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10"
+                          >
+                            <option value="">{bookingCopy.placeholders.region}</option>
+                            {bookingRegionOptions.map(region => (
+                              <option key={region} value={region}>{region}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.target}</label>
+                          <select
+                            value={bookingForm.targetRegion}
+                            onChange={(e) => handleBookingChange('targetRegion', e.target.value)}
+                            required
+                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10"
+                          >
+                            <option value="">{bookingCopy.placeholders.region}</option>
+                            {bookingRegionOptions.map(region => (
+                              <option key={region} value={region}>{region}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    )}
+
+                    {bookingStep === 2 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 items-start">
+                        <div>
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.name}</label>
+                          <input
+                            value={bookingForm.name}
+                            onChange={(e) => handleBookingChange('name', e.target.value)}
+                            required
+                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-10"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.email}</label>
+                          <input
+                            type="email"
+                            value={bookingForm.email}
+                            onChange={(e) => handleBookingChange('email', e.target.value)}
+                            required
+                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-10"
+                          />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.position}</label>
+                          <input
+                            value={bookingForm.position}
+                            onChange={(e) => handleBookingChange('position', e.target.value)}
+                            required
+                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-10"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1 leading-tight">{bookingCopy.labels.date}</label>
+                          <input
+                            type="date"
+                            value={bookingForm.date}
+                            onChange={(e) => handleBookingChange('date', e.target.value)}
+                            min={(() => {
+                              const d = new Date();
+                              d.setDate(d.getDate() + 2);
+                              return d.toISOString().split('T')[0];
+                            })()}
+                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10 cursor-pointer"
+                            style={{ colorScheme: 'light' }}
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.time}</label>
+                          <select
+                            value={bookingForm.timeSlot}
+                            onChange={(e) => handleBookingChange('timeSlot', e.target.value)}
+                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10"
+                            required
+                          >
+                            <option value="">{bookingCopy.placeholders.time}</option>
+                            {BOOKING_TIME_SLOTS.map(slot => (
+                              <option key={slot} value={slot}>{slot}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    )}
                     </div>
-                  </div>
-                  <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.position}</label>
-                    <input value={bookingForm.position} onChange={(e) => handleBookingChange('position', e.target.value)} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-9" />
-                  </div>
-                  <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1 leading-tight">{bookingCopy.labels.service}</label>
-                    <select
-                      value={bookingForm.service}
-                      onChange={(e) => handleBookingChange('service', e.target.value)}
-                      className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
-                    >
-                      <option value="">{bookingCopy.placeholders.service}</option>
-                      {bookingServiceOptions.map((option) => (
-                        <option key={option} value={option}>{option}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.origin}</label>
-                    <select
-                      value={bookingForm.originCountry}
-                      onChange={(e) => handleBookingChange('originCountry', e.target.value)}
-                      className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
-                    >
-                      {bookingRegionOptions.map(region => (
-                        <option key={region} value={region}>{region}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.target}</label>
-                    <select
-                      value={bookingForm.targetRegion}
-                      onChange={(e) => handleBookingChange('targetRegion', e.target.value)}
-                      className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
-                    >
-                      <option value="">{bookingCopy.placeholders.region}</option>
-                      {bookingRegionOptions.map(region => (
-                        <option key={region} value={region}>{region}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 items-start">
-                    <div>
-                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1 leading-tight">{bookingCopy.labels.date}</label>
-                      <input
-                        type="date"
-                        value={bookingForm.date}
-                        onChange={(e) => handleBookingChange('date', e.target.value)}
-                        min={(() => {
-                          const d = new Date();
-                          d.setDate(d.getDate() + 2);
-                          return d.toISOString().split('T')[0];
-                        })()}
-                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9 cursor-pointer"
-                        style={{ colorScheme: 'light' }}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.time}</label>
-                      <select
-                        value={bookingForm.timeSlot}
-                        onChange={(e) => handleBookingChange('timeSlot', e.target.value)}
-                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
-                        required
+
+                    <div className="flex items-center justify-between pt-2">
+                      {bookingStep > 0 ? (
+                        <button
+                          type="button"
+                          onClick={() => setBookingStep((step) => Math.max(0, step - 1))}
+                        className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-navy/70 hover:text-brand-navy transition-colors"
                       >
-                        <option value="">{bookingCopy.placeholders.time}</option>
-                        {BOOKING_TIME_SLOTS.map(slot => (
-                          <option key={slot} value={slot}>{slot}</option>
-                        ))}
-                      </select>
+                          <span className="text-base">&lt;</span>
+                          {bookingBackLabel}
+                        </button>
+                      ) : (
+                        <span />
+                      )}
+
+                      {bookingStep < 2 ? (
+                        canAdvanceBooking ? (
+                          <button
+                            type="button"
+                            onClick={() => setBookingStep((step) => Math.min(2, step + 1))}
+                            className="inline-flex items-center gap-2 bg-brand-navy text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand-gold hover:text-brand-navy transition-colors"
+                          >
+                            {bookingNextLabel}
+                            <span className="text-base">&gt;</span>
+                          </button>
+                        ) : (
+                          <span />
+                        )
+                      ) : (
+                        isStepThreeComplete ? (
+                          <button
+                            type="submit"
+                            disabled={bookingStatus === 'loading'}
+                            className="inline-flex items-center justify-center bg-brand-navy text-white px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand-gold hover:text-brand-navy transition-colors disabled:opacity-60"
+                          >
+                            {bookingStatus === 'loading' ? bookingCopy.submit.loading : bookingStatus === 'success' ? bookingCopy.submit.success : bookingCopy.submit.idle}
+                          </button>
+                        ) : (
+                          <span />
+                        )
+                      )}
+                    </div>
+                    {bookingStatus === 'success' && bookingStep === 2 && (
+                      <p className="text-green-600 text-sm">{bookingCopy.successMessage}</p>
+                    )}
+                  </MotionDiv>
+
+                  <div className="relative w-full h-56 sm:h-64 lg:h-full rounded-2xl overflow-hidden border border-slate-200 shadow-lg order-last lg:order-none">
+                    <img src={bookingStepMedia.src} alt={bookingStepMedia.alt} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/65 via-brand-navy/10 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4 text-white space-y-1">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">{bookingCopy.formLabel}</p>
+                      <p className="text-base md:text-lg font-semibold">
+                        {bookingStep === 0
+                          ? (lang === 'es' ? 'Conozcamos tu empresa' : 'Tell us about your company')
+                          : bookingStep === 1
+                            ? (lang === 'es' ? 'Define tu necesidad' : 'Define your sourcing goal')
+                            : (lang === 'es' ? 'Agenda tu llamada' : 'Schedule your call')}
+                      </p>
                     </div>
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  disabled={bookingStatus === 'loading'}
-                  className="w-full bg-brand-navy text-white rounded-xl py-3 font-bold uppercase tracking-[0.16em] text-sm md:text-base hover:bg-brand-gold hover:text-brand-navy transition-colors disabled:opacity-60"
-                >
-                  {bookingStatus === 'loading' ? bookingCopy.submit.loading : bookingStatus === 'success' ? bookingCopy.submit.success : bookingCopy.submit.idle}
-                </button>
-                {bookingStatus === 'success' && <p className="text-green-600 text-sm text-center">{bookingCopy.successMessage}</p>}
               </form>
             </MotionDiv>
           </MotionDiv>
@@ -1437,7 +1568,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       type="text"
                       value={contactForm.name}
                       onChange={(e) => handleContactChange('name', e.target.value)}
-                      className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                      className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                       required
                     />
                   </div>
@@ -1447,7 +1578,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       type="email"
                       value={contactForm.email}
                       onChange={(e) => handleContactChange('email', e.target.value)}
-                      className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                      className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                       required
                     />
                   </div>
@@ -1457,7 +1588,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       type="text"
                       value={contactForm.company}
                       onChange={(e) => handleContactChange('company', e.target.value)}
-                      className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                      className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                     />
                   </div>
                   <div>
@@ -1467,7 +1598,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       value={contactForm.website}
                       onChange={(e) => handleContactChange('website', e.target.value)}
                       placeholder="https://"
-                      className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                      className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                     />
                   </div>
                 </div>
@@ -1478,7 +1609,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                     value={contactForm.serviceInterest}
                     onChange={(e) => handleContactChange('serviceInterest', e.target.value)}
                     required
-                    className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                    className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                   >
                     <option value="">{t.contact.form.servicePlaceholder}</option>
                     {serviceOptions.map((service, idx) => (
@@ -1494,7 +1625,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                     value={contactForm.message}
                     onChange={(e) => handleContactChange('message', e.target.value)}
                     placeholder={t.contact.form.messageHint}
-                    className="w-full bg-white p-2.5 md:p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                    className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
                   />
                 </div>
                 <button

@@ -39,6 +39,8 @@ const PARTNER_LOGOS = [
   { src: "/img/Logos/Viberg.png", alt: "Viberg" }
 ];
 
+const INDUSTRIES = ["Footwear", "Leather", "Hats", "Industrial", "Equestrian goods"];
+
 const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady }) => {
   const heroSignaledReady = useRef(false);
 
@@ -64,6 +66,23 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
               <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/65 leading-relaxed max-w-xl">
                 {hero.subtitle}
               </p>
+            </FadeIn>
+            <FadeIn delay={0.26}>
+              {/* <div className="flex flex-wrap items-center gap-2 sm:gap-3"> */}
+              <div className="flex flex-wrap flex-start gap-2 sm:gap-3">
+
+                {/* <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                  Industries
+                </span> */}
+                {INDUSTRIES.map((industry) => (
+                  <span
+                    key={industry}
+                    className="text-[12px] sm:text-[12px] font-semibold uppercase text-left tracking-[0.16em] text-brand-gold px-3"
+                  >
+                    {industry}
+                  </span>
+                ))}
+              </div>
             </FadeIn>
             <MotionDiv
               initial={{ opacity: 0, x: -24 }}
