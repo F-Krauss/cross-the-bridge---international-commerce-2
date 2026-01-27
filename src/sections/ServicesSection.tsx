@@ -52,7 +52,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
   ];
 
   return (
-    <section id="services" className="relative bg-gradient-to-b from-white via-[#fafbfc] to-[#f8f9fc] text-brand-navy py-16 md:py-20 overflow-hidden">
+    <section id="services" className="relative bg-gradient-to-b from-white via-[#fafbfc] to-[#f8f9fc] text-brand-navy py-14 md:py-16 overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-20 right-10 w-72 h-72 bg-brand-gold/5 rounded-full blur-3xl" />

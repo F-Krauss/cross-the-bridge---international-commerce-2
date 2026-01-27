@@ -39,7 +39,7 @@ const PARTNER_LOGOS = [
   { src: "/img/Logos/Viberg.png", alt: "Viberg" }
 ];
 
-const INDUSTRIES = ["Footwear", "Leather", "Hats", "Industrial", "Equestrian goods"];
+const INDUSTRIES = ["Footwear", "Leather", "Hats", "Equestrian goods"];
 
 const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady }) => {
   const heroSignaledReady = useRef(false);
@@ -50,15 +50,25 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
       className="relative overflow-hidden bg-gradient-to-b from-white via-white to-[#f2f4f8]"
     >
       <MotionDiv
-        className="relative z-10 mx-auto w-full max-w-[1200px] px-6 sm:px-8 lg:px-12"
+        className="relative z-10 mx-auto w-full max-w-[1200px] px-6 sm:px-8 lg:px-12 pt-6 sm:pt-8 lg:pt-0"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <div className="grid gap-12 lg:gap-10 lg:grid-cols-[1.08fr,0.92fr] items-center lg:items-stretch min-h-[80vh] lg:min-h-[calc(100vh-80px)]">
-          <div className="flex flex-col gap-6 sm:gap-7 py-12 lg:py-6 lg:justify-center">
-            <FadeIn delay={0.15}>
-              <h1 className="text-[30px] sm:text-[35px] md:text-[44px] lg:text-[51px] font-semibold tracking-tight text-[#0b2f6b] leading-[1.06]">
+        <div className="grid gap-10 sm:gap-12 lg:gap-10 lg:grid-cols-[1.08fr,0.92fr] items-start lg:items-stretch lg:py-0 min-h-[80vh] lg:min-h-[calc(100vh-80px)]">
+
+          <div className="flex flex-col gap-5 sm:gap-6 lg:gap-0 py-0 lg:py-0 lg:pt-6 lg:pb-14 lg:h-full lg:justify-between">
+
+            <FadeIn delay={0.15} className="flex justify-center lg:justify-start">
+              <img
+                src="/img/logo_horizontal.png"
+                alt="Site logo"
+                className="h-[9rem] w-auto object-contain"
+              />
+            </FadeIn>
+
+            <FadeIn delay={0.15} className="-mt-3">
+              <h1 className="text-[25px] sm:text-[30px] md:text-[40px] lg:text-[47px] font-semibold tracking-tight text-[#0b2f6b] leading-[1.06]">
                 {hero.title}
               </h1>
             </FadeIn>
@@ -91,7 +101,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
             >
               <button
                 onClick={onCtaClick}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-brand-navy text-white px-7 sm:px-9 py-3.5 rounded-full font-bold uppercase tracking-[0.16em] text-[9px] sm:text-[8.5px] md:text-[8.5px] hover:bg-brand-gold hover:text-brand-navy transition-colors shadow-[0_16px_30px_rgba(11,47,107,0.18)]"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-brand-navy text-white px-7 sm:px-9 py-3.5 rounded-full font-bold uppercase tracking-[0.16em] text-[12px] sm:text-[10px] md:text-[10px] hover:bg-brand-gold hover:text-brand-navy transition-colors shadow-[0_16px_30px_rgba(11,47,107,0.18)]"
               >
                 {hero.cta}
               </button>
@@ -99,7 +109,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
           </div>
 
           <FadeIn delay={0.2} className="w-full">
-            <div className="flex flex-col gap-6 h-full lg:min-h-[calc(100vh-80px)] lg:pt-6">
+            <div className="flex flex-col gap-6 h-full lg:min-h-[calc(100vh-80px)] lg:pt-6 ">
               <div className="group relative flex-1 min-h-[240px] lg:min-h-[420px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl transition-all duration-700 hover:shadow-2xl hover:-translate-y-1">
                 <img
                   src="./../img/Calzado1.jpg"
