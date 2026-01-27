@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef, useId, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useId, useCallback, useMemo } from 'react';
 import { Package, Globe, Layers, ArrowRight, Phone, Mail, Menu, X, Users, User, Hexagon, Anchor, Box, Truck, MapPin, Navigation, ArrowLeft, Scissors, Shirt, GraduationCap, Linkedin, Instagram, Facebook, Star, ChevronDown, ChevronLeft, ChevronRight, MousePointer2, Settings, Award, Send, Target, FileText, Shield, Ship, Compass, RotateCcw, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import HeroSection from './src/sections/HeroSection';
@@ -121,6 +121,7 @@ const SERVICES_CONTENT: Record<Language, {
 const MotionDiv = motion.div as any;
 const MotionImg = motion.img as any;
 const MotionSpan = motion.span as any;
+
 
 // --- Visual Assets ---
 
@@ -308,6 +309,7 @@ const GlobalMap = ({ title, darkTheme = false }: { title: string, darkTheme?: bo
     { top: '78%', left: '27%', label: 'Chile' },
     { top: '55%', left: '78.8%', label: 'Indonesia' },
   ];
+
 
   return (
     <div ref={mapRef} className="w-full relative mt-12 mb-20">
@@ -795,6 +797,24 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
   const bookingStepLabel = lang === 'es' ? 'Paso' : 'Step';
   const bookingNextLabel = lang === 'es' ? 'Siguiente' : 'Next';
   const bookingBackLabel = lang === 'es' ? 'Volver' : 'Back';
+  const bookingStepTitles = useMemo(() => ([
+    {
+      label: lang === "es" ? "Paso 1" : "Step 1",
+      title: lang === "es" ? "Tu empresa" : "Your company",
+      desc:  lang === "es" ? "Cuéntanos quién eres." : "Tell us who you are.",
+    },
+    {
+      label: lang === "es" ? "Paso 2" : "Step 2",
+      title: lang === "es" ? "Tu necesidad" : "Your need",
+      desc:  lang === "es" ? "Define tu objetivo." : "Define your goal.",
+    },
+    {
+      label: lang === "es" ? "Paso 3" : "Step 3",
+      title: lang === "es" ? "Agenda" : "Schedule",
+      desc:  lang === "es" ? "Elige fecha y hora." : "Pick date and time.",
+    },
+  ]), [lang]);
+  const currentBookingStepTitle = bookingStepTitles[bookingStep] || bookingStepTitles[0];
   const bookingStepMedia = BOOKING_STEP_MEDIA[bookingStep] || BOOKING_STEP_MEDIA[0];
   const isStepOneComplete = Boolean(
     bookingForm.company.trim() &&
@@ -925,6 +945,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
               transition={{ duration: 0.25, ease: 'easeOut' }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
+
               <div className="flex items-center justify-between px-4 md:px-5 py-3 md:py-4 border-b border-gray-100 bg-[#f6f7fb]">
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold">{bookingCopy.formLabel}</p>
@@ -948,6 +969,16 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                     transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
                     className="flex flex-col justify-between min-h-[360px] gap-4"
                   >
+                    <div className="pb-2">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold/80">
+                        {currentBookingStepTitle.label}
+                      </p>
+                      <h4 className="text-lg md:text-xl font-bold text-brand-navy leading-tight">
+                        {currentBookingStepTitle.title}
+                      </h4>
+                      <p className="text-sm text-brand-navy/70">{currentBookingStepTitle.desc}</p>
+                    </div>
+
                     <div className="flex-1 flex flex-col justify-center">
                     {bookingStep === 0 && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 items-start">
