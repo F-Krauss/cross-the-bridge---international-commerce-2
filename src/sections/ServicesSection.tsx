@@ -96,13 +96,13 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
                   <p className="text-[8.5px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                     {String(selectedService + 1).padStart(2, '0')}
                   </p>
-                  <h3 className="text-[20px] sm:text-[25.5px] font-semibold text-[#0b2f6b]\">
+                  <h3 className="text-[20px] sm:text-[25.5px] font-semibold text-[#0b2f6b]">
                     {servicesContent.items[selectedService].title}
                   </h3>
-                  <p className="text-[12px] sm:text-[13.6px] text-brand-navy/70">
+                  <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70">
                     {servicesContent.items[selectedService].short}
                   </p>
-                  <div className="space-y-4 text-[12px] sm:text-[13.6px] text-brand-navy/70 leading-relaxed\">
+                  <div className="space-y-4 text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
                     {servicesContent.items[selectedService].long.map((para, pIdx) => (
                       <p key={`service-long-${pIdx}`}>{para}</p>
                     ))}
@@ -114,7 +114,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
         </AnimatePresence>
 
         <FadeIn>
-          <p className="text-[8.5px] font-bold uppercase tracking-[0.22em] text-brand-gold">{servicesContent.title}</p>
+          <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">{servicesContent.title}</p>
           <h2 className="mt-3 text-[20px] sm:text-[25.5px] md:text-[30px] font-semibold text-brand-navy max-w-3xl">
             {servicesContent.intro}
           </h2>
@@ -139,7 +139,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
                   <div className="p-6 md:p-7 flex flex-1 flex-col gap-4">
                     <div className="space-y-2">
                       <h3 className="text-[17px] md:text-[20px] font-semibold text-[#0b2f6b]">{service.title}</h3>
-                      <p className="text-[12px] md:text-[13.6px] text-brand-navy/70">{service.short}</p>
+                      <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70">{service.short}</p>
                     </div>
                     <div className="mt-auto flex items-center gap-2 text-[8.5px] font-bold uppercase tracking-[0.2em] text-[#0b2f6b] group-hover:text-brand-gold transition-colors duration-300">
                       <span>{servicesContent.cta}</span>

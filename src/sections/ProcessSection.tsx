@@ -39,13 +39,13 @@ const ProcessSection: React.FC<ProcessSectionProps> = ({ copy }) => (
 
     <div className="container mx-auto px-6 md:px-8 relative z-10">
       <div className="grid gap-12 lg:grid-cols-[0.95fr,1.05fr] items-start">
-        <div className="space-y-10 lg:pl-6 order-1 lg:order-2">
+        <div className="space-y-10 lg:pl-6 order-1 lg:order-1">
           <FadeIn>
-            <p className="text-[8.5px] font-bold uppercase tracking-[0.22em] text-brand-gold text-left lg:text-right">{copy.title}</p>
-            <h2 className="mt-3 text-[25.5px] sm:text-[30px] md:text-[42.5px] font-semibold tracking-tight text-[#0b2f6b] text-left lg:text-right">
+            <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold text-left lg:text-left">{copy.title}</p>
+            <h2 className="mt-3 text-[25.5px] sm:text-[30px] md:text-[42.5px] font-semibold tracking-tight text-[#0b2f6b] text-left lg:text-left">
               {copy.subtitle}
             </h2>
-            <p className="mt-4 text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 text-left lg:text-right">
+            <p className="mt-4 text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 text-left lg:text-left">
               {copy.intro}
             </p>
           </FadeIn>
@@ -89,7 +89,7 @@ const ProcessSection: React.FC<ProcessSectionProps> = ({ copy }) => (
 
         </div>
 
-        <div className="relative rounded-2xl border border-slate-200/70 bg-white/70 p-4 sm:p-6 shadow-sm order-2 lg:order-1">
+        <div className="relative rounded-2xl border border-slate-200/70 bg-white/70 p-4 sm:p-6 shadow-sm order-2 lg:order-2">
           <div className="absolute left-4 sm:left-[18px] top-2 bottom-2 w-px bg-gradient-to-b from-[#0b2f6b]/15 via-brand-gold/20 to-[#0b2f6b]/15" />
           <div className="space-y-8 pl-6 sm:pl-10">
             {copy.steps.map((step, idx) => (
@@ -101,12 +101,12 @@ const ProcessSection: React.FC<ProcessSectionProps> = ({ copy }) => (
                       0{idx + 1} - {step.title}
                     </p>
                     {step.tagline ? (
-                      <p className="text-[12px] md:text-[13.6px] text-brand-navy/80 font-medium group-hover:text-brand-navy transition-colors duration-300">
+                      <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/80 font-medium group-hover:text-brand-navy transition-colors duration-300">
                         {step.tagline}
                       </p>
                     ) : null}
                     {step.desc ? (
-                      <p className="text-[12px] md:text-[13.6px] text-brand-navy/60 leading-relaxed group-hover:text-brand-navy/80 transition-colors duration-300">
+                      <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/60 leading-relaxed group-hover:text-brand-navy/80 transition-colors duration-300">
                         {step.desc}
                       </p>
                     ) : null}

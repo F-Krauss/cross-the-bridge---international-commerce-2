@@ -140,20 +140,20 @@ const INDUSTRY_OPTIONS: IndustryOption[] = [
       "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=1000&q=80"
     ]
   },
-  {
-    key: "industrial",
-    label: { en: "Industrial", es: "Industrial" },
-    title: { en: "Industrial components", es: "Componentes industriales" },
-    description: { en: "Safety-rated components and materials engineered for performance and durability.", es: "Componentes y materiales certificados para seguridad, diseñados para desempeño y durabilidad." },
-    image: "https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80",
-    showroomCategories: ["industrial"],
-    gallery: [
-      "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1000&q=80"
-    ]
-  },
+  // {
+  //   key: "industrial",
+  //   label: { en: "Industrial", es: "Industrial" },
+  //   title: { en: "Industrial components", es: "Componentes industriales" },
+  //   description: { en: "Safety-rated components and materials engineered for performance and durability.", es: "Componentes y materiales certificados para seguridad, diseñados para desempeño y durabilidad." },
+  //   image: "https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80",
+  //   showroomCategories: ["industrial"],
+  //   gallery: [
+  //     "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80",
+  //     "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1000&q=80",
+  //     "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1000&q=80",
+  //     "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1000&q=80"
+  //   ]
+  // },
   {
     key: "equestrian",
     label: { en: "Equestrian goods", es: "Bienes ecuestres" },
@@ -167,21 +167,21 @@ const INDUSTRY_OPTIONS: IndustryOption[] = [
       "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1000&q=80"
     ]
-  },
-  {
-    key: "private_label",
-    label: { en: "Private label & custom development", es: "Marca privada y desarrollo a medida" },
-    title: { en: "Private label & custom development", es: "Marca privada y desarrollo a medida" },
-    description: { en: "Co-created lines, rapid prototyping, and hands-on materials sourcing.", es: "Líneas co-creadas, prototipado ágil y sourcing práctico de materiales." },
-    image: "https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80",
-    showroomCategories: [],
-    gallery: [
-      "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1000&q=80"
-    ]
   }
+  // {
+  //   key: "private_label",
+  //   label: { en: "Private label & custom development", es: "Marca privada y desarrollo a medida" },
+  //   title: { en: "Private label & custom development", es: "Marca privada y desarrollo a medida" },
+  //   description: { en: "Co-created lines, rapid prototyping, and hands-on materials sourcing.", es: "Líneas co-creadas, prototipado ágil y sourcing práctico de materiales." },
+  //   image: "https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80",
+  //   showroomCategories: [],
+  //   gallery: [
+  //     "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80",
+  //     "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1000&q=80",
+  //     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80",
+  //     "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1000&q=80"
+  //   ]
+  // }
 ];
 
 const getCountryFlag = (countryCode: string): string => {
@@ -277,14 +277,14 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
       <div className="container mx-auto px-6 md:px-10 relative z-10 space-y-16 md:space-y-24">
         <div className="grid gap-10 lg:grid-cols-[1.05fr,0.95fr] items-center overflow-hidden">
           <FadeIn className="space-y-6">
-            <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+            <div className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
               <Sparkles size={14} /> {copy.badge}
             </div>
             <div className="space-y-4">
               <h2 className="text-[26px] sm:text-[32px] md:text-[48px] font-semibold leading-tight drop-shadow-[0_10px_40px_rgba(0,0,0,0.25)]">
                 {copy.title}
               </h2>
-              <p className="text-sm sm:text-base text-white/75 max-w-2xl leading-relaxed md:leading-relaxed md:text-base">
+              <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-white/75 max-w-2xl leading-relaxed">
                 {copy.body}
               </p>
             </div>
@@ -372,7 +372,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
             <div className="space-y-3">
               <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.selectedLabel}</p>
               <h4 className="text-2xl sm:text-3xl font-semibold">{getText(activeIndustry.title)}</h4>
-              <p className="text-sm sm:text-base text-white/75 max-w-3xl leading-relaxed">{getText(activeIndustry.description)}</p>
+              <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-white/75 max-w-3xl leading-relaxed">{getText(activeIndustry.description)}</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-7">
@@ -413,7 +413,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                 <div className="space-y-5">
                   {/* <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.testimonialsBadge}</p> */}
                   <h3 className="text-4xl sm:text-5xl font-semibold leading-tight">{copy.testimonialsTitle}</h3>
-                  <p className="text-base text-white/75 max-w-2xl leading-relaxed">
+                  <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-white/75 max-w-2xl leading-relaxed">
                     {copy.testimonialsSubtitle}
                   </p>
                   <div className="flex gap-3">
@@ -464,7 +464,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                           <img src={testimonial.image} alt={testimonial.name} className="absolute inset-0 w-full h-full object-cover" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                         </MotionDiv>
-                        <p className="text-lg sm:text-base leading-relaxed text-white/85 italic">
+                        <p className="text-[12px] sm:text-[13.6px] md:text-[15px] leading-relaxed text-white/85 italic">
                           “{testimonial.text}”
                         </p>
                       </div>

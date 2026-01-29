@@ -33,7 +33,6 @@ type AboutSectionProps = {
 
 const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
   const [bioExpanded, setBioExpanded] = useState(false);
-  const [activeDifferentiator, setActiveDifferentiator] = useState(0);
   const [activeLeonPoint, setActiveLeonPoint] = useState(0);
   const leonRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
@@ -57,7 +56,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
           <h2 className="text-[25.5px] sm:text-[30px] md:text-[42.5px] font-semibold tracking-tight text-[#0b2f6b]">
             {copy.founderTitle}
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-brand-navy/70">
+          <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70">
             {copy.founderTagline}
           </p>
         </FadeIn>
@@ -89,7 +88,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                     {copy.founderTagline}
                   </h3>
                 </div>
-                <p className="text-[12px] sm:text-[13.6px] text-brand-navy/70 leading-relaxed">
+                <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
                   {copy.bio[0]}
                 </p>
                 <AnimatePresence initial={false}>
@@ -99,7 +98,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.25, ease: "easeOut" }}
-                      className="text-sm sm:text-base text-brand-navy/70 leading-relaxed overflow-hidden"
+                      className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed overflow-hidden"
                     >
                       {copy.bio[1]}
                     </MotionDiv>
@@ -120,62 +119,81 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
 
         <FadeIn delay={0.1}>
           <div className="rounded-[32px] border border-slate-200 bg-[#f7f8fb] p-6 md:p-10">
-            <div className="grid gap-8 lg:grid-cols-[0.9fr,1.1fr] items-start">
-              <div className="space-y-4">
+            <div className="grid gap-5 lg:grid-cols-3 lg:gap-6 items-start">
+              <div className="space-y-4 lg:pr-4">
                 <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                   {copy.differentiators.badge}
                 </p>
                 <h3 className="text-[20px] sm:text-[25.5px] md:text-[30px] font-semibold text-[#0b2f6b]">
                   {copy.differentiators.title}
                 </h3>
-                <p className="text-[12px] sm:text-[13.6px] text-brand-navy/70 leading-relaxed">
+                <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
                   {copy.differentiators.subtitle}
                 </p>
               </div>
 
-              <div className="-mx-2 flex gap-4 overflow-x-auto pb-2 px-2 snap-x snap-mandatory sm:mx-0 sm:px-0 sm:flex-col sm:gap-4 sm:overflow-visible sm:pb-0 sm:snap-none">
-                {copy.differentiators.items.map((item, idx) => {
-                  const isActive = activeDifferentiator === idx;
-                  return (
-                    <button
-                      key={item.title}
-                      type="button"
-                      onClick={() => setActiveDifferentiator(idx)}
-                      className={`min-w-[260px] rounded-2xl border px-5 py-4 text-left transition-all snap-start sm:min-w-0 ${
-                        isActive
-                          ? "border-[#0b2f6b]/40 bg-white shadow-lg"
-                          : "border-slate-200 bg-white/70 hover:border-[#0b2f6b]/20"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-3">
-                          <span className="text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-gold">
-                            0{idx + 1}
-                          </span>
-                          <span className="text-[12px] sm:text-[13.6px] font-semibold text-[#0b2f6b]">{item.title}</span>
-                        </div>
-                        <span className="text-[8.5px] uppercase tracking-[0.2em] text-brand-navy/50">
-                          {isActive ? copy.differentiators.openLabel : copy.differentiators.viewLabel}
+              {copy.differentiators.items.slice(0, 2).map((item, idx) => (
+                <MotionDiv
+                  key={item.title}
+                  whileHover={{ y: -6 }}
+                  transition={{ type: "spring", stiffness: 220, damping: 18 }}
+                  className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.08)]"
+                >
+                  <div className="relative h-32 sm:h-36 md:h-40 overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={item.imageAlt || item.title}
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
+                    <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                      <span className="text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-gold bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
+                        0{idx + 1}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-4 sm:p-5 space-y-3">
+                    <h4 className="text-[16px] sm:text-[17px] md:text-[18px] font-semibold text-[#0b2f6b]">
+                      {item.title}
+                    </h4>
+                    <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
+                      {item.body}
+                    </p>
+                  </div>
+                </MotionDiv>
+              ))}
+
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:col-span-3">
+                {copy.differentiators.items.slice(2).map((item, idx) => (
+                  <MotionDiv
+                    key={item.title}
+                    whileHover={{ y: -6 }}
+                    transition={{ type: "spring", stiffness: 220, damping: 18 }}
+                    className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.08)]"
+                  >
+                    <div className="relative h-32 sm:h-36 md:h-40 overflow-hidden">
+                      <img
+                        src={item.image}
+                        alt={item.imageAlt || item.title}
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
+                      <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                        <span className="text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-gold bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
+                          0{idx + 3}
                         </span>
                       </div>
-                      <AnimatePresence initial={false}>
-                        {isActive && (
-                          <MotionDiv
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.25, ease: "easeOut" }}
-                            className="overflow-hidden"
-                          >
-                            <p className="mt-3 text-[12px] sm:text-[13.6px] text-brand-navy/70 leading-relaxed">
-                              {item.body}
-                            </p>
-                          </MotionDiv>
-                        )}
-                      </AnimatePresence>
-                    </button>
-                  );
-                })}
+                    </div>
+                    <div className="p-4 sm:p-5 space-y-3">
+                      <h4 className="text-[16px] sm:text-[17px] md:text-[18px] font-semibold text-[#0b2f6b]">
+                        {item.title}
+                      </h4>
+                      <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
+                        {item.body}
+                      </p>
+                    </div>
+                  </MotionDiv>
+                ))}
               </div>
             </div>
           </div>
@@ -201,7 +219,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                     0{idx + 1}
                   </p>
                   <p className="mt-3 text-[12px] font-semibold text-[#0b2f6b]">{item.title}</p>
-                  <p className="mt-2 text-[12px] text-brand-navy/70 leading-relaxed">{item.body}</p>
+                  <p className="mt-2 text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">{item.body}</p>
                 </div>
               ))}
             </div>
@@ -222,10 +240,27 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                 <h3 className="text-[25.5px] sm:text-[30px] md:text-[42.5px] lg:text-[51px] font-semibold tracking-tight text-[#0b2f6b]">
                   {copy.leon.heading}
                 </h3>
-                <div className="flex flex-wrap gap-4 text-[13px] font-bold uppercase tracking-[0.18em] text-brand-gold">
-                  {copy.leon.stats.map((stat) => (
-                    <span key={stat}>{stat}</span>
-                  ))}
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {copy.leon.stats.map((stat) => {
+                    const parts = stat.split(' ');
+                    const value = parts.shift() || stat;
+                    const label = parts.join(' ');
+                    return (
+                      <div
+                        key={stat}
+                        className="rounded-2xl border border-brand-gold/30 bg-white/60 px-4 py-3 shadow-[0_12px_30px_rgba(11,47,107,0.12)]"
+                      >
+                        <div className="text-[26px] sm:text-[30px] md:text-[34px] font-semibold tracking-tight text-brand-gold">
+                          {value}
+                        </div>
+                        {label ? (
+                          <div className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] text-brand-navy/70">
+                            {label}
+                          </div>
+                        ) : null}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -239,10 +274,9 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6">
-                  <p className="text-[8.5px] font-bold uppercase tracking-[0.18em] text-white/70">{copy.leon.scaleBadge}</p>
+                {/* <div className="absolute bottom-6 left-6">
                   <p className="text-[13.6px] font-semibold text-white">{copy.leon.scaleLabel}</p>
-                </div>
+                </div> */}
               </MotionDiv>
 
               <div className="relative hidden md:block min-h-[800px]" aria-hidden="true">
@@ -263,8 +297,8 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                       <p
                         className={`leading-relaxed ${
                           idx === 0
-                            ? "text-[15px] md:text-[17px] font-medium text-[#0b2f6b]"
-                            : "text-[12px] sm:text-[13.6px] text-brand-navy/70"
+                            ? "text-[12px] sm:text-[13.6px] md:text-[15px] font-medium text-[#0b2f6b]"
+                            : "text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70"
                         }`}
                       >
                         {paragraph}
@@ -272,11 +306,12 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                     </FadeIn>
                   ))}
                 </div>
-                <div className="grid gap-8 lg:grid-cols-[0.9fr,1.1fr] items-start">
-                  <div className="space-y-3">
-                    <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
-                      {copy.leon.advantagesBadge}
-                    </p>
+                <div className="space-y-6 lg:space-y-8">
+                  <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                    {copy.leon.advantagesBadge}
+                  </p>
+
+                  <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 md:p-7 shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
                     <AnimatePresence mode="wait">
                       <MotionDiv
                         key={activeLeonPoint}
@@ -286,17 +321,17 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                         transition={{ duration: 0.25, ease: "easeOut" }}
                         className="space-y-3"
                       >
-                        <p className="text-[25.5px] font-semibold text-[#0b2f6b]">
+                        <p className="text-[22px] sm:text-[25px] md:text-[28px] font-semibold text-[#0b2f6b]">
                           {copy.leon.advantages[activeLeonPoint].title}
                         </p>
-                        <p className="text-[12px] sm:text-[13.6px] text-brand-navy/70 leading-relaxed">
+                        <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
                           {copy.leon.advantages[activeLeonPoint].body}
                         </p>
                       </MotionDiv>
                     </AnimatePresence>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 md:grid-cols-2">
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {copy.leon.advantages.map((item, idx) => {
                       const isActive = activeLeonPoint === idx;
                       return (
@@ -304,10 +339,14 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                           key={item.title}
                           type="button"
                           onClick={() => setActiveLeonPoint(idx)}
-                          className="w-full text-left"
+                          className={`rounded-2xl border p-4 text-left transition-all ${
+                            isActive
+                              ? "border-[#0b2f6b]/30 bg-white shadow-md"
+                              : "border-slate-200 bg-white/70 hover:border-[#0b2f6b]/20"
+                          }`}
                         >
-                          <div className="flex items-center gap-4 pb-3 border-b border-[#0b2f6b]/10">
-                            <span className={`text-[20px] font-semibold ${
+                          <div className="flex items-center gap-3">
+                            <span className={`text-[18px] font-semibold ${
                               isActive ? "text-brand-gold" : "text-brand-navy/20"
                             }`}>
                               0{idx + 1}

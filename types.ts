@@ -118,7 +118,7 @@ export interface Content {
       subtitle: string;
       openLabel: string;
       viewLabel: string;
-      items: { title: string; body: string }[];
+      items: { title: string; body: string; image: string; imageAlt: string }[];
     };
     outcomes: {
       badge: string;

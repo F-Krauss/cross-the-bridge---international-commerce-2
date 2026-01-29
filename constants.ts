@@ -208,7 +208,7 @@ export const UI_TEXT: Record<Language, UiText> = {
       readyTitle: 'Ready to Grow?',
       readyDesc: "If you're a quality manufacturer or material supplier in Mexico, we want to meet you. Join our network and take your products to the world.",
       bulletPoints: ['✓ No enrollment fee', '✓ Free verification', '✓ Ongoing support'],
-      cta: 'Contact as Partner'
+      cta: 'Join our network'
     },
     contact: {
       tag: 'Get in Touch',
@@ -333,7 +333,7 @@ export const UI_TEXT: Record<Language, UiText> = {
       readyTitle: '¿Listo para Crecer?',
       readyDesc: 'Si eres un fabricante o proveedor de materiales de calidad en México, queremos conocerte. Únete a nuestra red y lleva tus productos al mundo.',
       bulletPoints: ['✓ Sin costo de inscripción', '✓ Verificación gratuita', '✓ Soporte continuo'],
-      cta: 'Contactar como Socio'
+      cta: 'Únete a nuestra red'
     },
     contact: {
       tag: 'Ponte en contacto',
@@ -826,30 +826,40 @@ export const TRANSLATIONS: Record<Language, Content> = {
       bioCtaLess: "Collapse bio",
       differentiators: {
         badge: "What makes Cross the Bridge truly different",
-        title: "Strategic partnership with measurable control.",
-        subtitle: "Each point below expands into the specific ways we reduce risk, accelerate decisions, and keep you in control.",
+        title: "Local control that removes the guesswork from international production.",
+        subtitle: "We don't just connect brands to Mexico. We stay on the ground and close to every step, acting as your strategic production partner so you can trust you'll have the right product, at the right time, in the right place.",
         openLabel: "Open",
         viewLabel: "View",
         items: [
           {
             title: "Strategic partner, not an intermediary",
-            body: "Cross the Bridge is not an intermediary. We are a strategic partner embedded in Mexico's most competitive manufacturing ecosystem."
+            body: "We don't operate as a pass-through or a sourcing agent. We act as a strategic partner, aligning decisions across development, production, and delivery so your expansion is intentional, controlled, and built for the long term.",
+            image: "/img/how-we-work/OnSite1.jpg",
+            imageAlt: "Strategic alignment on the factory floor"
           },
           {
-            title: "Hands-on execution and accountability",
-            body: "We help brands reduce risk, gain control, and scale production in Mexico by combining direct access to vetted manufacturers, hands-on execution, and clear accountability across the entire production cycle."
+            title: "Local presence that prevents surprises",
+            body: "Our value lies in being on the ground. By staying close to factories, materials, and daily operations, we anticipate issues early, resolve them in real time, and protect your timelines, costs, and quality standards.",
+            image: "/img/how-we-work/Leather inspection.jpg",
+            imageAlt: "On-site materials inspection"
           },
           {
-            title: "Side-by-side collaboration",
-            body: "Rather than managing processes from a distance, we work side by side with founders and teams throughout development, production, and expansion. This proximity enables faster decisions, fewer costly mistakes, and real ownership at every stage."
+            title: "Hands-on execution with real accountability",
+            body: "We work side by side with founders and teams throughout development, production, and expansion. This hands-on involvement enables faster decisions, avoid costly mistakes, and a clear point of accountability at every stage.",
+            image: "/img/services/OnSite2.jpg",
+            imageAlt: "Hands-on production oversight"
           },
           {
-            title: "Vetted network from day one",
-            body: "Our clients do not start from zero. Every project is built on factories, suppliers, and partners we already know, have vetted, and have successfully worked with. This gives brands an operational foundation from day one - not a trial-and-error learning curve."
+            title: "Structured processes, not guesswork",
+            body: "Every project follows a clear structure -- from supplier selection to production oversight and export coordination. This structure replaces trial-and-error with informed decisions and repeatable results.",
+            image: "/img/how-we-work/Proceso3.jpg",
+            imageAlt: "Structured production workflow"
           },
           {
-            title: "Connection that accelerates growth",
-            body: "Beyond structure and strategy, our value lies in connection. We connect our clients to a trusted network of manufacturers, suppliers, and business leaders who operate with shared standards of quality, responsibility, and long-term vision - accelerating growth through alignment, not guesswork."
+            title: "A trusted ecosystem, activated for you",
+            body: "We operate inside Mexico's most established manufacturing ecosystem. Our clients benefit from relationships, capabilities, and operational knowledge built over years -- allowing them to enter and scale without starting from zero.",
+            image: "/img/services/Calzado5.jpg",
+            imageAlt: "Trusted manufacturing ecosystem"
           }
         ]
       },
@@ -1343,23 +1353,33 @@ export const TRANSLATIONS: Record<Language, Content> = {
         items: [
           {
             title: "Socio estratégico, no intermediario",
-            body: "Cross the Bridge no es un intermediario. Somos un socio estratégico incrustado en el ecosistema manufacturero más competitivo de México."
+            body: "Cross the Bridge no es un intermediario. Somos un socio estratégico incrustado en el ecosistema manufacturero más competitivo de México.",
+            image: "/img/how-we-work/OnSite1.jpg",
+            imageAlt: "Alineacion estrategica en planta"
           },
           {
             title: "Ejecución práctica y responsabilidad",
-            body: "Ayudamos a marcas a reducir riesgo, ganar control y escalar producción en México combinando acceso directo a fábricas validadas, ejecución práctica y responsabilidad clara en todo el ciclo productivo."
+            body: "Ayudamos a marcas a reducir riesgo, ganar control y escalar producción en México combinando acceso directo a fábricas validadas, ejecución práctica y responsabilidad clara en todo el ciclo productivo.",
+            image: "/img/how-we-work/Leather inspection.jpg",
+            imageAlt: "Inspeccion de materiales en sitio"
           },
           {
             title: "Colaboración hombro a hombro",
-            body: "En vez de gestionar a distancia, trabajamos junto a fundadores y equipos durante desarrollo, producción y expansión. Esta cercanía permite decisiones más rápidas, menos errores costosos y verdadera propiedad en cada etapa."
+            body: "En vez de gestionar a distancia, trabajamos junto a fundadores y equipos durante desarrollo, producción y expansión. Esta cercanía permite decisiones más rápidas, menos errores costosos y verdadera propiedad en cada etapa.",
+            image: "/img/services/OnSite2.jpg",
+            imageAlt: "Supervision de produccion en sitio"
           },
           {
             title: "Red validada desde el día uno",
-            body: "Nuestros clientes no comienzan desde cero. Cada proyecto se basa en fábricas, proveedores y socios que ya conocemos, hemos validado y con quienes hemos trabajado exitosamente. Esto da una base operativa desde el día uno, sin curva de prueba y error."
+            body: "Nuestros clientes no comienzan desde cero. Cada proyecto se basa en fábricas, proveedores y socios que ya conocemos, hemos validado y con quienes hemos trabajado exitosamente. Esto da una base operativa desde el día uno, sin curva de prueba y error.",
+            image: "/img/how-we-work/Proceso3.jpg",
+            imageAlt: "Flujo de trabajo estructurado"
           },
           {
             title: "Conexión que acelera el crecimiento",
-            body: "Más allá de estructura y estrategia, nuestro valor está en la conexión. Conectamos a nuestros clientes con una red confiable de fabricantes, proveedores y líderes que operan con estándares compartidos de calidad, responsabilidad y visión de largo plazo — acelerando el crecimiento por alineación, no por ensayo y error."
+            body: "Más allá de estructura y estrategia, nuestro valor está en la conexión. Conectamos a nuestros clientes con una red confiable de fabricantes, proveedores y líderes que operan con estándares compartidos de calidad, responsabilidad y visión de largo plazo — acelerando el crecimiento por alineación, no por ensayo y error.",
+            image: "/img/services/Calzado5.jpg",
+            imageAlt: "Ecosistema manufacturero confiable"
           }
         ]
       },
