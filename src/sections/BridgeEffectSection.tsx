@@ -77,24 +77,24 @@ type GalleryItem = {
 };
 
 const TESTIMONIAL_IMAGES = [
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80"
+  "/img/testimonials/Wilsonking_outback.jpg",
+  "/img/testimonials/CICB_brazil.jpg",
+  "/img/testimonials/Mehrdad_jrd_california.jpg",
+  "/img/testimonials/BaP_viberg.jpg",
+  "/img/testimonials/Chazlyn_Chaz.jpg"
 ];
 
 type HeroGalleryItem = { src: string; title: string; tag: string };
 
 const HERO_GALLERY: HeroGalleryItem[] = [
-  { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", title: "Hands-on sourcing and production", tag: "Factory & materials" },
-  { src: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80", title: "Leather inspection on-site", tag: "Quality control" },
-  { src: "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1600&q=80", title: "Materials moving daily", tag: "Logistics" },
-  { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", title: "Prototyping with partners", tag: "Development" },
-  { src: "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1600&q=80", title: "Factory floor execution", tag: "Production" },
-  { src: "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1600&q=80", title: "Export-ready packaging", tag: "Export" },
-  { src: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1600&q=80", title: "Material sourcing", tag: "Sourcing" },
-  { src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80", title: "Alliance building", tag: "Alliances" }
+  { src: "/img/bridge_effect/B2B CICB.jpg", title: "Hands-on sourcing and production", tag: "Factory & materials" },
+  { src: "/img/bridge_effect/Brett Viberg supply chain development.jpg", title: "Leather inspection on-site", tag: "Quality control" },
+  { src: "/img/bridge_effect/Embajada Alemania 2023.jpg", title: "Materials moving daily", tag: "Logistics" },
+  { src: "public/img/bridge_effect/IMG_6036.jpg", title: "Prototyping with partners", tag: "Development" },
+  { src: "public/img/bridge_effect/Inspeccioncalidad.jpg", title: "Factory floor execution", tag: "Production" },
+  { src: "public/img/bridge_effect/Mariana_en_outback.jpg", title: "Export-ready packaging", tag: "Export" },
+  { src: "public/img/bridge_effect/Pat_y_brettviberg_mexico.jpg", title: "Material sourcing", tag: "Sourcing" },
+  { src: "public/img/bridge_effect/Mariana_en_outback.jpg", title: "Alliance building", tag: "Alliances" }
 ];
 
 const INDUSTRY_OPTIONS: IndustryOption[] = [
@@ -106,10 +106,9 @@ const INDUSTRY_OPTIONS: IndustryOption[] = [
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80",
     showroomCategories: ["footwear"],
     gallery: [
-      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80"
+      "/img/catalog/Footwear1.jpg",
+      "/img/catalog/Footwear2.jpg",
+      "/img/catalog/Footwear3.jpg"
     ]
   },
   {
@@ -120,10 +119,9 @@ const INDUSTRY_OPTIONS: IndustryOption[] = [
     image: "https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=1600&q=80",
     showroomCategories: ["leather"],
     gallery: [
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1000&q=80"
+      "/img/catalog/Leather1.jpg",
+      "/img/catalog/Leather2.jpg",
+      "/img/catalog/Leather3.jpg"
     ]
   },
   {
@@ -134,10 +132,9 @@ const INDUSTRY_OPTIONS: IndustryOption[] = [
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80",
     showroomCategories: ["hats"],
     gallery: [
-      "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=1000&q=80"
+      "/img/catalog/Hats1.jpg",
+      "/img/catalog/Hats2.jpg",
+      "/img/catalog/Hats3.jpg"
     ]
   },
   // {
@@ -162,10 +159,9 @@ const INDUSTRY_OPTIONS: IndustryOption[] = [
     image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80",
     showroomCategories: ["equestrian"],
     gallery: [
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1000&q=80"
+      "/img/catalog/Equestrian1.jpg",
+      "/img/catalog/Equestrian2.jpg",
+      "/img/catalog/Equestrian3.jpg"
     ]
   }
   // {

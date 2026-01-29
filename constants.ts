@@ -658,12 +658,12 @@ export const DEFAULT_TESTIMONIALS = [
 ];
 
 const SHOWROOM_ITEMS = [
-  { id: 1, category: 'footwear', title: 'Luxury Leather Boots', image: 'https://plus.unsplash.com/premium_photo-1729285270693-3131f27a56c0?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-  { id: 2, category: 'leather', title: 'Premium Automotive Leather', image: 'https://images.unsplash.com/photo-1573227896778-8f378c4029d4?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-  { id: 3, category: 'hats', title: 'Handcrafted Hats', image: 'https://images.unsplash.com/photo-1568090369444-b0e27698de2c?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-  { id: 4, category: 'industrial', title: 'Safety Footwear Components', image: 'https://images.unsplash.com/photo-1657196343034-481a224e963e?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-  { id: 5, category: 'footwear', title: 'Western Style Collection', image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1760&auto=format&fit=crop' },
-  { id: 6, category: 'leather', title: 'Vegetable Tanned Hides', image: 'https://www.leatherbox.com/cdn/shop/files/la-bretagna-arizona-raw-supple-vegetable-tanned-harness-leather-natural-L103RARC1416NATP-1_1080x.jpg?v=1753276451' },
+  // { id: 1, category: 'footwear', title: 'Luxury Leather Boots', image: 'https://plus.unsplash.com/premium_photo-1729285270693-3131f27a56c0?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+  // { id: 2, category: 'leather', title: 'Premium Automotive Leather', image: 'https://images.unsplash.com/photo-1573227896778-8f378c4029d4?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+  // { id: 3, category: 'hats', title: 'Handcrafted Hats', image: 'https://images.unsplash.com/photo-1568090369444-b0e27698de2c?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+  // { id: 4, category: 'industrial', title: 'Safety Footwear Components', image: 'https://images.unsplash.com/photo-1657196343034-481a224e963e?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+  // { id: 5, category: 'footwear', title: 'Western Style Collection', image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1760&auto=format&fit=crop' },
+  // { id: 6, category: 'leather', title: 'Vegetable Tanned Hides', image: 'https://www.leatherbox.com/cdn/shop/files/la-bretagna-arizona-raw-supple-vegetable-tanned-harness-leather-natural-L103RARC1416NATP-1_1080x.jpg?v=1753276451' },
 ];
 
 export const TRANSLATIONS: Record<Language, Content> = {
@@ -955,7 +955,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "I first met Mariana about twenty years ago, the first thing I noticed how radiant she was and very much a peoples person in regards to dealing with there need and inquires on a business level. Working with Mariana is always a wonderful experience, on first personal contact in Leon she makes you feel very at ease. On Dealings with Viberg Boot the most valuable part has been finding us many connections within the footwear industry. Mariana has helped the growth of Viberg in many ways. I would thoroughly recommend Cross the Bridge and Mariana to any possible clients.",
           country: "Canada",
           countryCode: "CA",
-          image: "/img/viberg-testimonial.jpg"
+          image: ""
         },
         {
           name: "Chaz Pilarcik",
