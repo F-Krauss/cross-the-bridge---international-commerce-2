@@ -90,11 +90,11 @@ const HERO_GALLERY: HeroGalleryItem[] = [
   { src: "/img/bridge_effect/B2B CICB.jpg", title: "Hands-on sourcing and production", tag: "Factory & materials" },
   { src: "/img/bridge_effect/Brett Viberg supply chain development.jpg", title: "Leather inspection on-site", tag: "Quality control" },
   { src: "/img/bridge_effect/Embajada Alemania 2023.jpg", title: "Materials moving daily", tag: "Logistics" },
-  { src: "public/img/bridge_effect/IMG_6036.jpg", title: "Prototyping with partners", tag: "Development" },
-  { src: "public/img/bridge_effect/Inspeccioncalidad.jpg", title: "Factory floor execution", tag: "Production" },
-  { src: "public/img/bridge_effect/Mariana_en_outback.jpg", title: "Export-ready packaging", tag: "Export" },
-  { src: "public/img/bridge_effect/Pat_y_brettviberg_mexico.jpg", title: "Material sourcing", tag: "Sourcing" },
-  { src: "public/img/bridge_effect/Mariana_en_outback.jpg", title: "Alliance building", tag: "Alliances" }
+  { src: "/img/bridge_effect/IMG_6036.jpg", title: "Prototyping with partners", tag: "Development" },
+  { src: "/img/bridge_effect/Inspeccioncalidad.jpg", title: "Factory floor execution", tag: "Production" },
+  { src: "/img/bridge_effect/Mariana_en_outback.jpg", title: "Export-ready packaging", tag: "Export" },
+  { src: "/img/bridge_effect/Pat_y_brettviberg_mexico.jpg", title: "Material sourcing", tag: "Sourcing" },
+  { src: "/img/bridge_effect/Mariana_en_outback.jpg", title: "Alliance building", tag: "Alliances" }
 ];
 
 const INDUSTRY_OPTIONS: IndustryOption[] = [
