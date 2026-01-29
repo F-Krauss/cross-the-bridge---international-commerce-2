@@ -988,7 +988,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                             value={bookingForm.company}
                             onChange={(e) => handleBookingChange('company', e.target.value)}
                             required
-                            className="w-full rounded-l px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-10"
+                            className="w-full rounded-l px-3 py-2 text-sm md:text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-navy h-9"
                           />
                         </div>
                         <div>
@@ -997,7 +997,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                             value={bookingForm.companyCountry}
                             onChange={(e) => handleBookingChange('companyCountry', e.target.value)}
                             required
-                            className="w-full rounded-lg px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10"
+                            className="w-full rounded-lg px-3 py-2 text-sm md:text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
                           >
                             <option value="">{bookingCopy.placeholders.region}</option>
                             {bookingRegionOptions.map(region => (
@@ -1013,7 +1013,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                             onChange={(e) => handleBookingChange('website', e.target.value)}
                             placeholder={bookingCopy.placeholders.website}
                             required
-                            className="w-full rounded-lg px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-10"
+                            className="w-full rounded-lg px-3 py-2 text-sm md:text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-navy h-9"
                           />
                         </div>
                       </div>
@@ -1027,7 +1027,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                             value={bookingForm.service}
                             onChange={(e) => handleBookingChange('service', e.target.value)}
                             required
-                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10"
+                            className="w-full px-3 py-2 text-sm md:text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
                           >
                             <option value="">{bookingCopy.placeholders.service}</option>
                             {bookingServiceOptions.map((option) => (
@@ -1041,7 +1041,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                             value={bookingForm.originCountry}
                             onChange={(e) => handleBookingChange('originCountry', e.target.value)}
                             required
-                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10"
+                            className="w-full px-3 py-2 text-sm md:text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
                           >
                             <option value="">{bookingCopy.placeholders.region}</option>
                             {bookingRegionOptions.map(region => (
@@ -1055,7 +1055,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                             value={bookingForm.targetRegion}
                             onChange={(e) => handleBookingChange('targetRegion', e.target.value)}
                             required
-                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10"
+                            className="w-full px-3 py-2 text-sm md:text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
                           >
                             <option value="">{bookingCopy.placeholders.region}</option>
                             {bookingRegionOptions.map(region => (
@@ -1074,7 +1074,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                             value={bookingForm.name}
                             onChange={(e) => handleBookingChange('name', e.target.value)}
                             required
-                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-10"
+                            className="w-full px-3 py-2 text-sm md:text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-navy h-9"
                           />
                         </div>
                         <div>
@@ -1084,7 +1084,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                             value={bookingForm.email}
                             onChange={(e) => handleBookingChange('email', e.target.value)}
                             required
-                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy h-10"
+                            className="w-full px-3 py-2 text-sm md:text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-navy h-9"
                           />
                         </div>
                         <div className="md:col-span-2">
@@ -1107,7 +1107,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                               d.setDate(d.getDate() + 2);
                               return d.toISOString().split('T')[0];
                             })()}
-                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10 cursor-pointer"
+                            className="w-full px-3 py-2 text-sm md:text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9 cursor-pointer"
                             style={{ colorScheme: 'light' }}
                             required
                           />
@@ -1117,7 +1117,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                           <select
                             value={bookingForm.timeSlot}
                             onChange={(e) => handleBookingChange('timeSlot', e.target.value)}
-                            className="w-full px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-10"
+                            className="w-full px-3 py-2 text-sm md:text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-navy bg-white h-9"
                             required
                           >
                             <option value="">{bookingCopy.placeholders.time}</option>
@@ -1607,7 +1607,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       type="text"
                       value={contactForm.name}
                       onChange={(e) => handleContactChange('name', e.target.value)}
-                      className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                      className="w-full bg-white border border-gray-200 rounded-md px-3 py-2 text-sm md:text-base focus:ring-2 focus:ring-brand-navy outline-none h-10"
                       required
                     />
                   </div>
@@ -1617,7 +1617,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       type="email"
                       value={contactForm.email}
                       onChange={(e) => handleContactChange('email', e.target.value)}
-                      className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                      className="w-full bg-white border border-gray-200 rounded-md px-3 py-2 text-sm md:text-base focus:ring-2 focus:ring-brand-navy outline-none h-10"
                       required
                     />
                   </div>
@@ -1627,7 +1627,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       type="text"
                       value={contactForm.company}
                       onChange={(e) => handleContactChange('company', e.target.value)}
-                      className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                      className="w-full bg-white border border-gray-200 rounded-md px-3 py-2 text-sm md:text-base focus:ring-2 focus:ring-brand-navy outline-none h-10"
                     />
                   </div>
                   <div>
@@ -1637,7 +1637,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       value={contactForm.website}
                       onChange={(e) => handleContactChange('website', e.target.value)}
                       placeholder="https://"
-                      className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                      className="w-full bg-white border border-gray-200 rounded-md px-3 py-2 text-sm md:text-base focus:ring-2 focus:ring-brand-navy outline-none h-10"
                     />
                   </div>
                 </div>
@@ -1648,7 +1648,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                     value={contactForm.serviceInterest}
                     onChange={(e) => handleContactChange('serviceInterest', e.target.value)}
                     required
-                    className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                    className="w-full bg-white border border-gray-200 rounded-md px-3 py-2 text-sm md:text-base focus:ring-2 focus:ring-brand-navy outline-none h-10"
                   >
                     <option value="">{t.contact.form.servicePlaceholder}</option>
                     {serviceOptions.map((service, idx) => (
@@ -1664,7 +1664,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                     value={contactForm.message}
                     onChange={(e) => handleContactChange('message', e.target.value)}
                     placeholder={t.contact.form.messageHint}
-                    className="w-full bg-white p-2.5 md:p-3 focus:ring-2 focus:ring-brand-navy outline-none text-sm md:text-base"
+                    className="w-full bg-white border border-gray-200 rounded-md px-3 py-2 text-sm md:text-base focus:ring-2 focus:ring-brand-navy outline-none"
                   />
                 </div>
                 <button
