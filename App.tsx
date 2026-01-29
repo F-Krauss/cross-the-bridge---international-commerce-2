@@ -1717,6 +1717,14 @@ export default function App() {
     }, 500);
   }, []);
 
+  // In production, only clear the loader after the full window load (all resources).
+  // In development, allow hero-ready (first above-the-fold image) to shortcut to speed up iteration.
+  const handleHeroReady = useCallback(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      handleLoadingComplete();
+    }
+  }, [handleLoadingComplete]);
+
   // Only fall back to a timer in non-production; in prod wait for real readiness signals
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') {
@@ -1731,7 +1739,7 @@ export default function App() {
   return (
     <>
       <NoiseOverlay />
-      <MainContent lang={lang} setLang={setLang} onHeroReady={handleLoadingComplete} />
+      <MainContent lang={lang} setLang={setLang} onHeroReady={handleHeroReady} />
       <AnimatePresence>
         {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
       </AnimatePresence>
