@@ -81,20 +81,20 @@ const TESTIMONIAL_IMAGES = [
   "/img/testimonials/CICB_brazil.jpg",
   "/img/testimonials/Mehrdad_jrd_california.jpg",
   "/img/testimonials/BaP_viberg.jpg",
-  "/img/testimonials/Chazlyn_Chaz.jpg"
+  "/img/img-mariana/testimonioCHAZ.jpg"
 ];
 
 type HeroGalleryItem = { src: string; title: string; tag: string };
 
 const HERO_GALLERY: HeroGalleryItem[] = [
-  { src: "/img/bridge_effect/B2B CICB.jpg", title: "Hands-on sourcing and production", tag: "Factory & materials" },
-  { src: "/img/bridge_effect/Brett Viberg supply chain development.jpg", title: "Leather inspection on-site", tag: "Quality control" },
-  { src: "/img/bridge_effect/Embajada Alemania 2023.jpg", title: "Materials moving daily", tag: "Logistics" },
-  { src: "/img/bridge_effect/IMG_6036.jpg", title: "Prototyping with partners", tag: "Development" },
-  { src: "/img/bridge_effect/Inspeccioncalidad.jpg", title: "Factory floor execution", tag: "Production" },
-  { src: "/img/bridge_effect/Mariana_en_outback.jpg", title: "Export-ready packaging", tag: "Export" },
-  { src: "/img/bridge_effect/Pat_y_brettviberg_mexico.jpg", title: "Material sourcing", tag: "Sourcing" },
-  { src: "/img/bridge_effect/Mariana_en_outback.jpg", title: "Alliance building", tag: "Alliances" }
+  { src: "/img/img-mariana/bridge-effect/thebridge.jpg", title: "Hands-on sourcing and production", tag: "Factory & materials" },
+  { src: "/img/img-mariana/bridge-effect/thebridgeeffect.JPG", title: "Leather inspection on-site", tag: "Quality control" },
+  { src: "/img/img-mariana/bridge-effect/bridgeeffec2.jpg", title: "Materials moving daily", tag: "Logistics" },
+  { src: "/img/img-mariana/bridge-effect/bridgeeffect2.JPG", title: "Prototyping with partners", tag: "Development" },
+  { src: "/img/img-mariana/bridge-effect/bridgeeffect3.JPG", title: "Factory floor execution", tag: "Production" },
+  { src: "/img/img-mariana/bridge-effect/IMG_4279.JPG", title: "Export-ready packaging", tag: "Export" },
+  { src: "/img/img-mariana/bridge-effect/IMG_4303.JPG", title: "Material sourcing", tag: "Sourcing" },
+  { src: "/img/img-mariana/bridge-effect/IMG_4322.JPG", title: "Alliance building", tag: "Alliances" }
 ];
 
 const INDUSTRY_OPTIONS: IndustryOption[] = [
@@ -106,9 +106,9 @@ const INDUSTRY_OPTIONS: IndustryOption[] = [
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80",
     showroomCategories: ["footwear"],
     gallery: [
-      "/img/catalog/Footwear1.jpg",
-      "/img/catalog/Footwear2.jpg",
-      "/img/catalog/Footwear3.jpg"
+      "/img/img-mariana/products/FOTO_BOTA.png"
+      // "/img/catalog/Footwear2.jpg",
+      // "/img/catalog/Footwear3.jpg"
     ]
   },
   {
@@ -119,9 +119,9 @@ const INDUSTRY_OPTIONS: IndustryOption[] = [
     image: "https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=1600&q=80",
     showroomCategories: ["leather"],
     gallery: [
-      "/img/catalog/Leather1.jpg",
-      "/img/catalog/Leather2.jpg",
-      "/img/catalog/Leather3.jpg"
+      "/img/img-mariana/products/LEATHER.png"
+      // "/img/catalog/Leather2.jpg",
+      // "/img/catalog/Leather3.jpg"
     ]
   },
   {
@@ -132,9 +132,9 @@ const INDUSTRY_OPTIONS: IndustryOption[] = [
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80",
     showroomCategories: ["hats"],
     gallery: [
-      "/img/catalog/Hats1.jpg",
-      "/img/catalog/Hats2.jpg",
-      "/img/catalog/Hats3.jpg"
+      "/img/img-mariana/products/hats.JPG"
+      // "/img/catalog/Hats2.jpg",
+      // "/img/catalog/Hats3.jpg"
     ]
   },
   // {
@@ -159,9 +159,9 @@ const INDUSTRY_OPTIONS: IndustryOption[] = [
     image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80",
     showroomCategories: ["equestrian"],
     gallery: [
-      "/img/catalog/Equestrian1.jpg",
-      "/img/catalog/Equestrian2.jpg",
-      "/img/catalog/Equestrian3.jpg"
+      "/img/img-mariana/products/EQUESTRIANGOOD.PNG",
+      "/img/img-mariana/products/CINCHOS EQUESTRIAN.png"
+      // "/img/img-mariana/products/equestrian3.jpg"
     ]
   }
   // {
@@ -368,7 +368,6 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
             <div className="space-y-3">
               <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.selectedLabel}</p>
               <h4 className="text-2xl sm:text-3xl font-semibold">{getText(activeIndustry.title)}</h4>
-              <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-white/75 max-w-3xl leading-relaxed">{getText(activeIndustry.description)}</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-7">
@@ -404,11 +403,11 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
 
         {testimonial && (
           <FadeIn delay={0.08}>
-            <div className="space-y-10">
-              <div className="grid lg:grid-cols-[1.1fr,1fr] gap-8 lg:gap-14 items-start">
+            <div className="space-y-14 mt-28 md:mt-36">
+              <div className="grid lg:grid-cols-[1.1fr,1fr] gap-8 lg:gap-14 items-start mt-8">
                 <div className="space-y-5">
                   {/* <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.testimonialsBadge}</p> */}
-                  <h3 className="text-4xl sm:text-5xl font-semibold leading-tight">{copy.testimonialsTitle}</h3>
+                  <h3 className="text-3xl md:text-4xl font-semibold leading-tight">{copy.testimonialsTitle}</h3>
                   <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-white/75 max-w-2xl leading-relaxed">
                     {copy.testimonialsSubtitle}
                   </p>

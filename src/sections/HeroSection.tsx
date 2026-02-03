@@ -46,7 +46,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
 
   return (
     <section
-      id="about"
+      id="home"
       className="relative overflow-hidden bg-gradient-to-b from-white via-white to-[#f2f4f8]"
     >
       <MotionDiv
@@ -125,9 +125,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
               </div>
 
               <div className="space-y-4 pt-2 pb-8">
-                <div className="flex items-center justify-between text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-navy/60">
-                  <span>Our partners</span>
-                  <span className="text-brand-gold">Trusted by</span>
+                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">
+                  <span>Trusted by</span>
+                  {/* <span className="text-brand-gold">Trusted by</span> */}
                 </div>
                 <div className="grid grid-cols-3 items-center gap-4 sm:gap-6">
                   {PARTNER_LOGOS.map((logo) => (

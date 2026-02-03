@@ -9,13 +9,69 @@ import ProcessSection from './src/sections/ProcessSection';
 import TradeMissionsSection from './src/sections/TradeMissionsSection';
 import AboutSection from './src/sections/AboutSection';
 import BridgeEffectSection from './src/sections/BridgeEffectSection';
-import { TRANSLATIONS, UI_TEXT, PARTNER_BENEFITS, BOOKING_TIME_SLOTS, DEFAULT_TESTIMONIALS } from './constants';
+import { TRANSLATIONS, UI_TEXT, BOOKING_TIME_SLOTS, DEFAULT_TESTIMONIALS } from './constants';
 import { Language } from './types';
 
 // Assets served from public/img
 const mapImage = '/img/world-map.svg';
 const logoVertical = '/img/ganzo.png';
 const logoWordmarkPng = '/img/Logo_letras.png';
+const PUBLIC_IMAGE_URLS = Array.from(new Set([
+  '/img/world-map.svg',
+  '/img/ganzo.png',
+  '/img/Logo_letras.png',
+  '/img/logo_horizontal.png',
+  '/img/Logos/Chazlyn.png',
+  '/img/Logos/Outback.png',
+  '/img/Logos/Viberg.png',
+  '/img/Calzado1.jpg',
+  '/img/process2.jpg',
+  '/img/process4.jpg',
+  '/img/how-we-work/OnSite1.jpg',
+  '/img/how-we-work/Leather inspection.jpg',
+  '/img/how-we-work/Proceso3.jpg',
+  '/img/services/Piel1.jpg',
+  '/img/services/Calzado5.jpg',
+  '/img/services/OnSite2.jpg',
+  '/img/about/MarianaBio.PNG',
+  '/img/about/leon.jpeg',
+  '/img/leather-svgrepo-com.svg',
+  '/img/viberg-testimonial.jpg',
+  '/img/bridge_effect/B2B CICB.jpg',
+  '/img/bridge_effect/Brett Viberg supply chain development.jpg',
+  '/img/bridge_effect/Embajada Alemania 2023.jpg',
+  '/img/catalog/Footwear1.jpg',
+  '/img/catalog/Footwear2.jpg',
+  '/img/catalog/Footwear3.jpg',
+  '/img/catalog/Leather1.jpg',
+  '/img/catalog/Leather2.jpg',
+  '/img/catalog/Leather3.jpg',
+  '/img/catalog/Hats1.jpg',
+  '/img/catalog/Hats2.jpg',
+  '/img/catalog/Hats3.jpg',
+  '/img/catalog/Equestrian1.jpg',
+  '/img/catalog/Equestrian2.jpg',
+  '/img/catalog/Equestrian3.jpg',
+  '/img/testimonials/BaP_viberg.jpg',
+  '/img/testimonials/CICB_brazil.jpg',
+  '/img/testimonials/Chazlyn_Chaz.jpg',
+  '/img/testimonials/Mehrdad_jrd_california.jpg',
+  '/img/testimonials/Wilsonking_outback.jpg',
+  '/img/Collage/Collage_control_de_calidad.jpg',
+  '/img/Collage/Collage_embajada_alemania.jpg',
+  '/img/Collage/Collage_junta.jpg',
+  '/img/Collage/Collage_junta2.jpg',
+  '/img/Collage/Collage_mision_Thailandia.jpg'
+]));
+
+const preloadImages = (sources: string[]) => Promise.all(
+  sources.map((src) => new Promise<void>((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve();
+    img.onerror = () => resolve();
+    img.src = encodeURI(src);
+  }))
+);
 
 const ICON_MAP = {
   Hexagon,
@@ -792,7 +848,6 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
   const serviceOptions = servicesContent.items.map(item => item.title);
   const bookingServiceOptions = serviceOptions.length ? serviceOptions : ui.booking.serviceOptions;
   const bookingRegionOptions = ui.booking.regionOptions;
-  const partnerBenefits = PARTNER_BENEFITS[lang];
   const bookingCopy = ui.booking;
   const bookingStepLabel = lang === 'es' ? 'Paso' : 'Step';
   const bookingNextLabel = lang === 'es' ? 'Siguiente' : 'Next';
@@ -854,7 +909,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
         />
         
         <div className="mx-auto w-full max-w-[1400px] px-2 flex items-center gap-5">
-          <button onClick={() => handleNavClick('about')} className="flex items-center gap-2.5 text-white">
+          <button onClick={() => handleNavClick('home')} className="flex items-center gap-2.5 text-white">
             <div className="w-9 h-9 rounded-lg flex items-center justify-center bg-white/5">
               <img src={logoVertical} alt="Cross The Bridge logo" className="h-6 w-auto object-contain" />
             </div>
@@ -1311,258 +1366,53 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
           copy={t.bridgeEffect}
         />
 
-        {/* BECOME A PARTNER - For Providers */}
-        <section className="bg-brand-navy text-white flex flex-col justify-center relative overflow-hidden py-16">
-          {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* World map background */}
-            <img src="/img/world-map.svg" alt="" className="absolute inset-0 w-full h-full object-cover opacity-5" />
-            {/* Animated gradient orbs */}
-            <div className="absolute top-20 -right-20 w-96 h-96 bg-brand-gold/10 rounded-full blur-2xl opacity-40" />
-            <div className="absolute -bottom-40 -left-20 w-80 h-80 bg-brand-gold/10 rounded-full blur-2xl opacity-40" />
-          </div>
-          
-          <GridPattern color="#C4A661" opacity={0.03} />
-          
-          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10 py-16 mt-8">
-            {/* Header */}
-            <div className="text-center mb-12 lg:mb-16">
-              <span className="inline-block text-brand-gold font-bold uppercase tracking-widest text-xs bg-brand-gold/10 px-4 py-2 rounded-full mb-4">
-                {ui.providers.tag}
-              </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                {ui.providers.title}
-              </h2>
-              <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-                {ui.providers.subtitle}
-              </p>
-              <div className="mt-6 flex justify-center">
-                <a
-                  href="#contact"
-                  className="inline-flex items-center justify-center rounded-full bg-brand-gold px-6 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-brand-navy transition-all hover:bg-white hover:text-brand-navy shadow-[0_18px_40px_rgba(0,0,0,0.25)]"
-                >
-                  {ui.providers.cta}
-                </a>
+        {/* BECOME A PARTNER - For Providers (clean, map removed, airy layout) */}
+        <section className="bg-white text-brand-navy flex flex-col justify-center relative overflow-hidden py-16">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10 py-16 mt-2">
+            <div className="grid gap-12 lg:grid-cols-[1fr,1fr] items-start">
+              <div className="space-y-6">
+                <span className="inline-flex text-brand-gold font-bold uppercase tracking-widest text-xs pb-1">
+                  {ui.providers.tag}
+                </span>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
+                  {ui.providers.title}
+                </h2>
+                <p className="text-base md:text-lg text-brand-navy/75 leading-relaxed max-w-[56ch]">
+                  {ui.providers.subtitle}
+                </p>
+                <div>
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center justify-center rounded-full bg-brand-gold px-6 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-brand-navy transition-all hover:opacity-95 shadow-sm"
+                  >
+                    {ui.providers.cta}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-6">
+                {ui.providers.items.map((item, idx) => (
+                  <div
+                    key={item.title}
+                    className="flex flex-col gap-3 p-2 md:p-4 rounded-lg hover:shadow-[0_8px_24px_rgba(11,47,107,0.06)] transition-transform hover:-translate-y-1"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-gold">{String(idx + 1).padStart(2, '0')}</div>
+                      <h3 className="text-lg md:text-xl font-semibold text-brand-navy">{item.title}</h3>
+                    </div>
+                    <p className="text-sm text-brand-navy/70 leading-relaxed">{item.body || item.desc || item.subtitle || ''}</p>
+                    <div>
+                      <button
+                        onClick={() => { const el = document.getElementById('contact'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }}
+                        className="text-sm font-semibold text-brand-navy/90 uppercase tracking-[0.12em] inline-flex items-center gap-2"
+                      >
+                        {ui.providers.cta} <span className="text-brand-gold">→</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-
-            {/* Benefits - Tinder Style Swipe Cards */}
-            {(() => {
-              const benefits = partnerBenefits.map((benefit) => ({
-                ...benefit,
-                icon: ICON_MAP[benefit.icon as IconKey] || Globe
-              }));
-              
-              const [partnerCardIndex, setPartnerCardIndex] = useState(0);
-              const [partnerExitDir, setPartnerExitDir] = useState<'left' | 'right' | null>(null);
-              const [partnerDragX, setPartnerDragX] = useState(0);
-              const [partnerIsDragging, setPartnerIsDragging] = useState(false);
-              const partnerDragStartX = useRef(0);
-              
-              const handlePartnerSwipe = (direction: 'left' | 'right') => {
-                if (direction === 'right' && partnerCardIndex > 0) {
-                  setPartnerExitDir('right');
-                  setTimeout(() => {
-                    setPartnerCardIndex(prev => prev - 1);
-                    setPartnerExitDir(null);
-                  }, 250);
-                } else if (direction === 'left' && partnerCardIndex < benefits.length - 1) {
-                  setPartnerExitDir('left');
-                  setTimeout(() => {
-                    setPartnerCardIndex(prev => prev + 1);
-                    setPartnerExitDir(null);
-                  }, 250);
-                }
-              };
-              
-              // Touch handlers for partner swipe
-              const handlePartnerTouchStart = (e: React.TouchEvent) => {
-                partnerDragStartX.current = e.touches[0].clientX;
-                setPartnerIsDragging(true);
-              };
-              
-              const handlePartnerTouchMove = (e: React.TouchEvent) => {
-                if (!partnerIsDragging) return;
-                const currentX = e.touches[0].clientX;
-                const diff = currentX - partnerDragStartX.current;
-                setPartnerDragX(diff);
-              };
-              
-              const handlePartnerTouchEnd = () => {
-                setPartnerIsDragging(false);
-                const threshold = 60;
-                if (partnerDragX < -threshold && partnerCardIndex < benefits.length - 1) {
-                  handlePartnerSwipe('left');
-                } else if (partnerDragX > threshold && partnerCardIndex > 0) {
-                  handlePartnerSwipe('right');
-                }
-                setPartnerDragX(0);
-              };
-              
-              // Mouse handlers for partner drag
-              const handlePartnerMouseDown = (e: React.MouseEvent) => {
-                partnerDragStartX.current = e.clientX;
-                setPartnerIsDragging(true);
-              };
-              
-              const handlePartnerMouseMove = (e: React.MouseEvent) => {
-                if (!partnerIsDragging) return;
-                const diff = e.clientX - partnerDragStartX.current;
-                setPartnerDragX(diff);
-              };
-              
-              const handlePartnerMouseUp = () => {
-                if (!partnerIsDragging) return;
-                setPartnerIsDragging(false);
-                const threshold = 60;
-                if (partnerDragX < -threshold && partnerCardIndex < benefits.length - 1) {
-                  handlePartnerSwipe('left');
-                } else if (partnerDragX > threshold && partnerCardIndex > 0) {
-                  handlePartnerSwipe('right');
-                }
-                setPartnerDragX(0);
-              };
-              
-              const handlePartnerMouseLeave = () => {
-                if (partnerIsDragging) {
-                  handlePartnerMouseUp();
-                }
-              };
-              
-              const currentBenefit = benefits[partnerCardIndex];
-              
-              return (
-                <div className="max-w-6xl mx-auto mb-12 lg:mb-16">
-                  {/* Mobile: Tinder-style swipe cards */}
-                  <div className="lg:hidden">
-                    <div 
-                      className="relative h-[320px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none"
-                      onTouchStart={handlePartnerTouchStart}
-                      onTouchMove={handlePartnerTouchMove}
-                      onTouchEnd={handlePartnerTouchEnd}
-                      onMouseDown={handlePartnerMouseDown}
-                      onMouseMove={handlePartnerMouseMove}
-                      onMouseUp={handlePartnerMouseUp}
-                      onMouseLeave={handlePartnerMouseLeave}
-                    >
-                      {/* Navigation arrows */}
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); handlePartnerSwipe('right'); }}
-                      className={`absolute left-2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all ${partnerCardIndex === 0 ? 'opacity-30' : 'hover:bg-white/20'}`}
-                      disabled={partnerCardIndex === 0}
-                    >
-                      <span className="text-white text-lg font-bold">‹</span>
-                    </button>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); handlePartnerSwipe('left'); }}
-                      className={`absolute right-2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all ${partnerCardIndex === benefits.length - 1 ? 'opacity-30' : 'hover:bg-white/20'}`}
-                      disabled={partnerCardIndex === benefits.length - 1}
-                    >
-                      <span className="text-white text-lg font-bold">›</span>
-                    </button>
-                      
-                      {/* Swipeable card */}
-                      <AnimatePresence mode="wait" initial={false}>
-                        <MotionDiv
-                          key={partnerCardIndex}
-                          initial={{ 
-                            opacity: 0, 
-                            x: partnerExitDir === 'left' ? 200 : partnerExitDir === 'right' ? -200 : 0
-                          }}
-                          animate={{ 
-                            opacity: 1, 
-                            x: partnerIsDragging ? partnerDragX : 0
-                          }}
-                          exit={{ 
-                            opacity: 0, 
-                            x: partnerExitDir === 'left' ? -200 : 200
-                          }}
-                          transition={{ 
-                            duration: partnerIsDragging ? 0 : 0.25,
-                            ease: [0.25, 0.1, 0.25, 1]
-                          }}
-                          className="w-[280px] h-[300px] relative pointer-events-none will-change-transform"
-                        >
-                          <div className="w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-white/20 relative group">
-                            {/* Background image */}
-                            <img 
-                              src={currentBenefit.image} 
-                              alt={currentBenefit.title}
-                              className="absolute inset-0 w-full h-full object-cover"
-                              draggable={false}
-                            />
-                            {/* Gradient overlay */}
-                            <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent`} />
-                            
-                            {/* Content */}
-                            <div className="absolute inset-0 flex flex-col justify-end p-6">
-                              <div className={`bg-gradient-to-br ${currentBenefit.color} px-3 py-1.5 rounded-xl w-fit mb-3 shadow-lg text-white text-sm font-bold uppercase tracking-widest`}>
-                                {String(partnerCardIndex + 1).padStart(2, '0')}
-                              </div>
-                              <h3 className="text-xl font-bold text-white mb-2">{currentBenefit.title}</h3>
-                              <p className="text-gray-300 text-sm leading-relaxed">{currentBenefit.desc}</p>
-                            </div>
-                            
-                            {/* Card number indicator */}
-                            <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                              <span className="text-white text-xs font-bold">{partnerCardIndex + 1} / {benefits.length}</span>
-                            </div>
-                          </div>
-                        </MotionDiv>
-                      </AnimatePresence>
-                    </div>
-                    
-                    {/* Dot indicators */}
-                    <div className="flex justify-center gap-2 mt-4">
-                      {benefits.map((_, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => {
-                            setPartnerExitDir(idx > partnerCardIndex ? 'left' : 'right');
-                            setTimeout(() => {
-                              setPartnerCardIndex(idx);
-                              setPartnerExitDir(null);
-                            }, 150);
-                          }}
-                          className={`w-2 h-2 rounded-full transition-all ${idx === partnerCardIndex ? 'bg-brand-gold w-6' : 'bg-white/30 hover:bg-white/50'}`}
-                        />
-                      ))}
-                    </div>
-                    
-                    {/* Swipe hint */}
-                    <p className="text-center text-white/40 text-xs mt-3">
-                      {ui.strengths.swipeHint}
-                    </p>
-                  </div>
-                  
-                  {/* Desktop: Grid layout */}
-                  <div className="hidden lg:grid lg:grid-cols-3 gap-4">
-                    {benefits.map((benefit, idx) => {
-                      return (
-                        <FadeIn key={idx} delay={idx * 0.1}>
-                          <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:border-brand-gold/50 transition-all duration-500 hover:-translate-y-1 h-full relative overflow-hidden">
-                            {/* Subtle background image on hover */}
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
-                              <img src={benefit.image} alt="" className="w-full h-full object-cover" />
-                            </div>
-                            <div className="relative z-10">
-                              <div className={`bg-gradient-to-br ${benefit.color} px-3 py-1.5 rounded-xl w-fit mb-3 shadow-lg group-hover:scale-110 transition-transform text-white text-sm font-bold uppercase tracking-widest`}>
-                                {String(idx + 1).padStart(2, '0')}
-                              </div>
-                              <h3 className="text-base font-bold text-white mb-1.5 group-hover:text-brand-gold transition-colors">{benefit.title}</h3>
-                              <p className="text-gray-400 text-xs leading-relaxed">{benefit.desc}</p>
-                            </div>
-                          </div>
-                        </FadeIn>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* Image Collage + CTA */}
-
           </ScrollReveal>
         </section>
 
@@ -1717,29 +1567,29 @@ export default function App() {
     }, 500);
   }, []);
 
-  // In production, only clear the loader after the full window load (all resources).
-  // In development, allow hero-ready (first above-the-fold image) to shortcut to speed up iteration.
-  const handleHeroReady = useCallback(() => {
-    if (process.env.NODE_ENV !== 'production') {
-      handleLoadingComplete();
-    }
-  }, [handleLoadingComplete]);
-
-  // Only fall back to a timer in non-production; in prod wait for real readiness signals
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'production') {
-      const fallback = setTimeout(() => handleLoadingComplete(), 5000);
-      return () => clearTimeout(fallback);
-    }
-    const onWindowLoad = () => handleLoadingComplete();
-    window.addEventListener('load', onWindowLoad);
-    return () => window.removeEventListener('load', onWindowLoad);
+    let cancelled = false;
+    const waitForWindowLoad = new Promise<void>((resolve) => {
+      if (document.readyState === 'complete') {
+        resolve();
+        return;
+      }
+      window.addEventListener('load', () => resolve(), { once: true });
+    });
+
+    Promise.all([waitForWindowLoad, preloadImages(PUBLIC_IMAGE_URLS)]).then(() => {
+      if (!cancelled) handleLoadingComplete();
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, [handleLoadingComplete]);
 
   return (
     <>
       <NoiseOverlay />
-      <MainContent lang={lang} setLang={setLang} onHeroReady={handleHeroReady} />
+      <MainContent lang={lang} setLang={setLang} />
       <AnimatePresence>
         {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
       </AnimatePresence>

@@ -127,9 +127,9 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                 <h3 className="text-[20px] sm:text-[25.5px] md:text-[30px] font-semibold text-[#0b2f6b]">
                   {copy.differentiators.title}
                 </h3>
-                <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
+                {/* <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
                   {copy.differentiators.subtitle}
-                </p>
+                </p> */}
               </div>
 
               {copy.differentiators.items.slice(0, 2).map((item, idx) => (
@@ -143,7 +143,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                     <img
                       src={item.image}
                       alt={item.imageAlt || item.title}
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${idx === 1 ? 'object-[center_+20%]' : 'object-top'}`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
                     <div className="absolute bottom-3 left-3 flex items-center gap-2">
@@ -175,7 +175,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                       <img
                         src={item.image}
                         alt={item.imageAlt || item.title}
-                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${idx === 1 ? 'object-[center_+20%]' : 'object-top'}`}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
                       <div className="absolute bottom-3 left-3 flex items-center gap-2">
@@ -200,8 +200,9 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
         </FadeIn>
 
         <FadeIn delay={0.15}>
-          <div className="space-y-6">
-            <div className="max-w-2xl space-y-2">
+          {/* <div className="rounded-[28px] bg-white/85 p-6 md:p-10 space-y-8 md:space-y-10"> */}
+          <div className="rounded-[28px]p-6 md:p-10 space-y-8 md:space-y-10">
+            <div className="max-w-2xl space-y-3">
               <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                 {copy.outcomes.badge}
               </p>
@@ -209,17 +210,24 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                 {copy.outcomes.title}
               </h3>
             </div>
-            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
               {copy.outcomes.items.map((item, idx) => (
                 <div
                   key={item.title}
-                  className="min-w-0"
+                  className="group min-w-0 rounded-2xl bg-white p-5 sm:p-6 transition-transform duration-300 hover:-translate-y-1"
                 >
-                  <p className="text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-gold">
-                    0{idx + 1}
+                  <div className="flex items-center gap-3">
+                    <p className="text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-gold">
+                      0{idx + 1}
+                    </p>
+                    <span className="h-[1px] flex-1 bg-brand-gold/20" />
+                  </div>
+                  <p className="mt-4 text-[12px] sm:text-[13.6px] font-semibold text-[#0b2f6b]">
+                    {item.title}
                   </p>
-                  <p className="mt-3 text-[12px] font-semibold text-[#0b2f6b]">{item.title}</p>
-                  <p className="mt-2 text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">{item.body}</p>
+                  <p className="mt-3 text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
+                    {item.body}
+                  </p>
                 </div>
               ))}
             </div>
@@ -279,31 +287,42 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                 </div> */}
               </MotionDiv>
 
-              <div className="relative hidden md:block min-h-[800px]" aria-hidden="true">
+              <div className="relative hidden md:block min-h-[800px]">
                 <div className="absolute left-[-500px] top-1/2 -translate-y-1/2">
                   <img
                     src="/img/leather-svgrepo-com.svg"
                     alt=""
-                    className="w-[950px] max-w-none select-none opacity-50"
+                    className="w-[950px] max-w-none select-none opacity-45"
                     draggable={false}
                   />
                 </div>
+                {copy.leon.paragraphs[3] ? (
+                  <FadeIn delay={0.08} className="relative z-10 mt-8 flex justify-center">
+                    <div className="w-[72%] max-w-sm rounded-2xl bg-white/60 backdrop-blur-sm px-4 py-4 shadow-[0_14px_32px_rgba(15,23,42,0.12)] text-center">
+                      <p className="text-[14px] sm:text-[15px] md:text-[17px] lg:text-[18px] font-semibold text-[#0b2f6b] leading-relaxed tracking-tight">
+                        {copy.leon.paragraphs[3]}
+                      </p>
+                    </div>
+                  </FadeIn>
+                ) : null}
               </div>
 
               <div className="space-y-10">
-                <div className="grid gap-6">
+                <div className="space-y-6">
                   {copy.leon.paragraphs.map((paragraph, idx) => (
-                    <FadeIn key={`${paragraph}-${idx}`} delay={idx * 0.04}>
-                      <p
-                        className={`leading-relaxed ${
-                          idx === 0
-                            ? "text-[12px] sm:text-[13.6px] md:text-[15px] font-medium text-[#0b2f6b]"
-                            : "text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70"
-                        }`}
-                      >
-                        {paragraph}
-                      </p>
-                    </FadeIn>
+                    idx === 3 ? null : (
+                      <FadeIn key={`${paragraph}-${idx}`} delay={idx * 0.04}>
+                        <p
+                          className={`leading-relaxed ${
+                            idx === 0
+                              ? "text-[12px] sm:text-[13.6px] md:text-[15px] font-medium text-[#0b2f6b]"
+                              : "text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70"
+                          }`}
+                        >
+                          {paragraph}
+                        </p>
+                      </FadeIn>
+                    )
                   ))}
                 </div>
                 <div className="space-y-6 lg:space-y-8">
@@ -311,7 +330,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                     {copy.leon.advantagesBadge}
                   </p>
 
-                  <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 md:p-7 shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
+                  <div className="space-y-4">
                     <AnimatePresence mode="wait">
                       <MotionDiv
                         key={activeLeonPoint}
@@ -319,12 +338,12 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="space-y-3"
+                        className="space-y-4"
                       >
-                        <p className="text-[22px] sm:text-[25px] md:text-[28px] font-semibold text-[#0b2f6b]">
+                        <p className="text-[26px] sm:text-[30px] md:text-[34px] font-semibold text-[#0b2f6b]">
                           {copy.leon.advantages[activeLeonPoint].title}
                         </p>
-                        <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
+                        <p className="text-[13px] sm:text-[15px] md:text-[16.5px] text-brand-navy/70 leading-relaxed">
                           {copy.leon.advantages[activeLeonPoint].body}
                         </p>
                       </MotionDiv>
@@ -339,20 +358,16 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                           key={item.title}
                           type="button"
                           onClick={() => setActiveLeonPoint(idx)}
-                          className={`rounded-2xl border p-4 text-left transition-all ${
-                            isActive
-                              ? "border-[#0b2f6b]/30 bg-white shadow-md"
-                              : "border-slate-200 bg-white/70 hover:border-[#0b2f6b]/20"
-                          }`}
+                          className="text-left transition-colors"
                         >
-                          <div className="flex items-center gap-3">
-                            <span className={`text-[18px] font-semibold ${
-                              isActive ? "text-brand-gold" : "text-brand-navy/20"
+                          <div className="flex items-center gap-4">
+                            <span className={`text-[18px] sm:text-[20px] font-semibold ${
+                              isActive ? "text-brand-gold" : "text-brand-navy/25"
                             }`}>
                               0{idx + 1}
                             </span>
-                            <span className={`text-[12px] sm:text-[13.6px] font-semibold ${
-                              isActive ? "text-[#0b2f6b]" : "text-brand-navy/60"
+                            <span className={`text-[13px] sm:text-[14.5px] font-semibold ${
+                              isActive ? "text-[#0b2f6b]" : "text-brand-navy/60 hover:text-[#0b2f6b]"
                             }`}>
                               {item.title}
                             </span>

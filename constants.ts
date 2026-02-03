@@ -53,7 +53,7 @@ type UiText = {
   strengths: { tag: string; title: string; swipeHint: string };
   bridge: { badge: string; heading: string; subtitle: string; testimonialsLabel: string; testimonialsTitle: string; readStory: string; snapshotsLabel: string; presenceLabel: string; swipeHint: string };
   showroom: { label: string };
-  providers: { tag: string; title: string; subtitle: string; readyTitle: string; readyDesc: string; bulletPoints: string[]; cta: string };
+  providers: { tag: string; title: string; subtitle: string; items: { title: string; body: string }[]; cta: string };
   contact: { tag: string; sending: string; sent: string; success: string; error: string; location: string; phoneUS: string; phoneMX: string; email: string; socials: { linkedin: string; instagram: string; facebook: string } };
   differentiators: { tag: string; accordionOpen: string; accordionClose: string; readMore: string };
   founder: { badge: string };
@@ -202,13 +202,28 @@ export const UI_TEXT: Record<Language, UiText> = {
     },
     showroom: { label: 'Catalog' },
     providers: {
-      tag: 'For Providers',
-      title: 'Become a Partner',
-      subtitle: 'Join our global network of elite manufacturers and suppliers',
-      readyTitle: 'Ready to Grow?',
-      readyDesc: "If you're a quality manufacturer or material supplier in Mexico, we want to meet you. Join our network and take your products to the world.",
-      bulletPoints: ['✓ No enrollment fee', '✓ Free verification', '✓ Ongoing support'],
-      cta: 'Join our network'
+      tag: 'For Leather & Fashion Material Suppliers',
+      title: 'Enter the Mexican market with a strategic local partner',
+      subtitle: 'We serve as a strategic local channel for international material suppliers seeking to establish and grow a long-term presence in the Mexican market.',
+      items: [
+        {
+          title: 'Strategic Market Entry',
+          body: 'We design and manage your entry into the Mexican market with a clear commercial strategy, ensuring your materials are introduced to the right segments, brands, and manufacturers from day one.'
+        },
+        {
+          title: 'International Trade & Market-Ready Infrastructure',
+          body: 'We provide international trade infrastructure and flexible logistics capabilities that allow your materials to be imported, stored, and commercialized locally in Mexico — supporting both wholesale and retail needs according to each project’s commercial requirements.'
+        },
+        {
+          title: 'Brand & Reputation Protection',
+          body: 'We represent your brand locally with consistency and care, protecting the reputation, standards, and market perception you have built over years of work.'
+        },
+        {
+          title: 'Focused Commercial Growth',
+          body: 'We help you grow in Mexico with intention and focus, prioritizing quality partnerships and scalable opportunities over short-term transactions.'
+        }
+      ],
+      cta: 'Explore market entry in Mexico'
     },
     contact: {
       tag: 'Get in Touch',
@@ -327,13 +342,28 @@ export const UI_TEXT: Record<Language, UiText> = {
     },
     showroom: { label: 'Catálogo' },
     providers: {
-      tag: 'Para Proveedores',
-      title: 'Conviértete en Socio',
-      subtitle: 'Únete a nuestra red global de fabricantes y proveedores de élite',
-      readyTitle: '¿Listo para Crecer?',
-      readyDesc: 'Si eres un fabricante o proveedor de materiales de calidad en México, queremos conocerte. Únete a nuestra red y lleva tus productos al mundo.',
-      bulletPoints: ['✓ Sin costo de inscripción', '✓ Verificación gratuita', '✓ Soporte continuo'],
-      cta: 'Únete a nuestra red'
+      tag: 'Para proveedores de materiales de piel y moda',
+      title: 'Ingresa al mercado mexicano con un socio local estratégico',
+      subtitle: 'Somos un canal local estratégico para proveedores internacionales de materiales que buscan establecer y crecer una presencia de largo plazo en el mercado mexicano.',
+      items: [
+        {
+          title: 'Entrada estratégica al mercado',
+          body: 'Diseñamos y gestionamos tu entrada al mercado mexicano con una estrategia comercial clara, asegurando que tus materiales lleguen a los segmentos, marcas y fabricantes correctos desde el primer día.'
+        },
+        {
+          title: 'Comercio internacional e infraestructura lista para el mercado',
+          body: 'Brindamos infraestructura de comercio internacional y capacidades logísticas flexibles para importar, almacenar y comercializar tus materiales localmente en México, apoyando necesidades mayoristas y minoristas según cada proyecto.'
+        },
+        {
+          title: 'Protección de marca y reputación',
+          body: 'Representamos tu marca localmente con consistencia y cuidado, protegiendo la reputación, los estándares y la percepción de mercado que has construido a lo largo de los años.'
+        },
+        {
+          title: 'Crecimiento comercial enfocado',
+          body: 'Te ayudamos a crecer en México con intención y enfoque, priorizando alianzas de calidad y oportunidades escalables sobre transacciones de corto plazo.'
+        }
+      ],
+      cta: 'Explorar entrada al mercado en México'
     },
     contact: {
       tag: 'Ponte en contacto',
@@ -678,14 +708,14 @@ export const TRANSLATIONS: Record<Language, Content> = {
       book: "Book a Discovery Call"
     },
     hero: {
-      title: "Your strategic bridge to trusted manufacturing partners in Mexico",
+      title: "Trusted manufacturing in Mexico. Without guesswork.",
       audience: "For operators, founders, and sourcing teams",
       proofs: [
         "140+ vetted suppliers across Mexico",
         "On-the-ground production governance",
         "Export-ready compliance and QA"
       ],
-      subtitle: "We help U.S. brands produce and scale in Mexico by connecting them with vetted factories, reliable suppliers, and the right partners — so they move faster, avoid costly mistakes, and scale with confidence.",
+      subtitle: "Built for international brands looking to scale with the right manufacturing partners in Mexico. We stay on the ground and close to every step, acting as your production partner to ensure your product is made right, on time, and with full visibility from start to finish.",
       cta: "Explore a Strategic Partnership",
       cta2: ""
     },
@@ -708,7 +738,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           desc: "3–5 vetted factories with compliance, capacity, and pricing validated.",
           details: [
             "We connect your brand with the right factory — not just any factory. Our sourcing process combines technical criteria, cost optimization, and decades of industry relationships across Mexico's top manufacturers, tanneries, and material suppliers. We evaluate capabilities, quality standards, pricing structures, certifications, production capacity, and cultural fit to make sure you work with reliable partners from day one.",
-                    "This service includes supplier scouting, capability analysis, material sourcing, factory validation, sample coordination, and aligned expectations on timelines and costs. Our goal is simple: to eliminate guesswork and give you a strong, trustworthy production foundation in Mexico."
+                    "This service covers production planning, materials and cost control, capacity scheduling, quality inspections, risk management, and full export readiness. You gain visibility and control over every stage, knowing your production is managed locally, to international standards, by a team that understands both sides of the process."
           ],
           bullets: ["Sourcing", "Contract manufacturing", "Logistics"],
           icon: "package"
@@ -834,15 +864,15 @@ export const TRANSLATIONS: Record<Language, Content> = {
           {
             title: "Strategic partner, not an intermediary",
             body: "We don't operate as a pass-through or a sourcing agent. We act as a strategic partner, aligning decisions across development, production, and delivery so your expansion is intentional, controlled, and built for the long term.",
-            image: "/img/how-we-work/OnSite1.jpg",
+            image: "/img/img-mariana/STRATEGIC_PARTNER.jpg",
             imageAlt: "Strategic alignment on the factory floor"
           },
-          {
-            title: "Local presence that prevents surprises",
-            body: "Our value lies in being on the ground. By staying close to factories, materials, and daily operations, we anticipate issues early, resolve them in real time, and protect your timelines, costs, and quality standards.",
-            image: "/img/how-we-work/Leather inspection.jpg",
-            imageAlt: "On-site materials inspection"
-          },
+          // {
+          //   title: "Local presence that prevents surprises",
+          //   body: "Our value lies in being on the ground. By staying close to factories, materials, and daily operations, we anticipate issues early, resolve them in real time, and protect your timelines, costs, and quality standards.",
+          //   image: "/img/how-we-work/Leather inspection.jpg",
+          //   imageAlt: "On-site materials inspection"
+          // },
           {
             title: "Hands-on execution with real accountability",
             body: "We work side by side with founders and teams throughout development, production, and expansion. This hands-on involvement enables faster decisions, avoid costly mistakes, and a clear point of accountability at every stage.",
@@ -858,7 +888,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           {
             title: "A trusted ecosystem, activated for you",
             body: "We operate inside Mexico's most established manufacturing ecosystem. Our clients benefit from relationships, capabilities, and operational knowledge built over years -- allowing them to enter and scale without starting from zero.",
-            image: "/img/services/Calzado5.jpg",
+            image: "/img/img-mariana/TRUSTED_ECOSYSTEM_ACTIVATED.jpg",
             imageAlt: "Trusted manufacturing ecosystem"
           }
         ]
@@ -888,7 +918,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       leon: {
         badge: "Why León, Guanajuato?",
         heading: "Where global craftsmanship meets industrial scale",
-        stats: ["40M pairs exported annually", "5 days logistic door to door"],
+        stats: ["40M pairs exported annually", "5 days logistic door to door form León to Texas"],
         scaleBadge: "Scale signal",
         scaleLabel: "40M pairs exported annually",
         paragraphs: [
@@ -950,7 +980,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           image: ""
         },
         {
-          name: "Viberg Boot Representative",
+          name: "Patrick Howart",
           role: "Viberg Boot, Canada",
           text: "I first met Mariana about twenty years ago, the first thing I noticed how radiant she was and very much a peoples person in regards to dealing with there need and inquires on a business level. Working with Mariana is always a wonderful experience, on first personal contact in Leon she makes you feel very at ease. On Dealings with Viberg Boot the most valuable part has been finding us many connections within the footwear industry. Mariana has helped the growth of Viberg in many ways. I would thoroughly recommend Cross the Bridge and Mariana to any possible clients.",
           country: "Canada",
