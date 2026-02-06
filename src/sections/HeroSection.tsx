@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import type { Content } from '../../types';
+import { HERO_INDUSTRIES, HERO_PARTNER_LOGOS } from '../../constants';
 
 type FadeInProps = {
   children: React.ReactNode;
@@ -33,13 +34,6 @@ type HeroSectionProps = {
   onHeroReady?: () => void;
 };
 
-const PARTNER_LOGOS = [
-  { src: "/img/Logos/Chazlyn.png", alt: "Chazlyn" },
-  { src: "/img/Logos/Outback.png", alt: "Outback" },
-  { src: "/img/Logos/Viberg.png", alt: "Viberg" }
-];
-
-const INDUSTRIES = ["Footwear", "Leather", "Hats", "Equestrian goods"];
 
 const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady }) => {
   const heroSignaledReady = useRef(false);
@@ -84,7 +78,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
                 {/* <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                   Industries
                 </span> */}
-                {INDUSTRIES.map((industry) => (
+                {HERO_INDUSTRIES.map((industry) => (
                   <span
                     key={industry}
                     className="text-[12px] sm:text-[12px] font-semibold uppercase text-left tracking-[0.16em] text-brand-gold px-3"
@@ -130,7 +124,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
                   {/* <span className="text-brand-gold">Trusted by</span> */}
                 </div>
                 <div className="grid grid-cols-3 items-center gap-4 sm:gap-6">
-                  {PARTNER_LOGOS.map((logo) => (
+                  {HERO_PARTNER_LOGOS.map((logo) => (
                     <div key={logo.src} className="flex items-center justify-center">
                       <img
                         src={logo.src}

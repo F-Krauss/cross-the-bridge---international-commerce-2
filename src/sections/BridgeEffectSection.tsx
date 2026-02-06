@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
-import { Content, Language } from '../../types';
+import type { Content, Language } from '../../types';
+import { BRIDGE_HERO_GALLERY, BRIDGE_INDUSTRY_OPTIONS, BRIDGE_TESTIMONIAL_IMAGES } from '../../constants';
 
 const MotionDiv = motion.div as any;
 
@@ -76,110 +77,6 @@ type GalleryItem = {
   categoryLabel?: string;
 };
 
-const TESTIMONIAL_IMAGES = [
-  "/img/testimonials/Wilsonking_outback.jpg",
-  "/img/testimonials/CICB_brazil.jpg",
-  "/img/testimonials/Mehrdad_jrd_california.jpg",
-  "/img/testimonials/BaP_viberg.jpg",
-  "/img/img-mariana/testimonioCHAZ.jpg"
-];
-
-type HeroGalleryItem = { src: string; title: string; tag: string };
-
-const HERO_GALLERY: HeroGalleryItem[] = [
-  { src: "/img/img-mariana/bridge-effect/thebridge.jpg", title: "Hands-on sourcing and production", tag: "Factory & materials" },
-  { src: "/img/img-mariana/bridge-effect/thebridgeeffect.JPG", title: "Leather inspection on-site", tag: "Quality control" },
-  { src: "/img/img-mariana/bridge-effect/bridgeeffec2.jpg", title: "Materials moving daily", tag: "Logistics" },
-  { src: "/img/img-mariana/bridge-effect/bridgeeffect2.JPG", title: "Prototyping with partners", tag: "Development" },
-  { src: "/img/img-mariana/bridge-effect/bridgeeffect3.JPG", title: "Factory floor execution", tag: "Production" },
-  { src: "/img/img-mariana/bridge-effect/IMG_4279.JPG", title: "Export-ready packaging", tag: "Export" },
-  { src: "/img/img-mariana/bridge-effect/IMG_4303.JPG", title: "Material sourcing", tag: "Sourcing" },
-  { src: "/img/img-mariana/bridge-effect/IMG_4322.JPG", title: "Alliance building", tag: "Alliances" }
-];
-
-const INDUSTRY_OPTIONS: IndustryOption[] = [
-  {
-    key: "footwear",
-    label: { en: "Footwear", es: "Calzado" },
-    title: { en: "Footwear manufacturing", es: "Manufactura de calzado" },
-    description: { en: "Goodyear welt, cemented, and stitchdown builds supervised on the factory floor.", es: "Construcciones Goodyear welt, cementado y stitchdown supervisadas directamente en planta." },
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80",
-    showroomCategories: ["footwear"],
-    gallery: [
-      "/img/img-mariana/products/FOTO_BOTA.png"
-      // "/img/catalog/Footwear2.jpg",
-      // "/img/catalog/Footwear3.jpg"
-    ]
-  },
-  {
-    key: "leather",
-    label: { en: "Leather", es: "Piel" },
-    title: { en: "Leather goods", es: "Artículos de piel" },
-    description: { en: "Supple leathers cut, skived, and finished with export-ready QC.", es: "Pieles suaves cortadas, rebajadas y terminadas con control de calidad listo para exportación." },
-    image: "https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=1600&q=80",
-    showroomCategories: ["leather"],
-    gallery: [
-      "/img/img-mariana/products/LEATHER.png"
-      // "/img/catalog/Leather2.jpg",
-      // "/img/catalog/Leather3.jpg"
-    ]
-  },
-  {
-    key: "hats",
-    label: { en: "Hats", es: "Sombreros" },
-    title: { en: "Fashion & accessories", es: "Moda y accesorios" },
-    description: { en: "Accessories crafted with boutique detail and industrial discipline.", es: "Accesorios creados con detalle boutique y disciplina industrial." },
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80",
-    showroomCategories: ["hats"],
-    gallery: [
-      "/img/img-mariana/products/hats.JPG"
-      // "/img/catalog/Hats2.jpg",
-      // "/img/catalog/Hats3.jpg"
-    ]
-  },
-  // {
-  //   key: "industrial",
-  //   label: { en: "Industrial", es: "Industrial" },
-  //   title: { en: "Industrial components", es: "Componentes industriales" },
-  //   description: { en: "Safety-rated components and materials engineered for performance and durability.", es: "Componentes y materiales certificados para seguridad, diseñados para desempeño y durabilidad." },
-  //   image: "https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80",
-  //   showroomCategories: ["industrial"],
-  //   gallery: [
-  //     "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80",
-  //     "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1000&q=80",
-  //     "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1000&q=80",
-  //     "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1000&q=80"
-  //   ]
-  // },
-  {
-    key: "equestrian",
-    label: { en: "Equestrian goods", es: "Bienes ecuestres" },
-    title: { en: "Equestrian goods", es: "Bienes ecuestres" },
-    description: { en: "Tack, saddlery, and leather components made to withstand real-world use.", es: "Cabezal, sillería y componentes de piel hechos para resistir uso real." },
-    image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80",
-    showroomCategories: ["equestrian"],
-    gallery: [
-      "/img/img-mariana/products/EQUESTRIANGOOD.PNG",
-      "/img/img-mariana/products/CINCHOS EQUESTRIAN.png"
-      // "/img/img-mariana/products/equestrian3.jpg"
-    ]
-  }
-  // {
-  //   key: "private_label",
-  //   label: { en: "Private label & custom development", es: "Marca privada y desarrollo a medida" },
-  //   title: { en: "Private label & custom development", es: "Marca privada y desarrollo a medida" },
-  //   description: { en: "Co-created lines, rapid prototyping, and hands-on materials sourcing.", es: "Líneas co-creadas, prototipado ágil y sourcing práctico de materiales." },
-  //   image: "https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80",
-  //   showroomCategories: [],
-  //   gallery: [
-  //     "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80",
-  //     "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1000&q=80",
-  //     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80",
-  //     "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1000&q=80"
-  //   ]
-  // }
-];
-
 const getCountryFlag = (countryCode: string): string => {
   if (!countryCode || countryCode.length !== 2) return '';
   const codePoints = countryCode
@@ -189,10 +86,22 @@ const getCountryFlag = (countryCode: string): string => {
   return String.fromCodePoint(...codePoints);
 };
 
+const getInitials = (name: string): string => {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '';
+  return parts.slice(0, 2).map((part) => part[0]).join('').toUpperCase();
+};
+
+const splitTestimonialText = (text: string): { highlight: string; body: string } => {
+  const cleaned = text.trim();
+  if (!cleaned) return { highlight: '', body: '' };
+  const match = cleaned.match(/(.+?[.!?])\s+(.*)/);
+  if (!match) return { highlight: cleaned, body: '' };
+  return { highlight: match[1], body: match[2] };
+};
+
 const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, testimonials, lang, copy }) => {
-  const [activeCategory, setActiveCategory] = useState(INDUSTRY_OPTIONS[0]?.key ?? '');
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [direction, setDirection] = useState<'next' | 'prev'>('next');
+  const [activeCategory, setActiveCategory] = useState(BRIDGE_INDUSTRY_OPTIONS[0]?.key ?? '');
 
   const getText = (value: LocalizedString | string) => {
     if (typeof value === 'string') return value;
@@ -200,7 +109,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
   };
 
   const testimonialsWithImages = useMemo(() => {
-    const fallbacks = TESTIMONIAL_IMAGES;
+    const fallbacks = BRIDGE_TESTIMONIAL_IMAGES;
     return (testimonials || []).map((item, idx) => ({
       ...item,
       image: item.image || fallbacks[idx % fallbacks.length]
@@ -208,7 +117,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
   }, [testimonials]);
 
   const activeIndustry = useMemo(
-    () => INDUSTRY_OPTIONS.find((option) => option.key === activeCategory) || INDUSTRY_OPTIONS[0],
+    () => BRIDGE_INDUSTRY_OPTIONS.find((option) => option.key === activeCategory) || BRIDGE_INDUSTRY_OPTIONS[0],
     [activeCategory]
   );
 
@@ -236,30 +145,10 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
     }).slice(0, 6);
   }, [activeIndustry, showroom?.items, showroom?.categories]);
 
-  useEffect(() => {
-    if (!testimonialsWithImages.length) return;
-    const id = setInterval(() => {
-      setDirection('next');
-      setActiveTestimonial((prev) => (prev + 1) % testimonialsWithImages.length);
-    }, 4800);
-    return () => clearInterval(id);
-  }, [testimonialsWithImages.length]);
-
   if (!showroom || !activeIndustry) return null;
 
-  const testimonial = testimonialsWithImages[activeTestimonial];
-  const heroGroups = useMemo(() => {
-    const groups: HeroGalleryItem[][] = [];
-    for (let i = 0; i < HERO_GALLERY.length; i += 3) {
-      const group = HERO_GALLERY.slice(i, i + 3);
-      while (group.length < 3) {
-        group.push(HERO_GALLERY[(i + group.length) % HERO_GALLERY.length]);
-      }
-      groups.push(group);
-    }
-    return groups;
-  }, []);
-  const heroGroupSequence = useMemo(() => [...heroGroups, ...heroGroups], [heroGroups]);
+  const testimonialsPreview = testimonialsWithImages.slice(0, 3);
+  const collageItems = BRIDGE_HERO_GALLERY.slice(0, 6);
 
   return (
     <section id="bridge_effect" className="relative bg-gradient-to-b from-[#071024] via-[#0b1736] to-[#060b18] text-white py-20 md:py-28 overflow-hidden">
@@ -271,7 +160,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
       </div>
 
       <div className="container mx-auto px-6 md:px-10 relative z-10 space-y-16 md:space-y-24">
-        <div className="grid gap-10 lg:grid-cols-[1.05fr,0.95fr] items-center overflow-hidden">
+        <div className="space-y-10 lg:space-y-12">
           <FadeIn className="space-y-6">
             <div className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
               <Sparkles size={14} /> {copy.badge}
@@ -280,76 +169,48 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
               <h2 className="text-[26px] sm:text-[32px] md:text-[48px] font-semibold leading-tight drop-shadow-[0_10px_40px_rgba(0,0,0,0.25)]">
                 {copy.title}
               </h2>
-              <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-white/75 max-w-2xl leading-relaxed">
+              <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-white/75 leading-relaxed whitespace-pre-line">
                 {copy.body}
               </p>
             </div>
           </FadeIn>
 
           <FadeIn delay={0.08}>
-            {/* Mobile static grid */}
-            <div className="lg:hidden">
-              <div className="grid grid-cols-2 gap-3">
-                {HERO_GALLERY.slice(0, 4).map((item, idx) => (
-                  <div key={`${item.src}-${idx}`} className="relative w-full aspect-square rounded-2xl overflow-hidden border border-white/10 bg-black/30">
+            <div className="w-full grid grid-cols-2 md:grid-cols-12 md:grid-rows-6 md:min-h-[540px] lg:min-h-[660px] xl:min-h-[720px] gap-4 md:gap-5">
+              {collageItems.map((item, idx) => {
+                const layoutClasses = [
+                  "col-span-2 aspect-[4/3] md:col-span-5 md:row-span-6 md:aspect-auto",
+                  "col-span-1 aspect-[4/3] md:col-span-4 md:row-span-3 md:col-start-6 md:row-start-1 md:aspect-auto",
+                  "col-span-1 aspect-[4/3] md:col-span-3 md:row-span-2 md:col-start-10 md:row-start-1 md:aspect-auto",
+                  "col-span-1 aspect-[4/3] md:col-span-3 md:row-span-2 md:col-start-10 md:row-start-3 md:aspect-auto",
+                  "col-span-1 aspect-[4/3] md:col-span-4 md:row-span-3 md:col-start-6 md:row-start-4 md:aspect-auto",
+                  "col-span-2 aspect-[4/3] md:col-span-3 md:row-span-2 md:col-start-10 md:row-start-5 md:aspect-auto"
+                ];
+                return (
+                  <div
+                    key={`${item.src}-${idx}`}
+                    className={`relative w-full overflow-hidden rounded-3xl border border-white/12 bg-black/30 ${layoutClasses[idx] || "col-span-1 aspect-[4/3] md:col-span-3 md:row-span-2 md:aspect-auto"}`}
+                  >
                     <img src={item.src} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/10 to-brand-navy/30" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/35 via-black/10 to-brand-navy/35" />
                   </div>
-                ))}
-              </div>
-            </div>
-            {/* Desktop marquee collage */}
-            <div className="relative rounded-3xl overflow-hidden hidden lg:block lg:max-w-[50vw] lg:ml-auto">
-              <MotionDiv
-                className="flex gap-6 px-4 py-4"
-                animate={{ x: ["0%", "-50%"] }}
-                transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
-              >
-                {heroGroupSequence.map((group, idx) => {
-                  const isReverse = idx % 2 === 1;
-                  return (
-                    <div
-                      key={`hero-group-${idx}`}
-                      className={`flex gap-4 min-w-[640px] h-[420px] ${isReverse ? 'flex-row-reverse' : ''}`}
-                    >
-                      <div className="relative flex-[1.6] h-full overflow-hidden rounded-3xl border border-white/15 bg-black/40">
-                        <img src={group[0].src} alt={group[0].title} className="absolute inset-0 w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-br from-black/35 via-black/10 to-brand-navy/35" />
-                      </div>
-                      <div className="flex flex-col flex-[1] h-full gap-4 justify-between">
-                        <div className="relative w-full aspect-square overflow-hidden rounded-3xl border border-white/15 bg-black/40">
-                          <img src={group[1].src} alt={group[1].title} className="absolute inset-0 w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-gradient-to-br from-black/35 via-black/10 to-brand-navy/35" />
-                        </div>
-                        <div className="relative w-full aspect-[5/3] overflow-hidden rounded-3xl border border-white/15 bg-black/40">
-                          <img src={group[2].src} alt={group[2].title} className="absolute inset-0 w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-gradient-to-br from-black/35 via-black/10 to-brand-navy/35" />
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </MotionDiv>
+                );
+              })}
             </div>
           </FadeIn>
         </div>
-        <FadeIn>
+        {/* <FadeIn>
           <div className="space-y-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div className="space-y-2">
-                {/* <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.badge}</p> */}
                 <h3 className="text-3xl md:text-4xl font-semibold">{copy.industriesTitle}</h3>
-                {/* <p className="text-sm text-white/70 max-w-2xl leading-relaxed">
-                  {copy.industriesIntro}
-                </p> */}
+
               </div>
-              {/* <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
-                <Sparkles size={14} className="text-brand-gold" /> {INDUSTRY_OPTIONS.length} {copy.categoriesSuffix}
-              </div> */}
+            
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {INDUSTRY_OPTIONS.map((option) => (
+              {BRIDGE_INDUSTRY_OPTIONS.map((option) => (
                 <button
                   key={option.key}
                   type="button"
@@ -399,108 +260,88 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
               </AnimatePresence>
             </div>
           </div>
-        </FadeIn>
+        </FadeIn> */}
 
-        {testimonial && (
+        {testimonialsPreview.length ? (
           <FadeIn delay={0.08}>
-            <div className="space-y-14 mt-28 md:mt-36">
-              <div className="grid lg:grid-cols-[1.1fr,1fr] gap-8 lg:gap-14 items-start mt-8">
-                <div className="space-y-5">
-                  {/* <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.testimonialsBadge}</p> */}
-                  <h3 className="text-3xl md:text-4xl font-semibold leading-tight">{copy.testimonialsTitle}</h3>
-                  <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-white/75 max-w-2xl leading-relaxed">
-                    {copy.testimonialsSubtitle}
-                  </p>
-                  <div className="flex gap-3">
+            <div className="mt-20 md:mt-25">
+              <div className="relative p-0 sm:p-0 md:p-0">
+                <div className="relative z-10 space-y-10">
+                  <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                    <div className="space-y-3 max-w-2xl">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">{copy.testimonialsBadge}</p>
+                      <h3 className="text-3xl md:text-4xl font-semibold leading-tight">{copy.testimonialsTitle}</h3>
+                      <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-white/75 leading-relaxed">
+                        {copy.testimonialsSubtitle}
+                      </p>
+                    </div>
                     <button
                       type="button"
-                      onClick={() => {
-                        setDirection('prev');
-                        setActiveTestimonial((prev) => (prev - 1 + testimonialsWithImages.length) % testimonialsWithImages.length);
-                      }}
-                      className="w-11 h-11 rounded-full border border-white/40 flex items-center justify-center hover:bg-white/20 transition"
+                      className="self-start md:self-auto rounded-full border border-white/25 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/80 transition hover:border-white/60 hover:bg-white/10 hover:text-white"
                     >
-                      ‹
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setDirection('next');
-                        setActiveTestimonial((prev) => (prev + 1) % testimonialsWithImages.length);
-                      }}
-                      className="w-11 h-11 rounded-full border border-white/40 flex items-center justify-center hover:bg-white/20 transition"
-                    >
-                      ›
+                      {copy.testimonialsCta}
                     </button>
                   </div>
-                </div>
 
-                <div className="flex-1 space-y-4">
-                  <AnimatePresence mode="wait" initial={false}>
-                    <MotionDiv
-                      key={activeTestimonial}
-                      initial={{ opacity: 0, x: direction === 'next' ? 16 : -16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: direction === 'next' ? -16 : 16 }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
-                      className="space-y-4"
-                    >
-                      <div className="flex items-center gap-2 text-brand-gold text-sm font-bold tracking-[0.16em] uppercase">
-                        <Sparkles size={16} /> {copy.storyLabel}
-                      </div>
-                      <div className="grid md:grid-cols-[0.9fr,1.1fr] gap-4 items-center">
+                  <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                    {testimonialsPreview.map((item, idx) => {
+                      const { highlight, body } = splitTestimonialText(item.text);
+                      const initials = getInitials(item.name);
+                      return (
                         <MotionDiv
-                          key={`${testimonial.name}-photo`}
-                          initial={{ opacity: 0.75, scale: 0.97 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.35 }}
-                          className="relative w-full h-[220px] md:h-[260px] overflow-hidden rounded-3xl shadow-[0_24px_80px_rgba(0,0,0,0.4)] border border-white/10"
+                          key={`${item.name}-${idx}`}
+                          initial={{ opacity: 0, y: 12 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, amount: 0.35 }}
+                          transition={{ duration: 0.45, delay: idx * 0.05 }}
+                          className="relative flex h-full flex-col gap-5 rounded-3xl p-2 sm:p-3"
                         >
-                          <img src={testimonial.image} alt={testimonial.name} className="absolute inset-0 w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                        </MotionDiv>
-                        <p className="text-[12px] sm:text-[13.6px] md:text-[15px] leading-relaxed text-white/85 italic">
-                          “{testimonial.text}”
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-3 text-white">
-                        <img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 rounded-full object-cover border-2 border-white/20" />
-                        <div>
-                          <p className="font-semibold">{testimonial.name}</p>
-                          <p className="text-sm text-white/70">{testimonial.role}</p>
-                          <p className="text-xs text-white/60 flex items-center gap-1">
-                            <span>{getCountryFlag(testimonial.countryCode || '')}</span>
-                            {testimonial.country}
+                          <span className="text-3xl text-white/30 leading-none">“</span>
+                          <p className="text-[14.5px] md:text-[16px] font-medium text-white/90 leading-snug">
+                            {highlight}
                           </p>
-                        </div>
-                      </div>
-                    </MotionDiv>
-                  </AnimatePresence>
-
-                  {/* <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {testimonialsWithImages.map((item, idx) => (
-                      <button
-                        key={item.name}
-                        onClick={() => {
-                          setDirection(idx > activeTestimonial ? 'next' : 'prev');
-                          setActiveTestimonial(idx);
-                        }}
-                        className={`text-left rounded-full border px-3 py-2 transition-all ${
-                          idx === activeTestimonial
-                            ? 'border-white text-white'
-                            : 'border-white/20 text-white/70 hover:text-white'
-                        }`}
-                      >
-                        <p className="text-[11px] font-semibold">{item.name}</p>
-                        <p className="text-[10px] text-white/60 truncate">{item.country}</p>
-                      </button>
-                    ))}
-                  </div> */}
+                          {body ? (
+                            <p
+                              className="text-[12px] sm:text-[13px] text-white/70 leading-relaxed"
+                              style={{
+                                display: '-webkit-box',
+                                WebkitLineClamp: 4,
+                                WebkitBoxOrient: 'vertical',
+                                overflow: 'hidden'
+                              }}
+                            >
+                              {body}
+                            </p>
+                          ) : null}
+                          <div className="mt-auto flex items-center justify-between gap-4 pt-4">
+                            <div className="space-y-1">
+                              <p className="text-sm font-semibold text-white">{item.name}</p>
+                              <p className="text-[12px] text-white/60">{item.role}</p>
+                              <p className="text-[11px] text-white/50 flex items-center gap-1">
+                                <span className="text-sm">{getCountryFlag(item.countryCode || '')}</span>
+                                {item.country}
+                              </p>
+                            </div>
+                            {idx === 0 ? (
+                              <div className="relative w-16 h-16 rounded-2xl overflow-hidden">
+                                <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/35" />
+                              </div>
+                            ) : (
+                              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-sm font-semibold text-white/80">
+                                {initials}
+                              </div>
+                            )}
+                          </div>
+                        </MotionDiv>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
           </FadeIn>
-        )}
+        ) : null}
       </div>
     </section>
   );

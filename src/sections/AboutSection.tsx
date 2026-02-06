@@ -1,8 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { Content } from '../../types';
+import { ABOUT_LEON_PRODUCT_IMAGES } from '../../constants';
 
 const MotionDiv = motion.div as any;
+
 
 type FadeInProps = {
   children: React.ReactNode;
@@ -41,6 +43,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
   });
   const leonImageY = useTransform(scrollYProgress, [0, 1], [40, -40]);
   const leonAccentY = useTransform(scrollYProgress, [0, 1], [-20, 30]);
+  const activeProduct = ABOUT_LEON_PRODUCT_IMAGES[activeLeonPoint] || ABOUT_LEON_PRODUCT_IMAGES[0];
 
   return (
     <section id="about" className="relative bg-gradient-to-b from-white via-[#fafbfc] to-white text-brand-navy py-16 md:py-24 overflow-hidden">
@@ -50,7 +53,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
         <div className="absolute top-1/3 right-1/4 h-72 w-72 rounded-full bg-brand-gold/5 blur-[100px]" />
       </div>
 
-      <div className="container mx-auto px-6 md:px-8 relative z-10 space-y-16 md:space-y-20">
+      <div className="container mx-auto px-6 md:px-8 relative z-10 space-y-10 md:space-y-10">
         <FadeIn className="max-w-2xl space-y-3">
           <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">{copy.badge}</p>
           <h2 className="text-[25.5px] sm:text-[30px] md:text-[42.5px] font-semibold tracking-tight text-[#0b2f6b]">
@@ -282,20 +285,19 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
-                {/* <div className="absolute bottom-6 left-6">
-                  <p className="text-[13.6px] font-semibold text-white">{copy.leon.scaleLabel}</p>
-                </div> */}
               </MotionDiv>
 
-              <div className="relative hidden md:block min-h-[800px]">
-                <div className="absolute left-[-500px] top-1/2 -translate-y-1/2">
+              <div className="relative hidden md:block">
+              {/* <div className="relative hidden md:block min-h-[800px]"> */}
+
+                {/* <div className="absolute left-[-500px] top-1/2 -translate-y-1/2">
                   <img
                     src="/img/leather-svgrepo-com.svg"
                     alt=""
                     className="w-[950px] max-w-none select-none opacity-45"
                     draggable={false}
                   />
-                </div>
+                </div> */}
                 {copy.leon.paragraphs[3] ? (
                   <FadeIn delay={0.08} className="relative z-10 mt-8 flex justify-center">
                     <div className="w-[72%] max-w-sm rounded-2xl bg-white/60 backdrop-blur-sm px-4 py-4 shadow-[0_14px_32px_rgba(15,23,42,0.12)] text-center">
@@ -325,18 +327,38 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                     )
                   ))}
                 </div>
-                <div className="space-y-6 lg:space-y-8">
-                  <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
-                    {copy.leon.advantagesBadge}
-                  </p>
+              </div>
+            </div>
 
+            <div className="w-full space-y-8 lg:space-y-10">
+              <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
+                {copy.leon.advantagesBadge}
+              </p>
+
+              <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-start">
+                <div className="relative">
+                  <AnimatePresence mode="wait">
+                    <MotionDiv
+                      key={activeLeonPoint}
+                      initial={{ opacity: 0, rotate: -3, scale: 0.98 }}
+                      animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                      exit={{ opacity: 0, rotate: 3, scale: 0.98 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                      className="relative h-[280px] sm:h-[360px] md:h-[420px] overflow-hidden rounded-3xl"
+                    >
+                      <img src={activeProduct} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                    </MotionDiv>
+                  </AnimatePresence>
+                </div>
+
+                <div className="space-y-6">
                   <div className="space-y-4">
                     <AnimatePresence mode="wait">
                       <MotionDiv
                         key={activeLeonPoint}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
+                        initial={{ opacity: 0, x: 12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -12 }}
                         transition={{ duration: 0.25, ease: "easeOut" }}
                         className="space-y-4"
                       >

@@ -9,60 +9,8 @@ import ProcessSection from './src/sections/ProcessSection';
 import TradeMissionsSection from './src/sections/TradeMissionsSection';
 import AboutSection from './src/sections/AboutSection';
 import BridgeEffectSection from './src/sections/BridgeEffectSection';
-import { TRANSLATIONS, UI_TEXT, BOOKING_TIME_SLOTS, DEFAULT_TESTIMONIALS } from './constants';
+import { TRANSLATIONS, UI_TEXT, BOOKING_TIME_SLOTS, DEFAULT_TESTIMONIALS, SERVICES_CONTENT, PUBLIC_IMAGE_URLS, logoVertical, logoWordmarkPng, mapImage, ASSURANCE_ICONS, BOOKING_STEP_MEDIA } from './constants';
 import { Language } from './types';
-
-// Assets served from public/img
-const mapImage = '/img/world-map.svg';
-const logoVertical = '/img/ganzo.png';
-const logoWordmarkPng = '/img/Logo_letras.png';
-const PUBLIC_IMAGE_URLS = Array.from(new Set([
-  '/img/world-map.svg',
-  '/img/ganzo.png',
-  '/img/Logo_letras.png',
-  '/img/logo_horizontal.png',
-  '/img/Logos/Chazlyn.png',
-  '/img/Logos/Outback.png',
-  '/img/Logos/Viberg.png',
-  '/img/Calzado1.jpg',
-  '/img/process2.jpg',
-  '/img/process4.jpg',
-  '/img/how-we-work/OnSite1.jpg',
-  '/img/how-we-work/Leather inspection.jpg',
-  '/img/how-we-work/Proceso3.jpg',
-  '/img/services/Piel1.jpg',
-  '/img/services/Calzado5.jpg',
-  '/img/services/OnSite2.jpg',
-  '/img/about/MarianaBio.PNG',
-  '/img/about/leon.jpeg',
-  '/img/leather-svgrepo-com.svg',
-  '/img/viberg-testimonial.jpg',
-  '/img/bridge_effect/B2B CICB.jpg',
-  '/img/bridge_effect/Brett Viberg supply chain development.jpg',
-  '/img/bridge_effect/Embajada Alemania 2023.jpg',
-  '/img/catalog/Footwear1.jpg',
-  '/img/catalog/Footwear2.jpg',
-  '/img/catalog/Footwear3.jpg',
-  '/img/catalog/Leather1.jpg',
-  '/img/catalog/Leather2.jpg',
-  '/img/catalog/Leather3.jpg',
-  '/img/catalog/Hats1.jpg',
-  '/img/catalog/Hats2.jpg',
-  '/img/catalog/Hats3.jpg',
-  '/img/catalog/Equestrian1.jpg',
-  '/img/catalog/Equestrian2.jpg',
-  '/img/catalog/Equestrian3.jpg',
-  '/img/testimonials/BaP_viberg.jpg',
-  '/img/testimonials/CICB_brazil.jpg',
-  '/img/testimonials/Chazlyn_Chaz.jpg',
-  '/img/testimonials/Mehrdad_jrd_california.jpg',
-  '/img/testimonials/Wilsonking_outback.jpg',
-  '/img/Collage/Collage_control_de_calidad.jpg',
-  '/img/Collage/Collage_embajada_alemania.jpg',
-  '/img/Collage/Collage_junta.jpg',
-  '/img/Collage/Collage_junta2.jpg',
-  '/img/Collage/Collage_mision_Thailandia.jpg'
-]));
 
 const preloadImages = (sources: string[]) => Promise.all(
   sources.map((src) => new Promise<void>((resolve) => {
@@ -73,106 +21,6 @@ const preloadImages = (sources: string[]) => Promise.all(
   }))
 );
 
-const ICON_MAP = {
-  Hexagon,
-  Anchor,
-  Box,
-  Globe,
-  Truck,
-  Layers,
-  MapPin,
-  Navigation,
-  Scissors,
-  Award,
-  FileText,
-  Settings,
-  Users,
-  Ship,
-  Target,
-  Shield,
-  Package
-} as const;
-type IconKey = keyof typeof ICON_MAP;
-
-const SERVICES_CONTENT: Record<Language, {
-  title: string;
-  intro: string;
-  cta: string;
-  items: { title: string; short: string; long: string[] }[];
-}> = {
-  en: {
-    title: "Services",
-    intro: "We are a strategic partner for brands building reliable international manufacturing.",
-    cta: "Read more",
-    items: [
-      {
-        title: "Raw Materials Sourcing & Supply Assurance",
-        short: "We make sourcing from Mexico reliable for international brands.",
-        long: [
-          "We make raw material sourcing from Mexico reliable, predictable, and export-ready for the leather, footwear, and fashion industries.",
-          "Cross the Bridge ensures consistent raw material sourcing through local oversight and an established supply network across Mexico’s leather and fashion ecosystem. We secure aligned specifications, material availability, and market-based commercial terms to support uninterrupted production.",
-          "By representing multiple brands and maintaining long-term supplier relationships, we operate with collective scale and credibility. This provides access to preferred materials and commercially aligned conditions, particularly for high-demand or limited-supply inputs.",
-          "Through on-the-ground follow-up, we anticipate risks, align negotiations with local market realities, and address issues early, turning raw material sourcing into a dependable supply strategy."
-        ]
-      },
-      {
-        title: "Manufacturing & Supply Chain Operations",
-        short: "Scale without production headaches.",
-        long: [
-          "We become your team on the ground, managing every step of the production process so you can focus on design, sales, and brand growth.",
-          "From product development and prototyping to full-scale production, we coordinate daily with factories, track timelines, streamline communication, and resolve issues to keep every deliverable on schedule. Our role goes beyond coordination. We translate expectations, align standards, and anticipate risks before they impact cost, quality, or delivery.",
-          "This service includes production planning, materials follow-up, cost finalization, capacity scheduling, quality inspections, risk management, and complete export readiness. You gain transparency, control, and peace of mind, knowing your production is managed locally with international standards and a clear understanding of both sides of the bridge."
-        ]
-      },
-      {
-        title: "International Growth & Strategic Partnerships",
-        short: "We transform international expansion into a strategic advantage, not a costly learning curve.",
-        long: [
-          "At Cross the Bridge, we support companies ready to expand beyond their home market through informed decisions and strategic partnerships — not trial-and-error internationalization.",
-          "We combine market intelligence, a trusted international network, and hands-on guidance to define where to expand, how to enter, and which partners to align with. Rather than pushing expansion for expansion’s sake, we structure each move based on real opportunity, timing, and strategic fit.",
-          "We work through carefully selected projects, supporting founders and leadership teams as they navigate complex international decisions. From early market validation to long-term partner structuring, we reduce risk by ensuring every step is grounded in operational reality, not assumptions.",
-          "This service includes market validation, entry and expansion strategies, partner and distributor structuring, trade show and commercial support, export-readiness consulting, and local representation through licensing or strategic alliances. We stay involved on the ground, helping companies move from strategy to execution with confidence and control."
-        ]
-      }
-    ]
-  },
-  es: {
-    title: "Servicios",
-    intro: "Somos un socio estratégico para marcas que buscan manufactura internacional confiable.",
-    cta: "Ver más",
-    items: [
-      {
-        title: "Abastecimiento de materias primas y aseguramiento de suministro",
-        short: "Hacemos confiable el abastecimiento desde México para marcas internacionales.",
-        long: [
-          "Hacemos que el abastecimiento de materias primas desde México sea confiable, predecible y listo para exportar para las industrias de piel, calzado y moda.",
-          "Cross the Bridge asegura un abastecimiento consistente mediante supervisión local y una red establecida en el ecosistema de piel y moda de México. Alineamos especificaciones, disponibilidad de materiales y condiciones comerciales de mercado para sostener producción sin interrupciones.",
-          "Al representar a varias marcas y mantener relaciones de largo plazo con proveedores, operamos con escala y credibilidad colectiva. Esto abre acceso a materiales preferentes y condiciones comerciales alineadas, incluso en insumos de alta demanda o limitada disponibilidad.",
-          "Con seguimiento en sitio anticipamos riesgos, alineamos negociaciones a la realidad local y resolvemos fricciones temprano, convirtiendo el abastecimiento en una estrategia confiable."
-        ]
-      },
-      {
-        title: "Operación de manufactura y cadena de suministro",
-        short: "Escala sin dolores de cabeza operativos.",
-        long: [
-          "Nos convertimos en tu equipo en tierra, gestionando cada paso del proceso para que te enfoques en diseño, ventas y crecimiento de marca.",
-          "Desde desarrollo y prototipado hasta producción a escala, coordinamos diario con fábricas, seguimos tiempos, agilizamos comunicación y resolvemos issues para mantener cada entregable a tiempo. Traducimos expectativas, alineamos estándares y anticipamos riesgos antes de que impacten costo, calidad o entrega.",
-          "Incluye planeación de producción, seguimiento de materiales, cierre de costos, calendarización de capacidad, inspecciones de calidad, gestión de riesgos y preparación completa para exportar. Obtienes transparencia, control y tranquilidad, con producción gestionada localmente bajo estándares internacionales y entendimiento de ambos lados del puente."
-        ]
-      },
-      {
-        title: "Crecimiento internacional y alianzas estratégicas",
-        short: "Convertimos la expansión internacional en ventaja estratégica, no en curva de aprendizaje costosa.",
-        long: [
-          "En Cross the Bridge acompañamos a empresas listas para expandirse más allá de su mercado de origen, con decisiones informadas y alianzas estratégicas — no con prueba y error.",
-          "Combinamos inteligencia de mercado, una red internacional confiable y guía práctica para definir dónde expandir, cómo entrar y con qué socios alinearse. No empujamos expansión por expansión: cada movimiento se estructura según oportunidad real, timing y fit estratégico.",
-          "Trabajamos en proyectos seleccionados, apoyando a fundadores y equipos directivos en decisiones complejas. Desde validación temprana hasta estructuración de socios de largo plazo, reducimos riesgo asegurando que cada paso esté anclado en la realidad operativa, no en supuestos.",
-          "Incluye validación de mercado, estrategias de entrada y expansión, estructuración de socios y distribuidores, soporte en ferias y gestión comercial, consultoría de export-readiness y representación local vía licencias o alianzas estratégicas. Permanecemos en campo para llevar la estrategia a la ejecución con confianza y control."
-        ]
-      }
-    ]
-  }
-};
 
 const MotionDiv = motion.div as any;
 const MotionImg = motion.img as any;
@@ -560,21 +408,6 @@ const LegalPage: React.FC<{
   </MotionDiv>
 );
 
-const ASSURANCE_ICONS: Record<string, React.ElementType> = {
-  Shield,
-  FileText,
-  Compass,
-  Package,
-  Navigation,
-  RotateCcw
-};
-
-const BOOKING_STEP_MEDIA = [
-  { src: "/img/process2.jpg", alt: "Company overview" },
-  { src: "/img/Calzado1.jpg", alt: "Factory production" },
-  { src: "/img/process4.jpg", alt: "Planning a call" }
-];
-
 // Converts a 2-letter country code into its corresponding flag emoji
 const countryCodeToFlag = (code?: string) => {
   if (!code || code.length !== 2) return '';
@@ -819,29 +652,22 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     setContactStatus('loading');
     setContactError(null);
     
-    // TEMPORARILY COMMENTED OUT - Backend callout disabled
-    // try {
-    //   const resp = await fetch('/api/create-lead', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(contactForm),
-    //   });
-    //   const json = await resp.json();
-    //   if (!resp.ok || json?.error) {
-    //     throw new Error(json?.error || 'Failed to send');
-    //   }
-    //   setContactStatus('success');
-    //   setContactForm({ name: '', company: '', email: '', message: '' });
-    // } catch (err: any) {
-    //   setContactStatus('error');
-    //   setContactError(err?.message || 'Unexpected error');
-    // }
-    
-    // Mock success for now
-    setTimeout(() => {
+    try {
+      const resp = await fetch('/api/create-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contactForm),
+      });
+      const json = await resp.json();
+      if (!resp.ok || json?.error) {
+        throw new Error(json?.error || 'Failed to send');
+      }
       setContactStatus('success');
       setContactForm({ name: '', company: '', email: '', website: '', serviceInterest: '', message: '' });
-    }, 1000);
+    } catch (err: any) {
+      setContactStatus('error');
+      setContactError(err?.message || 'Unexpected error');
+    }
   };
 
 const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
@@ -1401,14 +1227,14 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       <h3 className="text-lg md:text-xl font-semibold text-brand-navy">{item.title}</h3>
                     </div>
                     <p className="text-sm text-brand-navy/70 leading-relaxed">{item.body || item.desc || item.subtitle || ''}</p>
-                    <div>
+                    {/* <div>
                       <button
                         onClick={() => { const el = document.getElementById('contact'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }}
                         className="text-sm font-semibold text-brand-navy/90 uppercase tracking-[0.12em] inline-flex items-center gap-2"
                       >
                         {ui.providers.cta} <span className="text-brand-gold">→</span>
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               </div>

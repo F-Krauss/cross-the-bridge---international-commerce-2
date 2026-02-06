@@ -10,6 +10,7 @@
     "api": "node --env-file=.env server.js"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^4.21.2",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.554.0",

@@ -219,6 +219,7 @@ export interface Content {
     testimonialsBadge: string;
     testimonialsTitle: string;
     testimonialsSubtitle: string;
+    testimonialsCta: string;
     storyLabel: string;
   };
   tradeMissions?: {

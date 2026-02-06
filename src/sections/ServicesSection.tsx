@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import { X } from 'lucide-react';
+import { SERVICES_SECTION_IMAGES } from '../../constants';
 
 type ServiceItem = {
   title: string;
@@ -45,12 +46,6 @@ type ServicesSectionProps = {
 const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) => {
   const [selectedService, setSelectedService] = useState<number | null>(null);
 
-  const serviceImages = [
-    "./../img/services/Piel1.jpg",
-    "./../img/services/Calzado5.jpg",
-    "./../img/services/OnSite2.jpg"
-  ];
-
   return (
     <section id="services" className="relative bg-gradient-to-b from-white via-[#fafbfc] to-[#f8f9fc] text-brand-navy py-14 md:py-16 overflow-hidden">
       {/* Decorative elements */}
@@ -86,7 +81,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
                 </button>
                 <div className="relative h-48 sm:h-60 w-full overflow-hidden rounded-t-3xl">
                   <img
-                    src={serviceImages[selectedService]}
+                    src={SERVICES_SECTION_IMAGES[selectedService]}
                     alt=""
                     className="w-full h-full object-cover"
                   />
@@ -130,7 +125,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
               >
                 <div className="flex h-full flex-col">
                   <div className="relative h-48 md:h-52 overflow-hidden rounded-t-3xl">
-                    <img src={serviceImages[idx]} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img src={SERVICES_SECTION_IMAGES[idx]} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/70 via-transparent to-transparent group-hover:from-[#0b2f6b]/85 transition-all duration-500" />
                     <div className="absolute bottom-4 left-4 text-white">
                       <p className="text-[8.5px] font-bold uppercase tracking-[0.22em]">{String(idx + 1).padStart(2, '0')}</p>

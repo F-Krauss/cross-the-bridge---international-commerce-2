@@ -1,5 +1,7 @@
 
 
+import type { ElementType } from 'react';
+import { Compass, FileText, Navigation, Package, RotateCcw, Shield } from 'lucide-react';
 import { Content, Language } from './types';
 
 // ---- Shared Types for localized UI copy ----
@@ -59,14 +61,6 @@ type UiText = {
   founder: { badge: string };
 };
 
-type ProcessMediaItem = {
-  type: 'video' | 'image';
-  src: string;
-  title: Localized;
-  caption: Localized;
-  poster?: string;
-};
-
 type IconName =
   | 'Hexagon'
   | 'Anchor'
@@ -85,28 +79,278 @@ type IconName =
   | 'Target'
   | 'Shield'
   | 'Package';
-
-type StrengthCard = {
-  icon: IconName;
-  title: string;
-  desc: string;
-  color: string;
-  video: string;
-  poster: string;
-};
-
-type PartnerBenefit = {
-  icon: IconName;
-  title: string;
-  desc: string;
-  color: string;
-  image: string;
-};
-
-type CollageItem = { src: string; label: string };
-
-export const BOOKING_PHONE_CODES = ['+1', '+34', '+44', '+52', '+55', '+61', '+81'];
 export const BOOKING_TIME_SLOTS = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'];
+
+export const mapImage = '/img/world-map.svg';
+export const logoVertical = '/img/ganzo.png';
+export const logoWordmarkPng = '/img/Logo_letras.png';
+
+export const PUBLIC_IMAGE_URLS = Array.from(new Set([
+  '/img/world-map.svg',
+  '/img/ganzo.png',
+  '/img/Logo_letras.png',
+  '/img/logo_horizontal.png',
+  '/img/Logos/Chazlyn.png',
+  '/img/Logos/Outback.png',
+  '/img/Logos/Viberg.png',
+  '/img/Calzado1.jpg',
+  '/img/process2.jpg',
+  '/img/process4.jpg',
+  '/img/how-we-work/OnSite1.jpg',
+  '/img/how-we-work/Leather inspection.jpg',
+  '/img/how-we-work/Proceso3.jpg',
+  '/img/services/Piel1.jpg',
+  '/img/services/Calzado5.jpg',
+  '/img/services/OnSite2.jpg',
+  '/img/about/MarianaBio.PNG',
+  '/img/about/leon.jpeg',
+  '/img/leather-svgrepo-com.svg',
+  '/img/viberg-testimonial.jpg',
+  '/img/bridge_effect/B2B CICB.jpg',
+  '/img/bridge_effect/Brett Viberg supply chain development.jpg',
+  '/img/bridge_effect/Embajada Alemania 2023.jpg',
+  '/img/catalog/Footwear1.jpg',
+  '/img/catalog/Footwear2.jpg',
+  '/img/catalog/Footwear3.jpg',
+  '/img/catalog/Leather1.jpg',
+  '/img/catalog/Leather2.jpg',
+  '/img/catalog/Leather3.jpg',
+  '/img/catalog/Hats1.jpg',
+  '/img/catalog/Hats2.jpg',
+  '/img/catalog/Hats3.jpg',
+  '/img/catalog/Equestrian1.jpg',
+  '/img/catalog/Equestrian2.jpg',
+  '/img/catalog/Equestrian3.jpg',
+  '/img/testimonials/BaP_viberg.jpg',
+  '/img/testimonials/CICB_brazil.jpg',
+  '/img/testimonials/Chazlyn_Chaz.jpg',
+  '/img/testimonials/Mehrdad_jrd_california.jpg',
+  '/img/testimonials/Wilsonking_outback.jpg',
+  '/img/Collage/Collage_control_de_calidad.jpg',
+  '/img/Collage/Collage_embajada_alemania.jpg',
+  '/img/Collage/Collage_junta.jpg',
+  '/img/Collage/Collage_junta2.jpg',
+  '/img/Collage/Collage_mision_Thailandia.jpg'
+]));
+
+export const ASSURANCE_ICONS: Record<string, ElementType> = {
+  Shield,
+  FileText,
+  Compass,
+  Package,
+  Navigation,
+  RotateCcw
+};
+
+export const BOOKING_STEP_MEDIA = [
+  { src: '/img/process2.jpg', alt: 'Company overview' },
+  { src: '/img/Calzado1.jpg', alt: 'Factory production' },
+  { src: '/img/process4.jpg', alt: 'Planning a call' }
+];
+
+export const HERO_PARTNER_LOGOS = [
+  { src: '/img/Logos/Chazlyn.png', alt: 'Chazlyn' },
+  { src: '/img/Logos/Outback.png', alt: 'Outback' },
+  { src: '/img/Logos/Viberg.png', alt: 'Viberg' }
+];
+
+export const HERO_INDUSTRIES = ['Footwear', 'Leather', 'Hats', 'Equestrian goods'];
+
+export const SERVICES_SECTION_IMAGES = [
+  './../img/services/Piel1.jpg',
+  './../img/services/Calzado5.jpg',
+  './../img/services/OnSite2.jpg'
+];
+
+export const ABOUT_LEON_PRODUCT_IMAGES = [
+  '/img/catalog/Footwear1.jpg',
+  '/img/catalog/Footwear3.jpg',
+  '/img/catalog/Leather2.jpg',
+  '/img/catalog/Equestrian2.jpg',
+  '/img/catalog/Hats3.jpg'
+];
+
+export const BRIDGE_TESTIMONIAL_IMAGES = [
+  '/img/testimonials/Wilsonking_outback.jpg',
+  '/img/testimonials/CICB_brazil.jpg',
+  '/img/testimonials/Mehrdad_jrd_california.jpg',
+  '/img/testimonials/BaP_viberg.jpg',
+  '/img/img-mariana/testimonioCHAZ.jpg'
+];
+
+export const BRIDGE_HERO_GALLERY = [
+  { src: '/img/img-mariana/bridge-effect/thebridge.jpg', title: 'Hands-on sourcing and production', tag: 'Factory & materials' },
+  { src: '/img/img-mariana/bridge-effect/thebridgeeffect.JPG', title: 'Leather inspection on-site', tag: 'Quality control' },
+  { src: '/img/img-mariana/bridge-effect/bridgeeffec2.jpg', title: 'Materials moving daily', tag: 'Logistics' },
+  { src: '/img/img-mariana/bridge-effect/bridgeeffect2.JPG', title: 'Prototyping with partners', tag: 'Development' },
+  { src: '/img/img-mariana/bridge-effect/bridgeeffect3.JPG', title: 'Factory floor execution', tag: 'Production' },
+  { src: '/img/img-mariana/bridge-effect/IMG_4279.JPG', title: 'Export-ready packaging', tag: 'Export' },
+  { src: '/img/img-mariana/bridge-effect/IMG_4303.JPG', title: 'Material sourcing', tag: 'Sourcing' },
+  { src: '/img/img-mariana/bridge-effect/IMG_4322.JPG', title: 'Alliance building', tag: 'Alliances' }
+];
+
+export const BRIDGE_INDUSTRY_OPTIONS = [
+  {
+    key: 'footwear',
+    label: { en: 'Footwear', es: 'Calzado' },
+    title: { en: 'Footwear manufacturing', es: 'Manufactura de calzado' },
+    description: { en: 'Goodyear welt, cemented, and stitchdown builds supervised on the factory floor.', es: 'Construcciones Goodyear welt, cementado y stitchdown supervisadas directamente en planta.' },
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80',
+    showroomCategories: ['footwear'],
+    gallery: [
+      '/img/img-mariana/products/FOTO_BOTA.png'
+      // '/img/catalog/Footwear2.jpg',
+      // '/img/catalog/Footwear3.jpg'
+    ]
+  },
+  {
+    key: 'leather',
+    label: { en: 'Leather', es: 'Piel' },
+    title: { en: 'Leather goods', es: 'Artículos de piel' },
+    description: { en: 'Supple leathers cut, skived, and finished with export-ready QC.', es: 'Pieles suaves cortadas, rebajadas y terminadas con control de calidad listo para exportación.' },
+    image: 'https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=1600&q=80',
+    showroomCategories: ['leather'],
+    gallery: [
+      '/img/img-mariana/products/LEATHER.png'
+      // '/img/catalog/Leather2.jpg',
+      // '/img/catalog/Leather3.jpg',
+    ]
+  },
+  {
+    key: 'hats',
+    label: { en: 'Hats', es: 'Sombreros' },
+    title: { en: 'Fashion & accessories', es: 'Moda y accesorios' },
+    description: { en: 'Accessories crafted with boutique detail and industrial discipline.', es: 'Accesorios creados con detalle boutique y disciplina industrial.' },
+    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80',
+    showroomCategories: ['hats'],
+    gallery: [
+      '/img/img-mariana/products/hats.JPG'
+      // '/img/catalog/Hats2.jpg',
+      // '/img/catalog/Hats3.jpg',
+    ]
+  },
+  // {
+  //   key: 'industrial',
+  //   label: { en: 'Industrial', es: 'Industrial' },
+  //   title: { en: 'Industrial components', es: 'Componentes industriales' },
+  //   description: { en: 'Safety-rated components and materials engineered for performance and durability.', es: 'Componentes y materiales certificados para seguridad, diseñados para desempeño y durabilidad.' },
+  //   image: 'https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80',
+  //   showroomCategories: ['industrial'],
+  //   gallery: [
+  //     'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80',
+  //     'https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1000&q=80',
+  //     'https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=1000&q=80',
+  //     'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1000&q=80'
+  //   ]
+  // },
+  {
+    key: 'equestrian',
+    label: { en: 'Equestrian goods', es: 'Bienes ecuestres' },
+    title: { en: 'Equestrian goods', es: 'Bienes ecuestres' },
+    description: { en: 'Tack, saddlery, and leather components made to withstand real-world use.', es: 'Cabezal, sillería y componentes de piel hechos para resistir uso real.' },
+    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80',
+    showroomCategories: ['equestrian'],
+    gallery: [
+      '/img/img-mariana/products/EQUESTRIANGOOD.PNG',
+      '/img/img-mariana/products/CINCHOS EQUESTRIAN.png'
+      // '/img/img-mariana/products/equestrian3.jpg'
+    ]
+  }
+  // {
+  //   key: 'private_label',
+  //   label: { en: 'Private label & custom development', es: 'Marca privada y desarrollo a medida' },
+  //   title: { en: 'Private label & custom development', es: 'Private label & custom development' },
+  //   description: { en: 'Co-created lines, rapid prototyping, and hands-on materials sourcing.', es: 'Líneas co-creadas, prototipado ágil y sourcing práctico de materiales.' },
+  //   image: 'https://images.unsplash.com/photo-1524275539700-cf51138f6795?auto=format&fit=crop&w=1600&q=80',
+  //   showroomCategories: [],
+  //   gallery: [
+  //     'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80',
+  //     'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1000&q=80',
+  //     'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80',
+  //     'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1000&q=80'
+  //   ]
+  // }
+];
+
+export const SERVICES_CONTENT: Record<Language, {
+  title: string;
+  intro: string;
+  cta: string;
+  items: { title: string; short: string; long: string[] }[];
+}> = {
+  en: {
+    title: 'Services',
+    intro: 'We are a strategic partner for brands building reliable international manufacturing.',
+    cta: 'Read more',
+    items: [
+      {
+        title: 'Raw Materials Sourcing & Supply Assurance',
+        short: 'We make sourcing from Mexico reliable for international brands.',
+        long: [
+          'We make raw material sourcing from Mexico reliable, predictable, and export-ready for the leather, footwear, and fashion industries.',
+          'Cross the Bridge ensures consistent raw material sourcing through local oversight and an established supply network across Mexico’s leather and fashion ecosystem. We secure aligned specifications, material availability, and market-based commercial terms to support uninterrupted production.',
+          'By representing multiple brands and maintaining long-term supplier relationships, we operate with collective scale and credibility. This provides access to preferred materials and commercially aligned conditions, particularly for high-demand or limited-supply inputs.',
+          'Through on-the-ground follow-up, we anticipate risks, align negotiations with local market realities, and address issues early, turning raw material sourcing into a dependable supply strategy.'
+        ]
+      },
+      {
+        title: 'Manufacturing & Supply Chain Operations',
+        short: 'Scale without production headaches.',
+        long: [
+          'We become your team on the ground, managing every step of the production process so you can focus on design, sales, and brand growth.',
+          'From product development and prototyping to full-scale production, we coordinate daily with factories, track timelines, streamline communication, and resolve issues to keep every deliverable on schedule. Our role goes beyond coordination. We translate expectations, align standards, and anticipate risks before they impact cost, quality, or delivery.',
+          'This service covers production planning, materials and cost control, capacity scheduling, quality inspections, risk management, and full export readiness. You gain visibility and control over every stage, knowing your production is managed locally, to international standards, by a team that understands both sides of the process.'
+        ]
+      },
+      {
+        title: 'International Growth & Strategic Partnerships',
+        short: 'We transform international expansion into a strategic advantage, not a costly learning curve.',
+        long: [
+          'At Cross the Bridge, we support companies ready to expand beyond their home market through informed decisions and strategic partnerships — not trial-and-error internationalization.',
+          'We combine market intelligence, a trusted international network, and hands-on guidance to define where to expand, how to enter, and which partners to align with. Rather than pushing expansion for expansion’s sake, we structure each move based on real opportunity, timing, and strategic fit.',
+          'We work through carefully selected projects, supporting founders and leadership teams as they navigate complex international decisions. From early market validation to long-term partner structuring, we reduce risk by ensuring every step is grounded in operational reality, not assumptions.',
+          'This service includes market validation, entry and expansion strategies, partner and distributor structuring, trade show and commercial support, export-readiness consulting, and local representation through licensing or strategic alliances. We stay involved on the ground, helping companies move from strategy to execution with confidence and control.'
+        ]
+      }
+    ]
+  },
+  es: {
+    title: 'Servicios',
+    intro: 'Somos un socio estratégico para marcas que construyen manufactura internacional confiable.',
+    cta: 'Ver más',
+    items: [
+      {
+        title: 'Abastecimiento de materias primas y aseguramiento de suministro',
+        short: 'Hacemos confiable el abastecimiento desde México para marcas internacionales.',
+        long: [
+          'Hacemos que el abastecimiento de materias primas desde México sea confiable, predecible y listo para exportar para las industrias de piel, calzado y moda.',
+          'Cross the Bridge garantiza un abastecimiento constante mediante supervisión local y una red establecida dentro del ecosistema de piel y moda de México. Aseguramos especificaciones alineadas, disponibilidad de materiales y condiciones comerciales basadas en mercado para sostener una producción sin interrupciones.',
+          'Al representar a varias marcas y mantener relaciones de largo plazo con proveedores, operamos con escala y credibilidad colectiva. Esto da acceso a materiales preferentes y condiciones comerciales alineadas, en especial para insumos de alta demanda o de oferta limitada.',
+          'Con seguimiento en sitio, anticipamos riesgos, alineamos negociaciones con la realidad local y resolvemos fricciones a tiempo, convirtiendo el abastecimiento en una estrategia confiable.'
+        ]
+      },
+      {
+        title: 'Operación de manufactura y cadena de suministro',
+        short: 'Escala sin dolores de cabeza operativos.',
+        long: [
+          'Nos convertimos en tu equipo en tierra y gestionamos cada paso del proceso para que te enfoques en diseño, ventas y crecimiento de marca.',
+          'Desde desarrollo y prototipado hasta producción a escala, coordinamos a diario con fábricas, damos seguimiento a tiempos, agilizamos la comunicación y resolvemos incidentes para mantener cada entrega a tiempo. Nuestro rol va más allá de coordinar: traducimos expectativas, alineamos estándares y anticipamos riesgos antes de que afecten costo, calidad o entrega.',
+          'Este servicio incluye planeación de producción, control de materiales y costos, calendarización de capacidad, inspecciones de calidad, gestión de riesgos y preparación completa para exportar. Obtienes visibilidad y control en cada etapa, con producción gestionada localmente bajo estándares internacionales y un equipo que entiende ambos lados del proceso.'
+        ]
+      },
+      {
+        title: 'Crecimiento internacional y alianzas estratégicas',
+        short: 'Convertimos la expansión internacional en ventaja estratégica, no en curva de aprendizaje costosa.',
+        long: [
+          'En Cross the Bridge acompañamos a empresas listas para expandirse más allá de su mercado de origen con decisiones informadas y alianzas estratégicas — no con prueba y error.',
+          'Combinamos inteligencia de mercado, una red internacional confiable y guía práctica para definir dónde expandir, cómo entrar y con qué socios alinearse. No empujamos la expansión por sí misma: cada movimiento se estructura según oportunidad real, momento adecuado y ajuste estratégico.',
+          'Trabajamos en proyectos seleccionados, apoyando a fundadores y equipos directivos en decisiones complejas. Desde validación temprana hasta la estructuración de socios de largo plazo, reducimos el riesgo asegurando que cada paso esté anclado en la realidad operativa, no en supuestos.',
+          'Este servicio incluye validación de mercado, estrategias de entrada y expansión, estructuración de socios y distribuidores, soporte en ferias y gestión comercial, consultoría de preparación para exportación y representación local mediante licencias o alianzas estratégicas. Seguimos en el terreno para llevar la estrategia a la ejecución con confianza y control.'
+        ]
+      }
+    ]
+  }
+};
 
 export const UI_TEXT: Record<Language, UiText> = {
   en: {
@@ -258,15 +502,15 @@ export const UI_TEXT: Record<Language, UiText> = {
         name: 'Nombre',
         email: 'Email',
         phone: 'Teléfono',
-        website: 'Página web',
+        website: 'Sitio web',
         company: 'Empresa',
         companyCountry: 'País de la empresa',
         orgs: 'Organizaciones',
-        position: 'Posición',
+        position: 'Puesto',
         service: 'Servicio de interés',
         origin: 'País de origen',
-        target: 'Región de interés',
-        date: 'Fecha de interés',
+        target: 'Región objetivo',
+        date: 'Fecha preferida',
         time: 'Horario'
       },
       placeholders: {
@@ -278,12 +522,12 @@ export const UI_TEXT: Record<Language, UiText> = {
       },
       orgOptions: ['Empresa', 'Organización', 'Gobierno', 'Otro'],
       serviceOptions: [
-        'Sourcing Estratégico / Strategic Sourcing',
-        'Manufactura & Operaciones / Manufacturing & Operations',
-        'Crecimiento Internacional / International Growth',
-        'Misiones Comerciales / Trade Missions'
+        'Sourcing estratégico / Strategic Sourcing',
+        'Manufactura y operaciones / Manufacturing & Operations',
+        'Crecimiento internacional / International Growth',
+        'Misiones comerciales / Trade Missions'
       ],
-      regionOptions: ['Sudamérica', 'México', 'EUA', 'Canadá', 'Europa', 'Asia'],
+      regionOptions: ['Sudamérica', 'México', 'Estados Unidos', 'Canadá', 'Europa', 'Asia'],
       submit: {
         idle: 'Agendar',
         loading: 'Enviando…',
@@ -291,7 +535,7 @@ export const UI_TEXT: Record<Language, UiText> = {
       },
       successMessage: '¡Gracias! Te contactaremos pronto.'
     },
-    hero: { scrollPrompt: 'Desplaza para descubrir' },
+    hero: { scrollPrompt: 'Desplaza para explorar' },
     proofOverlay: {
       badge: 'Video en planta',
       title: 'QA de materiales y control pre-embarque',
@@ -301,16 +545,16 @@ export const UI_TEXT: Record<Language, UiText> = {
     services: {
       tag: 'Lo que ofrecemos',
       includesLabel: 'Incluye:',
-      mobileHint: '← Desliza • Toca para más info →',
-      tapHint: 'Toca para ver más',
+      mobileHint: '← Desliza • Toca para ver más →',
+      tapHint: 'Toca para ver detalles',
       whyTag: 'Por qué elegirnos'
     },
     process: {
       badge: 'Entrega, no promesas',
-      ctaStart: 'Inicia Tu Viaje',
-      ctaServices: 'Ver Servicios',
+      ctaStart: 'Inicia tu viaje',
+      ctaServices: 'Ver servicios',
       proofFallback: 'Entrega documentada',
-      evidenceCaption: 'Evidencia ligada a este paso.'
+      evidenceCaption: 'Evidencia vinculada a este paso.'
     },
     assurances: {
       badge: 'Compliance en acción',
@@ -325,19 +569,19 @@ export const UI_TEXT: Record<Language, UiText> = {
       sent: '¡Enviado!'
     },
     strengths: {
-      tag: 'Nuestras Fortalezas',
+      tag: 'Nuestras fortalezas',
       title: 'Fortalezas CTB',
       swipeHint: '← Desliza para explorar →'
     },
     bridge: {
       badge: 'Conoce el Efecto Puente',
-      heading: 'Más de 20 Países',
+      heading: 'Más de 20 países',
       subtitle: 'Conectando negocios entre continentes, una alianza exitosa a la vez',
       testimonialsLabel: 'Testimonios',
       testimonialsTitle: 'Aliados que cruzaron con nosotros',
-      readStory: 'Ver historia',
+      readStory: 'Leer historia',
       snapshotsLabel: 'Postales desde el campo',
-      presenceLabel: 'Presencia en más de 20 Países',
+      presenceLabel: 'Presencia en más de 20 países',
       swipeHint: '← Desliza para explorar →'
     },
     showroom: { label: 'Catálogo' },
@@ -370,11 +614,11 @@ export const UI_TEXT: Record<Language, UiText> = {
       sending: 'Enviando…',
       sent: '¡Enviado!',
       success: '¡Gracias! Recibimos tus datos.',
-      error: 'Ocurrió un error',
+      error: 'Algo salió mal',
       location: 'León Gto, México',
       phoneUS: 'EUA +1 281 323 2612',
       phoneMX: 'MX +52 477 765 3792',
-      email: 'info@crossthebridge.co',
+      email: 'mariana@crossthebridge.com.mx',
       socials: {
         linkedin: 'LinkedIn',
         instagram: 'Instagram',
@@ -382,282 +626,13 @@ export const UI_TEXT: Record<Language, UiText> = {
       }
     },
     differentiators: {
-      tag: '¿Por qué elegirnos?',
+      tag: 'Por qué elegirnos',
       accordionOpen: 'Abrir',
       accordionClose: 'Cerrar',
-      readMore: 'Ver más'
+      readMore: 'Aprender más'
     },
     founder: { badge: 'Liderazgo' }
   }
-};
-
-export const PROCESS_MEDIA: ProcessMediaItem[] = [
-  {
-    type: 'video',
-    src: 'https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4',
-    title: { en: 'Discovery', es: 'Descubrimiento' },
-    caption: { en: 'Discovery & Project Alignment', es: 'Descubrimiento y Alineación del Proyecto' }
-  },
-  {
-    type: 'video',
-    src: 'https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4',
-    title: { en: 'Development', es: 'Desarrollo' },
-    caption: { en: 'Product & Material Development', es: 'Desarrollo de Producto y Materiales' }
-  },
-  {
-    type: 'video',
-    src: 'https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4',
-    title: { en: 'Network', es: 'Red' },
-    caption: { en: 'Strategic Supplier Matchmaking', es: 'Emparejamiento Estratégico de Proveedores' }
-  },
-  {
-    type: 'video',
-    src: 'https://static.vecteezy.com/system/resources/previews/068/361/564/mp4/footwear-manufacturing-industry-shoe-production-on-a-conveyor-belt-with-workers-in-a-factory-free-video.mp4',
-    title: { en: 'Prototyping', es: 'Prototipado' },
-    caption: { en: 'Prototyping & Sample Validation', es: 'Prototipado y Validación de Muestras' }
-  },
-  {
-    type: 'video',
-    src: 'https://static.vecteezy.com/system/resources/previews/041/236/463/mp4/factory-production-line-with-machinery-and-workers-conveyor-belt-automation-and-industrial-technology-free-video.mp4',
-    title: { en: 'Operations', es: 'Operaciones' },
-    caption: { en: 'Production Management & Daily Operations', es: 'Gestión de Producción y Operaciones' }
-  },
-  {
-    type: 'video',
-    src: 'https://static.vecteezy.com/system/resources/previews/043/478/973/mp4/quality-control-inspection-in-a-factory-engineer-checking-products-on-the-production-line-free-video.mp4',
-    title: { en: 'Quality Assurance', es: 'Aseguramiento de Calidad' },
-    caption: { en: 'Quality Assurance & Pre-Shipment Inspections', es: 'Control de Calidad e Inspecciones Pre-Embarque' }
-  },
-  {
-    type: 'video',
-    src: 'https://static.vecteezy.com/system/resources/previews/051/217/535/mp4/logistics-and-transportation-cargo-containers-shipping-by-sea-truck-and-train-free-video.mp4',
-    title: { en: 'Logistics', es: 'Logística' },
-    caption: { en: 'Logistics, Documentation & Export Coordination', es: 'Logística, Documentación y Exportación' }
-  }
-];
-
-export const STRENGTHS_CARDS: Record<Language, StrengthCard[]> = {
-  en: [
-    {
-      icon: 'Scissors',
-      title: 'Deep Leather & Footwear Expertise',
-      desc: 'Decades of experience in León, Mexico leather and footwear industry.',
-      color: 'from-[#b08c55] to-[#d5ba8c]',
-      video: 'https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/005/166/637/large/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.jpg'
-    },
-    {
-      icon: 'Award',
-      title: 'Access to Elite Factories in Mexico',
-      desc: 'Exclusive network of certified and verified manufacturers.',
-      color: 'from-[#0b2f6b] to-[#002169]',
-      video: 'https://static.vecteezy.com/system/resources/previews/007/995/834/mp4/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/007/995/834/large/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.jpg'
-    },
-    {
-      icon: 'Globe',
-      title: 'International Network (Brazil, Asia, USA)',
-      desc: 'Global connections for borderless opportunities.',
-      color: 'from-[#1f3f70] to-[#0f2f66]',
-      video: 'https://static.vecteezy.com/system/resources/previews/024/834/351/mp4/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/024/834/351/large/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.jpg'
-    },
-    {
-      icon: 'FileText',
-      title: 'Export Experience & Certifications',
-      desc: 'Documentation and compliance for international trade.',
-      color: 'from-[#c6ab7b] to-[#d5ba8c]',
-      video: 'https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg'
-    },
-    {
-      icon: 'Settings',
-      title: 'Hands-on Factory Presence',
-      desc: 'On-site quality control and direct supervision.',
-      color: 'from-[#12315c] to-[#0b2247]',
-      video: 'https://static.vecteezy.com/system/resources/previews/060/472/965/mp4/three-people-are-standing-around-a-table-with-boxes-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/060/472/965/large/three-people-are-standing-around-a-table-with-boxes-free-video.jpg'
-    },
-    {
-      icon: 'Users',
-      title: 'Bilingual, Bicultural Leadership',
-      desc: 'Seamless communication across cultures and markets.',
-      color: 'from-[#27497a] to-[#0f2f66]',
-      video: 'https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg'
-    }
-  ],
-  es: [
-    {
-      icon: 'Scissors',
-      title: 'Expertise en Cuero y Calzado',
-      desc: 'Décadas de experiencia en la industria del cuero y calzado de León, México.',
-      color: 'from-[#b08c55] to-[#d5ba8c]',
-      video: 'https://static.vecteezy.com/system/resources/previews/005/166/637/mp4/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/005/166/637/large/leather-factory-manufacture-handmade-notebook-close-up-hands-work-free-video.jpg'
-    },
-    {
-      icon: 'Award',
-      title: 'Acceso a Fábricas Élite en México',
-      desc: 'Red exclusiva de fabricantes certificados y verificados.',
-      color: 'from-[#0b2f6b] to-[#002169]',
-      video: 'https://static.vecteezy.com/system/resources/previews/007/995/834/mp4/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/007/995/834/large/aerial-view-of-gas-turbine-power-plant-factory-with-cooling-system-fan-in-operation-that-producing-electricity-while-causing-pollution-and-releasing-carbon-dioxide-which-cause-global-warming-free-video.jpg'
-    },
-    {
-      icon: 'Globe',
-      title: 'Red Internacional (Brasil, Asia, EUA)',
-      desc: 'Conexiones globales para oportunidades sin fronteras.',
-      color: 'from-[#1f3f70] to-[#0f2f66]',
-      video: 'https://static.vecteezy.com/system/resources/previews/024/834/351/mp4/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/024/834/351/large/a-parcel-delivery-worker-dressed-in-a-red-uniform-is-lifting-a-package-from-the-trunk-of-the-truck-to-the-recipient-contact-the-receiver-in-front-of-the-house-free-video.jpg'
-    },
-    {
-      icon: 'FileText',
-      title: 'Experiencia y Certificaciones de Exportación',
-      desc: 'Documentación y compliance para comercio internacional.',
-      color: 'from-[#c6ab7b] to-[#d5ba8c]',
-      video: 'https://static.vecteezy.com/system/resources/previews/054/047/744/mp4/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/054/047/744/large/a-large-cargo-ship-filled-with-containers-sails-across-a-body-of-water-the-ship-is-viewed-from-above-free-video.jpg'
-    },
-    {
-      icon: 'Settings',
-      title: 'Presencia Directa en Fábricas',
-      desc: 'Control de calidad en sitio y supervisión directa.',
-      color: 'from-[#12315c] to-[#0b2247]',
-      video: 'https://static.vecteezy.com/system/resources/previews/060/472/965/mp4/three-people-are-standing-around-a-table-with-boxes-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/060/472/965/large/three-people-are-standing-around-a-table-with-boxes-free-video.jpg'
-    },
-    {
-      icon: 'Users',
-      title: 'Liderazgo Bilingüe y Bicultural',
-      desc: 'Comunicación fluida entre culturas y mercados.',
-      color: 'from-[#27497a] to-[#0f2f66]',
-      video: 'https://static.vecteezy.com/system/resources/previews/022/464/181/mp4/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.mp4',
-      poster: 'https://static.vecteezy.com/system/resources/thumbnails/022/464/181/large/financial-analysts-analyze-business-financial-reports-on-a-digital-tablet-planning-investment-project-during-a-discussion-at-a-meeting-of-corporate-showing-the-results-of-their-successful-teamwork-free-video.jpg'
-    }
-  ]
-};
-
-export const PARTNER_BENEFITS: Record<Language, PartnerBenefit[]> = {
-  en: [
-    {
-      icon: 'Globe',
-      title: 'Worldwide Reach',
-      desc: 'Expand your business to international markets through our established network',
-      color: 'from-[#1f3f70] to-[#0f2f66]',
-      image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      icon: 'Users',
-      title: 'Strategic Partners',
-      desc: 'Connect with premium brands from USA and other markets seeking Mexican quality',
-      color: 'from-[#b08c55] to-[#d5ba8c]',
-      image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      icon: 'Award',
-      title: 'Elite Recognition',
-      desc: 'Be part of a select directory of certified and verified suppliers',
-      color: 'from-[#0b2f6b] to-[#002169]',
-      image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      icon: 'Ship',
-      title: 'Logistics Support',
-      desc: 'We facilitate exports and coordinate international shipments',
-      color: 'from-[#12315c] to-[#0b2247]',
-      image: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      icon: 'Target',
-      title: 'Qualified Clients',
-      desc: 'Access serious buyers and projects with guaranteed volume',
-      color: 'from-[#c6ab7b] to-[#d5ba8c]',
-      image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      icon: 'Shield',
-      title: 'Secure Payments',
-      desc: 'Protected transactions and clear commercial terms',
-      color: 'from-[#223b6b] to-[#0f2a57]',
-      image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop'
-    }
-  ],
-  es: [
-    {
-      icon: 'Globe',
-      title: 'Alcance Mundial',
-      desc: 'Expande tu negocio a mercados internacionales a través de nuestra red establecida',
-      color: 'from-[#1f3f70] to-[#0f2f66]',
-      image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      icon: 'Users',
-      title: 'Socios Estratégicos',
-      desc: 'Conecta con marcas premium de USA y otros mercados buscando calidad mexicana',
-      color: 'from-[#b08c55] to-[#d5ba8c]',
-      image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      icon: 'Award',
-      title: 'Reconocimiento de Élite',
-      desc: 'Sé parte de un directorio selecto de proveedores certificados y verificados',
-      color: 'from-[#0b2f6b] to-[#002169]',
-      image: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      icon: 'Ship',
-      title: 'Soporte Logístico',
-      desc: 'Facilitamos exportaciones y coordinamos envíos internacionales',
-      color: 'from-[#12315c] to-[#0b2247]',
-      image: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      icon: 'Target',
-      title: 'Clientes Calificados',
-      desc: 'Accede a compradores serios y proyectos con volumen garantizado',
-      color: 'from-[#c6ab7b] to-[#d5ba8c]',
-      image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      icon: 'Shield',
-      title: 'Pagos Seguros',
-      desc: 'Transacciones protegidas y términos comerciales claros',
-      color: 'from-[#223b6b] to-[#0f2a57]',
-      image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1740&auto=format&fit=crop'
-    }
-  ]
-};
-
-export const LOGO_MARQUEE_ITEMS: { icon: IconName; name: string }[] = [
-  { icon: 'Hexagon', name: 'LogisticsCorp' },
-  { icon: 'Anchor', name: 'PortAllies' },
-  { icon: 'Box', name: 'PackSys' },
-  { icon: 'Globe', name: 'GlobalTrade' },
-  { icon: 'Truck', name: 'FastFreight' },
-  { icon: 'Layers', name: 'LeatherCo' },
-  { icon: 'MapPin', name: 'ZoneNav' },
-  { icon: 'Navigation', name: 'RouteMasters' }
-];
-
-export const COLLAGE_ITEMS: Record<Language, CollageItem[]> = {
-  en: [
-    { src: '/img/Collage/Collage_embajada_alemania.jpg', label: 'Germany' },
-    { src: '/img/Collage/Collage_mision_Thailandia.jpg', label: 'Thailand' },
-    { src: '/img/Collage/Collage_junta.jpg', label: 'Planning' },
-    { src: '/img/Collage/Collage_control_de_calidad.jpg', label: 'Quality' },
-    { src: '/img/Collage/Collage_junta2.jpg', label: 'Alliances' },
-    { src: '/img/Collage/Collage_mision_Thailandia.jpg', label: 'Asia' }
-  ],
-  es: [
-    { src: '/img/Collage/Collage_embajada_alemania.jpg', label: 'Alemania' },
-    { src: '/img/Collage/Collage_mision_Thailandia.jpg', label: 'Tailandia' },
-    { src: '/img/Collage/Collage_junta.jpg', label: 'Planeación' },
-    { src: '/img/Collage/Collage_control_de_calidad.jpg', label: 'Calidad' },
-    { src: '/img/Collage/Collage_junta2.jpg', label: 'Alianzas' },
-    { src: '/img/Collage/Collage_mision_Thailandia.jpg', label: 'Asia' }
-  ]
 };
 
 export const DEFAULT_TESTIMONIALS = [
@@ -685,6 +660,17 @@ export const DEFAULT_TESTIMONIALS = [
     countryCode: 'CA',
     image: ''
   }
+];
+
+export const LOGO_MARQUEE_ITEMS: { icon: IconName; name: string }[] = [
+  { icon: 'Hexagon', name: 'LogisticsCorp' },
+  { icon: 'Anchor', name: 'PortAllies' },
+  { icon: 'Box', name: 'PackSys' },
+  { icon: 'Globe', name: 'GlobalTrade' },
+  { icon: 'Truck', name: 'FastFreight' },
+  { icon: 'Layers', name: 'LeatherCo' },
+  { icon: 'MapPin', name: 'ZoneNav' },
+  { icon: 'Navigation', name: 'RouteMasters' }
 ];
 
 const SHOWROOM_ITEMS = [
@@ -1090,14 +1076,15 @@ export const TRANSLATIONS: Record<Language, Content> = {
     bridgeEffect: {
       badge: "The bridge effect",
       title: "Cross the bridge without fear.",
-      body: "For over two decades, we’ve been operating where global business actually happens. On factory floors, at international trade fairs, inside distribution centers, and across cultures, regulations, and markets. The Bridge Effect is the result of sustained international execution. It’s what happens when brands don’t just source abroad, but successfully enter, scale, and endure in global markets. From Asia to Europe, Africa, and the Americas, we turn ideas into export-ready operations, supported by real infrastructure, trusted alliances, and on-the-ground leadership. This section highlights the product categories where that experience lives today, and where new global success stories continue to be built.",
+      body: "For over two decades, we’ve worked where global business truly happens. On factory floors, at international trade fairs, inside distribution centers, and across cultures, regulations, and markets.\n\nThe Bridge Effect is not a theory. It is the result of sustained international execution. It’s what emerges when brands don’t simply source abroad, but successfully enter, scale, and endure in global markets.\n\nFrom Asia to Europe, Africa, and the Americas, we turn ideas into export-ready operations, supported by real infrastructure, trusted alliances, and on-the-ground leadership.\n\nThis section highlights the product categories where that experience lives today — and where the next generation of global success stories is already being built.",
       industriesTitle: "Industries we work with",
       industriesIntro: "Pick a category to see the focus areas and a gallery of recent partner builds.",
       selectedLabel: "Selected category",
       categoriesSuffix: "categories",
       testimonialsBadge: "Trusted by over 100 businesses worldwide",
-      testimonialsTitle: "Real voices from both sides of the bridge",
+      testimonialsTitle: "Trusted by",
       testimonialsSubtitle: "Founders, operators, and industry leaders who rely on our on-the-ground partnership.",
+      testimonialsCta: "View more",
       storyLabel: "Story"
     },
     tradeMissions: {
@@ -1110,9 +1097,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
         {
           id: "briefing",
           label: "Mission Briefing",
-          title: "Trade missions built on real market time.",
+          title: "Trade missions built before, during, and after the event. ",
           body: [
-            "Our trade missions are built on 20+ years of hands-on participation in the world's most relevant manufacturing and sourcing markets - from Hong Kong to Italy to the United States - helping companies make smarter international decisions and expand with greater reach."
+            "Our trade missions start long before boarding a plane. We prepare strategy, align objectives, and design meetings with clear intent. During the mission, we work side by side with teams, reading the market, navigating cultural dynamics, and supporting real-time decisions. After the event, we translate conversations into concrete next steps."
           ],
           media: {
             src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
@@ -1122,11 +1109,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
         {
           id: "agenda",
           label: "Business Agenda",
-          title: "Focused agendas with the right partners.",
+          title: "The right people, the right context, the right moment.",
           body: [
-            "We design focused business agendas that connect companies directly with the right suppliers, manufacturers, and commercial partners. Every mission is grounded in real industry experience, trusted international networks, and a clear strategic objective - not generic tours or one-off introductions.",
-            "Our trade missions are often built around the world's most relevant trade fairs, using them as strategic accelerators to identify suppliers, validate markets, and open high-level conversations that would otherwise take years to access."
-          ],
+            "We design focused business agendas that connect companies with the right suppliers, manufacturers, and commercial partners — within the right cultural and market context. Supported by a multidisciplinary team with deep international experience, each mission multiplies reach, sharpens judgment, and turns exposure into qualified opportunity."          ],
           media: {
             src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
             alt: "Agenda setting with charts"
@@ -1150,9 +1135,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
         {
           id: "audience",
           label: "Who it's for",
-          title: "Built for founders ready to scale.",
+          title: "Built for founders who scale with intention.",
           body: [
-            "Designed for founders and business owners looking to scale internationally with clarity, structure, and confidence."
+            "Designed for founders and business leaders who want to expand internationally without improvisation. This is for teams that value clarity, cultural understanding, and structured execution from day one — not trial and error on foreign ground."
           ],
           media: {
             src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
@@ -1219,66 +1204,63 @@ export const TRANSLATIONS: Record<Language, Content> = {
   },
   es: {
     nav: {
-      services: "Servicios / Lo Que Hacemos",
-      process: "Cómo Trabajamos",
-      trade_missions: "Misiones Comerciales",
-      about: "Nosotros / Por Qué Cross the Bridge",
-      bridge_effect: "El Efecto Puente",
+      services: "Lo que hacemos",
+      process: "Cómo trabajamos",
+      trade_missions: "Misiones comerciales",
+      about: "Por qué Cross the Bridge",
+      bridge_effect: "El efecto puente",
       contact: "Contacto",
-      book: "Agenda una Llamada de Descubrimiento"
+      book: "Agenda una llamada de descubrimiento"
     },
     hero: {
-      title: "Tu puente estratégico hacia socios de manufactura confiables en México",
+      title: "Manufactura confiable en México. Sin suposiciones.",
       audience: "Para operadores, fundadores y equipos de sourcing",
       proofs: [
         "Más de 140 proveedores validados en México",
-        "Gobernanza operativa en campo",
+        "Gobernanza de producción en campo",
         "Cumplimiento y QA listos para exportar"
       ],
-      subtitle: "Ayudamos a marcas de EE. UU. a producir y escalar en México conectándolas con fábricas verificadas, proveedores confiables y los aliados correctos — para avanzar más rápido, evitar errores costosos y crecer con confianza.",
-      cta: "Explora una Alianza Estratégica",
+      subtitle: "Creado para marcas internacionales que buscan escalar con los socios manufactureros correctos en México. Nos mantenemos en el terreno y cerca de cada etapa, actuando como tu socio de producción para asegurar que tu producto se haga bien, a tiempo y con visibilidad total de principio a fin.",
+      cta: "Explora una alianza estratégica",
       cta2: ""
     },
     proofBar: {
       title: "Pruebas, no promesas",
-      subtitle: "A los equipos de operaciones les importa la velocidad, el control y el compliance — esto es lo que garantizamos.",
+      subtitle: "A los equipos de operaciones les importa la velocidad, el control y el cumplimiento — esto es lo que garantizamos.",
       metrics: [
-        { label: "Vetting de fábricas", value: "140+", detail: "proveedores auditados en México" },
+        { label: "Validación de fábricas", value: "140+", detail: "proveedores auditados en México" },
         { label: "Cobertura de QC", value: "100%", detail: "de embarques con inspección en planta" },
-        { label: "Velocidad de shortlist", value: "10 días", detail: "para presentar 3-5 fábricas validadas" }
+        { label: "Velocidad de shortlist", value: "10 días", detail: "para presentar 3–5 fábricas validadas" }
       ],
       logos: ["Outback Trading Co.", "Viberg Boot", "CICB", "JRD Saddlery"]
     },
     services: {
       title: "Servicios",
-      subtitle: "Sourcing + validación de fábricas + operaciones productivas en México, pensado para marcas de EE.UU./Europa.",
+      subtitle: "Sourcing + validación de fábricas + operaciones de producción en México, diseñado para marcas de EE. UU./UE.",
       items: [
         {
-          title: "1. Sourcing Estratégico y Matchmaking de Proveedores",
-          desc: "3–5 fábricas validadas con compliance, capacidad y costos confirmados.",
+          title: "1. Sourcing estratégico y matchmaking de proveedores",
+          desc: "3–5 fábricas validadas con compliance, capacidad y precios confirmados.",
           details: [
-            "Conectamos tu marca con la fábrica correcta — no cualquier fábrica. Nuestro proceso de sourcing combina criterios técnicos, optimización de costos y décadas de relaciones con fabricantes, tenerías y proveedores de materiales en México. Evaluamos capacidades, estándares de calidad, certificaciones, capacidad de producción y fit cultural para que trabajes con socios confiables desde el día uno.",
-            "Incluye scouting de proveedores, análisis de capacidades, sourcing de materiales, validación de fábricas, coordinación de muestras y expectativas alineadas en tiempos y costos. Eliminamos la incertidumbre para darte una base sólida de producción en México."
+            "Conectamos tu marca con la fábrica correcta — no cualquier fábrica. Nuestro proceso de sourcing combina criterios técnicos, optimización de costos y décadas de relaciones con los principales fabricantes, tenerías y proveedores de materiales de México. Evaluamos capacidades, estándares de calidad, estructuras de precio, certificaciones, capacidad de producción y ajuste cultural para asegurar socios confiables desde el día uno.",
+            "Este servicio cubre la planeación de producción, control de materiales y costos, calendarización de capacidad, inspecciones de calidad, gestión de riesgos y preparación completa para exportar. Obtienes visibilidad y control en cada etapa, con producción gestionada localmente, bajo estándares internacionales, por un equipo que entiende ambos lados del proceso."
           ],
-          bullets: ["Búsqueda (Sourcing)", "Fabricación por contrato", "Logística"],
+          bullets: ["Sourcing", "Manufactura por contrato", "Logística"],
           icon: "package"
         },
         {
-          title: "2. Operación de Manufactura y Cadena de Suministro",
-          desc: "Gobernanza de producción: calendarios, QC, gestión de riesgos y claridad de costos.",
+          title: "2. Operaciones de manufactura y cadena de suministro",
+          desc: "Gobernanza de producción: calendarios, QC, gestión de riesgos y claridad de costo puesto en destino.",
           details: [
-            "Nos convertimos en tu equipo en tierra, gestionando cada paso del proceso de producción para que te enfoques en ventas y crecimiento. Desde desarrollo de producto hasta producción a escala, coordinamos con fábricas, seguimos tiempos, optimizamos comunicación, resolvemos problemas y aseguramos cada entregable.",
-            "Incluye planificación de producción, seguimiento de materiales, cierre de costos, calendarización de carga de trabajo, actualizaciones continuas, gestión de riesgos, inspecciones de calidad y preparación completa para exportación. Transparencia y control sin sorpresas."
+            "Nos convertimos en tu equipo en tierra y gestionamos cada paso del proceso de producción para que te enfoques en diseño, ventas y crecimiento de marca. Desde el desarrollo y prototipado hasta la producción a escala, coordinamos a diario con fábricas, damos seguimiento a tiempos, agilizamos la comunicación, resolvemos problemas y aseguramos que cada entrega esté a tiempo.",
+            "Nuestro enfoque incluye planeación de producción, seguimiento de materiales, cierre de costos, calendarización de carga, actualizaciones continuas, gestión de riesgos, inspecciones de calidad y preparación completa para exportación. Obtienes transparencia, control y tranquilidad, con tu producción gestionada bajo estándares de clase mundial."
           ],
           icon: "layers"
         },
         {
-          title: "3. Crecimiento Internacional y Alianzas Estratégicas",
-          desc: "Expansión global con estrategia y socios adecuados, no con prueba y error.",
-          details: [
-            "Con dos décadas conectando proveedores, marcas y alianzas internacionales, abrimos puertas a nuevos mercados, reducimos costos operativos y construimos presencia escalable.",
-            "Esto incluye insights de mercado, estrategias de entrada, conexiones con distribuidores y socios, soporte en ferias, consultoría de export-readiness y representación local con redes confiables."
-          ],
+          title: "3. Crecimiento internacional y alianzas estratégicas",
+          desc: "Convertimos la expansión global en una ventaja estratégica, no en un experimento costoso.",
+          details: [],
           icon: "globe"
         }
       ],
@@ -1286,19 +1268,19 @@ export const TRANSLATIONS: Record<Language, Content> = {
         title: "Misiones comerciales y agendas de negocios",
         intro: "Guiamos empresas en misiones comerciales para expandir mercados y descubrir nuevos proveedores y clientes en las principales economías del mundo.",
         points: [
-          "Conozca a sus próximos aliados estratégicos",
-          "Obtenga contactos de negocios de alto valor",
-          "Diversifique interactuando con nuevas culturas empresariales"
+          "Conoce a tus próximos aliados estratégicos",
+          "Obtén contactos de negocio de alto valor",
+          "Diversifica al relacionarte con nuevas culturas empresariales"
         ],
         eventsTitle: "Próximos eventos",
         events: ["Feria WanYoung", "Feria Portland"],
-        cta: "Solicita una Misión Comercial a Medida",
+        cta: "Solicita una misión comercial a medida",
         tagline: "Hacemos las cosas con pasión"
       }
     },
     showroom: {
       title: "Showroom",
-      subtitle: "Explore una selección de productos desarrollados y obtenidos para nuestros socios internacionales.",
+      subtitle: "Explora una selección de productos desarrollados y abastecidos para nuestros socios internacionales.",
       categories: {
         all: "Todo",
         footwear: "Calzado",
@@ -1312,23 +1294,23 @@ export const TRANSLATIONS: Record<Language, Content> = {
     },
     process: {
       title: "Tu camino con nosotros",
-      subtitle: "Un sistema probado para ejecutar manufactura en México — sin errores costosos.",
-      intro: "Hemos refinado este marco por más de 20 años; no necesitas aprender por las malas.",
+      subtitle: "Un sistema probado para ejecutar manufactura en México — sin costosos intentos y errores.",
+      intro: "Hemos refinado este marco por más de 20 años, para que no tengas que aprender a la mala.",
       steps: [
         {
           title: "Alinear",
           tagline: "Estrategia antes de producir.",
-          desc: "Definimos objetivos, metas de precio, tiempos y viabilidad desde el inicio, para que cada decisión se alinee antes de gastar o involucrar fábricas."
+          desc: "Definimos objetivos, metas de precio, tiempos y viabilidad desde el inicio para que cada decisión esté alineada antes de invertir o involucrar fábricas."
         },
         {
           title: "Construir",
           tagline: "De la idea al producto validado.",
-          desc: "Acompañamos desarrollo de producto, selección de materiales, matchmaking de proveedores y fábricas, y validación de prototipos, asegurando que tu producto sea sólido, alineado en costo y listo para producir."
+          desc: "Acompañamos el desarrollo de producto, la selección de materiales, el matchmaking de proveedores y fábricas, y la validación de prototipos, asegurando que tu producto sea sólido, alineado en costo y listo para producir."
         },
         {
           title: "Ejecutar",
           tagline: "Control operativo en campo.",
-          desc: "Gestionamos producción en sitio, coordinando proveedores, tiempos, seguimiento técnico y estándares de calidad para que tu equipo se enfoque en crecer."
+          desc: "Gestionamos la producción en sitio, coordinando proveedores, tiempos, seguimiento técnico y estándares de calidad para que tu equipo se enfoque en crecer."
         },
         {
           title: "Entregar",
@@ -1340,75 +1322,69 @@ export const TRANSLATIONS: Record<Language, Content> = {
     },
     team: {
       title: "Nuestra Fundadora",
-      subtitle: "Liderazgo visionario impulsando conexiones globales.",
+      subtitle: "",
       profile: {
         name: "Mariana Muciño Del Rio",
-        role: "Negociación y Planeación Estratégica Internacional",
-        bio: "Profesional apasionada de la internacionalización con 18 años de trayectoria en negocios internacionales.\n\nMi experiencia se centra en la creación y gestión de alianzas estratégicas comerciales en los 5 continentes.\n\nHe apoyado organizaciones en América Latina, Europa, Asia y Norteamérica — guiándolas en cumplimiento, optimización de cadena de suministro e integración operativa.\n\nMi enfoque se basa en confianza, respeto y colaboración con propósito — elementos clave para construir alianzas transfronterizas exitosas.",
+        role: "Negociación internacional y planeación estratégica",
+        bio: "Consultora de negocios internacionales con 18 años de experiencia ayudando a empresas latinoamericanas a expandirse en el mercado de EE. UU.\n\nMi trabajo se centra en crecimiento estratégico, entrada a mercados y alineación regulatoria para fabricantes que ingresan a entornos complejos y multiculturales.\n\nHe apoyado organizaciones en América Latina, Europa, Asia y Norteamérica — guiándolas en cumplimiento, optimización de cadena de suministro e integración operativa.\n\nMi enfoque se basa en confianza, respeto y colaboración con propósito — elementos clave para construir alianzas transfronterizas que prosperan.",
         educationTitle: "Formación",
         education: [
-          { degree: "Diplomado Cooperación Intl", school: "Univ. Complutense de Madrid" },
-          { degree: "Manager Training Program", school: "Univ. de Mannheim, Alemania" },
-          { degree: "Lic. Negocios Internacionales", school: "Tecnológico de Monterrey" }
+          { degree: "Diplomado en cooperación internacional", school: "Universidad Complutense de Madrid" },
+          { degree: "Programa de formación gerencial", school: "Universidad de Mannheim, Alemania" },
+          { degree: "Licenciatura en negocios internacionales", school: "Tecnológico de Monterrey" }
         ]
       }
     },
     stats: {
       years: "+25",
-      yearsLabel: "Años de Experiencia",
+      yearsLabel: "Años de experiencia",
       // negotiations: "+100",
       // negotiationsLabel: "Negociaciones Exitosas",
       alliances: "+20",
-      alliancesLabel: "Alianzas Estratégicas"
+      alliancesLabel: "Alianzas estratégicas"
     },
     about: {
-      badge: "Nosotros",
+      badge: "About",
       founderTitle: "Nuestra fundadora",
-      founderTagline: "Liderazgo visionario impulsando conexiones globales.",
+      founderTagline: "Liderazgo visionario que impulsa conexiones globales.",
       founderStoryBadge: "Historia de la fundadora",
       founderName: "Mariana Muciño Del Rio",
-      founderRole: "Negociación y planeación estratégica internacional",
+      founderRole: "Negociación internacional y planeación estratégica",
       bio: [
         "Mariana Muciño es la fundadora de Cross the Bridge. Inició su carrera en negocios internacionales a los 23 años y ha pasado dos décadas viviendo y trabajando en mercados globales, liderando proyectos de manufactura y sourcing en cinco continentes. Esta experiencia le permite ayudar a las empresas a simplificar su expansión internacional, brindándoles claridad, estructura y recursos confiables para crecer con seguridad.",
-        "En lugar de actuar como una consultora tradicional, Mariana construye alianzas estratégicas de largo plazo, trabajando hombro a hombro con fundadores y equipos. Gracias a su experiencia y red global, los clientes no comienzan desde cero: avanzan con los socios correctos, decisiones más claras y una base más sólida para un crecimiento internacional sostenible."
+        "En lugar de actuar como consultora tradicional, Mariana construye alianzas estratégicas de largo plazo, trabajando hombro a hombro con fundadores y equipos. Gracias a su experiencia y red global, los clientes no comienzan desde cero: avanzan con los socios correctos, decisiones más claras y una base más sólida para un crecimiento internacional sostenible."
       ],
       bioCtaMore: "Leer biografía completa",
       bioCtaLess: "Cerrar biografía",
       differentiators: {
-        badge: "Qué hace único a Cross the Bridge",
-        title: "Alianza estratégica con control medible.",
-        subtitle: "Cada punto muestra cómo reducimos riesgo, aceleramos decisiones y te mantenemos en control.",
+        badge: "Lo que hace a Cross the Bridge realmente diferente",
+        title: "Control local que elimina las suposiciones en la producción internacional.",
+        subtitle: "No solo conectamos marcas con México. Nos mantenemos en el terreno y cerca de cada etapa, actuando como tu socio estratégico de producción para que tengas el producto correcto, en el momento correcto y en el lugar correcto.",
         openLabel: "Abrir",
         viewLabel: "Ver",
         items: [
           {
             title: "Socio estratégico, no intermediario",
-            body: "Cross the Bridge no es un intermediario. Somos un socio estratégico incrustado en el ecosistema manufacturero más competitivo de México.",
-            image: "/img/how-we-work/OnSite1.jpg",
-            imageAlt: "Alineacion estrategica en planta"
+            body: "No operamos como intermediario ni como agente de sourcing. Actuamos como socio estratégico, alineando decisiones entre desarrollo, producción y entrega para que tu expansión sea intencional, controlada y sostenible.",
+            image: "/img/img-mariana/STRATEGIC_PARTNER.jpg",
+            imageAlt: "Alineación estratégica en planta"
           },
           {
-            title: "Ejecución práctica y responsabilidad",
-            body: "Ayudamos a marcas a reducir riesgo, ganar control y escalar producción en México combinando acceso directo a fábricas validadas, ejecución práctica y responsabilidad clara en todo el ciclo productivo.",
-            image: "/img/how-we-work/Leather inspection.jpg",
-            imageAlt: "Inspeccion de materiales en sitio"
-          },
-          {
-            title: "Colaboración hombro a hombro",
-            body: "En vez de gestionar a distancia, trabajamos junto a fundadores y equipos durante desarrollo, producción y expansión. Esta cercanía permite decisiones más rápidas, menos errores costosos y verdadera propiedad en cada etapa.",
+            title: "Ejecución práctica con responsabilidad real",
+            body: "Trabajamos hombro a hombro con fundadores y equipos durante desarrollo, producción y expansión. Esta participación práctica permite decisiones más rápidas, evita errores costosos y da un punto claro de responsabilidad en cada etapa.",
             image: "/img/services/OnSite2.jpg",
-            imageAlt: "Supervision de produccion en sitio"
+            imageAlt: "Supervisión de producción en sitio"
           },
           {
-            title: "Red validada desde el día uno",
-            body: "Nuestros clientes no comienzan desde cero. Cada proyecto se basa en fábricas, proveedores y socios que ya conocemos, hemos validado y con quienes hemos trabajado exitosamente. Esto da una base operativa desde el día uno, sin curva de prueba y error.",
+            title: "Procesos estructurados, no suposiciones",
+            body: "Cada proyecto sigue una estructura clara — desde la selección de proveedores hasta la supervisión de producción y la coordinación de exportación. Esa estructura reemplaza el ensayo y error con decisiones informadas y resultados repetibles.",
             image: "/img/how-we-work/Proceso3.jpg",
-            imageAlt: "Flujo de trabajo estructurado"
+            imageAlt: "Flujo de producción estructurado"
           },
           {
-            title: "Conexión que acelera el crecimiento",
-            body: "Más allá de estructura y estrategia, nuestro valor está en la conexión. Conectamos a nuestros clientes con una red confiable de fabricantes, proveedores y líderes que operan con estándares compartidos de calidad, responsabilidad y visión de largo plazo — acelerando el crecimiento por alineación, no por ensayo y error.",
-            image: "/img/services/Calzado5.jpg",
+            title: "Un ecosistema confiable activado para ti",
+            body: "Operamos dentro del ecosistema manufacturero más consolidado de México. Nuestros clientes se benefician de relaciones, capacidades y conocimiento operativo construidos durante años — lo que les permite entrar y escalar sin partir de cero.",
+            image: "/img/img-mariana/TRUSTED_ECOSYSTEM_ACTIVATED.jpg",
             imageAlt: "Ecosistema manufacturero confiable"
           }
         ]
@@ -1422,7 +1398,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
             body: "Colaboración práctica con fábricas validadas y proveedores clave en toda la cadena de valor."
           },
           {
-            title: "Coordinación end-to-end bajo un solo líder",
+            title: "Coordinación de punta a punta bajo un solo líder",
             body: "Desarrollo de producto, producción, control de calidad y logística transfronteriza gestionados con claridad y responsabilidad."
           },
           {
@@ -1438,7 +1414,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       leon: {
         badge: "¿Por qué León, Guanajuato?",
         heading: "Donde la artesanía global se une con la escala industrial",
-        stats: ["40M de pares exportados al año", "Logística puerta a puerta en 5 días"],
+        stats: ["40M de pares exportados al año", "5 días de logística puerta a puerta de León a Texas"],
         scaleBadge: "Señal de escala",
         scaleLabel: "40M de pares exportados al año",
         paragraphs: [
@@ -1477,15 +1453,15 @@ export const TRANSLATIONS: Record<Language, Content> = {
       items: [
         {
           name: "Wilson King",
-          role: "Outback Trading Company, EUA",
-          text: "Cross the Bridge ha sido exactamente lo que su nombre promete: un verdadero puente. Eliminaron toda la incertidumbre de hacer negocios en México y la reemplazaron con claridad, confianza y resultados. Mariana es leal, honesta y está profundamente comprometida con tu éxito. Si quieres crecer en México sin perder el sueño, este es el equipo que quieres a tu lado.",
+          role: "Outback Trading Company, USA",
+          text: "Cross the Bridge ha sido exactamente lo que su nombre promete — un verdadero puente. Eliminaron toda la incertidumbre de hacer negocios en México y la reemplazaron con claridad, confianza y resultados. Mariana es leal, honesta y está profundamente comprometida con tu éxito. Si quieres crecer en México sin perder el sueño, este es el equipo que quieres a tu lado.",
           country: "Estados Unidos",
           countryCode: "US",
           image: ""
         },
         {
           name: "Rogério de Souza Cunha",
-          role: "Inteligencia Comercial, CICB",
+          role: "Inteligencia comercial, CICB",
           text: "Cross the Bridge es una excelente empresa que ha servido constantemente a CICB y a las tenerías brasileñas con profesionalismo y entregas sobresalientes, tanto en México como en el extranjero. Hemos tenido experiencias muy positivas en relaciones de negocios, contactos, conocimiento de mercado y experiencias gracias al trabajo de Cross the Bridge.",
           country: "Brasil",
           countryCode: "BR",
@@ -1493,24 +1469,24 @@ export const TRANSLATIONS: Record<Language, Content> = {
         },
         {
           name: "Mehrdad Baghai",
-          role: "JRD Saddlery, EUA",
-          text: "He trabajado con Mariana durante más de 20 años. Ella gestiona y supervisa todo mi abastecimiento, producción e incluso envíos. Un valor del que no podemos prescindir.",
+          role: "JRD Saddlery, USA",
+          text: "He trabajado con Mariana durante más de 20 años. Ella gestiona y supervisa todo mi abastecimiento, producción e incluso los envíos. Un valor del que no podemos prescindir.",
           country: "Estados Unidos",
           countryCode: "US",
           image: ""
         },
         {
-          name: "Representante de Viberg Boot",
+          name: "Patrick Howart",
           role: "Viberg Boot, Canadá",
-          text: "Conocí a Mariana hace unos veinte años, lo primero que noté fue lo radiante que era y muy cercana a las personas en cuanto a atender sus necesidades y consultas a nivel empresarial. Trabajar con Mariana es siempre una experiencia maravillosa, en el primer contacto personal en León te hace sentir muy cómodo. En los tratos con Viberg Boot, lo más valioso ha sido encontrarnos muchas conexiones dentro de la industria del calzado. Mariana ha ayudado al crecimiento de Viberg de muchas maneras. Recomendaría ampliamente a Cross the Bridge y a Mariana a cualquier posible cliente.",
+          text: "Conocí a Mariana hace unos veinte años; lo primero que noté fue lo radiante que era y lo cercana que era con las personas en cuanto a atender sus necesidades y consultas a nivel empresarial. Trabajar con Mariana es siempre una experiencia maravillosa; en el primer contacto personal en León te hace sentir muy cómodo. En los tratos con Viberg Boot, lo más valioso ha sido encontrarnos muchas conexiones dentro de la industria del calzado. Mariana ha ayudado al crecimiento de Viberg de muchas maneras. Recomendaría ampliamente a Cross the Bridge y a Mariana a cualquier posible cliente.",
           country: "Canadá",
           countryCode: "CA",
-          image: "/img/viberg-testimonial.jpg"
+          image: ""
         },
         {
           name: "Chaz Pilarcik",
-          role: "Propietario de negocio, EUA",
-          text: "Realmente no puedo expresar con palabras cuánto significa Mariana para mí y mi negocio. Es una de las personas más leales, dedicadas y confiables con las que he tenido el placer de trabajar. Su visión y experiencia en la industria no tienen igual, y su ética de trabajo inspira a todos a su alrededor. Mariana, gracias por aparecer siempre con tanto corazón, excelencia e integridad: realmente eres la mejor en lo que haces.",
+          role: "Propietario de negocio, USA",
+          text: "De verdad no puedo expresar con palabras cuánto significa Mariana para mí y mi negocio. Es una de las personas más leales, dedicadas y confiables con las que he tenido el placer de trabajar. Su visión y experiencia en la industria no tienen comparación, y su ética de trabajo inspira a todos a su alrededor. Mariana, gracias por estar siempre con tanto corazón, excelencia e integridad — de verdad eres la mejor en lo que haces.",
           country: "Estados Unidos",
           countryCode: "US",
           image: ""
@@ -1522,15 +1498,15 @@ export const TRANSLATIONS: Record<Language, Content> = {
       items: [
         {
           title: "SLAs y gobernanza",
-          desc: "Reportes semanales de producción, un solo punto de contacto y operación bilingüe para que siempre sepas qué está pasando."
+          desc: "Reportes semanales de producción, un solo punto de contacto y operaciones bilingües para que siempre sepas qué está pasando."
         },
         {
           title: "Controles de calidad auditables",
           desc: "QC en planta, inspecciones pre-embarque y evidencia fotográfica en cada hito."
         },
         {
-          title: "Compliance primero",
-          desc: "Documentos de import/export, etiquetado, cumplimiento de materiales y NDAs sin sorpresas."
+          title: "Ejecución con compliance primero",
+          desc: "Documentos de importación/exportación, etiquetado, cumplimiento de materiales y NDAs sin sorpresas."
         },
         {
           title: "Capacidad y costos claros",
@@ -1548,7 +1524,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
     },
     assurances: {
       title: "Respondemos las preguntas difíciles desde el inicio",
-      subtitle: "Pensado para líderes de compras y operaciones extranjeras que necesitan control y visibilidad.",
+      subtitle: "Diseñado para líderes de compras y operaciones en el extranjero que necesitan pruebas de control.",
       items: [
         { title: "QC y auditorías", desc: "Inspecciones en primera pieza, en línea y pre-embarque con reportes fotográficos.", proof: "Puntos de control de calidad en cada PO.", icon: "Shield" },
         { title: "IP y NDAs", desc: "NDAs bilaterales, socios filtrados y manejo controlado de muestras para proteger diseños.", proof: "NDAs firmados antes de recorrer fábricas.", icon: "FileText" },
@@ -1559,18 +1535,18 @@ export const TRANSLATIONS: Record<Language, Content> = {
       ]
     },
     capabilities: {
-      title: "Deck de capacidades que convence a los decisores",
-      subtitle: "Una descarga concisa con la información que piden compras, operaciones y finanzas.",
+      title: "Deck de capacidades diseñado para convencer a los stakeholders",
+      subtitle: "Una descarga concisa con la información exacta que piden compras, operaciones y finanzas.",
       bullets: [
-        "Industrias atendidas: calzado, leather goods, accesorios y soft goods afines.",
-        "Línea de tiempo ejemplo desde onboarding hasta primer embarque con checkpoints de QA.",
+        "Industrias atendidas: calzado, artículos de piel, accesorios y soft goods afines.",
+        "Línea de tiempo ejemplo desde onboarding hasta el primer embarque con checkpoints de QA.",
         "Metodología de auditoría de proveedores, checklist de compliance y mapa de documentación de exportación."
       ],
       previewLabel: "Dentro del deck",
       previewSlides: [
-        { title: "Mapa de red", desc: "Fábricas, tenerías y socios logísticos a lo largo de México." },
-        { title: "Checklist de auditoría", desc: "Estándares para capacidad, compliance y calificación de riesgo." },
-        { title: "Vista de costo puesto en destino", desc: "Visibilidad de aranceles, flete, empaque y buffers." }
+        { title: "Mapa de red", desc: "Fábricas, tenerías y socios logísticos en todo México." },
+        { title: "Checklist de auditoría", desc: "Estándares de capacidad, compliance y calificación de riesgo." },
+        { title: "Vista de costo puesto en destino", desc: "Visibilidad de aranceles, flete, empaque y supuestos de buffer." }
       ],
       form: {
         title: "Recibe el deck",
@@ -1610,29 +1586,30 @@ export const TRANSLATIONS: Record<Language, Content> = {
     bridgeEffect: {
       badge: "El efecto puente",
       title: "Cruza el puente sin miedo.",
-      body: "Durante más de dos décadas hemos operado donde realmente sucede el negocio global: en planta, en ferias internacionales, dentro de centros de distribución y a través de culturas, regulaciones y mercados. El Efecto Puente es el resultado de una ejecución internacional sostenida. Es lo que pasa cuando las marcas no solo compran fuera, sino que entran, escalan y se sostienen en mercados globales. De Asia a Europa, África y las Américas, convertimos ideas en operaciones listas para exportar, con infraestructura real, alianzas confiables y liderazgo en tierra. Aquí mostramos las categorías de producto donde vive esa experiencia hoy y donde se siguen construyendo nuevas historias de éxito.",
+      body: "Durante más de dos décadas hemos trabajado donde realmente ocurre el negocio global: en plantas, ferias internacionales, centros de distribución y entre culturas, regulaciones y mercados.\n\nEl Efecto Puente no es una teoría. Es el resultado de una ejecución internacional sostenida. Es lo que sucede cuando las marcas no solo compran en el extranjero, sino que entran, escalan y perduran en mercados globales.\n\nDe Asia a Europa, África y las Américas, convertimos ideas en operaciones listas para exportar, respaldadas por infraestructura real, alianzas confiables y liderazgo en terreno.\n\nEsta sección destaca las categorías de producto donde esa experiencia vive hoy — y donde ya se está construyendo la siguiente generación de historias de éxito global.",
       industriesTitle: "Industrias con las que trabajamos",
       industriesIntro: "Elige una categoría para ver los enfoques y una galería de proyectos recientes.",
       selectedLabel: "Categoría seleccionada",
       categoriesSuffix: "categorías",
-      testimonialsBadge: "Respaldados por más de 100 empresas en el mundo",
-      testimonialsTitle: "Voces reales a ambos lados del puente",
-      testimonialsSubtitle: "Fundadores, operadores y líderes que confían en nuestra presencia en tierra.",
+      testimonialsBadge: "Confiado por más de 100 empresas en todo el mundo",
+      testimonialsTitle: "Confiado por",
+      testimonialsSubtitle: "Fundadores, operadores y líderes que confían en nuestra presencia en terreno.",
+      testimonialsCta: "Ver más",
       storyLabel: "Historia"
     },
     tradeMissions: {
       badge: "Misiones comerciales y agendas de negocio",
       title: "Misiones comerciales y agendas de negocio",
-      cta: "Solicita una misión a medida",
-      tagline: "Crecimiento internacional, construido con experiencia.",
-      selectLabel: "Elige un briefing",
+      cta: "Solicita una misión comercial a medida",
+      tagline: "Crecimiento internacional, construido sobre experiencia.",
+      selectLabel: "Selecciona un briefing",
       panels: [
         {
           id: "briefing",
-          label: "Brief de la misión",
-          title: "Misiones construidas con tiempo real de mercado.",
+          label: "Briefing de misión",
+          title: "Misiones comerciales construidas antes, durante y después del evento.",
           body: [
-            "Nuestras misiones se basan en 20+ años participando en los mercados de manufactura y sourcing más relevantes — de Hong Kong a Italia y Estados Unidos — ayudando a empresas a decidir mejor y ampliar su alcance internacional."
+            "Nuestras misiones comerciales empiezan mucho antes de subir al avión. Preparamos la estrategia, alineamos objetivos y diseñamos reuniones con intención clara. Durante la misión trabajamos hombro a hombro con los equipos, leemos el mercado, navegamos dinámicas culturales y apoyamos decisiones en tiempo real. Después del evento, traducimos las conversaciones en siguientes pasos concretos."
           ],
           media: {
             src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
@@ -1642,10 +1619,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
         {
           id: "agenda",
           label: "Agenda de negocios",
-          title: "Agendas enfocadas con los socios correctos.",
+          title: "Las personas correctas, el contexto correcto, el momento correcto.",
           body: [
-            "Diseñamos agendas que conectan directamente a las empresas con los proveedores, fabricantes y socios comerciales correctos. Cada misión se basa en experiencia real, redes internacionales confiables y un objetivo estratégico claro — no en tours genéricos ni presentaciones al azar.",
-            "Frecuentemente construimos las misiones alrededor de las ferias más relevantes del mundo, usándolas como aceleradores para identificar proveedores, validar mercados y abrir conversaciones de alto nivel que de otra forma tomarían años."
+            "Diseñamos agendas de negocios enfocadas que conectan a las empresas con los proveedores, fabricantes y socios comerciales correctos — dentro del contexto cultural y de mercado adecuado. Con el respaldo de un equipo multidisciplinario con profunda experiencia internacional, cada misión amplía el alcance, afina el criterio y convierte la exposición en oportunidad calificada."
           ],
           media: {
             src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
@@ -1670,9 +1646,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
         {
           id: "audience",
           label: "Para quién es",
-          title: "Diseñado para fundadores listos para escalar.",
+          title: "Diseñado para fundadores que escalan con intención.",
           body: [
-            "Pensado para fundadores y dueños que buscan escalar internacionalmente con claridad, estructura y confianza."
+            "Pensado para fundadores y líderes de negocio que quieren expandirse internacionalmente sin improvisación. Es para equipos que valoran claridad, entendimiento cultural y ejecución estructurada desde el día uno — no ensayo y error en terreno extranjero."
           ],
           media: {
             src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1800",
