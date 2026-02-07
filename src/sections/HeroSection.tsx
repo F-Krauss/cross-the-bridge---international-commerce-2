@@ -120,7 +120,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ hero, onCtaClick, onHeroReady
 
               <div className="space-y-4 pt-2 pb-8">
                 <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">
-                  <span>Trusted by</span>
+                  <span>Strategic Brand Partners</span>
                   {/* <span className="text-brand-gold">Trusted by</span> */}
                 </div>
                 <div className="grid grid-cols-3 items-center gap-4 sm:gap-6">

@@ -1103,7 +1103,8 @@ export const TRANSLATIONS: Record<Language, Content> = {
       selectedLabel: "Selected category",
       categoriesSuffix: "categories",
       testimonialsBadge: "Trusted by over 100 businesses worldwide",
-      testimonialsTitle: "Discover why some of our clients have been working with us for over 20 years",
+      // testimonialsTitle: "Discover why some of our clients have been working with us for over 20 years",
+      testimonialsTitle: "Brands we proudly represent",
       testimonialsSubtitle: "Founders, operators, and industry leaders who rely on our on-the-ground partnership.",
       testimonialsCta: "View more",
       storyLabel: "Story"
