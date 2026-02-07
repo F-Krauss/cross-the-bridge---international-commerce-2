@@ -130,7 +130,11 @@ export const PUBLIC_IMAGE_URLS = Array.from(new Set([
   '/img/Collage/Collage_embajada_alemania.jpg',
   '/img/Collage/Collage_junta.jpg',
   '/img/Collage/Collage_junta2.jpg',
-  '/img/Collage/Collage_mision_Thailandia.jpg'
+  '/img/Collage/Collage_mision_Thailandia.jpg',
+  '/img/img-mariana/3febYOURJOURNEYWITHUS.jpg',
+  '/img/img-mariana/services3.jpeg',
+  '/img/img-mariana/EQUESTRIANGOOD.PNG',
+  '/img/sello.png',
 ]));
 
 export const ASSURANCE_ICONS: Record<string, ElementType> = {
@@ -143,6 +147,7 @@ export const ASSURANCE_ICONS: Record<string, ElementType> = {
 };
 
 export const BOOKING_STEP_MEDIA = [
+  { src: '/img/Collage/Collage_junta.jpg', alt: 'Intro call and contact details' },
   { src: '/img/process2.jpg', alt: 'Company overview' },
   { src: '/img/Calzado1.jpg', alt: 'Factory production' },
   { src: '/img/process4.jpg', alt: 'Planning a call' }
@@ -159,11 +164,11 @@ export const HERO_INDUSTRIES = ['Footwear', 'Leather', 'Hats', 'Equestrian goods
 export const SERVICES_SECTION_IMAGES = [
   './../img/services/Piel1.jpg',
   './../img/services/Calzado5.jpg',
-  './../img/services/OnSite2.jpg'
+  '/img/img-mariana/services3.jpeg'
 ];
 
 export const ABOUT_LEON_PRODUCT_IMAGES = [
-  '/img/catalog/Footwear1.jpg',
+  '/img/img-mariana/EQUESTRIANGOOD.PNG',
   '/img/catalog/Footwear3.jpg',
   '/img/catalog/Leather2.jpg',
   '/img/catalog/Equestrian2.jpg',
@@ -173,9 +178,9 @@ export const ABOUT_LEON_PRODUCT_IMAGES = [
 export const BRIDGE_TESTIMONIAL_IMAGES = [
   '/img/testimonials/Wilsonking_outback.jpg',
   '/img/testimonials/CICB_brazil.jpg',
-  '/img/testimonials/Mehrdad_jrd_california.jpg',
+  '/img/testimonials/Chazlyn_Chaz.jpg',
   '/img/testimonials/BaP_viberg.jpg',
-  '/img/img-mariana/testimonioCHAZ.jpg'
+  '/img/testimonials/Mehrdad_jrd_california.jpg'
 ];
 
 export const BRIDGE_HERO_GALLERY = [
@@ -183,10 +188,10 @@ export const BRIDGE_HERO_GALLERY = [
   { src: '/img/img-mariana/bridge-effect/thebridgeeffect.JPG', title: 'Leather inspection on-site', tag: 'Quality control' },
   { src: '/img/img-mariana/bridge-effect/bridgeeffec2.jpg', title: 'Materials moving daily', tag: 'Logistics' },
   { src: '/img/img-mariana/bridge-effect/bridgeeffect2.JPG', title: 'Prototyping with partners', tag: 'Development' },
-  { src: '/img/img-mariana/bridge-effect/bridgeeffect3.JPG', title: 'Factory floor execution', tag: 'Production' },
-  { src: '/img/img-mariana/bridge-effect/IMG_4279.JPG', title: 'Export-ready packaging', tag: 'Export' },
-  { src: '/img/img-mariana/bridge-effect/IMG_4303.JPG', title: 'Material sourcing', tag: 'Sourcing' },
-  { src: '/img/img-mariana/bridge-effect/IMG_4322.JPG', title: 'Alliance building', tag: 'Alliances' }
+  // { src: '/img/img-mariana/bridge-effect/bridgeeffect3.JPG', title: 'Factory floor execution', tag: 'Production' },
+  // { src: '/img/img-mariana/bridge-effect/IMG_4279.JPG', title: 'Export-ready packaging', tag: 'Export' },
+  { src: '/img/img-mariana/bridge-effect/febrero3_BRIDGEEFFECT.jpg', title: 'Material sourcing', tag: 'Sourcing' },
+  { src: '/img/img-mariana/bridge-effect/3febHATS_BRIDGEEFFECT.jpg', title: 'Alliance building', tag: 'Alliances' }
 ];
 
 export const BRIDGE_INDUSTRY_OPTIONS = [
@@ -639,25 +644,41 @@ export const DEFAULT_TESTIMONIALS = [
   {
     name: 'Wilson King',
     role: 'Outback Trading Company, USA',
-    text: 'Cross the Bridge has been exactly what their name promises — a real bridge. They took all the uncertainty out of doing business in Mexico and replaced it with clarity, trust, and results.',
+    text: "When you want to grow in a new country, you don't just need a contact - you need someone who truly cares about your success. That's what I found in Mariana and Cross the Bridge.",
     country: 'United States',
     countryCode: 'US',
+    image: ''
+  },
+  {
+    name: 'Rogério de Souza Cunha',
+    role: 'Trade Intelligence, CICB',
+    text: "Cross the Bridge is an excellent company that has consistently served CICB and Brazilian tanneries with professionalism and outstanding deliveries, both in Mexico and abroad. We've had very positive experiences in business relationships, contacts, market knowledge, and experiences through Cross the Bridge's work.",
+    country: 'Brazil',
+    countryCode: 'BR',
+    image: ''
+  },
+  {
+    name: 'Chazlyn Pilarcik',
+    role: 'Business Owner, USA',
+    text: "I truly cannot put into words how much Mariana means to me and my business. She is one of the most loyal, dedicated, and trustworthy people I've ever had the pleasure of working with. Her insight and expertise in the industry are unmatched, and her work ethic inspires everyone around her. Mariana, thank you for always showing up with such heart, excellence, and integrity - you really are the best at what you do.",
+    country: 'United States',
+    countryCode: 'US',
+    image: ''
+  },
+  {
+    name: 'Patrick Viberg',
+    role: 'Viberg Boot, Canada',
+    text: "I first met Mariana about twenty years ago, the first thing I noticed how radiant she was and very much a peoples person in regards to dealing with there need and inquires on a business level. Working with Mariana is always a wonderful experience, on first personal contact in Leon she makes you feel very at ease. On Dealings with Viberg Boot the most valuable part has been finding us many connections within the footwear industry. Mariana has helped the growth of Viberg in many ways. I would thoroughly recommend Cross the Bridge and Mariana to any possible clients.",
+    country: 'Canada',
+    countryCode: 'CA',
     image: ''
   },
   {
     name: 'Mehrdad Baghai',
     role: 'JRD Saddlery, USA',
-    text: 'I have worked with Mariana for the last 20 plus years. She managed and oversees all my sourcing, production and even shipping. Value we cannot do without.',
+    text: 'I have worked with Mariana for the last 20 plus years. She managed and oversees all my sourcing, production and even shipping. Value we can not do without.',
     country: 'United States',
     countryCode: 'US',
-    image: ''
-  },
-  {
-    name: 'Viberg Boot Representative',
-    role: 'Viberg Boot, Canada',
-    text: 'Working with Mariana is always a wonderful experience. The most valuable part has been finding us many connections within the footwear industry.',
-    country: 'Canada',
-    countryCode: 'CA',
     image: ''
   }
 ];
@@ -778,7 +799,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
     },
     process: {
       title: "Your Journey With Us",
-      subtitle: "A proven system to execute manufacturing in Mexico — without costly trial and error.",
+      subtitle: "A proven system to execute manufacturing in Mexico, without costly trial and error.",
       intro: "We’ve refined this framework over 20+ years, so you don’t have to learn the hard way.",
       steps: [
         {
@@ -810,7 +831,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       profile: {
         name: "Mariana Muciño Del Rio",
         role: "International Negotiation & Strategic Planning",
-        bio: "International business consultant with 18 years of experience helping Latin American companies expand into the U.S. market.\n\nMy work centers on strategic growth, market entry, and regulatory alignment for manufacturers entering complex, multicultural environments.\n\nI've supported organizations across Latin America, Europe, Asia, and North America — guiding them through compliance, supply-chain optimization, and operational integration.\n\nMy approach is rooted in trust, respect, and purposeful collaboration — key elements for building cross-border partnerships that thrive.",
+        bio: "Mariana Muciño is the founder of Cross the Bridge. She began her career in international business at 23 and has spent two decades living and working across global markets, leading manufacturing and sourcing projects on five continents. This experience allows her to help companies simplify international expansion, providing the clarity, structure, and trusted resources they need to grow with confidence.\n\nRather than acting as a traditional consultant, Mariana builds long-term strategic alliances, working side by side with founders and teams. Through her experience and global network, clients do not start from zero - they move forward with the right partners, clearer decisions, and a stronger foundation for sustainable international growth.",
         educationTitle: "Education",
         education: [
           { degree: "Intl. Cooperation Diploma", school: "Complutense Univ. of Madrid" },
@@ -836,20 +857,20 @@ export const TRANSLATIONS: Record<Language, Content> = {
       founderRole: "International Negotiation & Strategic Planning",
       bio: [
         "Mariana Muciño is the founder of Cross the Bridge. She began her career in international business at 23 and has spent two decades living and working across global markets, leading manufacturing and sourcing projects on five continents. This experience allows her to help companies simplify international expansion, providing the clarity, structure, and trusted resources they need to grow with confidence.",
-        "Rather than acting as a traditional consultant, Mariana builds long-term strategic alliances, working side by side with founders and teams. Through her experience and global network, clients do not start from zero - they move forward with the right partners, clearer decisions, and a stronger foundation for sustainable international growth."
+        "\n\nRather than acting as a traditional consultant, Mariana builds long-term strategic alliances, working side by side with founders and teams. Through her experience and global network, clients do not start from zero - they move forward with the right partners, clearer decisions, and a stronger foundation for sustainable international growth."
       ],
       bioCtaMore: "Read full bio",
       bioCtaLess: "Collapse bio",
       differentiators: {
         badge: "What makes Cross the Bridge truly different",
-        title: "Local control that removes the guesswork from international production.",
+        title: "Local control that brings certanty and confidence to international production.",
         subtitle: "We don't just connect brands to Mexico. We stay on the ground and close to every step, acting as your strategic production partner so you can trust you'll have the right product, at the right time, in the right place.",
         openLabel: "Open",
         viewLabel: "View",
         items: [
           {
             title: "Strategic partner, not an intermediary",
-            body: "We don't operate as a pass-through or a sourcing agent. We act as a strategic partner, aligning decisions across development, production, and delivery so your expansion is intentional, controlled, and built for the long term.",
+            body: "We act as a strategic partner with full accountability, providing direct access to vetted factories and key suppliers across the entire value chain, while remaining actively involved in execution.",
             image: "/img/img-mariana/STRATEGIC_PARTNER.jpg",
             imageAlt: "Strategic alignment on the factory floor"
           },
@@ -861,19 +882,19 @@ export const TRANSLATIONS: Record<Language, Content> = {
           // },
           {
             title: "Hands-on execution with real accountability",
-            body: "We work side by side with founders and teams throughout development, production, and expansion. This hands-on involvement enables faster decisions, avoid costly mistakes, and a clear point of accountability at every stage.",
+            body: "We work side by side with founders and teams throughout development, production, and expansion. This hands-on involvement enables faster decisions, prevents costly missteps, and ensures a single, clear point of accountability at every stage.",
             image: "/img/services/OnSite2.jpg",
             imageAlt: "Hands-on production oversight"
           },
           {
-            title: "Structured processes, not guesswork",
-            body: "Every project follows a clear structure -- from supplier selection to production oversight and export coordination. This structure replaces trial-and-error with informed decisions and repeatable results.",
-            image: "/img/how-we-work/Proceso3.jpg",
+            title: "Structured execution, not guesswork",
+            body: "Every project follows a structured execution model that replaces trial and error with informed decisions, predictable timelines, and repeatable results. We maintain a single point of responsibility across factories, exporters, and regulatory requirements.",
+            image: "/img/img-mariana/structured_execution.jpg",
             imageAlt: "Structured production workflow"
           },
           {
-            title: "A trusted ecosystem, activated for you",
-            body: "We operate inside Mexico's most established manufacturing ecosystem. Our clients benefit from relationships, capabilities, and operational knowledge built over years -- allowing them to enter and scale without starting from zero.",
+            title: "A trusted manufacturing ecosystem, activated for scale",
+            body: "Built for long-term growth in Mexico. \n\n We operate within Mexico’s most established manufacturing ecosystem. Our clients benefit from long-standing relationships, proven capabilities, and deep operational knowledge, allowing them to enter, operate, and scale without starting from zero.",
             image: "/img/img-mariana/TRUSTED_ECOSYSTEM_ACTIVATED.jpg",
             imageAlt: "Trusted manufacturing ecosystem"
           }
@@ -913,16 +934,16 @@ export const TRANSLATIONS: Record<Language, Content> = {
           "\"Made in León, Guanajuato\" represents more than origin. It signals a manufacturing ecosystem where craftsmanship, technical execution, and export readiness coexist at scale.",
           "CTB operates within this ecosystem, connecting high-performing family manufacturers with international brands seeking controlled growth and resilient supply chains. León provides the manufacturing advantage. CTB delivers the structure and execution that turn it into measurable performance."
         ],
-        advantagesBadge: "Manufacturing advantages",
+        advantagesBadge: "León, México Manufacturing advantages",
         advantages: [
           {
             title: "Deep manufacturing roots",
             body: "Generations of family-owned SMEs specialized in leather, footwear, and fashion."
           },
-          {
-            title: "Proven global export performance",
-            body: "Approximately 40 million pairs exported annually to more than 30 international markets."
-          },
+          // {
+          //   title: "Proven global export performance",
+          //   body: "Approximately 40 million pairs exported annually to more than 30 international markets."
+          // },
           {
             title: "Technical specialization",
             body: "Advanced constructions, precision components, and complex assemblies requiring skilled labor and mature processes."
@@ -944,7 +965,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
         {
           name: "Wilson King",
           role: "Outback Trading Company, USA",
-          text: "Cross the Bridge has been exactly what their name promises — a real bridge. They took all the uncertainty out of doing business in Mexico and replaced it with clarity, trust, and results. Mariana is loyal, honest, and deeply invested in your success. If you want to grow in Mexico without losing sleep, this is the team you want by your side.",
+          text: "When you want to grow in a new country, you don't just need a contact - you need someone who truly cares about your success. That's what I found in Mariana and Cross the Bridge.",
           country: "United States",
           countryCode: "US",
           image: ""
@@ -958,15 +979,15 @@ export const TRANSLATIONS: Record<Language, Content> = {
           image: ""
         },
         {
-          name: "Mehrdad Baghai",
-          role: "JRD Saddlery, USA",
-          text: "I have worked with Mariana for the last 20 plus years. She managed and oversees all my sourcing, production and even shipping. Value we can not do without.",
+          name: "Chazlyn Pilarcik",
+          role: "Business Owner, USA",
+          text: "I truly cannot put into words how much Mariana means to me and my business. She is one of the most loyal, dedicated, and trustworthy people I've ever had the pleasure of working with. Her insight and expertise in the industry are unmatched, and her work ethic inspires everyone around her. Mariana, thank you for always showing up with such heart, excellence, and integrity - you really are the best at what you do.",
           country: "United States",
           countryCode: "US",
           image: ""
         },
         {
-          name: "Patrick Howart",
+          name: "Patrick Viberg",
           role: "Viberg Boot, Canada",
           text: "I first met Mariana about twenty years ago, the first thing I noticed how radiant she was and very much a peoples person in regards to dealing with there need and inquires on a business level. Working with Mariana is always a wonderful experience, on first personal contact in Leon she makes you feel very at ease. On Dealings with Viberg Boot the most valuable part has been finding us many connections within the footwear industry. Mariana has helped the growth of Viberg in many ways. I would thoroughly recommend Cross the Bridge and Mariana to any possible clients.",
           country: "Canada",
@@ -974,9 +995,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
           image: ""
         },
         {
-          name: "Chaz Pilarcik",
-          role: "Business Owner, USA",
-          text: "I truly cannot put into words how much Mariana means to me and my business. She is one of the most loyal, dedicated, and trustworthy people I've ever had the pleasure of working with. Her insight and expertise in the industry are unmatched, and her work ethic inspires everyone around her. Mariana, thank you for always showing up with such heart, excellence, and integrity — you really are the best at what you do.",
+          name: "Mehrdad Baghai",
+          role: "JRD Saddlery, USA",
+          text: "I have worked with Mariana for the last 20 plus years. She managed and oversees all my sourcing, production and even shipping. Value we can not do without.",
           country: "United States",
           countryCode: "US",
           image: ""
@@ -1076,13 +1097,13 @@ export const TRANSLATIONS: Record<Language, Content> = {
     bridgeEffect: {
       badge: "The bridge effect",
       title: "Cross the bridge without fear.",
-      body: "For over two decades, we’ve worked where global business truly happens. On factory floors, at international trade fairs, inside distribution centers, and across cultures, regulations, and markets.\n\nThe Bridge Effect is not a theory. It is the result of sustained international execution. It’s what emerges when brands don’t simply source abroad, but successfully enter, scale, and endure in global markets.\n\nFrom Asia to Europe, Africa, and the Americas, we turn ideas into export-ready operations, supported by real infrastructure, trusted alliances, and on-the-ground leadership.\n\nThis section highlights the product categories where that experience lives today — and where the next generation of global success stories is already being built.",
+      body: "For over two decades, we’ve worked where global business truly happens. On factory floors, at international trade fairs, inside distribution centers, and across cultures, regulations, and markets.\n\nThe Bridge Effect is not a theory. It is the result of sustained international execution. It’s what emerges when brands don’t simply source abroad, but successfully enter, scale, and endure in global markets. From Asia to Europe, Africa, and the Americas, we turn ideas into export-ready operations, supported by real infrastructure, trusted alliances, and on-the-ground leadership.\n\nThis section highlights the product categories where that experience lives today — and where the next generation of global success stories is already being built.",
       industriesTitle: "Industries we work with",
       industriesIntro: "Pick a category to see the focus areas and a gallery of recent partner builds.",
       selectedLabel: "Selected category",
       categoriesSuffix: "categories",
       testimonialsBadge: "Trusted by over 100 businesses worldwide",
-      testimonialsTitle: "Trusted by",
+      testimonialsTitle: "Discover why some of our clients have been working with us for over 20 years",
       testimonialsSubtitle: "Founders, operators, and industry leaders who rely on our on-the-ground partnership.",
       testimonialsCta: "View more",
       storyLabel: "Story"
@@ -1210,7 +1231,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       about: "Por qué Cross the Bridge",
       bridge_effect: "El efecto puente",
       contact: "Contacto",
-      book: "Agenda una llamada de descubrimiento"
+      book: "Contáctanos"
     },
     hero: {
       title: "Manufactura confiable en México. Sin suposiciones.",
@@ -1454,7 +1475,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
         {
           name: "Wilson King",
           role: "Outback Trading Company, USA",
-          text: "Cross the Bridge ha sido exactamente lo que su nombre promete — un verdadero puente. Eliminaron toda la incertidumbre de hacer negocios en México y la reemplazaron con claridad, confianza y resultados. Mariana es leal, honesta y está profundamente comprometida con tu éxito. Si quieres crecer en México sin perder el sueño, este es el equipo que quieres a tu lado.",
+          text: "Cuando quieres crecer en un nuevo país, no solo necesitas un contacto, necesitas a alguien que realmente se preocupe por tu éxito. Eso es lo que encontré en Mariana y Cross the Bridge.",
           country: "Estados Unidos",
           countryCode: "US",
           image: ""
@@ -1468,15 +1489,15 @@ export const TRANSLATIONS: Record<Language, Content> = {
           image: ""
         },
         {
-          name: "Mehrdad Baghai",
-          role: "JRD Saddlery, USA",
-          text: "He trabajado con Mariana durante más de 20 años. Ella gestiona y supervisa todo mi abastecimiento, producción e incluso los envíos. Un valor del que no podemos prescindir.",
+          name: "Chazlyn Pilarcik",
+          role: "Propietario de negocio, USA",
+          text: "De verdad no puedo expresar con palabras cuánto significa Mariana para mí y mi negocio. Es una de las personas más leales, dedicadas y confiables con las que he tenido el placer de trabajar. Su visión y experiencia en la industria no tienen comparación, y su ética de trabajo inspira a todos a su alrededor. Mariana, gracias por estar siempre con tanto corazón, excelencia e integridad — de verdad eres la mejor en lo que haces.",
           country: "Estados Unidos",
           countryCode: "US",
           image: ""
         },
         {
-          name: "Patrick Howart",
+          name: "Patrick Viberg",
           role: "Viberg Boot, Canadá",
           text: "Conocí a Mariana hace unos veinte años; lo primero que noté fue lo radiante que era y lo cercana que era con las personas en cuanto a atender sus necesidades y consultas a nivel empresarial. Trabajar con Mariana es siempre una experiencia maravillosa; en el primer contacto personal en León te hace sentir muy cómodo. En los tratos con Viberg Boot, lo más valioso ha sido encontrarnos muchas conexiones dentro de la industria del calzado. Mariana ha ayudado al crecimiento de Viberg de muchas maneras. Recomendaría ampliamente a Cross the Bridge y a Mariana a cualquier posible cliente.",
           country: "Canadá",
@@ -1484,9 +1505,9 @@ export const TRANSLATIONS: Record<Language, Content> = {
           image: ""
         },
         {
-          name: "Chaz Pilarcik",
-          role: "Propietario de negocio, USA",
-          text: "De verdad no puedo expresar con palabras cuánto significa Mariana para mí y mi negocio. Es una de las personas más leales, dedicadas y confiables con las que he tenido el placer de trabajar. Su visión y experiencia en la industria no tienen comparación, y su ética de trabajo inspira a todos a su alrededor. Mariana, gracias por estar siempre con tanto corazón, excelencia e integridad — de verdad eres la mejor en lo que haces.",
+          name: "Mehrdad Baghai",
+          role: "JRD Saddlery, USA",
+          text: "He trabajado con Mariana durante más de 20 años. Ella gestiona y supervisa todo mi abastecimiento, producción e incluso los envíos. Un valor del que no podemos prescindir.",
           country: "Estados Unidos",
           countryCode: "US",
           image: ""

@@ -147,7 +147,10 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
 
   if (!showroom || !activeIndustry) return null;
 
-  const testimonialsPreview = testimonialsWithImages.slice(0, 3);
+  const marqueeTestimonials = useMemo(() => {
+    if (!testimonialsWithImages.length) return [];
+    return [...testimonialsWithImages, ...testimonialsWithImages];
+  }, [testimonialsWithImages]);
   const collageItems = BRIDGE_HERO_GALLERY.slice(0, 6);
 
   return (
@@ -262,80 +265,81 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
           </div>
         </FadeIn> */}
 
-        {testimonialsPreview.length ? (
+        {testimonialsWithImages.length ? (
           <FadeIn delay={0.08}>
             <div className="mt-20 md:mt-25">
               <div className="relative p-0 sm:p-0 md:p-0">
                 <div className="relative z-10 space-y-10">
-                  <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                    <div className="space-y-3 max-w-2xl">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">{copy.testimonialsBadge}</p>
-                      <h3 className="text-3xl md:text-4xl font-semibold leading-tight">{copy.testimonialsTitle}</h3>
-                      <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-white/75 leading-relaxed">
-                        {copy.testimonialsSubtitle}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      className="self-start md:self-auto rounded-full border border-white/25 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/80 transition hover:border-white/60 hover:bg-white/10 hover:text-white"
-                    >
-                      {copy.testimonialsCta}
-                    </button>
+                  <div className="flex flex-col items-center text-center gap-3 max-w-2xl mx-auto">
+                    <h3 className="text-3xl md:text-4xl font-semibold leading-tight">{copy.testimonialsTitle}</h3>
+                    <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-gold leading-relaxed">
+                      {copy.testimonialsSubtitle}
+                    </p>
                   </div>
 
-                  <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                    {testimonialsPreview.map((item, idx) => {
-                      const { highlight, body } = splitTestimonialText(item.text);
-                      const initials = getInitials(item.name);
-                      return (
-                        <MotionDiv
-                          key={`${item.name}-${idx}`}
-                          initial={{ opacity: 0, y: 12 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true, amount: 0.35 }}
-                          transition={{ duration: 0.45, delay: idx * 0.05 }}
-                          className="relative flex h-full flex-col gap-5 rounded-3xl p-2 sm:p-3"
-                        >
-                          <span className="text-3xl text-white/30 leading-none">“</span>
-                          <p className="text-[14.5px] md:text-[16px] font-medium text-white/90 leading-snug">
-                            {highlight}
-                          </p>
-                          {body ? (
-                            <p
-                              className="text-[12px] sm:text-[13px] text-white/70 leading-relaxed"
-                              style={{
-                                display: '-webkit-box',
-                                WebkitLineClamp: 4,
-                                WebkitBoxOrient: 'vertical',
-                                overflow: 'hidden'
-                              }}
-                            >
-                              {body}
+                  <div className="relative overflow-hidden">
+                    <style>
+                      {`
+                        @keyframes testimonial-marquee {
+                          0% { transform: translateX(0); }
+                          100% { transform: translateX(-50%); }
+                        }
+                      `}
+                    </style>
+                    <div
+                      className="flex w-max gap-6"
+                      style={{ animation: 'testimonial-marquee 60s linear infinite' }}
+                    >
+                      {marqueeTestimonials.map((item, idx) => {
+                        const { highlight, body } = splitTestimonialText(item.text);
+                        const initials = getInitials(item.name);
+                        const isFeatured = idx % testimonialsWithImages.length === 0;
+                        return (
+                          <div
+                            key={`${item.name}-${idx}`}
+                            className="relative flex h-full min-w-[280px] max-w-[320px] flex-col gap-5 rounded-3xl p-2 sm:p-3 md:min-w-[320px] md:max-w-[360px]"
+                          >
+                            <span className="text-3xl text-white/30 leading-none">“</span>
+                            <p className="text-[14.5px] md:text-[16px] font-medium text-white/90 leading-snug">
+                              {highlight}
                             </p>
-                          ) : null}
-                          <div className="mt-auto flex items-center justify-between gap-4 pt-4">
-                            <div className="space-y-1">
-                              <p className="text-sm font-semibold text-white">{item.name}</p>
-                              <p className="text-[12px] text-white/60">{item.role}</p>
-                              <p className="text-[11px] text-white/50 flex items-center gap-1">
-                                <span className="text-sm">{getCountryFlag(item.countryCode || '')}</span>
-                                {item.country}
+                            {body ? (
+                              <p
+                                className="text-[12px] sm:text-[13px] text-white/70 leading-relaxed"
+                                style={{
+                                  display: '-webkit-box',
+                                  WebkitLineClamp: 4,
+                                  WebkitBoxOrient: 'vertical',
+                                  overflow: 'hidden'
+                                }}
+                              >
+                                {body}
                               </p>
+                            ) : null}
+                            <div className="mt-auto flex items-center justify-between gap-4 pt-4">
+                              <div className="space-y-1">
+                                <p className="text-sm font-semibold text-white">{item.name}</p>
+                                <p className="text-[12px] text-white/60">{item.role}</p>
+                                <p className="text-[11px] text-white/50 flex items-center gap-1">
+                                  <span className="text-sm">{getCountryFlag(item.countryCode || '')}</span>
+                                  {item.country}
+                                </p>
+                              </div>
+                              {isFeatured ? (
+                                <div className="relative w-16 h-16 rounded-2xl overflow-hidden">
+                                  <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
+                                  <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/35" />
+                                </div>
+                              ) : (
+                                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-sm font-semibold text-white/80">
+                                  {initials}
+                                </div>
+                              )}
                             </div>
-                            {idx === 0 ? (
-                              <div className="relative w-16 h-16 rounded-2xl overflow-hidden">
-                                <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
-                                <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/35" />
-                              </div>
-                            ) : (
-                              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-sm font-semibold text-white/80">
-                                {initials}
-                              </div>
-                            )}
                           </div>
-                        </MotionDiv>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>

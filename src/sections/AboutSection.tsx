@@ -44,9 +44,29 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
   const leonImageY = useTransform(scrollYProgress, [0, 1], [40, -40]);
   const leonAccentY = useTransform(scrollYProgress, [0, 1], [-20, 30]);
   const activeProduct = ABOUT_LEON_PRODUCT_IMAGES[activeLeonPoint] || ABOUT_LEON_PRODUCT_IMAGES[0];
+  const getDifferentiatorImageClass = (index: number) => {
+    if (index === 0) return 'object-[center_+70%]';
+    if (index === 1) return 'object-[center_+70%]';
+    if (index === 2) return 'object-top';
+    if (index === 3) return 'object-[center_+65%]';
+    if (index === 4) return 'object-top';
+    return 'object-top';
+  };
+  const differentiatorTailItems = [
+    ...copy.differentiators.items.slice(2).map((item, idx) => ({ ...item, _index: idx + 2 })),
+    ...(copy.differentiators.items.slice(2).some((item) => item.image === '/img/sello.png')
+      ? []
+      : [{
+          title: '',
+          body: '',
+          image: '/img/sello.png',
+          imageAlt: 'Cross the Bridge seal',
+          _index: -1
+        }])
+  ];
 
   return (
-    <section id="about" className="relative bg-gradient-to-b from-white via-[#fafbfc] to-white text-brand-navy py-16 md:py-24 overflow-hidden">
+    <section id="about" className="relative bg-gradient-to-b from-white via-[#fafbfc] to-white text-brand-navy pt-20 md:pt-28 pb-16 md:pb-24 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-28 left-0 h-96 w-96 rounded-full bg-brand-gold/10 blur-[120px]" />
         <div className="absolute bottom-0 right-0 h-[500px] w-[500px] rounded-full bg-[#0b2f6b]/8 blur-[140px]" />
@@ -59,16 +79,16 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
           <h2 className="text-[25.5px] sm:text-[30px] md:text-[42.5px] font-semibold tracking-tight text-[#0b2f6b]">
             {copy.founderTitle}
           </h2>
-          <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70">
+          {/* <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70">
             {copy.founderTagline}
-          </p>
+          </p> */}
         </FadeIn>
 
         <FadeIn delay={0.05}>
           <div className="group rounded-[32px] border border-slate-200 bg-white p-6 pb-10 md:p-10 shadow-[0_30px_60px_rgba(15,23,42,0.08)] transition-all duration-700 hover:shadow-[0_40px_80px_rgba(15,23,42,0.12)] hover:-translate-y-1">
             <div className="grid gap-8 lg:grid-cols-[0.72fr,1.28fr] items-center">
               <div className="relative">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] shadow-xl transition-all duration-700 group-hover:shadow-2xl">
+                <div className="relative aspect-[5/6] overflow-hidden rounded-[24px] shadow-xl transition-all duration-700 group-hover:shadow-2xl">
                   <img
                     src="/img/about/MarianaBio.PNG"
                     alt={copy.founderName}
@@ -93,7 +113,11 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                 </div>
                 <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
                   {copy.bio[0]}
+                  {/* {copy.bio[1]} */}
                 </p>
+                {/* <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
+                  {copy.bio[1]}
+                </p> */}
                 <AnimatePresence initial={false}>
                   {bioExpanded && (
                     <MotionDiv
@@ -146,14 +170,14 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                     <img
                       src={item.image}
                       alt={item.imageAlt || item.title}
-                      className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${idx === 1 ? 'object-[center_+20%]' : 'object-top'}`}
+                      className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${getDifferentiatorImageClass(idx)}`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
-                    <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                    {/* <div className="absolute bottom-3 left-3 flex items-center gap-2">
                       <span className="text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-gold bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
                         0{idx + 1}
                       </span>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="p-4 sm:p-5 space-y-3">
                     <h4 className="text-[16px] sm:text-[17px] md:text-[18px] font-semibold text-[#0b2f6b]">
@@ -167,43 +191,52 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
               ))}
 
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:col-span-3">
-                {copy.differentiators.items.slice(2).map((item, idx) => (
+                {differentiatorTailItems.map((item, idx) => {
+                  const isStamp = item._index === -1;
+                  return (
                   <MotionDiv
-                    key={item.title}
-                    whileHover={{ y: -6 }}
+                    key={`${item.title}-${idx}`}
+                    whileHover={{ y: isStamp ? 0 : -6 }}
                     transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                    className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.08)]"
+                    className={isStamp
+                      ? 'flex items-center justify-center rounded-2xl'
+                      : 'group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.08)]'
+                    }
                   >
-                    <div className="relative h-32 sm:h-36 md:h-40 overflow-hidden">
+                    <div className={`relative overflow-hidden ${isStamp ? 'h-40 sm:h-44 md:h-48 w-full flex items-center justify-center' : 'h-32 sm:h-36 md:h-40'}`}>
                       <img
                         src={item.image}
                         alt={item.imageAlt || item.title}
-                        className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${idx === 1 ? 'object-[center_+20%]' : 'object-top'}`}
+                        className={`${isStamp ? 'h-full w-full object-contain' : `absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${getDifferentiatorImageClass(item._index)}`}`}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
-                      <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                      {!isStamp && (
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/60 via-transparent to-transparent" />
+                      )}
+                      {/* <div className="absolute bottom-3 left-3 flex items-center gap-2">
                         <span className="text-[8.5px] font-bold uppercase tracking-[0.2em] text-brand-gold bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
                           0{idx + 3}
                         </span>
+                      </div> */}
+                    </div>
+                    {!isStamp && (
+                      <div className="p-4 sm:p-5 space-y-3">
+                        <h4 className="text-[16px] sm:text-[17px] md:text-[18px] font-semibold text-[#0b2f6b]">
+                          {item.title}
+                        </h4>
+                        <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
+                          {item.body}
+                        </p>
                       </div>
-                    </div>
-                    <div className="p-4 sm:p-5 space-y-3">
-                      <h4 className="text-[16px] sm:text-[17px] md:text-[18px] font-semibold text-[#0b2f6b]">
-                        {item.title}
-                      </h4>
-                      <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
-                        {item.body}
-                      </p>
-                    </div>
+                    )}
                   </MotionDiv>
-                ))}
+                );
+                })}
               </div>
             </div>
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.15}>
-          {/* <div className="rounded-[28px] bg-white/85 p-6 md:p-10 space-y-8 md:space-y-10"> */}
+        {/* <FadeIn delay={0.15}>
           <div className="rounded-[28px]p-6 md:p-10 space-y-8 md:space-y-10">
             <div className="max-w-2xl space-y-3">
               <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
@@ -235,7 +268,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
               ))}
             </div>
           </div>
-        </FadeIn>
+        </FadeIn> */}
 
         <FadeIn delay={0.2}>
           <div ref={leonRef} className="relative space-y-10">
@@ -330,7 +363,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
               </div>
             </div>
 
-            <div className="w-full space-y-8 lg:space-y-10">
+            <div className="w-full space-y-8 lg:space-y-10 mt-12">
               <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand-gold">
                 {copy.leon.advantagesBadge}
               </p>

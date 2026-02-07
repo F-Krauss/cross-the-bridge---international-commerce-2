@@ -45,9 +45,15 @@ type ServicesSectionProps = {
 
 const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) => {
   const [selectedService, setSelectedService] = useState<number | null>(null);
+  const getServiceImageClass = (index: number) => {
+    if (index === 0) return 'object-center';
+    if (index === 1) return 'object-[20%_25%]';
+    if (index === 2) return 'object-[20%_75%]';
+    return 'object-center';
+  };
 
   return (
-    <section id="services" className="relative bg-gradient-to-b from-white via-[#fafbfc] to-[#f8f9fc] text-brand-navy py-14 md:py-16 overflow-hidden">
+    <section id="services" className="relative bg-gradient-to-b from-white via-[#fafbfc] to-[#f8f9fc] text-brand-navy pt-20 md:pt-28 pb-14 md:pb-16 overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-20 right-10 w-72 h-72 bg-brand-gold/5 rounded-full blur-3xl" />
@@ -83,7 +89,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
                   <img
                     src={SERVICES_SECTION_IMAGES[selectedService]}
                     alt=""
-                    className="w-full h-full object-cover"
+                    className={`w-full h-full object-cover ${getServiceImageClass(selectedService)}`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/70 via-transparent to-transparent" />
                 </div>
@@ -125,7 +131,11 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ servicesContent }) =>
               >
                 <div className="flex h-full flex-col">
                   <div className="relative h-48 md:h-52 overflow-hidden rounded-t-3xl">
-                    <img src={SERVICES_SECTION_IMAGES[idx]} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img
+                      src={SERVICES_SECTION_IMAGES[idx]}
+                      alt=""
+                      className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 ${getServiceImageClass(idx)}`}
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0b2f6b]/70 via-transparent to-transparent group-hover:from-[#0b2f6b]/85 transition-all duration-500" />
                     <div className="absolute bottom-4 left-4 text-white">
                       <p className="text-[8.5px] font-bold uppercase tracking-[0.22em]">{String(idx + 1).padStart(2, '0')}</p>

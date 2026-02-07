@@ -536,21 +536,42 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
   // Intersection Observer for Scroll Spy
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
-          setActiveSection(entry.target.id);
+    let ticking = false;
+    const offset = 140; // aligns with fixed nav height
+
+    const updateActive = () => {
+      ticking = false;
+      let current = navLinks[0];
+      for (const id of navLinks) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top - offset <= 0 && rect.bottom - offset > 0) {
+          current = id;
+          break;
         }
-      });
-    }, { threshold: [0.3, 0.5] });
+        if (rect.top - offset <= 0) {
+          current = id;
+        }
+      }
+      setActiveSection(current);
+    };
 
-    navLinks.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateActive);
+      }
+    };
 
-    return () => observer.disconnect();
-  }, []);
+    updateActive();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [navLinks]);
 
   // Intersection Observer for Videos - trigger autoplay when visible
   useEffect(() => {
@@ -617,9 +638,9 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
 
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (bookingStep < 2) {
-      if (canAdvanceBooking) {
-        setBookingStep((step) => Math.min(2, step + 1));
+    if (bookingStep < lastBookingStep) {
+      if (bookingStepCompletion[bookingStep]) {
+        setBookingStep((step) => Math.min(lastBookingStep, step + 1));
       }
       return;
     }
@@ -681,40 +702,62 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
   const bookingStepTitles = useMemo(() => ([
     {
       label: lang === "es" ? "Paso 1" : "Step 1",
+      title: lang === "es" ? "Nuestro contacto" : "Our contact",
+      desc:  lang === "es" ? "Aquí están nuestros datos de contacto." : "Here is our contact information.",
+    },
+    {
+      label: lang === "es" ? "Paso 2" : "Step 2",
       title: lang === "es" ? "Tu empresa" : "Your company",
       desc:  lang === "es" ? "Cuéntanos quién eres." : "Tell us who you are.",
     },
     {
-      label: lang === "es" ? "Paso 2" : "Step 2",
+      label: lang === "es" ? "Paso 3" : "Step 3",
       title: lang === "es" ? "Tu necesidad" : "Your need",
       desc:  lang === "es" ? "Define tu objetivo." : "Define your goal.",
     },
     {
-      label: lang === "es" ? "Paso 3" : "Step 3",
+      label: lang === "es" ? "Paso 4" : "Step 4",
       title: lang === "es" ? "Agenda" : "Schedule",
       desc:  lang === "es" ? "Elige fecha y hora." : "Pick date and time.",
     },
   ]), [lang]);
+  const bookingStepCount = bookingStepTitles.length;
+  const lastBookingStep = bookingStepCount - 1;
+  const bookingStepNarrative = useMemo(() => ([
+    lang === 'es' ? 'Contacta a nuestro equipo' : 'Reach our team directly',
+    lang === 'es' ? 'Conozcamos tu empresa' : 'Tell us about your company',
+    lang === 'es' ? 'Define tu necesidad' : 'Define your sourcing goal',
+    lang === 'es' ? 'Agenda tu llamada' : 'Schedule your call',
+  ]), [lang]);
   const currentBookingStepTitle = bookingStepTitles[bookingStep] || bookingStepTitles[0];
   const bookingStepMedia = BOOKING_STEP_MEDIA[bookingStep] || BOOKING_STEP_MEDIA[0];
-  const isStepOneComplete = Boolean(
+  const isCompanyStepComplete = Boolean(
     bookingForm.company.trim() &&
     bookingForm.companyCountry &&
     bookingForm.website.trim()
   );
-  const isStepTwoComplete = Boolean(
+  const isNeedStepComplete = Boolean(
     bookingForm.service &&
     bookingForm.originCountry &&
     bookingForm.targetRegion
   );
-  const isStepThreeComplete = Boolean(
+  const isScheduleStepComplete = Boolean(
     bookingForm.name.trim() &&
     bookingForm.email.trim() &&
     bookingForm.position.trim() &&
     bookingForm.date &&
     bookingForm.timeSlot
   );
-  const canAdvanceBooking = bookingStep === 0 ? isStepOneComplete : isStepTwoComplete;
+  const bookingStepCompletion = [
+    true,
+    isCompanyStepComplete,
+    isNeedStepComplete,
+    isScheduleStepComplete
+  ];
+  const canAdvanceBooking = bookingStep > 0 && bookingStep < lastBookingStep
+    ? bookingStepCompletion[bookingStep]
+    : false;
+  const isLastBookingStep = bookingStep === lastBookingStep;
   const showroomContent = t.showroom;
   const testimonialItems = t.testimonials?.items?.length
     ? t.testimonials.items
@@ -834,7 +877,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-navy/60">
-                    {bookingStepLabel} {bookingStep + 1} / {BOOKING_STEP_MEDIA.length}
+                    {bookingStepLabel} {bookingStep + 1} / {bookingStepCount}
                   </span>
                   <button onClick={closeBooking} className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50">
                     <X size={18} />
@@ -862,6 +905,37 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
 
                     <div className="flex-1 flex flex-col justify-center">
                     {bookingStep === 0 && (
+                      <div className="space-y-4 md:space-y-5">
+                        <p className="text-sm md:text-base text-brand-navy/70">
+                          {lang === 'es'
+                            ? 'Para darnos tus datos de contacto, presiona el botón para llenar nuestro formulario de contacto.'
+                            : 'To give us your contact data, press the button to fill our contact form.'}
+                        </p>
+                        <div className="rounded-2xl border border-gray-200 bg-[#f6f7fb] p-4 md:p-5 space-y-4">
+                          <div className="flex flex-wrap gap-2">
+                            <a href="https://www.linkedin.com/company/cross-the-bridge-mx/" target="_blank" rel="noopener noreferrer" className="px-3 py-2 bg-brand-gold rounded-full hover:bg-brand-navy hover:text-white transition-all text-xs font-bold uppercase tracking-widest">{ui.contact.socials.linkedin}</a>
+                            <a href="https://www.instagram.com/crossthebridge.mx?igsh=bnF6dGdtdXB4MHIw" className="px-3 py-2 bg-brand-gold rounded-full hover:bg-brand-navy hover:text-white transition-all text-xs font-bold uppercase tracking-widest">{ui.contact.socials.instagram}</a>
+                            <a href="https://www.facebook.com/profile.php?id=61583895457222" className="px-3 py-2 bg-brand-gold rounded-full hover:bg-brand-navy hover:text-white transition-all text-xs font-bold uppercase tracking-widest">{ui.contact.socials.facebook}</a>
+                          </div>
+                          <div className="space-y-2 text-sm md:text-base">
+                            <a href="mailto:info@crossthebridge.co" className="block hover:text-brand-gold transition-colors">{ui.contact.email}</a>
+                            <a href="tel:+12813232612" className="block hover:text-brand-gold transition-colors">{ui.contact.phoneUS}</a>
+                            <a href="tel:+524777653792" className="block hover:text-brand-gold transition-colors">{ui.contact.phoneMX}</a>
+                            <div className="text-brand-navy/70">{ui.contact.location}</div>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setBookingStep(1)}
+                          className="inline-flex items-center gap-2 bg-brand-navy text-white px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand-gold hover:text-brand-navy transition-colors"
+                        >
+                          {lang === 'es' ? 'Continuar' : 'Continue'}
+                          <span className="text-base">&gt;</span>
+                        </button>
+                      </div>
+                    )}
+
+                    {bookingStep === 1 && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 items-start">
                         <div className="md:col-span-2">
                           <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.company}</label>
@@ -900,7 +974,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       </div>
                     )}
 
-                    {bookingStep === 1 && (
+                    {bookingStep === 2 && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 items-start">
                         <div className="md:col-span-2">
                           <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1 leading-tight">{bookingCopy.labels.service}</label>
@@ -947,7 +1021,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                       </div>
                     )}
 
-                    {bookingStep === 2 && (
+                    {bookingStep === 3 && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 items-start">
                         <div>
                           <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70 block mb-1">{bookingCopy.labels.name}</label>
@@ -1025,11 +1099,13 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                         <span />
                       )}
 
-                      {bookingStep < 2 ? (
+                      {bookingStep === 0 ? (
+                        <span />
+                      ) : !isLastBookingStep ? (
                         canAdvanceBooking ? (
                           <button
                             type="button"
-                            onClick={() => setBookingStep((step) => Math.min(2, step + 1))}
+                            onClick={() => setBookingStep((step) => Math.min(lastBookingStep, step + 1))}
                             className="inline-flex items-center gap-2 bg-brand-navy text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand-gold hover:text-brand-navy transition-colors"
                           >
                             {bookingNextLabel}
@@ -1039,7 +1115,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                           <span />
                         )
                       ) : (
-                        isStepThreeComplete ? (
+                        isScheduleStepComplete ? (
                           <button
                             type="submit"
                             disabled={bookingStatus === 'loading'}
@@ -1052,7 +1128,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                         )
                       )}
                     </div>
-                    {bookingStatus === 'success' && bookingStep === 2 && (
+                    {bookingStatus === 'success' && isLastBookingStep && (
                       <p className="text-green-600 text-sm">{bookingCopy.successMessage}</p>
                     )}
                   </MotionDiv>
@@ -1063,11 +1139,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                     <div className="absolute bottom-4 left-4 right-4 text-white space-y-1">
                       <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">{bookingCopy.formLabel}</p>
                       <p className="text-base md:text-lg font-semibold">
-                        {bookingStep === 0
-                          ? (lang === 'es' ? 'Conozcamos tu empresa' : 'Tell us about your company')
-                          : bookingStep === 1
-                            ? (lang === 'es' ? 'Define tu necesidad' : 'Define your sourcing goal')
-                            : (lang === 'es' ? 'Agenda tu llamada' : 'Schedule your call')}
+                        {bookingStepNarrative[bookingStep] || bookingStepNarrative[0]}
                       </p>
                     </div>
                   </div>
@@ -1193,8 +1265,8 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
         />
 
         {/* BECOME A PARTNER - For Providers (clean, map removed, airy layout) */}
-        <section className="bg-white text-brand-navy flex flex-col justify-center relative overflow-hidden py-16">
-          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10 py-16 mt-2">
+        <section className="bg-white text-brand-navy flex flex-col justify-center relative overflow-hidden pt-20 md:pt-28 pb-16">
+          <ScrollReveal className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid gap-12 lg:grid-cols-[1fr,1fr] items-start">
               <div className="space-y-6">
                 <span className="inline-flex text-brand-gold font-bold uppercase tracking-widest text-xs pb-1">
@@ -1243,7 +1315,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
         </section>
 
         {/* 7. CONTACT (Light) */}
-        <section id="contact" className="bg-[#f6f7fb] flex flex-col justify-center relative text-brand-navy py-16">
+        <section id="contact" className="bg-[#f6f7fb] flex flex-col justify-center relative text-brand-navy pt-20 md:pt-28 pb-16">
           <GridPattern color="#1B2440" opacity={0.03} />
           <ScrollReveal className="container mx-auto px-4 md:px-6 flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 items-center flex-1">
             <div>
