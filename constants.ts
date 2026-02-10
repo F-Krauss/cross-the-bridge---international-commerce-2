@@ -966,7 +966,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "When you want to grow in a new country, you don't just need a contact - you need someone who truly cares about your success. That's what I found in Mariana and Cross the Bridge.",
           country: "United States",
           countryCode: "US",
-          image: ""
+          image: "/img/testimonials/Wilsonking_outback.jpg"
         },
         {
           name: "Rogério de Souza Cunha",
@@ -974,7 +974,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "Cross the Bridge is an excellent company that has consistently served CICB and Brazilian tanneries with professionalism and outstanding deliveries, both in Mexico and abroad. We've had very positive experiences in business relationships, contacts, market knowledge, and experiences through Cross the Bridge's work.",
           country: "Brazil",
           countryCode: "BR",
-          image: ""
+          image: "/img/testimonials/CICB_brazil.jpg"
         },
         {
           name: "Chazlyn Pilarcik",
@@ -982,7 +982,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "I truly cannot put into words how much Mariana means to me and my business. She is one of the most loyal, dedicated, and trustworthy people I've ever had the pleasure of working with. Her insight and expertise in the industry are unmatched, and her work ethic inspires everyone around her. Mariana, thank you for always showing up with such heart, excellence, and integrity - you really are the best at what you do.",
           country: "United States",
           countryCode: "US",
-          image: ""
+          image: "/img/testimonials/Chazlyn_Chaz.jpg"
         },
         {
           name: "Patrick Viberg",
@@ -990,7 +990,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "I first met Mariana about twenty years ago, the first thing I noticed how radiant she was and very much a peoples person in regards to dealing with there need and inquires on a business level. Working with Mariana is always a wonderful experience, on first personal contact in Leon she makes you feel very at ease. On Dealings with Viberg Boot the most valuable part has been finding us many connections within the footwear industry. Mariana has helped the growth of Viberg in many ways. I would thoroughly recommend Cross the Bridge and Mariana to any possible clients.",
           country: "Canada",
           countryCode: "CA",
-          image: ""
+          image: "/img/testimonials/BaP_viberg.jpg"
         },
         {
           name: "Mehrdad Baghai",
@@ -998,7 +998,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "I have worked with Mariana for the last 20 plus years. She managed and oversees all my sourcing, production and even shipping. Value we can not do without.",
           country: "United States",
           countryCode: "US",
-          image: ""
+          image: "/img/testimonials/Mehrdad_jrd_california.jpg"
         }
       ]
     },
@@ -1477,7 +1477,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "Cuando quieres crecer en un nuevo país, no solo necesitas un contacto, necesitas a alguien que realmente se preocupe por tu éxito. Eso es lo que encontré en Mariana y Cross the Bridge.",
           country: "Estados Unidos",
           countryCode: "US",
-          image: ""
+          image: "/img/testimonials/Wilsonking_outback.jpg"
         },
         {
           name: "Rogério de Souza Cunha",
@@ -1485,7 +1485,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "Cross the Bridge es una excelente empresa que ha servido constantemente a CICB y a las tenerías brasileñas con profesionalismo y entregas sobresalientes, tanto en México como en el extranjero. Hemos tenido experiencias muy positivas en relaciones de negocios, contactos, conocimiento de mercado y experiencias gracias al trabajo de Cross the Bridge.",
           country: "Brasil",
           countryCode: "BR",
-          image: ""
+          image: "/img/testimonials/CICB_brazil.jpg"
         },
         {
           name: "Chazlyn Pilarcik",
@@ -1493,7 +1493,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "De verdad no puedo expresar con palabras cuánto significa Mariana para mí y mi negocio. Es una de las personas más leales, dedicadas y confiables con las que he tenido el placer de trabajar. Su visión y experiencia en la industria no tienen comparación, y su ética de trabajo inspira a todos a su alrededor. Mariana, gracias por estar siempre con tanto corazón, excelencia e integridad — de verdad eres la mejor en lo que haces.",
           country: "Estados Unidos",
           countryCode: "US",
-          image: ""
+          image: "/img/testimonials/testimonioCHAZ.jpg"
         },
         {
           name: "Patrick Viberg",
@@ -1501,7 +1501,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "Conocí a Mariana hace unos veinte años; lo primero que noté fue lo radiante que era y lo cercana que era con las personas en cuanto a atender sus necesidades y consultas a nivel empresarial. Trabajar con Mariana es siempre una experiencia maravillosa; en el primer contacto personal en León te hace sentir muy cómodo. En los tratos con Viberg Boot, lo más valioso ha sido encontrarnos muchas conexiones dentro de la industria del calzado. Mariana ha ayudado al crecimiento de Viberg de muchas maneras. Recomendaría ampliamente a Cross the Bridge y a Mariana a cualquier posible cliente.",
           country: "Canadá",
           countryCode: "CA",
-          image: ""
+          image: "/img/testimonials/BaP_viberg.jpg"
         },
         {
           name: "Mehrdad Baghai",
@@ -1509,7 +1509,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "He trabajado con Mariana durante más de 20 años. Ella gestiona y supervisa todo mi abastecimiento, producción e incluso los envíos. Un valor del que no podemos prescindir.",
           country: "Estados Unidos",
           countryCode: "US",
-          image: ""
+          image: "/img/testimonials/Mehrdad_jrd_california.jpg"
         }
       ]
     },

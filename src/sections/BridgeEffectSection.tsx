@@ -293,7 +293,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                       {marqueeTestimonials.map((item, idx) => {
                         const { highlight, body } = splitTestimonialText(item.text);
                         const initials = getInitials(item.name);
-                        const isFeatured = idx % testimonialsWithImages.length === 0;
+                        const hasImage = item.image && item.image.trim() !== '';
                         return (
                           <div
                             key={`${item.name}-${idx}`}
@@ -325,7 +325,7 @@ const BridgeEffectSection: React.FC<BridgeEffectSectionProps> = ({ showroom, tes
                                   {item.country}
                                 </p>
                               </div>
-                              {isFeatured ? (
+                              {hasImage ? (
                                 <div className="relative w-16 h-16 rounded-2xl overflow-hidden">
                                   <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
                                   <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/35" />
