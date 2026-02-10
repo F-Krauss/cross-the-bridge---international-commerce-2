@@ -163,15 +163,14 @@ export const HERO_INDUSTRIES = ['Footwear', 'Leather', 'Hats', 'Equestrian goods
 export const SERVICES_SECTION_IMAGES = [
   './../img/services/Piel1.jpg',
   './../img/services/Calzado5.jpg',
-  '/img/img-mariana/services3.jpeg'
+  '/img/img-mariana/IMG_4279.JPG',
 ];
 
 export const ABOUT_LEON_PRODUCT_IMAGES = [
-  '/img/img-mariana/EQUESTRIANGOOD.PNG',
-  '/img/catalog/Footwear3.jpg',
-  '/img/catalog/Leather2.jpg',
-  '/img/catalog/Equestrian2.jpg',
-  '/img/catalog/Hats3.jpg'
+  '/img/img-mariana/EQUESTRIANGOOD.png',
+  '/img/img-mariana/LEATHER.png',
+  '/img/img-mariana/CINCHOS EQUESTRIAN.png',
+  '/img/img-mariana/hats.png'
 ];
 
 export const BRIDGE_TESTIMONIAL_IMAGES = [
@@ -862,7 +861,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       bioCtaLess: "Collapse bio",
       differentiators: {
         badge: "What makes Cross the Bridge truly different",
-        title: "Local control that brings certanty and confidence to international production.",
+        title: "Local control that brings certainty and confidence to international production.",
         subtitle: "We don't just connect brands to Mexico. We stay on the ground and close to every step, acting as your strategic production partner so you can trust you'll have the right product, at the right time, in the right place.",
         openLabel: "Open",
         viewLabel: "View",
@@ -882,7 +881,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           {
             title: "Hands-on execution with real accountability",
             body: "We work side by side with founders and teams throughout development, production, and expansion. This hands-on involvement enables faster decisions, prevents costly missteps, and ensures a single, clear point of accountability at every stage.",
-            image: "/img/services/OnSite2.jpg",
+            image: "/img/img-mariana/services3.jpeg",
             imageAlt: "Hands-on production oversight"
           },
           {

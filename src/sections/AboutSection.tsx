@@ -118,6 +118,9 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                 {/* <p className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
                   {copy.bio[1]}
                 </p> */}
+                <p className="hidden md:block text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed">
+                  {copy.bio[1]}
+                </p>
                 <AnimatePresence initial={false}>
                   {bioExpanded && (
                     <MotionDiv
@@ -125,7 +128,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.25, ease: "easeOut" }}
-                      className="text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed overflow-hidden"
+                      className="md:hidden text-[12px] sm:text-[13.6px] md:text-[15px] text-brand-navy/70 leading-relaxed overflow-hidden"
                     >
                       {copy.bio[1]}
                     </MotionDiv>
@@ -134,7 +137,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                 <button
                   type="button"
                   onClick={() => setBioExpanded((prev) => !prev)}
-                  className="inline-flex items-center gap-2 text-[8.5px] font-bold uppercase tracking-[0.18em] text-[#0b2f6b] hover:text-brand-gold transition-colors"
+                  className="md:hidden inline-flex items-center gap-2 text-[8.5px] font-bold uppercase tracking-[0.18em] text-[#0b2f6b] hover:text-brand-gold transition-colors"
                 >
                   {bioExpanded ? copy.bioCtaLess : copy.bioCtaMore}
                   <span className="w-8 h-[2px] bg-current opacity-40" />
@@ -368,7 +371,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                 {copy.leon.advantagesBadge}
               </p>
 
-              <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-start">
+              <div className="grid gap-10 lg:grid-cols-[0.85fr,1.15fr] items-start">
                 <div className="relative">
                   <AnimatePresence mode="wait">
                     <MotionDiv
@@ -377,14 +380,14 @@ const AboutSection: React.FC<AboutSectionProps> = ({ copy }) => {
                       animate={{ opacity: 1, rotate: 0, scale: 1 }}
                       exit={{ opacity: 0, rotate: 3, scale: 0.98 }}
                       transition={{ duration: 0.35, ease: "easeOut" }}
-                      className="relative h-[280px] sm:h-[360px] md:h-[420px] overflow-hidden rounded-3xl"
+                      className="relative h-[220px] sm:h-[300px] md:h-[340px] overflow-hidden rounded-3xl"
                     >
-                      <img src={activeProduct} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                      <img src={activeProduct} alt="" className="absolute inset-0 w-full h-full object-contain bg-white" />
                     </MotionDiv>
                   </AnimatePresence>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-6 mt-12">
                   <div className="space-y-4">
                     <AnimatePresence mode="wait">
                       <MotionDiv
