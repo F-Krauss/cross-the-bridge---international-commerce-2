@@ -4,7 +4,6 @@ import type { ElementType } from 'react';
 import { Compass, FileText, Navigation, Package, RotateCcw, Shield } from 'lucide-react';
 import { Content, Language } from './types';
 
-// ---- Shared Types for localized UI copy ----
 type Localized<T = string> = Record<Language, T>;
 
 type BookingCopy = {
