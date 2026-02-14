@@ -185,7 +185,7 @@ export const BRIDGE_HERO_GALLERY = [
   { src: '/img/img-mariana/bridge-effect/thebridge.jpg', title: 'Hands-on sourcing and production', tag: 'Factory & materials' },
   { src: '/img/img-mariana/bridge-effect/thebridgeeffect.JPG', title: 'Leather inspection on-site', tag: 'Quality control' },
   { src: '/img/img-mariana/bridge-effect/bridgeeffec2.jpg', title: 'Materials moving daily', tag: 'Logistics' },
-  { src: '/img/img-mariana/bridge-effect/bridgeeffect2.JPG', title: 'Prototyping with partners', tag: 'Development' },
+  { src: '/img/img-mariana/bridge-effect/IMG_4303.JPG', title: 'Prototyping with partners', tag: 'Development' },
   // { src: '/img/img-mariana/bridge-effect/bridgeeffect3.JPG', title: 'Factory floor execution', tag: 'Production' },
   // { src: '/img/img-mariana/bridge-effect/IMG_4279.JPG', title: 'Export-ready packaging', tag: 'Export' },
   { src: '/img/img-mariana/bridge-effect/febrero3_BRIDGEEFFECT.jpg', title: 'Material sourcing', tag: 'Sourcing' },
@@ -664,7 +664,7 @@ export const DEFAULT_TESTIMONIALS = [
     image: ''
   },
   {
-    name: 'Patrick Viberg',
+    name: 'Patrick Howart',
     role: 'Viberg Boot, Canada',
     text: "I first met Mariana about twenty years ago, the first thing I noticed how radiant she was and very much a peoples person in regards to dealing with there need and inquires on a business level. Working with Mariana is always a wonderful experience, on first personal contact in Leon she makes you feel very at ease. On Dealings with Viberg Boot the most valuable part has been finding us many connections within the footwear industry. Mariana has helped the growth of Viberg in many ways. I would thoroughly recommend Cross the Bridge and Mariana to any possible clients.",
     country: 'Canada',
@@ -982,10 +982,10 @@ export const TRANSLATIONS: Record<Language, Content> = {
           text: "I truly cannot put into words how much Mariana means to me and my business. She is one of the most loyal, dedicated, and trustworthy people I've ever had the pleasure of working with. Her insight and expertise in the industry are unmatched, and her work ethic inspires everyone around her. Mariana, thank you for always showing up with such heart, excellence, and integrity - you really are the best at what you do.",
           country: "United States",
           countryCode: "US",
-          image: "/img/testimonials/Chazlyn_Chaz.jpg"
+          image: "/img/testimonials/testimonioCHAZ.jpg"
         },
         {
-          name: "Patrick Viberg",
+          name: "Patrick Howart",
           role: "Viberg Boot, Canada",
           text: "I first met Mariana about twenty years ago, the first thing I noticed how radiant she was and very much a peoples person in regards to dealing with there need and inquires on a business level. Working with Mariana is always a wonderful experience, on first personal contact in Leon she makes you feel very at ease. On Dealings with Viberg Boot the most valuable part has been finding us many connections within the footwear industry. Mariana has helped the growth of Viberg in many ways. I would thoroughly recommend Cross the Bridge and Mariana to any possible clients.",
           country: "Canada",
@@ -1088,7 +1088,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       }
     },
     footer: {
-      rights: "© 2024 Cross The Bridge. All Rights Reserved.",
+      rights: "© 2026 Cross The Bridge. All Rights Reserved.",
       privacy: "Privacy Policy",
       terms: "Terms of Service"
     },
@@ -1170,7 +1170,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       back: "Back to Home",
       privacy: {
         title: "Privacy Policy",
-        lastUpdated: "Last Updated: October 24, 2024",
+        lastUpdated: "Last Updated: February 14, 2026",
         content: [
           {
             heading: "1. Introduction",
@@ -1196,7 +1196,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       },
       terms: {
         title: "Terms of Service",
-        lastUpdated: "Last Updated: October 24, 2024",
+        lastUpdated: "Last Updated: February 14, 2026",
         content: [
           {
             heading: "1. Agreement to Terms",
@@ -1599,7 +1599,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       }
     },
     footer: {
-      rights: "© 2024 Cross The Bridge. Todos los derechos reservados.",
+      rights: "© 2026 Cross The Bridge. Todos los derechos reservados.",
       privacy: "Política de Privacidad",
       terms: "Términos de Servicio"
     },
@@ -1681,7 +1681,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       back: "Volver al Inicio",
       privacy: {
         title: "Política de Privacidad",
-        lastUpdated: "Última Actualización: 24 de Octubre de 2024",
+        lastUpdated: "Última Actualización: 14 de febrero, 2026",
         content: [
           {
             heading: "1. Introducción",
@@ -1707,7 +1707,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       },
       terms: {
         title: "Términos de Servicio",
-        lastUpdated: "Última Actualización: 24 de Octubre de 2024",
+        lastUpdated: "Última Actualización: 14 de febrero, 2026",
         content: [
           {
             heading: "1. Acuerdo de Términos",
