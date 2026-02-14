@@ -167,7 +167,7 @@ export const SERVICES_SECTION_IMAGES = [
 ];
 
 export const ABOUT_LEON_PRODUCT_IMAGES = [
-  '/img/img-mariana/EQUESTRIANGOOD.png',
+  '/img/img-mariana/leather_2.png',
   '/img/img-mariana/LEATHER.png',
   '/img/img-mariana/CINCHOS EQUESTRIAN.png',
   '/img/img-mariana/hats.png'
