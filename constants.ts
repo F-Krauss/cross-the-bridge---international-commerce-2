@@ -185,7 +185,7 @@ export const BRIDGE_HERO_GALLERY = [
   { src: '/img/img-mariana/bridge-effect/thebridge.jpg', title: 'Hands-on sourcing and production', tag: 'Factory & materials' },
   { src: '/img/img-mariana/bridge-effect/thebridgeeffect.JPG', title: 'Leather inspection on-site', tag: 'Quality control' },
   { src: '/img/img-mariana/bridge-effect/bridgeeffec2.jpg', title: 'Materials moving daily', tag: 'Logistics' },
-  { src: '/img/img-mariana/bridge-effect/IMG_4303.JPG', title: 'Prototyping with partners', tag: 'Development' },
+  { src: '/img/img-mariana/bridge-effect/brazil.jpeg', title: 'Prototyping with partners', tag: 'Development' },
   // { src: '/img/img-mariana/bridge-effect/bridgeeffect3.JPG', title: 'Factory floor execution', tag: 'Production' },
   // { src: '/img/img-mariana/bridge-effect/IMG_4279.JPG', title: 'Export-ready packaging', tag: 'Export' },
   { src: '/img/img-mariana/bridge-effect/febrero3_BRIDGEEFFECT.jpg', title: 'Material sourcing', tag: 'Sourcing' },
