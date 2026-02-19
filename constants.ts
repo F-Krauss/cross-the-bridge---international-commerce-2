@@ -168,7 +168,7 @@ export const SERVICES_SECTION_IMAGES = [
 
 export const ABOUT_LEON_PRODUCT_IMAGES = [
   '/img/img-mariana/leather_2.png',
-  '/img/img-mariana/LEATHER.png',
+  '/img/img-mariana/EQUESTRIANGOOD.png',
   '/img/img-mariana/mexico.png',
   '/img/img-mariana/hats.png'
 ];
@@ -577,7 +577,7 @@ export const UI_TEXT: Record<Language, UiText> = {
       swipeHint: '← Desliza para explorar →'
     },
     bridge: {
-      badge: 'Conoce el Efecto Puente',
+      badge: 'Conoce The Bridge Effect',
       heading: 'Más de 20 países',
       subtitle: 'Conectando negocios entre continentes, una alianza exitosa a la vez',
       testimonialsLabel: 'Testimonios',
@@ -1227,8 +1227,8 @@ export const TRANSLATIONS: Record<Language, Content> = {
       services: "Lo que hacemos",
       process: "Cómo trabajamos",
       trade_missions: "Misiones comerciales",
-      about: "Por qué Cross the Bridge",
-      bridge_effect: "El efecto puente",
+      about: "Por qué nosotros",
+      bridge_effect: "Bridge Effect",
       contact: "Contacto",
       book: "Contáctanos"
     },
@@ -1604,7 +1604,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       terms: "Términos de Servicio"
     },
     bridgeEffect: {
-      badge: "El efecto puente",
+      badge: "The Bridge Effect",
       title: "Cruza el puente sin miedo.",
       body: "Durante más de dos décadas hemos trabajado donde realmente ocurre el negocio global: en plantas, ferias internacionales, centros de distribución y entre culturas, regulaciones y mercados.\n\nEl Efecto Puente no es una teoría. Es el resultado de una ejecución internacional sostenida. Es lo que sucede cuando las marcas no solo compran en el extranjero, sino que entran, escalan y perduran en mercados globales.\n\nDe Asia a Europa, África y las Américas, convertimos ideas en operaciones listas para exportar, respaldadas por infraestructura real, alianzas confiables y liderazgo en terreno.\n\nEsta sección destaca las categorías de producto donde esa experiencia vive hoy — y donde ya se está construyendo la siguiente generación de historias de éxito global.",
       industriesTitle: "Industrias con las que trabajamos",
