@@ -3,15 +3,25 @@ import cors from 'cors';
 import { Resend } from 'resend';
 
 const app = express();
-const PORT = process.env.PORT || 3001;  // Use 3001 to avoid conflict with Vite on 3000
+const PORT = process.env.PORT || 3001;
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Enable CORS for all origins (needed for cross-domain requests)
 app.use(cors());
 app.use(express.json());
 
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Email server is running' });
+});
+
+// CORS preflight
+app.options('*', cors());
+
 app.post('/api/send-email', async (req, res) => {
   try {
+    console.log('[sendEmail] Received request:', { name: req.body?.name, email: req.body?.email, company: req.body?.company });
     const { name, email, company, website, serviceInterest, message } = req.body;
 
     if (!name || !email || !company) {
@@ -24,6 +34,7 @@ app.post('/api/send-email', async (req, res) => {
     }
 
     // Send notification to Mariana
+    console.log('[sendEmail] Sending notifications...');
     await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: 'mariana@crossthebridge.com.mx',
@@ -39,6 +50,7 @@ app.post('/api/send-email', async (req, res) => {
         <p>${message || 'No message provided'}</p>
       `
     });
+    console.log('[sendEmail] Notification sent to admin');
 
     // Send confirmation email to the user
     await resend.emails.send({
@@ -53,6 +65,7 @@ app.post('/api/send-email', async (req, res) => {
         <p>Best regards,<br>The Cross The Bridge Team</p>
       `
     });
+    console.log('[sendEmail] Confirmation sent to user');
 
     return res.status(200).json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
