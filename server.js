@@ -1,25 +1,26 @@
-const functions = require('firebase-functions');
-const { Resend } = require('resend');
+import express from 'express';
+import cors from 'cors';
+import { Resend } from 'resend';
 
-const key = functions.config && functions.config().resend && functions.config().resend.key;
-if (!key) {
-  console.warn('RESEND API key not found in functions config. Set it with: firebase functions:config:set resend.key="YOUR_KEY"');
-}
+const app = express();
+const PORT = process.env.PORT || 3001;  // Use 3001 to avoid conflict with Vite on 3000
 
-const resend = new Resend(key);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-exports.sendEmail = functions.https.onRequest(async (req, res) => {
-  if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
+app.use(cors());
+app.use(express.json());
 
+app.post('/api/send-email', async (req, res) => {
   try {
-    const { name, email, company, website, serviceInterest, message } = req.body || {};
+    const { name, email, company, website, serviceInterest, message } = req.body;
 
     if (!name || !email || !company) {
       return res.status(400).json({ error: 'Missing required fields: name, email, company' });
     }
 
-    if (!key) {
-      return res.status(500).json({ error: 'Resend API key not configured on the server' });
+    if (!process.env.RESEND_API_KEY) {
+      console.error('RESEND_API_KEY not set');
+      return res.status(500).json({ error: 'Email service not configured' });
     }
 
     // Send notification to admin
@@ -48,7 +49,7 @@ exports.sendEmail = functions.https.onRequest(async (req, res) => {
         <h2>Thank you for reaching out!</h2>
         <p>Hi ${name},</p>
         <p>We've received your message and will get back to you as soon as possible.</p>
-        <p>In the meantime, feel free to explore our services at <a href="https://crossthebridge.co">crossthebridge.co</a></p>
+        <p>In the meantime, feel free to explore our services at <a href="https://crossthebridge.com.mx">crossthebridge.com.mx</a></p>
         <p>Best regards,<br>The Cross The Bridge Team</p>
       `
     });
@@ -58,4 +59,8 @@ exports.sendEmail = functions.https.onRequest(async (req, res) => {
     console.error('Error sending email:', error);
     return res.status(500).json({ error: error.message || 'Failed to send email' });
   }
+});
+
+app.listen(PORT, () => {
+  console.log(`Email server running on port ${PORT}`);
 });
