@@ -664,7 +664,7 @@ export const DEFAULT_TESTIMONIALS = [
     image: ''
   },
   {
-    name: 'Patrick Howart',
+    name: 'Patrick Howarth',
     role: 'Viberg Boot, Canada',
     text: "I first met Mariana about twenty years ago, the first thing I noticed how radiant she was and very much a peoples person in regards to dealing with there need and inquires on a business level. Working with Mariana is always a wonderful experience, on first personal contact in Leon she makes you feel very at ease. On Dealings with Viberg Boot the most valuable part has been finding us many connections within the footwear industry. Mariana has helped the growth of Viberg in many ways. I would thoroughly recommend Cross the Bridge and Mariana to any possible clients.",
     country: 'Canada',
@@ -985,7 +985,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
           image: "/img/testimonials/testimonioCHAZ.jpg"
         },
         {
-          name: "Patrick Howart",
+          name: "Patrick Howarth",
           role: "Viberg Boot, Canada",
           text: "I first met Mariana about twenty years ago, the first thing I noticed how radiant she was and very much a peoples person in regards to dealing with there need and inquires on a business level. Working with Mariana is always a wonderful experience, on first personal contact in Leon she makes you feel very at ease. On Dealings with Viberg Boot the most valuable part has been finding us many connections within the footwear industry. Mariana has helped the growth of Viberg in many ways. I would thoroughly recommend Cross the Bridge and Mariana to any possible clients.",
           country: "Canada",
