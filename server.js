@@ -36,9 +36,9 @@ app.post('/api/send-email', async (req, res) => {
     // Send notification to Mariana
     console.log('[sendEmail] Sending notifications...');
     await resend.emails.send({
-      from: 'suscripciones@crossthebridge.com',
+      from: 'suscripciones@crossthebridge.com.mx',
       to: 'mariana@crossthebridge.com.mx',
-      subject: `New Contact: ${name} from ${company}`,
+      subject: `New appointment request: ${name} from ${company}`,
       html: `
         <h2>New Contact Form Submission</h2>
         <p><strong>Name:</strong> ${name}</p>
@@ -54,9 +54,9 @@ app.post('/api/send-email', async (req, res) => {
 
     // Send confirmation email to the user
     await resend.emails.send({
-      from: 'suscripciones@crossthebridge.com',
+      from: 'suscripciones@crossthebridge.com.mx',
       to: email,
-      subject: 'We received your message - Cross The Bridge',
+      subject: 'We received your appointment request - Cross The Bridge',
       html: `
         <h2>Thank you for reaching out!</h2>
         <p>Hi ${name},</p>
