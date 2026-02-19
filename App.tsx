@@ -674,7 +674,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     setContactError(null);
     
     try {
-      const resp = await fetch('/api/create-lead', {
+      const resp = await fetch('/.netlify/functions/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(contactForm),
