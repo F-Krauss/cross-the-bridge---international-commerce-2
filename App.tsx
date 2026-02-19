@@ -622,6 +622,14 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     if (bookingStatus !== 'idle') setBookingStatus('idle');
   };
 
+  const getEmailApiUrl = () => {
+    const host = window.location.hostname;
+    const isLocalhost = host === 'localhost' || host === '127.0.0.1';
+    return isLocalhost
+      ? '/api/send-email'
+      : 'https://cross-the-bridge-international-commerce-2-production.up.railway.app/api/send-email';
+  };
+
   const openBooking = () => {
     setCurrentView('home');
     setMobileMenuOpen(false);
@@ -636,7 +644,7 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     setBookingStatus('idle');
   };
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
+  const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (bookingStep < lastBookingStep) {
       if (bookingStepCompletion[bookingStep]) {
@@ -646,7 +654,41 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     }
     if (bookingStatus === 'loading') return;
     setBookingStatus('loading');
-    setTimeout(() => {
+    console.log('[Booking] Submitting booking form');
+    try {
+      const apiUrl = getEmailApiUrl();
+      console.log('[Booking] Using API URL:', apiUrl);
+      const bookingSummary = [
+        `Phone: ${bookingForm.phoneCode} ${bookingForm.phone}`,
+        `Position: ${bookingForm.position}`,
+        `Company country: ${bookingForm.companyCountry}`,
+        `Organizations: ${bookingForm.orgs}`,
+        `Service: ${bookingForm.service}`,
+        `Origin: ${bookingForm.originCountry}`,
+        `Target region: ${bookingForm.targetRegion}`,
+        `Preferred date: ${bookingForm.date}`,
+        `Time slot: ${bookingForm.timeSlot}`,
+      ].filter(Boolean).join('<br/>');
+
+      const resp = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: bookingForm.name,
+          email: bookingForm.email,
+          company: bookingForm.company,
+          website: bookingForm.website,
+          serviceInterest: bookingForm.service,
+          message: bookingSummary || 'New booking request',
+        }),
+      });
+
+      const json = await resp.json();
+      if (!resp.ok || json?.error) {
+        throw new Error(json?.error || 'Failed to send');
+      }
+
+      console.log('[Booking] Success:', json);
       setBookingStatus('success');
       setBookingForm({
         name: '',
@@ -664,7 +706,10 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
         date: '',
         timeSlot: ''
       });
-    }, 600);
+    } catch (err) {
+      console.error('[Booking] Error:', err);
+      setBookingStatus('idle');
+    }
   };
 
   const handleContactSubmit = async (e: React.FormEvent) => {
@@ -672,21 +717,26 @@ const MainContent = ({ lang, setLang, onHeroReady }: { lang: Language, setLang: 
     if (contactStatus === 'loading') return;
     setContactStatus('loading');
     setContactError(null);
+    console.log('[Contact] Submitting form with:', contactForm);
     
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || '/api/send-email';
+      const apiUrl = getEmailApiUrl();
+      console.log('[Contact] Using API URL:', apiUrl);
       const resp = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(contactForm),
       });
+      console.log('[Contact] Response status:', resp.status);
       const json = await resp.json();
+      console.log('[Contact] Response body:', json);
       if (!resp.ok || json?.error) {
         throw new Error(json?.error || 'Failed to send');
       }
       setContactStatus('success');
       setContactForm({ name: '', company: '', email: '', website: '', serviceInterest: '', message: '' });
     } catch (err: any) {
+      console.error('[Contact] Error:', err);
       setContactStatus('error');
       setContactError(err?.message || 'Unexpected error');
     }
