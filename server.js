@@ -23,10 +23,10 @@ app.post('/api/send-email', async (req, res) => {
       return res.status(500).json({ error: 'Email service not configured' });
     }
 
-    // Send notification to admin
+    // Send notification to Mariana
     await resend.emails.send({
       from: 'onboarding@resend.dev',
-      to: 'info@crossthebridge.co',
+      to: 'mariana@crossthebridge.com.mx',
       subject: `New Contact: ${name} from ${company}`,
       html: `
         <h2>New Contact Form Submission</h2>
