@@ -1184,7 +1184,7 @@ const servicesContent = SERVICES_CONTENT[lang] || SERVICES_CONTENT.en;
                     )}
                   </MotionDiv>
 
-                  <div className="relative w-full h-56 sm:h-64 lg:h-full rounded-2xl overflow-hidden border border-slate-200 shadow-lg order-last lg:order-none">
+                  <div className="hidden lg:flex relative w-full h-56 sm:h-64 lg:h-full rounded-2xl overflow-hidden border border-slate-200 shadow-lg order-last lg:order-none">
                     <img src={bookingStepMedia.src} alt={bookingStepMedia.alt} className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/65 via-brand-navy/10 to-transparent" />
                     <div className="absolute bottom-4 left-4 right-4 text-white space-y-1">
