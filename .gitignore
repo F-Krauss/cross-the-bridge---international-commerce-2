@@ -26,3 +26,6 @@ dist-ssr
 # Large binaries (keep out of git history)
 public/img.zip
 public/img/img-mariana/products/BOOTS Hangtag FINAL 4.pdf
+
+# Ignore local env with secrets
+.env
